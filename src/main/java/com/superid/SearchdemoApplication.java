@@ -3,21 +3,14 @@ package com.superid;
 import com.superid.query.customer.Customer;
 import com.superid.query.customer.CustomerRepository;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.cluster.ClusterName;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
-
-import java.net.InetSocketAddress;
 
 //  @Configuration, @EnableAutoConfiguration and @ComponentScan
 @SpringBootApplication
@@ -29,27 +22,21 @@ public class SearchdemoApplication implements CommandLineRunner {
     @Autowired
     private CustomerRepository repository;
     @Autowired
-    private ElasticsearchOperations operations;
+    private ElasticsearchTemplate operations;
 
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(SearchdemoApplication.class, "--debug").close();
     }
 
-    @Bean
-    public Client elasticClient() {
-        Settings settings = Settings.builder().put(ClusterName.SETTING, "elasticsearch_demo").build();
-        return TransportClient.builder().settings(settings).build()
-                .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("192.168.1.100", 9300)));
-    }
 
     /**
-     *  ElasticsearchAutoConfiguration#elasticsearchClient:
-     *    Did not match:
-     *    - @ConditionalOnMissingBean (types: org.elasticsearch.client.Client; SearchStrategy: all) found bean 'elasticClient' (OnBeanCondition)
+     * ElasticsearchAutoConfiguration#elasticsearchClient:
+     * Did not match:
+     * - @ConditionalOnMissingBean (types: org.elasticsearch.client.Client; SearchStrategy: all) found bean 'elasticClient' (OnBeanCondition)
      */
     @Bean
-    public ElasticsearchOperations elasticsearchTemplate(Client client) {
+    public ElasticsearchTemplate elasticsearchTemplate(Client client/* autowire from property file */) {
         return new ElasticsearchTemplate(client);
     }
 
