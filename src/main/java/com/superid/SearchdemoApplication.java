@@ -19,10 +19,14 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
         queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 public class SearchdemoApplication implements CommandLineRunner {
 
+    private final CustomerRepository repository;
+    private final ElasticsearchTemplate template;
+
     @Autowired
-    private CustomerRepository repository;
-    @Autowired
-    private ElasticsearchTemplate operations;
+    public SearchdemoApplication(CustomerRepository repository, ElasticsearchTemplate template) {
+        this.repository = repository;
+        this.template = template;
+    }
 
 
     public static void main(String[] args) throws Exception {
@@ -42,7 +46,7 @@ public class SearchdemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(operations.getSetting("website"));
+        System.out.println(template.getSetting("website"));
 
         this.repository.deleteAll();
         saveCustomers();
