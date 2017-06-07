@@ -18,15 +18,10 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 @EnableElasticsearchRepositories(
         queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 public class SearchdemoApplication implements CommandLineRunner {
-
-    private final CustomerRepository repository;
-    private final ElasticsearchTemplate template;
-
     @Autowired
-    public SearchdemoApplication(CustomerRepository repository, ElasticsearchTemplate template) {
-        this.repository = repository;
-        this.template = template;
-    }
+    private CustomerRepository repository;
+    @Autowired
+    private ElasticsearchTemplate template;
 
 
     public static void main(String[] args) throws Exception {

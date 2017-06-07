@@ -1,4 +1,4 @@
-package com.superid.save;
+package com.superid.query;
 
 import com.superid.query.chat.Chat;
 import com.superid.query.chat.ChatRepo;
