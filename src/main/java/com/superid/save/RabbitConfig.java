@@ -37,7 +37,6 @@ public class RabbitConfig {
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(queueName);
         container.setMessageListener(receiver);
-        container.setAcknowledgeMode(AcknowledgeMode.AUTO);
         return container;
     }
 

@@ -8,9 +8,8 @@ import com.superid.MessageFormatReceiver;
  */
 public class SaveReceiver extends MessageFormatReceiver {
 
-
     @Override
     public void receiveMessage(MessageFormat messageFormat) {
-
+        System.out.println(messageFormat);
     }
 }
