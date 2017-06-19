@@ -4,6 +4,7 @@ import com.superid.MessageFormatReceiver;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +14,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    private final static String queueName = "search";
+    @Value("${search.rabbitmq.queue}")
+    private String queueName;
+    @Value("${search.rabbitmq.exchange}")
+    private String exchangeName;
+    @Value("${search.rabbitmq.binding-key}")
+    private String bindingKey;
 
     @Bean
     Queue queue() {
@@ -22,12 +28,12 @@ public class RabbitConfig {
 
     @Bean
     TopicExchange exchange() {
-        return new TopicExchange("search-exchange", true, false);
+        return new TopicExchange(exchangeName, true, false);
     }
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("search.*.save");
+        return BindingBuilder.bind(queue).to(exchange).with(bindingKey);
     }
 
     @Bean

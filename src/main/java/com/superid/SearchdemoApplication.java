@@ -25,7 +25,7 @@ public class SearchdemoApplication implements CommandLineRunner {
 
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(SearchdemoApplication.class, "--debug").close();
+        SpringApplication.run(SearchdemoApplication.class, "--debug");
     }
 
 

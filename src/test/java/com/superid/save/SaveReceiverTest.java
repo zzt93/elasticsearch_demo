@@ -4,6 +4,9 @@ import com.superid.MessageFormat;
 import com.superid.MessageFormatSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,15 +31,24 @@ public class SaveReceiverTest {
     public void receiveMessage() throws Exception {
         for (int i = 0; i < 10; i++) {
             System.out.printf("Sending %dth message...\n", i);
-            sender.send(new MessageFormat().addPayload("test", "value"));
+            sender.send("search.test.save", new MessageFormat().addPayload("test", "value" + i));
         }
     }
 
 
-    @TestPropertySource("")
     @Configuration
     static class ContextConfiguration {
 
+        @Bean
+        RabbitTemplate rabbitTemplate() {
+            CachingConnectionFactory cf = new CachingConnectionFactory("192.168.1.100", 5672);
+            cf.setUsername("searcher");
+            cf.setPassword("searcher");
+            cf.setVirtualHost("search_host");
+            RabbitTemplate rabbitTemplate = new RabbitTemplate(cf);
+            rabbitTemplate.setExchange("search-exchange");
+            return rabbitTemplate;
+        }
 
         @Bean
         MessageFormatSender sender(RabbitTemplate rabbitTemplate) {
