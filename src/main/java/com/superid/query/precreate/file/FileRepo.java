@@ -1,4 +1,4 @@
-package com.superid.query.file;
+package com.superid.query.precreate.file;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 

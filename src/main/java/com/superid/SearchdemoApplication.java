@@ -1,7 +1,7 @@
 package com.superid;
 
-import com.superid.query.customer.Customer;
-import com.superid.query.customer.CustomerRepository;
+import com.superid.query.precreate.customer.Customer;
+import com.superid.query.precreate.customer.CustomerRepository;
 import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,12 +12,13 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 
-//  @Configuration, @EnableAutoConfiguration and @ComponentScan
+// @Configuration, @EnableAutoConfiguration and @ComponentScan
 @SpringBootApplication
 // If no base package is configured, it will use the one the configuration class resides in
 @EnableElasticsearchRepositories(
         queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 public class SearchdemoApplication implements CommandLineRunner {
+
     @Autowired
     private CustomerRepository repository;
     @Autowired

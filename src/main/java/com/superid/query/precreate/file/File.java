@@ -1,4 +1,4 @@
-package com.superid.query.file;
+package com.superid.query.precreate.file;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 /**
  * Created by zzt on 17/5/27.
  */
-@Document(indexName = "file", type = "file", refreshInterval = "10s")
+@Document(indexName = "file", type = "file", refreshInterval = "10s", shards = 10)
 public class File {
 
     @Id
