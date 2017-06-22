@@ -1,16 +1,23 @@
 package com.superid;
 
+import com.google.common.collect.Lists;
+import com.superid.query.Tag;
+import com.superid.query.dynamic.announcement.AnnouncementRepo;
 import com.superid.query.precreate.customer.Customer;
 import com.superid.query.precreate.customer.CustomerRepository;
+import com.superid.query.precreate.file.FileRepo;
 import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
+
+import java.util.Collections;
 
 // @Configuration, @EnableAutoConfiguration and @ComponentScan
 @SpringBootApplication
@@ -21,6 +28,10 @@ public class SearchdemoApplication implements CommandLineRunner {
 
     @Autowired
     private CustomerRepository repository;
+    @Autowired
+    private FileRepo fileRepo;
+    @Autowired
+    private AnnouncementRepo announcementRepo;
     @Autowired
     private ElasticsearchTemplate template;
 
@@ -42,7 +53,11 @@ public class SearchdemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(template.getSetting("website"));
+        System.out.println(template.getMapping("announcement", "announcement"));
+
+        fileRepo.findAllByTitleOrUploadRoleOrUploadUser("test", "test", "test", new PageRequest(1, 10));
+        announcementRepo.findAllByTitleOrPublisherOrModifierOrTagsIn("test", "test", "test", Lists.newArrayList(new Tag("1"), new Tag("2")), new PageRequest(1, 10));
+
 
         this.repository.deleteAll();
         saveCustomers();

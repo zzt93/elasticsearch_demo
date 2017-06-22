@@ -2,20 +2,26 @@ package com.superid.query.dynamic.chat;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Date;
 
 /**
  * Created by zzt on 17/6/5.
  */
-@Document(indexName = "chat", type = "", refreshInterval = "10s")
+@Document(indexName = "chat", type = "chat", refreshInterval = "10s", createIndex = false)
 public class Chat {
 
     @Id
     private String id;
+    @Field(type = FieldType.Date)
     private Date date;
+    @Field
     private String sender;
+    @Field
     private String receiver;
+    @Field
     private String message;
 
     public String getId() {

@@ -18,10 +18,12 @@ public class User {
 
     @Id
     private String id;
+    @Field(type = FieldType.String)
     private String realname;
+    @Field(type = FieldType.String)
     private String username;
 
-    @Field(type = FieldType.Nested, index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.Nested)
     private List<Tag> tags;
 
 

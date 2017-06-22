@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * Created by zzt on 17/6/21.
@@ -14,10 +15,14 @@ public class Role {
     @Id
     private String id;
 
-    @Field(index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String title;
-    @Field(index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String affair;
+    @Field(type = FieldType.Boolean)
+    private boolean deprecated;
+    @Field(type = FieldType.Long)
+    private long alliance;
 
     public String getId() {
         return id;

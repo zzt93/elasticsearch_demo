@@ -2,27 +2,25 @@ package com.superid.query.dynamic.announcement;
 
 import com.superid.query.Tag;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.*;
 
 import java.util.List;
 
 /**
  * Created by zzt on 17/5/27.
  */
-@Document(indexName = "announcement", type = "announcement", refreshInterval = "1s", createIndex = false)
+@Document(indexName = "announcement", type = "announcement", refreshInterval = "1s")
 public class Announcement {
 
     @Id
     private String id;
+    @Field(type = FieldType.String)
     private String title;
-    @Field(type = FieldType.Nested, index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.Nested)
     private List<Tag> tags;
-    @Field(index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String modifier;
-    @Field(index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String publisher;
 
     public String getId() {

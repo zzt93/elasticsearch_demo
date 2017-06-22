@@ -2,6 +2,9 @@ package com.superid.query.precreate.file;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldIndex;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * Created by zzt on 17/5/27.
@@ -11,8 +14,14 @@ public class File {
 
     @Id
     private String id;
+    @Field(type = FieldType.String)
     private String title;
     private String content;
+
+    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+    private String uploadRole;
+    @Field(type = FieldType.String)
+    private String uploadUser;
 
     public String getId() {
         return id;
@@ -37,4 +46,21 @@ public class File {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public String getUploadUser() {
+        return uploadUser;
+    }
+
+    public void setUploadUser(String uploadUser) {
+        this.uploadUser = uploadUser;
+    }
+
+    public String getUploadRole() {
+        return uploadRole;
+    }
+
+    public void setUploadRole(String uploadRole) {
+        this.uploadRole = uploadRole;
+    }
 }
+
