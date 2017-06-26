@@ -8,10 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 /**
  * Created by zzt on 17/6/23.
@@ -20,10 +17,11 @@ import java.util.List;
 @SpringBootTest
 public class AnnouncementRepoTest {
 
-    @Autowired
-    private AnnouncementRepo announcementRepo;
     private static Tag t1 = new Tag("t1");
     private static Tag t2 = new Tag("t2");
+    private static Tag t3 = new Tag("t3");
+    @Autowired
+    private AnnouncementRepo announcementRepo;
 
     @Before
     public void save() {
@@ -32,7 +30,6 @@ public class AnnouncementRepoTest {
         Announcement a1 = new Announcement("1", "test1", Lists.newArrayList(t1, t2), role1, role2);
 
         String role3 = "role3";
-        Tag t3 = new Tag("t3");
         Announcement a2 = new Announcement("2", "test2", Lists.newArrayList(t1, t3), role1, role3);
 
         Announcement a3 = new Announcement("3", "test3", Lists.newArrayList(t2, t3), role2, role3);
@@ -40,6 +37,15 @@ public class AnnouncementRepoTest {
         announcementRepo.save(a1);
         announcementRepo.save(a2);
         announcementRepo.save(a3);
+
+        String role4 = "后端开发";
+        String role5 = "前端开发";
+        String role6 = "前端架构";
+        String role7 = "后端架构";
+        announcementRepo.save(new Announcement("4", "后端开发技术", Lists.newArrayList(), role4, role4));
+        announcementRepo.save(new Announcement("5", "前端开发技术", Lists.newArrayList(), role5, role5));
+        announcementRepo.save(new Announcement("6", "前端人员", Lists.newArrayList(), role6, role6));
+        announcementRepo.save(new Announcement("7", "后端人员", Lists.newArrayList(), role7, role7));
     }
 
     @Test
@@ -48,9 +54,15 @@ public class AnnouncementRepoTest {
     }
 
     @Test
+    public void findTagsInList() {
+        System.out.println(announcementRepo.findByAll("_all", "t1", new PageRequest(0, 10)).getContent());
+        System.out.println(announcementRepo.findByAll("_all", "t3", new PageRequest(0, 10)).getContent());
+    }
+
+    @Test
     public void findAllByTitleOrPublisherOrModifierOrTagsIn() throws Exception {
-        Tag t10 = new Tag("10");
-        Tag t20 = new Tag("20");
+//        Tag t10 = new Tag("10");
+//        Tag t20 = new Tag("20");
 //        Slice<Announcement> test1 = announcementRepo.findByTitle("test", new PageRequest(0, 10));
 //        System.out.println(test1.getContent());
 //        List<Announcement> test2 = announcementRepo.findAllByTitle("test1", new PageRequest(0, 10));
@@ -64,7 +76,8 @@ public class AnnouncementRepoTest {
 
     @Test
     public void testChinese() {
-
+        System.out.println(announcementRepo.findByAll("_all", "后端", new PageRequest(0, 10)).getContent());
+        System.out.println(announcementRepo.findByAll("_all", "开发", new PageRequest(0, 10)).getContent());
     }
 
 }
