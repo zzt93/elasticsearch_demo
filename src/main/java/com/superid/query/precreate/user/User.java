@@ -18,9 +18,9 @@ public class User {
 
     @Id
     private String id;
-    @Field(type = FieldType.String)
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String realname;
-    @Field(type = FieldType.String)
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String username;
 
     @Field(type = FieldType.Nested)

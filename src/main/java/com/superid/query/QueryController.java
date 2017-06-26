@@ -3,6 +3,7 @@ package com.superid.query;
 import com.superid.query.dynamic.chat.Chat;
 import com.superid.query.dynamic.chat.ChatRepo;
 import com.superid.query.precreate.file.FileRepo;
+import com.superid.query.precreate.role.Role;
 import com.superid.query.precreate.user.User;
 import com.superid.query.precreate.user.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,11 @@ public class QueryController {
     @PostMapping("/chat")
     public boolean queryChat(@RequestBody Chat chat) {
 
+        return false;
+    }
+
+    @PostMapping("role")
+    public boolean queryRole(@RequestBody Role role) {
         return false;
     }
 }

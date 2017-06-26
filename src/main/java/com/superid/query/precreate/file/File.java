@@ -14,13 +14,13 @@ public class File {
 
     @Id
     private String id;
-    @Field(type = FieldType.String)
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String title;
     private String content;
 
     @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String uploadRole;
-    @Field(type = FieldType.String)
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String uploadUser;
 
     public String getId() {

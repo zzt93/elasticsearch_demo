@@ -10,11 +10,12 @@ import java.util.List;
  * Created by zzt on 17/5/27.
  */
 @Document(indexName = "announcement", type = "announcement", refreshInterval = "1s")
+@Setting(settingPath = "/cn-analyzer.json")
 public class Announcement {
 
-    @Id
+    @Id @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String id;
-    @Field(type = FieldType.String)
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String title;
     @Field(type = FieldType.Nested)
     private List<Tag> tags;
@@ -22,6 +23,17 @@ public class Announcement {
     private String modifier;
     @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String publisher;
+
+    public Announcement() {
+    }
+
+    public Announcement(String id, String title, List<Tag> tags, String modifier, String publisher) {
+        this.id = id;
+        this.title = title;
+        this.tags = tags;
+        this.modifier = modifier;
+        this.publisher = publisher;
+    }
 
     public String getId() {
         return id;
@@ -61,5 +73,16 @@ public class Announcement {
 
     public void setModifier(String modifier) {
         this.modifier = modifier;
+    }
+
+    @Override
+    public String toString() {
+        return "Announcement{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", tags=" + tags +
+                ", modifier='" + modifier + '\'' +
+                ", publisher='" + publisher + '\'' +
+                '}';
     }
 }
