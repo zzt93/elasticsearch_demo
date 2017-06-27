@@ -1,4 +1,4 @@
-package com.superid.query.precreate.user;
+package com.superid.query.user.user;
 
 import com.superid.query.Tag;
 import org.springframework.data.annotation.Id;
@@ -15,17 +15,45 @@ import java.util.List;
 @Document(indexName = "user", type = "user", refreshInterval = "1s", shards = 10)
 public class User {
 
-
     @Id
     private String id;
-    @Field(type = FieldType.String, analyzer = "smartcn")
+    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
     private String realname;
     @Field(type = FieldType.String, analyzer = "smartcn")
     private String username;
+    @Field(type = FieldType.String, analyzer = "smartcn")
+    private String role;
 
     @Field(type = FieldType.Nested)
     private List<Tag> tags;
+    @Field(type = FieldType.Long)
+    private Long affairId;
+    @Field(type = FieldType.String, analyzer = "smartcn")
+    private String mainAffair;
 
+    public String getMainAffair() {
+        return mainAffair;
+    }
+
+    public void setMainAffair(String mainAffair) {
+        this.mainAffair = mainAffair;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Long getAffairId() {
+        return affairId;
+    }
+
+    public void setAffairId(Long affairId) {
+        this.affairId = affairId;
+    }
 
     public String getId() {
         return id;

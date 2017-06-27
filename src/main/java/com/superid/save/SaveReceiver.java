@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.superid.MessageFormat;
 import com.superid.MessageFormatReceiver;
-import com.superid.query.dynamic.announcement.AnnouncementRepo;
-import com.superid.query.precreate.file.File;
-import com.superid.query.precreate.file.FileRepo;
+import com.superid.query.time.announcement.AnnouncementRepo;
+import com.superid.query.user.file.File;
+import com.superid.query.user.file.FileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

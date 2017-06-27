@@ -1,4 +1,4 @@
-package com.superid.query.precreate.customer;
+package com.superid.query.user.customer;
 
 /**
  * Created by zzt on 17/5/26.

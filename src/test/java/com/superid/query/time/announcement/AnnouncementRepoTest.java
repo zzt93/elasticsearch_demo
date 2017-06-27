@@ -1,4 +1,4 @@
-package com.superid.query.dynamic.announcement;
+package com.superid.query.time.announcement;
 
 import com.google.common.collect.Lists;
 import com.superid.query.Tag;
@@ -46,6 +46,11 @@ public class AnnouncementRepoTest {
         announcementRepo.save(new Announcement("5", "前端开发技术", Lists.newArrayList(), role5, role5));
         announcementRepo.save(new Announcement("6", "前端人员", Lists.newArrayList(), role6, role6));
         announcementRepo.save(new Announcement("7", "后端人员", Lists.newArrayList(), role7, role7));
+
+        announcementRepo.save(new Announcement("8", "Brown fox brown dog", Lists.newArrayList(), role1, role1));
+        announcementRepo.save(new Announcement("9", "The quick brown fox jumps over the lazy dog", Lists.newArrayList(), role1, role1));
+        announcementRepo.save(new Announcement("10", "The quick brown fox jumps over the quick dog", Lists.newArrayList(), role1, role1));
+        announcementRepo.save(new Announcement("11", "The quick brown fox", Lists.newArrayList(), role1, role1));
     }
 
     @Test
@@ -87,4 +92,8 @@ public class AnnouncementRepoTest {
         System.out.println(announcementRepo.findAllByTitleOrPublisherOrModifierOrTagsIn("开发", new PageRequest(0, 10)).getContent());
     }
 
+    @Test
+    public void testMultiWord() {
+        System.out.println(announcementRepo.findAllByTitleOrPublisherOrModifierOrTagsIn("BROWN DOG", new PageRequest(0, 10)).getContent());
+    }
 }

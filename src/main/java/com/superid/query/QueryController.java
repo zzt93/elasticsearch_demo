@@ -1,13 +1,14 @@
 package com.superid.query;
 
-import com.superid.query.dynamic.chat.Chat;
-import com.superid.query.dynamic.chat.ChatRepo;
-import com.superid.query.precreate.file.FileRepo;
-import com.superid.query.precreate.role.Role;
-import com.superid.query.precreate.user.User;
-import com.superid.query.precreate.user.UserRepo;
+import com.superid.query.time.chat.Chat;
+import com.superid.query.time.chat.ChatRepo;
+import com.superid.query.user.file.FileRepo;
+import com.superid.query.user.role.Role;
+import com.superid.query.user.user.User;
+import com.superid.query.user.user.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,12 +21,14 @@ public class QueryController {
     private final UserRepo userRepo;
     private final ChatRepo chatRepo;
     private final FileRepo fileRepo;
+    private final ElasticsearchTemplate template;
 
     @Autowired
-    public QueryController(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo) {
+    public QueryController(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, ElasticsearchTemplate template) {
         this.userRepo = userRepo;
         this.chatRepo = chatRepo;
         this.fileRepo = fileRepo;
+        this.template = template;
     }
 
     @PostMapping("/publish")
@@ -44,8 +47,13 @@ public class QueryController {
         return false;
     }
 
-    @PostMapping("role")
-    public boolean queryRole(@RequestBody Role role) {
+    @PostMapping("/role/alliance")
+    public boolean queryAllianceRole(@RequestBody Role role) {
+        return false;
+    }
+
+    @PostMapping("/role/all")
+    public boolean queryAllRole(@RequestBody Role role) {
         return false;
     }
 }

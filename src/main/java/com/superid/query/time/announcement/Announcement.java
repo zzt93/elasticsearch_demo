@@ -1,4 +1,4 @@
-package com.superid.query.dynamic.announcement;
+package com.superid.query.time.announcement;
 
 import com.superid.query.Tag;
 import org.springframework.data.annotation.Id;

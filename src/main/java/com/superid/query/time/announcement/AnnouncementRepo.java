@@ -1,4 +1,4 @@
-package com.superid.query.dynamic.announcement;
+package com.superid.query.time.announcement;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

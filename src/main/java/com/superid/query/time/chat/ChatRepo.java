@@ -1,4 +1,4 @@
-package com.superid.query.dynamic.chat;
+package com.superid.query.time.chat;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;

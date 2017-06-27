@@ -1,14 +1,12 @@
 package com.superid;
 
-import com.superid.query.precreate.customer.Customer;
-import com.superid.query.precreate.customer.CustomerRepository;
-import com.superid.query.precreate.file.FileRepo;
-import org.elasticsearch.client.Client;
+import com.superid.query.user.customer.Customer;
+import com.superid.query.user.customer.CustomerRepository;
+import com.superid.query.user.file.FileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
