@@ -45,7 +45,7 @@ public class SearchdemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(template.getMapping("announcement", "announcement"));
+//        System.out.println(template.getMapping("announcement", "announcement"));
 
 //        fileRepo.findAllByTitleOrUploadRoleOrUploadUser("test", "test", "test", new PageRequest(1, 10));
 //
