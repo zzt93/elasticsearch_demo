@@ -2,7 +2,7 @@ package com.superid.query.time.chat;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Page;
 
 import java.util.Date;
 
@@ -11,11 +11,11 @@ import java.util.Date;
  */
 public interface ChatRepo extends ElasticsearchRepository<Chat, String> {
 
-    Slice<Chat> findAllBySender(String sender, Pageable pageable);
+    Page<Chat> findAllBySender(String sender, Pageable pageable);
 
-    Slice<Chat> findAllByReceiver(String receiver, Pageable pageable);
+    Page<Chat> findAllByReceiver(String receiver, Pageable pageable);
 
-    Slice<Chat> findByMessage(String message, Pageable pageable);
+    Page<Chat> findByMessage(String message, Pageable pageable);
 
-    Slice<Chat> findAllByDateBetween(Date from, Date to, Pageable pageable);
+    Page<Chat> findAllByDateBetween(Date from, Date to, Pageable pageable);
 }

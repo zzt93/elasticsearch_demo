@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by zzt on 17/6/27.
  */
@@ -21,11 +19,12 @@ public class RoleRepoTest {
 
     @Before
     public void setUp() throws Exception {
-        roleRepo.save(new Role("1", "前端开发", false, 1L));
-        roleRepo.save(new Role("2", "后端开发", false, 1L));
-        roleRepo.save(new Role("3", "前端架构", false, 2L));
-        roleRepo.save(new Role("4", "后端架构", false, 2L));
-        roleRepo.save(new Role("5", "CTO", false, 3L));
+        long taskId = 1L;
+        roleRepo.save(new Role("1", "前端开发", false, 1L, taskId));
+        roleRepo.save(new Role("2", "后端开发", false, 1L, taskId));
+        roleRepo.save(new Role("3", "前端架构", false, 2L, taskId));
+        roleRepo.save(new Role("4", "后端架构", false, 2L, taskId));
+        roleRepo.save(new Role("5", "CTO", false, 3L, taskId));
     }
 
     @Test
@@ -38,7 +37,7 @@ public class RoleRepoTest {
 
     @Test
     public void findByTitleAndAffairIdNot() throws Exception {
-        System.out.println(roleRepo.findByTitleAndAffairIdNot("前端", 1L, new PageRequest(0, 1)));
+        System.out.println(roleRepo.findByTitleAndAffairIdNot("前端", 1L, new PageRequest(0, 5)).getContent());
     }
 
 }

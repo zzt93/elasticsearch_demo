@@ -3,7 +3,6 @@ package com.superid.query.user.role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
@@ -21,15 +20,18 @@ public class Role {
     private Boolean deprecated;
     @Field(type = FieldType.Long)
     private Long affairId;
+    @Field(type = FieldType.Long)
+    private Long taskId;
 
     public Role() {
     }
 
-    public Role(String id, String title, Boolean deprecated, Long affairId) {
+    public Role(String id, String title, Boolean deprecated, Long affairId, Long taskId) {
         this.id = id;
         this.title = title;
         this.deprecated = deprecated;
         this.affairId = affairId;
+        this.taskId = taskId;
     }
 
     public Long getAffairId() {
@@ -62,5 +64,23 @@ public class Role {
 
     public void setDeprecated(Boolean deprecated) {
         this.deprecated = deprecated;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", deprecated=" + deprecated +
+                ", affairId=" + affairId +
+                '}';
     }
 }

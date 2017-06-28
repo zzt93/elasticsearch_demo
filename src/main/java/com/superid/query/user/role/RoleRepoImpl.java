@@ -7,8 +7,13 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 /**
  * Created by zzt on 17/6/27.
+ *
+ * The name of this class have to match the core repository interface or won't add customized
+ *
+ * @see RoleRepo
+ * @see RoleRepoImpl
  */
-public class RoleCustomImpl implements RoleCustom {
+public class RoleRepoImpl implements RoleCustom {
     @Autowired
     private ElasticsearchTemplate template;
 
