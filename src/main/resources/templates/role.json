@@ -1,0 +1,22 @@
+{
+  "role" : {
+    "properties" : {
+      "affairId" : {
+        "type" : "long"
+      },
+      "deprecated" : {
+        "type" : "boolean"
+      },
+      "id" : {
+        "type" : "string"
+      },
+      "taskId" : {
+        "type" : "long"
+      },
+      "title" : {
+        "type" : "string",
+        "analyzer" : "smartcn"
+      }
+    }
+  }
+}

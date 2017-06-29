@@ -1,0 +1,10 @@
+{
+  "task" : {
+    "properties" : {
+      "title" : {
+        "type" : "string",
+        "analyzer" : "smartcn"
+      }
+    }
+  }
+}

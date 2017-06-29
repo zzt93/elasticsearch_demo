@@ -10,7 +10,6 @@ import java.util.List;
  * Created by zzt on 17/5/27.
  */
 @Document(indexName = "announcement", type = "announcement", refreshInterval = "1s")
-@Setting(settingPath = "/cn-analyzer.json")
 public class Announcement {
 
     @Id @Field(type = FieldType.String, index = FieldIndex.not_analyzed)

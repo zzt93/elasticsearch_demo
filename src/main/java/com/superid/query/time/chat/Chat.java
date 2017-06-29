@@ -1,6 +1,7 @@
 package com.superid.query.time.chat;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -10,18 +11,18 @@ import java.util.Date;
 /**
  * Created by zzt on 17/6/5.
  */
-@Document(indexName = "chat", type = "chat", refreshInterval = "10s", createIndex = false)
+@Document(indexName = "chat", type = "chat", refreshInterval = "10s")
 public class Chat {
 
     @Id
     private String id;
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date, format = DateFormat.date)
     private Date date;
-    @Field
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String sender;
-    @Field
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String receiver;
-    @Field
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String message;
 
     public String getId() {

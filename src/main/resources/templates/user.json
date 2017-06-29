@@ -1,0 +1,34 @@
+{
+  "user" : {
+    "properties" : {
+      "affairId" : {
+        "type" : "long"
+      },
+      "mainAffair" : {
+        "type" : "string",
+        "analyzer" : "smartcn"
+      },
+      "realname" : {
+        "type" : "string",
+        "index" : "not_analyzed"
+      },
+      "role" : {
+        "type" : "string",
+        "analyzer" : "smartcn"
+      },
+      "tags" : {
+        "type" : "nested",
+        "properties" : {
+          "des" : {
+            "type" : "string",
+            "index" : "not_analyzed"
+          }
+        }
+      },
+      "username" : {
+        "type" : "string",
+        "analyzer" : "smartcn"
+      }
+    }
+  }
+}
