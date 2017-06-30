@@ -18,9 +18,9 @@ public class Announcement {
     private String title;
     @Field(type = FieldType.Nested)
     private List<Tag> tags;
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String modifier;
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+    @Field(type = FieldType.String, analyzer = "smartcn")
     private String publisher;
 
     public Announcement() {
