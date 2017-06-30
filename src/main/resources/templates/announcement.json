@@ -7,11 +7,11 @@
       },
       "modifier" : {
         "type" : "string",
-        "index" : "not_analyzed"
+        "analyzer" : "smartcn"
       },
       "publisher" : {
         "type" : "string",
-        "index" : "not_analyzed"
+        "analyzer" : "smartcn"
       },
       "tags" : {
         "type" : "nested",
