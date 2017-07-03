@@ -59,10 +59,10 @@ public class SaveReceiver extends MessageFormatReceiver {
 
         SaveType saveType = SaveType.valueOf((String) messageFormat.getPayload("type"));
         String data = (String) messageFormat.getPayload("data");
-        Object extra = messageFormat.getPayload("extra");
-        if (!exists(saveType, extra)) {
-            createNew(saveType, extra);
-        }
+//        Object extra = messageFormat.getPayload("extra");
+//        if (!exists(saveType, extra)) {
+//            createNew(saveType, extra);
+//        }
         switch (saveType) {
             case FILE:
                 fileRepo.save(gson.fromJson(data, File.class));
@@ -84,6 +84,7 @@ public class SaveReceiver extends MessageFormatReceiver {
                 break;
 
             // time-based repo
+
             case TASK:
                 taskRepo.save(gson.fromJson(data, Task.class));
                 break;
