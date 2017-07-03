@@ -18,6 +18,9 @@ public class Affair {
     @Field(type = FieldType.String, analyzer = "smartcn")
     private String path;
 
+    public Affair() {
+    }
+
     public Affair(String id, String name) {
         this.id = id;
         this.name = name;
@@ -47,7 +50,17 @@ public class Affair {
         this.path = path;
     }
 
-    public void makePath(String father) {
-        this.path = father + name;
+    public Affair makePath(String father) {
+        this.path = father + " " + name;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Affair{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                '}';
     }
 }
