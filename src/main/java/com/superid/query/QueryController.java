@@ -6,6 +6,8 @@ import com.superid.query.time.chat.Chat;
 import com.superid.query.time.chat.ChatRepo;
 import com.superid.query.time.task.Task;
 import com.superid.query.time.task.TaskRepo;
+import com.superid.query.user.affair.Affair;
+import com.superid.query.user.affair.AffairRepo;
 import com.superid.query.user.file.File;
 import com.superid.query.user.file.FileRepo;
 import com.superid.query.user.role.Role;
@@ -38,16 +40,18 @@ public class QueryController {
     private final RoleRepo roleRepo;
     private final AnnouncementRepo announcementRepo;
     private final TaskRepo taskRepo;
+    private final AffairRepo affairRepo;
     private final MaterialRepo materialRepo;
 
     @Autowired
-    public QueryController(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo, AnnouncementRepo announcementRepo, TaskRepo taskRepo, MaterialRepo materialRepo) {
+    public QueryController(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo, AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo, MaterialRepo materialRepo) {
         this.userRepo = userRepo;
         this.chatRepo = chatRepo;
         this.fileRepo = fileRepo;
         this.roleRepo = roleRepo;
         this.announcementRepo = announcementRepo;
         this.taskRepo = taskRepo;
+        this.affairRepo = affairRepo;
         this.materialRepo = materialRepo;
     }
 
@@ -99,5 +103,10 @@ public class QueryController {
     @GetMapping("/role/all")
     public Page<Role> queryAllRole(@RequestParam String role) {
         return roleRepo.findRoleInterAlliance(role, new PageRequest(0, PAGE_SIZE));
+    }
+
+    @GetMapping("affair")
+    public Page<Affair> queryAffair(@RequestParam String affairInfo) {
+        return affairRepo.findByNameOrPath(affairInfo, new PageRequest(0, PAGE_SIZE));
     }
 }

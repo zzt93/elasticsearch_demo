@@ -18,6 +18,11 @@ public class Affair {
     @Field(type = FieldType.String, analyzer = "smartcn")
     private String path;
 
+    public Affair(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }
@@ -40,5 +45,9 @@ public class Affair {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void makePath(String father) {
+        this.path = father + name;
     }
 }

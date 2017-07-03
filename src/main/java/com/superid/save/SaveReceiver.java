@@ -10,6 +10,8 @@ import com.superid.query.time.chat.Chat;
 import com.superid.query.time.chat.ChatRepo;
 import com.superid.query.time.task.Task;
 import com.superid.query.time.task.TaskRepo;
+import com.superid.query.user.affair.Affair;
+import com.superid.query.user.affair.AffairRepo;
 import com.superid.query.user.file.File;
 import com.superid.query.user.file.FileRepo;
 import com.superid.query.user.role.Role;
@@ -35,10 +37,11 @@ public class SaveReceiver extends MessageFormatReceiver {
     private final AnnouncementRepo announcementRepo;
     private final TaskRepo taskRepo;
     private final MaterialRepo materialRepo;
+    private final AffairRepo affairRepo;
     private final ElasticsearchTemplate esTemplate;
 
     @Autowired
-    public SaveReceiver(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo, AnnouncementRepo announcementRepo, TaskRepo taskRepo, MaterialRepo materialRepo, ElasticsearchTemplate esTemplate) {
+    public SaveReceiver(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo, AnnouncementRepo announcementRepo, TaskRepo taskRepo, MaterialRepo materialRepo, AffairRepo affairRepo, ElasticsearchTemplate esTemplate) {
         this.userRepo = userRepo;
         this.chatRepo = chatRepo;
         this.fileRepo = fileRepo;
@@ -46,6 +49,7 @@ public class SaveReceiver extends MessageFormatReceiver {
         this.announcementRepo = announcementRepo;
         this.taskRepo = taskRepo;
         this.materialRepo = materialRepo;
+        this.affairRepo = affairRepo;
         this.esTemplate = esTemplate;
     }
 
@@ -70,12 +74,16 @@ public class SaveReceiver extends MessageFormatReceiver {
                 userRepo.save(gson.fromJson(data, User.class));
                 break;
             case AFFAIR:
-
+                AffairNode entity = gson.fromJson(data, AffairNode.class);
+                Affair affair = new Affair(entity.getId(), entity.getName());
+                affair.makePath(affairRepo.findById(entity.getFatherId()).getPath());
+                affairRepo.save(affair);
                 break;
             case MATERIAL:
                 materialRepo.save(gson.fromJson(data, Material.class));
                 break;
 
+            // time-based repo
             case TASK:
                 taskRepo.save(gson.fromJson(data, Task.class));
                 break;

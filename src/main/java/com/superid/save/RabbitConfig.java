@@ -4,11 +4,15 @@ import com.superid.MessageFormatReceiver;
 import com.superid.query.time.announcement.AnnouncementRepo;
 import com.superid.query.time.chat.ChatRepo;
 import com.superid.query.time.task.TaskRepo;
+import com.superid.query.user.affair.AffairRepo;
 import com.superid.query.user.file.FileRepo;
 import com.superid.query.user.role.RoleRepo;
 import com.superid.query.user.user.UserRepo;
 import com.superid.query.user.warehouse.MaterialRepo;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,7 +59,7 @@ public class RabbitConfig {
     }
 
     @Bean
-    MessageFormatReceiver receiver(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo, AnnouncementRepo announcementRepo, TaskRepo taskRepo, MaterialRepo materialRepo, ElasticsearchTemplate esTemplate) {
-        return new SaveReceiver(userRepo, chatRepo, fileRepo, roleRepo, announcementRepo, taskRepo, materialRepo, esTemplate);
+    MessageFormatReceiver receiver(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo, AnnouncementRepo announcementRepo, TaskRepo taskRepo, MaterialRepo materialRepo, ElasticsearchTemplate esTemplate, AffairRepo affairRepo) {
+        return new SaveReceiver(userRepo, chatRepo, fileRepo, roleRepo, announcementRepo, taskRepo, materialRepo, affairRepo, esTemplate);
     }
 }

@@ -2,6 +2,7 @@ package com.superid.query.user.affair;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -11,5 +12,9 @@ public interface AffairRepo extends ElasticsearchRepository<Affair, String> {
 
     Affair findById(String id);
 
-    Page<Affair> findByNameOrPath(String name, String path, Pageable pageable);
+    @Query("    \"multi_match\": {\n" +
+            "        \"query\":    \"?0\",\n" +
+            "        \"fields\":   [ \"name^2\", \"path\" ]\n" +
+            "    }")
+    Page<Affair> findByNameOrPath(String info, Pageable pageable);
 }
