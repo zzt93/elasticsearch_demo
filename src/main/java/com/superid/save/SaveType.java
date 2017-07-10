@@ -1,5 +1,8 @@
 package com.superid.save;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.superid.query.time.announcement.Announcement;
 import com.superid.query.time.chat.Chat;
 import com.superid.query.time.task.Task;
@@ -8,9 +11,6 @@ import com.superid.query.user.file.File;
 import com.superid.query.user.role.Role;
 import com.superid.query.user.user.User;
 import com.superid.query.user.warehouse.Material;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by zzt on 17/6/28.
@@ -26,7 +26,6 @@ public enum SaveType {
         @Override
         public String indexSuffix(Object data) {
             return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
         }
     }, TASK(Task.class) {
         @Override
