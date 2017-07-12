@@ -13,6 +13,7 @@ import cn.superid.search.impl.query.user.file.FileRepo;
 import cn.superid.search.impl.query.user.role.RoleRepo;
 import cn.superid.search.impl.query.user.user.UserRepo;
 import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keets.common.notification.NotificationMessage;
 import com.keets.common.notification.ReceiveType;
 import com.keets.common.notification.SearchType;
@@ -63,38 +64,39 @@ public class SaveReceiver {
         }
         Map param = payload.getParam();
         Object data = param.get("data");
+        ObjectMapper mapper = new ObjectMapper();
         SearchType searchType = SearchType.valueOf(payload.getType().getDescription());
 
         switch (searchType) {
             case FILE:
-                fileRepo.save(((File) data));
+                fileRepo.save(mapper.convertValue(data, File.class));
                 break;
             case ROLE:
-                roleRepo.save(((Role) data));
+                roleRepo.save(mapper.convertValue(data, Role.class));
                 break;
             case USER:
-                userRepo.save((User) data);
+                userRepo.save(mapper.convertValue(data, User.class));
                 break;
             case AFFAIR:
-                AffairNode entity = (AffairNode) data;
+                AffairNode entity = mapper.convertValue(data, AffairNode.class);
                 Affair affair = new Affair(entity.getId(), entity.getName());
                 affair.makePath(affairRepo.findById(entity.getFatherId()).getPath());
                 affairRepo.save(affair);
                 break;
             case MATERIAL:
-                materialRepo.save((Material) data);
+                materialRepo.save(mapper.convertValue(data, Material.class));
                 break;
 
             // time-based repo
 
             case TASK:
-                taskRepo.save((Task) data);
+                taskRepo.save(mapper.convertValue(data, Task.class));
                 break;
             case CHAT:
-                chatRepo.save((Chat) data);
+                chatRepo.save(mapper.convertValue(data, Chat.class));
                 break;
             case ANNOUNCEMENT:
-                announcementRepo.save((Announcement) data);
+                announcementRepo.save(mapper.convertValue(data, Announcement.class));
                 break;
         }
     }
