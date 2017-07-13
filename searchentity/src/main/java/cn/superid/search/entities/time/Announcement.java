@@ -19,22 +19,25 @@ public class Announcement {
     private String id;
     @Field(type = FieldType.String, analyzer = "smartcn")
     private String title;
+    @Field(type = FieldType.String, analyzer = "smartcn")
+    private String content;
     @Field(type = FieldType.Nested)
     private List<Tag> tags;
     @Field(type = FieldType.String, analyzer = "smartcn")
-    private String modifier;
+    private String modifierRole;
     @Field(type = FieldType.String, analyzer = "smartcn")
-    private String publisher;
+    private String modifierUser;
 
     public Announcement() {
     }
 
-    public Announcement(String id, String title, List<Tag> tags, String modifier, String publisher) {
+    public Announcement(String id, String title, String content, List<Tag> tags, String modifierRole, String modifierUser) {
         this.id = id;
         this.title = title;
+        this.content = content;
         this.tags = tags;
-        this.modifier = modifier;
-        this.publisher = publisher;
+        this.modifierRole = modifierRole;
+        this.modifierUser = modifierUser;
     }
 
     public String getId() {
@@ -61,20 +64,28 @@ public class Announcement {
         this.tags = tags;
     }
 
-    public String getPublisher() {
-        return publisher;
+    public String getModifierUser() {
+        return modifierUser;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    public void setModifierUser(String modifierUser) {
+        this.modifierUser = modifierUser;
     }
 
-    public String getModifier() {
-        return modifier;
+    public String getModifierRole() {
+        return modifierRole;
     }
 
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
+    public void setModifierRole(String modifierRole) {
+        this.modifierRole = modifierRole;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
@@ -83,8 +94,8 @@ public class Announcement {
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", tags=" + tags +
-                ", modifier='" + modifier + '\'' +
-                ", publisher='" + publisher + '\'' +
+                ", modifierRole='" + modifierRole + '\'' +
+                ", modifierUser='" + modifierUser + '\'' +
                 '}';
     }
 }
