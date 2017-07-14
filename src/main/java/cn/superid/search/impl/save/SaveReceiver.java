@@ -1,5 +1,8 @@
 package cn.superid.search.impl.save;
 
+import cn.superid.common.notification.NotificationMessage;
+import cn.superid.common.notification.ReceiveType;
+import cn.superid.common.notification.SearchType;
 import cn.superid.search.entities.time.Announcement;
 import cn.superid.search.entities.time.Chat;
 import cn.superid.search.entities.time.Task;
@@ -14,9 +17,6 @@ import cn.superid.search.impl.query.user.role.RoleRepo;
 import cn.superid.search.impl.query.user.user.UserRepo;
 import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.keets.common.notification.NotificationMessage;
-import com.keets.common.notification.ReceiveType;
-import com.keets.common.notification.SearchType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
