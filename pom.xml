@@ -55,6 +55,17 @@
             <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
         </dependency>
 
+        <dependency>
+            <artifactId>cloud-common-notification</artifactId>
+            <groupId>cn.superid</groupId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.superid</groupId>
+            <artifactId>search-entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- Runtime -->
         <dependency>
@@ -69,17 +80,14 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <artifactId>cloud-common-notification</artifactId>
-            <groupId>cn.superid</groupId>
-            <version>1.2-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.google.guava</groupId>-->
+            <!--<artifactId>guava</artifactId>-->
+            <!--<version>22.0</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>cn.superid</groupId>
-            <artifactId>search-entity</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
 
     </dependencies>
 

@@ -1,3 +1,7 @@
-# elasticsearch_demo
+# Searcher
 
-## Version 2.4.4
+## Server Config
+
+- cluster name: elasticsearch_demo
+- Elasticsearch version 2.4.4
+- other configs can be found at `/etc/elasticsearch/`

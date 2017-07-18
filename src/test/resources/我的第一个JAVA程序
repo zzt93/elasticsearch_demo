@@ -1,0 +1,20 @@
+以下我们通过一个简单的实例来展示 Java 编程，创建文件 HelloWorld.java(文件名需与类名一致), 代码如下：
+实例
+public class HelloWorld {
+    public static void main(String []args) {
+        System.out.println("Hello World");
+    }
+}
+
+运行实例 »
+运行以上实例，输出结果如下：
+$ javac HelloWorld.java
+$ java HelloWorld
+Hello World
+执行命令解析：
+以上我们使用了两个命令 javac 和 java。
+javac 后面跟着的是java文件的文件名，例如 HelloWorld.java。 该命令用于将 java 源文件编译为 class 字节码文件，如： javac HelloWorld.java。
+运行javac命令后，如果成功编译没有错误的话，会出现一个 HelloWorld.class 的文件。
+java 后面跟着的是java文件中的类名,例如 HelloWorld 就是类名，如: java HelloWorld。
+注意：java命令后面不要加.class。
+Gif 图演示：

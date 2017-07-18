@@ -4,7 +4,7 @@ spring:
       bindings:
         search-index-input: # channelName 自定义的通道名称
           group: indexGroup      # 消费者分组可实现多消费者监听同一通道消息的负载均衡
-          content-type: application/x-java-object;type=com.keets.common.notification.NotificationMessage
+          content-type: application/x-java-object;type=cn.superid.common.notification.NotificationMessage
           destination: searchSaveExchange
       binders:
         rabbit-search:
