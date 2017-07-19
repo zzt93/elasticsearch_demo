@@ -93,6 +93,7 @@ public class Announcement {
         return "Announcement{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
                 ", tags=" + tags +
                 ", modifierRole='" + modifierRole + '\'' +
                 ", modifierUser='" + modifierUser + '\'' +
