@@ -5,9 +5,11 @@
 
     <groupId>cn.superid</groupId>
     <artifactId>search</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>searchentity</module>
+        <module>searchlogic</module>
     </modules>
 
     <name>searchdemo</name>
