@@ -46,10 +46,13 @@ public class SaveReceiver {
   private final AffairRepo affairRepo;
   private final ElasticsearchTemplate esTemplate;
 
+  private final Suffix suffix;
+
   @Autowired
   public SaveReceiver(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, MaterialRepo materialRepo,
-      AffairRepo affairRepo, ElasticsearchTemplate esTemplate, SaveSink saveSink) {
+      AffairRepo affairRepo, ElasticsearchTemplate esTemplate, SaveSink saveSink,
+      Suffix suffix) {
     this.userRepo = userRepo;
     this.chatRepo = chatRepo;
     this.fileRepo = fileRepo;
@@ -59,6 +62,7 @@ public class SaveReceiver {
     this.materialRepo = materialRepo;
     this.affairRepo = affairRepo;
     this.esTemplate = esTemplate;
+    this.suffix = suffix;
   }
 
   @StreamListener(SaveSink.INPUT)
@@ -102,7 +106,9 @@ public class SaveReceiver {
         chatRepo.save(mapper.convertValue(data, Chat.class));
         break;
       case ANNOUNCEMENT:
-        announcementRepo.save(mapper.convertValue(data, Announcement.class));
+        Announcement value = mapper.convertValue(data, Announcement.class);
+        suffix.setSuffix(value.getSuffix());
+        announcementRepo.save(value);
         break;
     }
   }

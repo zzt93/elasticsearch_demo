@@ -1,6 +1,7 @@
 package cn.superid.search.impl.query.user.role;
 
 import cn.superid.search.entities.user.Role;
+import cn.superid.search.impl.save.Suffix;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,12 +19,18 @@ public class RoleRepoTest {
 
   @Autowired
   private RoleRepo roleRepo;
+  @Autowired
+  private Suffix suffix;
 
   @Before
   public void setUp() throws Exception {
     long taskId = 1L;
+    suffix.setSuffix("123");
     roleRepo.save(new Role("1", "前端开发", false, 1L, taskId));
     roleRepo.save(new Role("2", "后端开发", false, 1L, taskId));
+    roleRepo.save(new Role("6", "前端开发", false, 2L, taskId));
+    roleRepo.save(new Role("7", "后端开发", false, 2L, taskId));
+    suffix.setSuffix("234");
     roleRepo.save(new Role("3", "前端架构", false, 2L, taskId));
     roleRepo.save(new Role("4", "后端架构", false, 2L, taskId));
     roleRepo.save(new Role("5", "CTO", false, 3L, taskId));
@@ -31,6 +38,8 @@ public class RoleRepoTest {
 
   @Test
   public void findByTitle() throws Exception {
+    System.out
+        .println(roleRepo.findByAffairIdAndTitle(2L, "前端", new PageRequest(0, 10)).getContent());
   }
 
   @Test

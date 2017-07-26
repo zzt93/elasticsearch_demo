@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/21.
  */
-@Document(indexName = "role", type = "role", refreshInterval = "1s", shards = 10)
+@Document(indexName = "role-#{suffix.toString()}", type = "role", shards = 10, createIndex = false)
 public class Role {
 
   @Id

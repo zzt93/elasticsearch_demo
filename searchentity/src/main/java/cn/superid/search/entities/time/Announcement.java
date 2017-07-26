@@ -2,6 +2,7 @@ package cn.superid.search.entities.time;
 
 import cn.superid.search.entities.Tag;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
@@ -13,7 +14,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/5/27.
  */
-@Document(indexName = "announcement", type = "announcement", refreshInterval = "1s")
+@Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false)
 public class Announcement {
 
   @Id
@@ -210,5 +211,10 @@ public class Announcement {
         ", type=" + type +
         ", entityMap='" + entityMap + '\'' +
         '}';
+  }
+
+  public String getSuffix() {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+    return simpleDateFormat.format(getModifyTime());
   }
 }
