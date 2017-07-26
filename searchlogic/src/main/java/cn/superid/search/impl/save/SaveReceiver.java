@@ -1,8 +1,8 @@
 package cn.superid.search.impl.save;
 
-import cn.superid.common.notification.NotificationMessage;
-import cn.superid.common.notification.ReceiveType;
-import cn.superid.common.notification.SearchType;
+import cn.superid.common.notification.dto.NotificationMessage;
+import cn.superid.common.notification.enums.PublishType;
+import cn.superid.common.notification.enums.SearchType;
 import cn.superid.search.entities.time.Announcement;
 import cn.superid.search.entities.time.Chat;
 import cn.superid.search.entities.time.Task;
@@ -64,8 +64,8 @@ public class SaveReceiver {
   @StreamListener(SaveSink.INPUT)
   public void process(Message<NotificationMessage> message) {
     NotificationMessage payload = message.getPayload();
-    ReceiveType receiveType = payload.getType().getReceiveType();
-    if (receiveType != ReceiveType.SEARCH_INDEX) {
+    PublishType receiveType = payload.getType().getPublishType();
+    if (receiveType != PublishType.SEARCH_INDEX) {
       return;
     }
     Map param = payload.getParam();

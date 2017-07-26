@@ -37,6 +37,8 @@ public class Announcement {
   @Field(type = FieldType.Long, index = FieldIndex.no)
   private long creatorUserId;
   @Field(type = FieldType.Long, index = FieldIndex.no)
+  private long creatorRoleId;
+  @Field(type = FieldType.Long, index = FieldIndex.no)
   private long affairId;
   @Field(type = FieldType.Boolean, index = FieldIndex.no)
   private boolean isTop;
@@ -59,7 +61,8 @@ public class Announcement {
   }
 
   public Announcement(String id, String title, String content, List<Tag> tags, String creatorRole,
-      String creatorUser, long affairId, String affairName, Timestamp modifyTime,
+      String creatorUser, long creatorRoleId, long affairId, String affairName,
+      Timestamp modifyTime,
       long creatorUserId, boolean isTop, int type, String entityMap) {
     this.id = id;
     this.title = title;
@@ -67,6 +70,7 @@ public class Announcement {
     this.tags = tags;
     this.creatorRole = creatorRole;
     this.creatorUser = creatorUser;
+    this.creatorRoleId = creatorRoleId;
     this.affairId = affairId;
     this.affairName = affairName;
     this.modifyTime = modifyTime;
@@ -180,6 +184,14 @@ public class Announcement {
     this.entityMap = entityMap;
   }
 
+  public long getCreatorRoleId() {
+    return creatorRoleId;
+  }
+
+  public void setCreatorRoleId(long creatorRoleId) {
+    this.creatorRoleId = creatorRoleId;
+  }
+
   @Override
   public String toString() {
     return "Announcement{" +
@@ -189,10 +201,11 @@ public class Announcement {
         ", tags=" + tags +
         ", creatorRole='" + creatorRole + '\'' +
         ", creatorUser='" + creatorUser + '\'' +
-        ", affairId=" + affairId +
         ", affairName='" + affairName + '\'' +
         ", modifyTime=" + modifyTime +
         ", creatorUserId=" + creatorUserId +
+        ", creatorRoleId=" + creatorRoleId +
+        ", affairId=" + affairId +
         ", isTop=" + isTop +
         ", type=" + type +
         ", entityMap='" + entityMap + '\'' +
