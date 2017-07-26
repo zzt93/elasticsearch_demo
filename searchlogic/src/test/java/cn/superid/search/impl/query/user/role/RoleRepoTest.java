@@ -38,12 +38,16 @@ public class RoleRepoTest {
 
   @Test
   public void findByTitle() throws Exception {
-    System.out
-        .println(roleRepo.findByAffairIdAndTitle(2L, "前端", new PageRequest(0, 10)).getContent());
   }
 
   @Test
   public void findByAffairIdAndTitle() throws Exception {
+    suffix.setSuffix("123");
+    System.out
+        .println(roleRepo.findByAffairIdAndTitle(2L, "前端", new PageRequest(0, 10)).getContent());
+    suffix.setSuffix("234");
+    System.out
+        .println(roleRepo.findByAffairIdAndTitle(2L, "前端", new PageRequest(0, 10)).getContent());
   }
 
   @Test
