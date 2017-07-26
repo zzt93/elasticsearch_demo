@@ -9,25 +9,25 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  */
 public class Tag {
 
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
-    private String des;
+  @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+  private String des;
 
-    public Tag() {
-    }
+  public Tag() {
+  }
 
-    public Tag(String des) {
-        this.des = des;
-    }
+  public Tag(String des) {
+    this.des = des;
+  }
 
-    public String getDes() {
-        return des;
-    }
+  public String getDes() {
+    return des;
+  }
 
-    public void setDes(String des) {
-        this.des = des;
-    }
+  public void setDes(String des) {
+    this.des = des;
+  }
 
-    public String toString() {
-        return des;
-    }
+  public String toString() {
+    return des;
+  }
 }

@@ -1,21 +1,21 @@
 {
-  "chat" : {
-    "properties" : {
-      "date" : {
-        "type" : "date",
-        "format" : "date"
+  "chat": {
+    "properties": {
+      "date": {
+        "type": "date",
+        "format": "date"
       },
-      "message" : {
-        "type" : "string",
-        "analyzer" : "smartcn"
+      "message": {
+        "type": "string",
+        "analyzer": "smartcn"
       },
-      "receiver" : {
-        "type" : "string",
-        "analyzer" : "smartcn"
+      "receiver": {
+        "type": "string",
+        "analyzer": "smartcn"
       },
-      "sender" : {
-        "type" : "string",
-        "analyzer" : "smartcn"
+      "sender": {
+        "type": "string",
+        "analyzer": "smartcn"
       }
     }
   }

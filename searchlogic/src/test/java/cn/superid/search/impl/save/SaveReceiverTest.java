@@ -19,20 +19,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class SaveReceiverTest {
 
-    @Autowired
+  @Autowired
 //    private MessageFormatSender sender;
 
-    @Test
-    public void receiveMessage() throws Exception {
-        for (int i = 0; i < 10; i++) {
-            System.out.printf("Sending %dth message...\n", i);
+  @Test
+  public void receiveMessage() throws Exception {
+    for (int i = 0; i < 10; i++) {
+      System.out.printf("Sending %dth message...\n", i);
 //            sender.send("search.test.save", new MessageFormat().addPayload("test", "value" + i));
-        }
     }
+  }
 
 
-    @Configuration
-    static class ContextConfiguration {
+  @Configuration
+  static class ContextConfiguration {
 
 //        @Bean
 //        RabbitTemplate rabbitTemplate() {
@@ -49,6 +49,6 @@ public class SaveReceiverTest {
 //        MessageFormatSender sender(RabbitTemplate rabbitTemplate) {
 //            return new MessageFormatSender(rabbitTemplate);
 //        }
-    }
+  }
 
 }

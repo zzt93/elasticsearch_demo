@@ -1,33 +1,33 @@
 {
-  "user" : {
-    "properties" : {
-      "affairId" : {
-        "type" : "long"
+  "user": {
+    "properties": {
+      "affairId": {
+        "type": "long"
       },
-      "mainAffair" : {
-        "type" : "string",
-        "analyzer" : "smartcn"
+      "mainAffair": {
+        "type": "string",
+        "analyzer": "smartcn"
       },
-      "realname" : {
-        "type" : "string",
-        "index" : "not_analyzed"
+      "realname": {
+        "type": "string",
+        "index": "not_analyzed"
       },
-      "role" : {
-        "type" : "string",
-        "analyzer" : "smartcn"
+      "role": {
+        "type": "string",
+        "analyzer": "smartcn"
       },
-      "tags" : {
-        "type" : "nested",
-        "properties" : {
-          "des" : {
-            "type" : "string",
-            "index" : "not_analyzed"
+      "tags": {
+        "type": "nested",
+        "properties": {
+          "des": {
+            "type": "string",
+            "index": "not_analyzed"
           }
         }
       },
-      "username" : {
-        "type" : "string",
-        "analyzer" : "smartcn"
+      "username": {
+        "type": "string",
+        "analyzer": "smartcn"
       }
     }
   }

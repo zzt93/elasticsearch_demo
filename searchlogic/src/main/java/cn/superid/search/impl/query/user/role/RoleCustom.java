@@ -9,7 +9,8 @@ import org.springframework.data.domain.Pageable;
  */
 public interface RoleCustom {
 
-    Page<Role> findRoleExcept(Long alliance, String query, Pageable pageable);
-    Page<Role> findRoleInterAlliance(String query, Pageable pageable);
+  Page<Role> findRoleExcept(Long alliance, String query, Pageable pageable);
+
+  Page<Role> findRoleInterAlliance(String query, Pageable pageable);
 
 }

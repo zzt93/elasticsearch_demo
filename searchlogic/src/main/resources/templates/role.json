@@ -1,21 +1,21 @@
 {
-  "role" : {
-    "properties" : {
-      "affairId" : {
-        "type" : "long"
+  "role": {
+    "properties": {
+      "affairId": {
+        "type": "long"
       },
-      "deprecated" : {
-        "type" : "boolean"
+      "deprecated": {
+        "type": "boolean"
       },
-      "id" : {
-        "type" : "string"
+      "id": {
+        "type": "string"
       },
-      "taskId" : {
-        "type" : "long"
+      "taskId": {
+        "type": "long"
       },
-      "title" : {
-        "type" : "string",
-        "analyzer" : "smartcn"
+      "title": {
+        "type": "string",
+        "analyzer": "smartcn"
       }
     }
   }

@@ -10,5 +10,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface TaskRepo extends ElasticsearchRepository<Task, String> {
 
-    Page<Task> findByTitle(String title, Pageable page);
+  Page<Task> findByTitle(String title, Pageable page);
 }

@@ -10,13 +10,13 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface AffairRepo extends ElasticsearchRepository<Affair, String> {
 
-    Affair findById(String id);
+  Affair findById(String id);
 
-    @Query(" {" +
-            "\"multi_match\": {\n" +
-            "        \"query\":    \"?0\",\n" +
-            "        \"fields\":   [ \"name^2\", \"path\" ]\n" +
-            "    }" +
-            "}")
-    Page<Affair> findByNameOrPath(String info, Pageable pageable);
+  @Query(" {" +
+      "\"multi_match\": {\n" +
+      "        \"query\":    \"?0\",\n" +
+      "        \"fields\":   [ \"name^2\", \"path\" ]\n" +
+      "    }" +
+      "}")
+  Page<Affair> findByNameOrPath(String info, Pageable pageable);
 }

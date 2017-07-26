@@ -5,31 +5,31 @@ package cn.superid.search.entities.user;
  */
 public class AffairNode {
 
-    private String fatherId;
-    private String id;
-    private String name;
+  private String fatherId;
+  private String id;
+  private String name;
 
-    public String getFatherId() {
-        return fatherId;
-    }
+  public String getFatherId() {
+    return fatherId;
+  }
 
-    public void setFatherId(String fatherId) {
-        this.fatherId = fatherId;
-    }
+  public void setFatherId(String fatherId) {
+    this.fatherId = fatherId;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 }

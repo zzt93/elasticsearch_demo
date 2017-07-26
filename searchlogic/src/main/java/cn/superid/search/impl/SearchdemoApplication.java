@@ -12,31 +12,31 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 @SpringBootApplication
 // If no base package is configured, it will use the one the configuration class resides in
 @EnableElasticsearchRepositories(
-        queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
+    queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 public class SearchdemoApplication implements CommandLineRunner {
 
-    @Autowired
-    private ElasticsearchTemplate template;
+  @Autowired
+  private ElasticsearchTemplate template;
 
 
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(SearchdemoApplication.class, "--debug");
-    }
+  public static void main(String[] args) throws Exception {
+    SpringApplication.run(SearchdemoApplication.class, "--debug");
+  }
 
 
-    /**
-     * ElasticsearchAutoConfiguration#elasticsearchClient:
-     * Did not match:
-     * - @ConditionalOnMissingBean (types: org.elasticsearch.client.Client; SearchStrategy: all) found bean 'elasticClient' (OnBeanCondition)
-     */
+  /**
+   * ElasticsearchAutoConfiguration#elasticsearchClient: Did not match: - @ConditionalOnMissingBean
+   * (types: org.elasticsearch.client.Client; SearchStrategy: all) found bean 'elasticClient'
+   * (OnBeanCondition)
+   */
 //    @Bean
 //    public ElasticsearchTemplate elasticsearchTemplate(Client client/* autowire from property file */) {
 //        return new ElasticsearchTemplate(client);
 //    }
-    @Override
-    public void run(String... args) throws Exception {
-        System.out.println(template.getMapping("announcement", "announcement"));
-    }
+  @Override
+  public void run(String... args) throws Exception {
+    System.out.println(template.getMapping("announcement", "announcement"));
+  }
 
 
 }

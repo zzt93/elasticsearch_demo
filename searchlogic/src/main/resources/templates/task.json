@@ -1,9 +1,9 @@
 {
-  "task" : {
-    "properties" : {
-      "title" : {
-        "type" : "string",
-        "analyzer" : "smartcn"
+  "task": {
+    "properties": {
+      "title": {
+        "type": "string",
+        "analyzer": "smartcn"
       }
     }
   }

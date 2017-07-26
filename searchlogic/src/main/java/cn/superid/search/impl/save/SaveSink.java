@@ -8,8 +8,8 @@ import org.springframework.messaging.SubscribableChannel;
  */
 public interface SaveSink {
 
-    String INPUT = "search-index-input";
+  String INPUT = "search-index-input";
 
-    @Input(INPUT)
-    SubscribableChannel input();
+  @Input(INPUT)
+  SubscribableChannel input();
 }

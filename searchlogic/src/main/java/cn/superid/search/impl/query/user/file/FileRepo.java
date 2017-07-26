@@ -11,12 +11,12 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface FileRepo extends ElasticsearchRepository<File, String> {
 
-    @Query(" {" +
-            "\"multi_match\": " +
-            "    {\n" +
-            "       \"query\": \"?0\",\n" +
-            "       \"fields\": [\"title\", \"uploadRole\"]\n" +
-            "    }\n" +
-            "}")
-    Page<File> findByTitleOrUploadRole(String info, Pageable pageable);
+  @Query(" {" +
+      "\"multi_match\": " +
+      "    {\n" +
+      "       \"query\": \"?0\",\n" +
+      "       \"fields\": [\"title\", \"uploadRole\"]\n" +
+      "    }\n" +
+      "}")
+  Page<File> findByTitleOrUploadRole(String info, Pageable pageable);
 }

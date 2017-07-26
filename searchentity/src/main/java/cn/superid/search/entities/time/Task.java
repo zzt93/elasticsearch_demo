@@ -11,24 +11,24 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "task", type = "task", refreshInterval = "1s")
 public class Task {
 
-    @Id
-    private String id;
-    @Field(type = FieldType.String, analyzer = "smartcn")
-    private String title;
+  @Id
+  private String id;
+  @Field(type = FieldType.String, analyzer = "smartcn")
+  private String title;
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 }
