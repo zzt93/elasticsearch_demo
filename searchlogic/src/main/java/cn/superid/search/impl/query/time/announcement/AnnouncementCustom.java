@@ -16,7 +16,7 @@ public interface AnnouncementCustom {
                     "       {\n" +
                     "         \"multi_match\": {\n" +
                     "           \"query\": \"?0\",\n" +
-                    "           \"fields\": [\"title\", \"content\", \"modifierRole\", \"modifierUser\"]\n" +
+                    "           \"fields\": [\"title\", \"content\", \"creatorRole\", \"creatorUser\", \"affairName\"]\n" +
                     "         }\n" +
                     "       },\n" +
                     "       {\n" +
