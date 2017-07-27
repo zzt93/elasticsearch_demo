@@ -18,7 +18,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class Announcement {
 
   @Id
-  @Field(type = FieldType.String, index = FieldIndex.no)
   private String id;
   @Field(type = FieldType.String, analyzer = "smartcn")
   private String title;
@@ -36,35 +35,39 @@ public class Announcement {
   @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis, index = FieldIndex.no)
   private Timestamp modifyTime;
   @Field(type = FieldType.Long, index = FieldIndex.no)
-  private long creatorUserId;
+  private Long creatorUserId;
   @Field(type = FieldType.Long, index = FieldIndex.no)
-  private long creatorRoleId;
+  private Long creatorRoleId;
   @Field(type = FieldType.Long, index = FieldIndex.no)
-  private long affairId;
+  private Long affairId;
   @Field(type = FieldType.Boolean, index = FieldIndex.no)
-  private boolean isTop;
+  private Boolean isTop;
   @Field(type = FieldType.Integer, index = FieldIndex.no)
-  private int type;
+  private Integer type;
   @Field(type = FieldType.String, store = false, index = FieldIndex.no)
   private String entityMap;
+
+  private Timestamp createTime;
 
   public Announcement() {
   }
 
   public Announcement(String id, String title, String content, List<Tag> tags, String creatorRole,
-      String creatorUser) {
+      String creatorUser, Long affairId) {
     this.id = id;
     this.title = title;
     this.content = content;
     this.tags = tags;
     this.creatorRole = creatorRole;
     this.creatorUser = creatorUser;
+    this.affairId = affairId;
   }
 
   public Announcement(String id, String title, String content, List<Tag> tags, String creatorRole,
-      String creatorUser, long creatorRoleId, long affairId, String affairName,
+      String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
-      long creatorUserId, boolean isTop, int type, String entityMap) {
+      Long creatorUserId, Boolean isTop, Integer type, String entityMap,
+      Timestamp createTime) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -79,6 +82,7 @@ public class Announcement {
     this.isTop = isTop;
     this.type = type;
     this.entityMap = entityMap;
+    this.createTime = createTime;
   }
 
   public String getId() {
@@ -129,11 +133,11 @@ public class Announcement {
     this.content = content;
   }
 
-  public long getAffairId() {
+  public Long getAffairId() {
     return affairId;
   }
 
-  public void setAffairId(long affairId) {
+  public void setAffairId(Long affairId) {
     this.affairId = affairId;
   }
 
@@ -153,27 +157,23 @@ public class Announcement {
     this.modifyTime = modifyTime;
   }
 
-  public long getCreatorUserId() {
+  public Long getCreatorUserId() {
     return creatorUserId;
   }
 
-  public void setCreatorUserId(long creatorUserId) {
+  public void setCreatorUserId(Long creatorUserId) {
     this.creatorUserId = creatorUserId;
   }
 
-  public boolean isTop() {
-    return isTop;
-  }
-
-  public void setTop(boolean top) {
+  public void setTop(Boolean top) {
     isTop = top;
   }
 
-  public int getType() {
+  public Integer getType() {
     return type;
   }
 
-  public void setType(int type) {
+  public void setType(Integer type) {
     this.type = type;
   }
 
@@ -185,12 +185,16 @@ public class Announcement {
     this.entityMap = entityMap;
   }
 
-  public long getCreatorRoleId() {
+  public Long getCreatorRoleId() {
     return creatorRoleId;
   }
 
-  public void setCreatorRoleId(long creatorRoleId) {
+  public void setCreatorRoleId(Long creatorRoleId) {
     this.creatorRoleId = creatorRoleId;
+  }
+
+  public Boolean getTop() {
+    return isTop;
   }
 
   @Override
@@ -203,6 +207,7 @@ public class Announcement {
         ", creatorRole='" + creatorRole + '\'' +
         ", creatorUser='" + creatorUser + '\'' +
         ", affairName='" + affairName + '\'' +
+        ", createTime=" + createTime +
         ", modifyTime=" + modifyTime +
         ", creatorUserId=" + creatorUserId +
         ", creatorRoleId=" + creatorRoleId +
@@ -213,8 +218,16 @@ public class Announcement {
         '}';
   }
 
-  public String getSuffix() {
+  public Timestamp getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(Timestamp createTime) {
+    this.createTime = createTime;
+  }
+
+  public String indexSuffix() {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-    return simpleDateFormat.format(getModifyTime());
+    return simpleDateFormat.format(createTime);
   }
 }

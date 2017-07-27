@@ -12,6 +12,9 @@ public interface AnnouncementCustom {
   String FIND_BY_TITLE_OR_CONTENT_OR_MODIFIER_ROLE_OR_MODIFIER_USER_OR_TAGS_IN_QUERY =
       " {" +
           " \"bool\": {\n" +
+          "     \"filter\": {\n" +
+          "          \"term\" : { \"affairId\" : \"?1\" }" +
+          "       },\n" +
           "     \"should\": [\n" +
           "       {\n" +
           "         \"multi_match\": {\n" +
@@ -28,10 +31,10 @@ public interface AnnouncementCustom {
           "               \"tags.des\": \"?0\"\n" +
           "             }}\n" +
           "         }\n" +
-          "       } ]\n" +
+          "       } " +
+          "      ]\n" +
           "  }" +
           "}";
-
-  Page<Announcement> findByTitleOrModifierRoleOrModifierUserOrTagsIn(String info,
+  Page<Announcement> findByTitleOrModifierRoleOrModifierUserOrTagsIn(String info, Long affairId,
       Pageable pageable);
 }

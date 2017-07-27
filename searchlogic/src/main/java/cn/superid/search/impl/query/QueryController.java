@@ -57,9 +57,9 @@ public class QueryController {
   }
 
   @GetMapping("/announcement")
-  public Page<Announcement> queryAnnouncement(@RequestParam String query) {
+  public Page<Announcement> queryAnnouncement(@RequestParam String query, @RequestParam Long affairId) {
     return announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn(query, new PageRequest(0, PAGE_SIZE));
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn(query, affairId, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/task")

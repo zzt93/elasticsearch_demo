@@ -22,12 +22,15 @@ import cn.superid.search.impl.query.user.user.UserRepo;
 import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by zzt on 17/6/7.
@@ -36,6 +39,7 @@ import org.springframework.stereotype.Component;
 @EnableBinding({SaveSink.class})
 public class SaveReceiver {
 
+  private static final Logger logger = LoggerFactory.getLogger(SaveReceiver.class);
   private final UserRepo userRepo;
   private final ChatRepo chatRepo;
   private final FileRepo fileRepo;
@@ -74,6 +78,7 @@ public class SaveReceiver {
     }
     Map param = payload.getParam();
     Object data = param.get("data");
+    RequestMethod verb = ((RequestMethod) param.get("verb"));
     ObjectMapper mapper = new ObjectMapper();
     SearchType searchType = SearchType.valueOf(payload.getType().getDescription());
 
@@ -106,9 +111,19 @@ public class SaveReceiver {
         chatRepo.save(mapper.convertValue(data, Chat.class));
         break;
       case ANNOUNCEMENT:
-        Announcement value = mapper.convertValue(data, Announcement.class);
-        suffix.setSuffix(value.getSuffix());
-        announcementRepo.save(value);
+        Announcement announcement = mapper.convertValue(data, Announcement.class);
+        suffix.setSuffix(announcement.indexSuffix());
+        logger.debug(announcement.toString());
+        switch (verb) {
+          case POST:
+            announcementRepo.save(announcement);
+            break;
+          case DELETE:
+            announcementRepo.delete(announcement.getId());
+            break;
+          default:
+              logger.error("Unsupported verb: " + verb);
+        }
         break;
     }
   }

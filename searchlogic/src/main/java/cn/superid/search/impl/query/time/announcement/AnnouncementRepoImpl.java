@@ -23,7 +23,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
   private ElasticsearchTemplate template;
 
   @Override
-  public Page<Announcement> findByTitleOrModifierRoleOrModifierUserOrTagsIn(String info,
+  public Page<Announcement> findByTitleOrModifierRoleOrModifierUserOrTagsIn(String info, Long affairId,
       Pageable pageable) {
     String query = QueryHelper.replacePlaceholders(
         FIND_BY_TITLE_OR_CONTENT_OR_MODIFIER_ROLE_OR_MODIFIER_USER_OR_TAGS_IN_QUERY, info);
