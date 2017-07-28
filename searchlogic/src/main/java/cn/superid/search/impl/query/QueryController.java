@@ -1,6 +1,7 @@
 package cn.superid.search.impl.query;
 
 import cn.superid.search.entities.time.Announcement;
+import cn.superid.search.entities.time.AnnouncementQuery;
 import cn.superid.search.entities.time.Chat;
 import cn.superid.search.entities.time.Task;
 import cn.superid.search.entities.user.File;
@@ -19,8 +20,11 @@ import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,10 +60,19 @@ public class QueryController {
     this.materialRepo = materialRepo;
   }
 
-  @GetMapping("/announcement")
-  public Page<Announcement> queryAnnouncement(@RequestParam String query, @RequestParam Long affairId) {
+  @PostMapping("/announcement")
+  public Page<Announcement> queryAnnouncement(@RequestBody AnnouncementQuery query) {
+    PageRequest pageRequest = query.getPageRequest();
+    if (checkPage(pageRequest.getPageNumber(), pageRequest.getPageSize())) {
+      return new PageImpl<>(null);
+    }
     return announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn(query, affairId, new PageRequest(0, PAGE_SIZE));
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn(query.getQuery(), query.getAffairIds(),
+            pageRequest);
+  }
+
+  private boolean checkPage(@RequestParam int pageNum, @RequestParam int pageSize) {
+    return (pageNum + 1) * pageSize > 1000;
   }
 
   @GetMapping("/task")

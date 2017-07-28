@@ -46,6 +46,8 @@ public class Announcement {
   private Integer type;
   @Field(type = FieldType.String, store = false, index = FieldIndex.no)
   private String entityMap;
+  @Field(type = FieldType.String, index = FieldIndex.no)
+  private String avatar;
 
   private Timestamp createTime;
 
@@ -67,7 +69,7 @@ public class Announcement {
       String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
       Long creatorUserId, Boolean isTop, Integer type, String entityMap,
-      Timestamp createTime) {
+      String avatar, Timestamp createTime) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -82,6 +84,7 @@ public class Announcement {
     this.isTop = isTop;
     this.type = type;
     this.entityMap = entityMap;
+    this.avatar = avatar;
     this.createTime = createTime;
   }
 
@@ -197,6 +200,14 @@ public class Announcement {
     return isTop;
   }
 
+  public String getAvatar() {
+    return avatar;
+  }
+
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
+  }
+
   @Override
   public String toString() {
     return "Announcement{" +
@@ -207,7 +218,6 @@ public class Announcement {
         ", creatorRole='" + creatorRole + '\'' +
         ", creatorUser='" + creatorUser + '\'' +
         ", affairName='" + affairName + '\'' +
-        ", createTime=" + createTime +
         ", modifyTime=" + modifyTime +
         ", creatorUserId=" + creatorUserId +
         ", creatorRoleId=" + creatorRoleId +
@@ -215,6 +225,8 @@ public class Announcement {
         ", isTop=" + isTop +
         ", type=" + type +
         ", entityMap='" + entityMap + '\'' +
+        ", avatar='" + avatar + '\'' +
+        ", createTime=" + createTime +
         '}';
   }
 

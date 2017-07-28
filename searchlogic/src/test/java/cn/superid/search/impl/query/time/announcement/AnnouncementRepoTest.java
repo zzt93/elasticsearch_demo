@@ -3,6 +3,7 @@ package cn.superid.search.impl.query.time.announcement;
 import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.time.Announcement;
 import com.google.common.collect.Lists;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AnnouncementRepoTest {
   private static Long affairId = 1L;
+  private static final List<Long> affairIds = Lists.newArrayList(affairId);
+
 
   private static Tag t1 = new Tag("t1");
   private static Tag t2 = new Tag("t2");
@@ -79,17 +82,17 @@ public class AnnouncementRepoTest {
     System.out
         .println(announcementRepo.findByAll("_all", "t1", new PageRequest(0, 10)).getContent());
     System.out.println(announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("t1", affairId, new PageRequest(0, 10))
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("t1", affairIds, new PageRequest(0, 10))
         .getContent());
     System.out
         .println(announcementRepo.findByAll("_all", "t2", new PageRequest(0, 10)).getContent());
     System.out.println(announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("t2", affairId, new PageRequest(0, 10))
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("t2", affairIds, new PageRequest(0, 10))
         .getContent());
     System.out
         .println(announcementRepo.findByAll("_all", "t3", new PageRequest(0, 10)).getContent());
     System.out.println(announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("t3", affairId, new PageRequest(0, 10))
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("t3", affairIds, new PageRequest(0, 10))
         .getContent());
   }
 
@@ -109,7 +112,7 @@ public class AnnouncementRepoTest {
         announcementRepo.findByAll("_all", "announcement2 role1", new PageRequest(0, 10))
             .getContent());
     System.out.println(announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("announcement2 role1", affairId,
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("announcement2 role1", affairIds,
             new PageRequest(0, 10)).getContent());
   }
 
@@ -118,19 +121,19 @@ public class AnnouncementRepoTest {
     System.out
         .println(announcementRepo.findByAll("_all", "后端", new PageRequest(0, 10)).getContent());
     System.out.println(announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("后端", affairId, new PageRequest(0, 10))
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("后端", affairIds, new PageRequest(0, 10))
         .getContent());
     System.out
         .println(announcementRepo.findByAll("_all", "开发", new PageRequest(0, 10)).getContent());
     System.out.println(announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("开发", affairId, new PageRequest(0, 10))
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("开发", affairIds, new PageRequest(0, 10))
         .getContent());
   }
 
   @Test
   public void testMultiWord() {
     System.out.println(announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("BROWN DOG", affairId, new PageRequest(0, 10))
+        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("BROWN DOG", affairIds, new PageRequest(0, 10))
         .getContent());
   }
 }

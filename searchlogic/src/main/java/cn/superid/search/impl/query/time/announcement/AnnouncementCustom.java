@@ -1,6 +1,7 @@
 package cn.superid.search.impl.query.time.announcement;
 
 import cn.superid.search.entities.time.Announcement;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +14,9 @@ public interface AnnouncementCustom {
       " {" +
           " \"bool\": {\n" +
           "     \"filter\": {\n" +
-          "          \"term\" : { \"affairId\" : \"?1\" }" +
+          "          \"terms\" : { " +
+          "             \"affairId\" : ?1" +
+          "           }" +
           "       },\n" +
           "     \"should\": [\n" +
           "       {\n" +
@@ -35,6 +38,6 @@ public interface AnnouncementCustom {
           "      ]\n" +
           "  }" +
           "}";
-  Page<Announcement> findByTitleOrModifierRoleOrModifierUserOrTagsIn(String info, Long affairId,
+  Page<Announcement> findByTitleOrModifierRoleOrModifierUserOrTagsIn(String info, List<Long> affairIds,
       Pageable pageable);
 }
