@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/6/21.
  */
 @Document(indexName = "role-#{suffix.toString()}", type = "role", shards = 10, createIndex = false)
-public class Role {
+public class Role implements UserBasedIndex {
 
   @Id
   private String id;
@@ -82,5 +82,9 @@ public class Role {
         ", deprecated=" + deprecated +
         ", affairId=" + affairId +
         '}';
+  }
+
+  public String indexSuffix() {
+    return null;
   }
 }

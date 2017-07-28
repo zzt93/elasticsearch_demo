@@ -1,9 +1,9 @@
 package cn.superid.search.impl.query;
 
-import cn.superid.search.entities.time.Announcement;
-import cn.superid.search.entities.time.AnnouncementQuery;
 import cn.superid.search.entities.time.Chat;
 import cn.superid.search.entities.time.Task;
+import cn.superid.search.entities.time.announcement.Announcement;
+import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.user.File;
 import cn.superid.search.entities.user.Material;
 import cn.superid.search.entities.user.Role;

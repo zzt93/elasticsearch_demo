@@ -7,12 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 // @Configuration, @EnableAutoConfiguration and @ComponentScan
 @SpringBootApplication
 // If no base package is configured, it will use the one the configuration class resides in
 @EnableElasticsearchRepositories(
     queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
+//@EnableDiscoveryClient
+@EnableWebMvc
 public class SearchdemoApplication implements CommandLineRunner {
 
   @Autowired

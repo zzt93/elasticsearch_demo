@@ -3,7 +3,7 @@ package cn.superid.search.entities.user;
 /**
  * @author zzt
  */
-public class AffairNode {
+public class AffairNode implements UserBasedIndex {
 
   private String fatherId;
   private String id;
@@ -31,5 +31,9 @@ public class AffairNode {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String indexSuffix() {
+    return null;
   }
 }

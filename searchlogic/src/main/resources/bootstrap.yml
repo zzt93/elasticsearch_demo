@@ -3,8 +3,6 @@ spring:
     name: search-${spring.profiles.active:default}
 
 ---
-server:
-  port: 9500
 
 spring:
   profiles: default

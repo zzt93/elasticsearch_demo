@@ -1,5 +1,6 @@
 package cn.superid.search.entities.time;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
@@ -11,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/6/5.
  */
 @Document(indexName = "chat", type = "chat", refreshInterval = "10s")
-public class Chat {
+public class Chat implements TimeBasedIndex{
 
   @Id
   private String id;
@@ -62,5 +63,17 @@ public class Chat {
 
   public void setDate(Date date) {
     this.date = date;
+  }
+
+  public Timestamp getCreateTime() {
+    return null;
+  }
+
+  public void setCreateTime(Timestamp createTime) {
+
+  }
+
+  public String indexSuffix() {
+    return null;
   }
 }

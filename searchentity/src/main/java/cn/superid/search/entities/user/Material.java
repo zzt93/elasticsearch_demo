@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/6/27.
  */
 @Document(indexName = "warehouse", type = "material")
-public class Material {
+public class Material implements UserBasedIndex {
 
   @Id
   private String id;
@@ -43,5 +43,9 @@ public class Material {
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
+  }
+
+  public String indexSuffix() {
+    return null;
   }
 }

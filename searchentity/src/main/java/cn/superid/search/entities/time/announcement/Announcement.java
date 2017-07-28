@@ -1,6 +1,7 @@
-package cn.superid.search.entities.time;
+package cn.superid.search.entities.time.announcement;
 
 import cn.superid.search.entities.Tag;
+import cn.superid.search.entities.time.TimeBasedIndex;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -15,7 +16,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/5/27.
  */
 @Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false)
-public class Announcement {
+public class Announcement implements TimeBasedIndex {
 
   @Id
   private String id;
@@ -32,14 +33,15 @@ public class Announcement {
   @Field(type = FieldType.String, analyzer = "smartcn")
   private String affairName;
 
+  @Field(type = FieldType.Long, index = FieldIndex.not_analyzed)
+  private Long affairId;
+
   @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis, index = FieldIndex.no)
   private Timestamp modifyTime;
   @Field(type = FieldType.Long, index = FieldIndex.no)
   private Long creatorUserId;
   @Field(type = FieldType.Long, index = FieldIndex.no)
   private Long creatorRoleId;
-  @Field(type = FieldType.Long, index = FieldIndex.no)
-  private Long affairId;
   @Field(type = FieldType.Boolean, index = FieldIndex.no)
   private Boolean isTop;
   @Field(type = FieldType.Integer, index = FieldIndex.no)

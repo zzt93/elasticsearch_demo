@@ -1,6 +1,6 @@
 package cn.superid.search.impl.query.time.announcement;
 
-import cn.superid.search.entities.time.Announcement;
+import cn.superid.search.entities.time.announcement.Announcement;
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -23,6 +24,9 @@ public class AnnouncementRepoImplTest {
 
   @Autowired
   private AnnouncementRepo announcementRepo;
+  @Autowired
+  private ElasticsearchTemplate esTemplate;
+
 
   private static String readAll(String title) throws IOException {
     InputStream resourceAsStream = ClassLoader.getSystemClassLoader().getResourceAsStream(title);
@@ -31,6 +35,12 @@ public class AnnouncementRepoImplTest {
 
   @Before
   public void setUp() throws Exception {
+    Class<?> aClass = Announcement.class;
+    if (!esTemplate.indexExists(aClass)) {
+      esTemplate.createIndex(aClass);
+      esTemplate.putMapping(aClass);
+    }
+
     String modifierUser = "xxx";
     String modifierRole = "cto";
 

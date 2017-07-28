@@ -2,7 +2,7 @@ package cn.superid.search.impl.query.time.announcement;
 
 import static org.elasticsearch.index.query.QueryBuilders.wrapperQuery;
 
-import cn.superid.search.entities.time.Announcement;
+import cn.superid.search.entities.time.announcement.Announcement;
 import cn.superid.search.impl.query.HighlightMapper;
 import cn.superid.search.impl.query.QueryHelper;
 import java.util.List;

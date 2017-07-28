@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/5/27.
  */
 @Document(indexName = "file", type = "file", refreshInterval = "10s", shards = 10)
-public class File {
+public class File implements UserBasedIndex {
 
   @Id
   private String id;
@@ -60,6 +60,10 @@ public class File {
 
   public void setUploadRole(String uploadRole) {
     this.uploadRole = uploadRole;
+  }
+
+  public String indexSuffix() {
+    return null;
   }
 }
 

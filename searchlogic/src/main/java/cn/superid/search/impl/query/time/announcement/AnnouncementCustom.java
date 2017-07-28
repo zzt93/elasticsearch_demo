@@ -1,6 +1,6 @@
 package cn.superid.search.impl.query.time.announcement;
 
-import cn.superid.search.entities.time.Announcement;
+import cn.superid.search.entities.time.announcement.Announcement;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -3,9 +3,10 @@ package cn.superid.search.impl.save;
 import cn.superid.common.notification.dto.NotificationMessage;
 import cn.superid.common.notification.enums.PublishType;
 import cn.superid.common.notification.enums.SearchType;
-import cn.superid.search.entities.time.Announcement;
+import cn.superid.search.entities.RollingIndex;
 import cn.superid.search.entities.time.Chat;
 import cn.superid.search.entities.time.Task;
+import cn.superid.search.entities.time.announcement.Announcement;
 import cn.superid.search.entities.user.AffairNode;
 import cn.superid.search.entities.user.File;
 import cn.superid.search.entities.user.Material;
@@ -71,6 +72,7 @@ public class SaveReceiver {
 
   @StreamListener(SaveSink.INPUT)
   public void process(Message<NotificationMessage> message) {
+    // extract data
     NotificationMessage payload = message.getPayload();
     PublishType receiveType = payload.getType().getPublishType();
     if (receiveType != PublishType.SEARCH_INDEX) {
@@ -79,47 +81,56 @@ public class SaveReceiver {
     Map param = payload.getParam();
     Object data = param.get("data");
     RequestMethod verb = ((RequestMethod) param.get("verb"));
+
+    // convert the data
     ObjectMapper mapper = new ObjectMapper();
     SearchType searchType = SearchType.valueOf(payload.getType().getDescription());
+    RollingIndex entity = mapper.convertValue(data, searchType.getTargetClazz());
+
+    // prepare index and mapping
+    suffix.setSuffix(entity.indexSuffix());
+    if (searchType != SearchType.AFFAIR) {
+      createIfNotExists(searchType.getTargetClazz());
+    }
+    logger.debug(entity.toString());
+
 
     switch (searchType) {
       case FILE:
-        fileRepo.save(mapper.convertValue(data, File.class));
+        fileRepo.save((File) entity);
         break;
       case ROLE:
-        roleRepo.save(mapper.convertValue(data, Role.class));
+        roleRepo.save((Role) entity);
         break;
       case USER:
-        userRepo.save(mapper.convertValue(data, User.class));
+        userRepo.save((User) entity);
         break;
       case AFFAIR:
-        AffairNode entity = mapper.convertValue(data, AffairNode.class);
-        Affair affair = new Affair(entity.getId(), entity.getName());
-        affair.makePath(affairRepo.findById(entity.getFatherId()).getPath());
+        createIfNotExists(Affair.class);
+        AffairNode node = (AffairNode) entity;
+        Affair affair = new Affair(node.getId(), node.getName());
+        affair.makePath(affairRepo.findById(node.getFatherId()).getPath());
         affairRepo.save(affair);
         break;
       case MATERIAL:
-        materialRepo.save(mapper.convertValue(data, Material.class));
+        materialRepo.save((Material) entity);
         break;
 
       // time-based repo
 
       case TASK:
-        taskRepo.save(mapper.convertValue(data, Task.class));
+        taskRepo.save((Task) entity);
         break;
       case CHAT:
-        chatRepo.save(mapper.convertValue(data, Chat.class));
+        chatRepo.save((Chat) entity);
         break;
       case ANNOUNCEMENT:
-        Announcement announcement = mapper.convertValue(data, Announcement.class);
-        suffix.setSuffix(announcement.indexSuffix());
-        logger.debug(announcement.toString());
         switch (verb) {
           case POST:
-            announcementRepo.save(announcement);
+            announcementRepo.save((Announcement) entity);
             break;
           case DELETE:
-            announcementRepo.delete(announcement.getId());
+            announcementRepo.delete(((Announcement) entity).getId());
             break;
           default:
               logger.error("Unsupported verb: " + verb);
@@ -128,16 +139,11 @@ public class SaveReceiver {
     }
   }
 
-  private boolean exists(SearchType searchType, Object extra) {
-    return esTemplate.indexExists(searchType.indexName(extra));
+  private void createIfNotExists(Class<?> aClass) {
+    if (!esTemplate.indexExists(aClass)) {
+      esTemplate.createIndex(aClass);
+      esTemplate.putMapping(aClass);
+    }
   }
 
-  private void createNew(SearchType searchType, Object extra) {
-    String indexName = searchType.indexName(extra);
-    esTemplate.createIndex(indexName,
-        ElasticsearchTemplate.readFileFromClasspath("/templates/index-settings.json"));
-    String type = searchType.name().toLowerCase();
-    esTemplate.putMapping(indexName, type,
-        ElasticsearchTemplate.readFileFromClasspath("/templates/" + type + ".json"));
-  }
 }

@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/6/5.
  */
 @Document(indexName = "user", type = "user", refreshInterval = "1s", shards = 10)
-public class User {
+public class User implements UserBasedIndex {
 
   @Id
   private String id;
@@ -84,5 +84,9 @@ public class User {
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
+  }
+
+  public String indexSuffix() {
+    return null;
   }
 }

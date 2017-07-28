@@ -1,7 +1,7 @@
 package cn.superid.search.impl.query.time.announcement;
 
 import cn.superid.search.entities.Tag;
-import cn.superid.search.entities.time.Announcement;
+import cn.superid.search.entities.time.announcement.Announcement;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.junit.Before;
