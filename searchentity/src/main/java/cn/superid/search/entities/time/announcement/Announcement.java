@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
@@ -36,7 +35,7 @@ public class Announcement implements TimeBasedIndex {
   @Field(type = FieldType.Long, index = FieldIndex.not_analyzed)
   private Long affairId;
 
-  @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis, index = FieldIndex.no)
+  @Field(type = FieldType.Date, index = FieldIndex.no, pattern = "YYYY-MM-DD HH:mm:ss.SSS")
   private Timestamp modifyTime;
   @Field(type = FieldType.Long, index = FieldIndex.no)
   private Long creatorUserId;

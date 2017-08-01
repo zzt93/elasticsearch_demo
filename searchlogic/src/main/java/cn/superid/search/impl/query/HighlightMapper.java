@@ -1,39 +1,39 @@
 package cn.superid.search.impl.query;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.BiConsumer;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.SearchResultMapper;
+import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 
 /**
  * @author zzt
  */
-public class HighlightMapper<R> implements SearchResultMapper {
+public class HighlightMapper<R> extends DefaultResultMapper {
 
-  private Function<SearchHit, R> function;
+  private BiConsumer<SearchHit, R> function;
 
-  public HighlightMapper(Function<SearchHit, R> s) {
+  public HighlightMapper(BiConsumer<SearchHit, R> s) {
     function = s;
   }
 
   @Override
   public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz,
       Pageable pageable) {
-    List<R> chunk = new ArrayList<>();
-    for (SearchHit searchHit : response.getHits()) {
-      if (response.getHits().getHits().length <= 0) {
-        return null;
-      }
-      R entity = function.apply(searchHit);
-      chunk.add(entity);
+    AggregatedPage<T> res = super.mapResults(response, clazz, pageable);
+    List<T> chunk = res.getContent();
+    SearchHits hits = response.getHits();
+    for (int i = 0; i < hits.getTotalHits(); i++) {
+      SearchHit at = hits.getAt(i);
+      T t = chunk.get(i);
+      function.accept(at, (R) t);
     }
     if (chunk.size() > 0) {
-      return new AggregatedPageImpl<>((List<T>) chunk);
+      return new AggregatedPageImpl<>(chunk);
     }
     return null;
   }

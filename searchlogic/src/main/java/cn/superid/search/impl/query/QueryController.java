@@ -1,5 +1,6 @@
 package cn.superid.search.impl.query;
 
+import cn.superid.search.entities.PageVO;
 import cn.superid.search.entities.time.Chat;
 import cn.superid.search.entities.time.Task;
 import cn.superid.search.entities.time.announcement.Announcement;
@@ -17,10 +18,10 @@ import cn.superid.search.impl.query.user.file.FileRepo;
 import cn.superid.search.impl.query.user.role.RoleRepo;
 import cn.superid.search.impl.query.user.user.UserRepo;
 import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
+import cn.superid.search.impl.save.Suffix;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,11 +46,12 @@ public class QueryController {
   private final TaskRepo taskRepo;
   private final AffairRepo affairRepo;
   private final MaterialRepo materialRepo;
+  private final Suffix suffix;
 
   @Autowired
   public QueryController(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
-      MaterialRepo materialRepo) {
+      MaterialRepo materialRepo, Suffix suffix) {
     this.userRepo = userRepo;
     this.chatRepo = chatRepo;
     this.fileRepo = fileRepo;
@@ -58,17 +60,19 @@ public class QueryController {
     this.taskRepo = taskRepo;
     this.affairRepo = affairRepo;
     this.materialRepo = materialRepo;
+    this.suffix = suffix;
   }
 
   @PostMapping("/announcement")
-  public Page<Announcement> queryAnnouncement(@RequestBody AnnouncementQuery query) {
+  public PageVO<Announcement> queryAnnouncement(@RequestBody AnnouncementQuery query) {
     PageRequest pageRequest = query.getPageRequest();
     if (checkPage(pageRequest.getPageNumber(), pageRequest.getPageSize())) {
-      return new PageImpl<>(null);
+      return null;
     }
-    return announcementRepo
+    Page<Announcement> res = announcementRepo
         .findByTitleOrModifierRoleOrModifierUserOrTagsIn(query.getQuery(), query.getAffairIds(),
             pageRequest);
+    return new PageVO<>(res);
   }
 
   private boolean checkPage(@RequestParam int pageNum, @RequestParam int pageSize) {
