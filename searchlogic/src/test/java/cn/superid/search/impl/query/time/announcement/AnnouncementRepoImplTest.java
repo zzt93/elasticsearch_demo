@@ -58,7 +58,8 @@ public class AnnouncementRepoImplTest {
   @Test
   public void findByTitleOrModifierRoleOrModifierUserOrTagsIn() throws Exception {
     System.out.println(announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn("java", Lists.newArrayList(affairId), new PageRequest(0, 10))
+        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
+            Lists.newArrayList(affairId), "java", new PageRequest(0, 10))
         .getContent());
   }
 

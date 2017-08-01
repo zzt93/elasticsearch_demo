@@ -70,7 +70,8 @@ public class QueryController {
       return null;
     }
     Page<Announcement> res = announcementRepo
-        .findByTitleOrModifierRoleOrModifierUserOrTagsIn(query.getQuery(), query.getAffairIds(),
+        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
+            query.getAffairIds(), query.getQuery(),
             pageRequest);
     return new PageVO<>(res);
   }

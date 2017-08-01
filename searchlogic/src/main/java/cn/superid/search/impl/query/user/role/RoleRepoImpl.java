@@ -2,6 +2,7 @@ package cn.superid.search.impl.query.user.role;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
+import cn.superid.search.entities.RollingIndex;
 import cn.superid.search.entities.user.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  */
 public class RoleRepoImpl implements RoleCustom {
 
+  private static final String EXCEPT_PREFIX = "-";
   @Autowired
   private ElasticsearchTemplate template;
 
@@ -29,7 +31,8 @@ public class RoleRepoImpl implements RoleCustom {
   public Page<Role> findRoleExcept(Long alliance, String query, Pageable pageable) {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(matchQuery("title", query))
-        .withIndices("role_*", "-role_" + alliance)
+        .withIndices(RollingIndex.indexNamePattern(Role.class),
+            EXCEPT_PREFIX + RollingIndex.indexName(Role.class, alliance))
         .build();
     return template.queryForPage(searchQuery, Role.class);
   }
@@ -38,7 +41,7 @@ public class RoleRepoImpl implements RoleCustom {
   public Page<Role> findRoleInterAlliance(String query, Pageable pageable) {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(matchQuery("title", query))
-        .withIndices("role_*")
+        .withIndices(RollingIndex.indexNamePattern(Role.class))
         .build();
     return template.queryForPage(searchQuery, Role.class);
   }
