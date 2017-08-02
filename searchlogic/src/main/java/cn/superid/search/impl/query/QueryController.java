@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * The controller for query entities
  * Created by zzt on 17/6/6.
  */
 @RestController

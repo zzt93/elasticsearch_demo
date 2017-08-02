@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 
 /**
+ * The mapper used to add the highlight information
  * @author zzt
  */
 public class HighlightMapper<R> extends DefaultResultMapper {

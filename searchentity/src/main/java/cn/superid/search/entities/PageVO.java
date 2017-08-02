@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 /**
+ * This class is used to hold the searched result
  * @author zzt
  */
 public class PageVO<T> {

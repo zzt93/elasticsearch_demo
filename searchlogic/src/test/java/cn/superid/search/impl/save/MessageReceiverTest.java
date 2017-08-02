@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 // Automatically searches for a @SpringBootConfiguration when nested @Configuration is not used,
 // and no explicit classes are specified.
 @SpringBootTest
-public class SaveReceiverTest {
+public class MessageReceiverTest {
 
   @Before
   public void setUp() throws Exception {

@@ -38,9 +38,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Component
 @EnableBinding({SaveSink.class})
-public class SaveReceiver {
+public class MessageReceiver {
 
-  private static final Logger logger = LoggerFactory.getLogger(SaveReceiver.class);
+  private static final Logger logger = LoggerFactory.getLogger(MessageReceiver.class);
   private final UserRepo userRepo;
   private final ChatRepo chatRepo;
   private final FileRepo fileRepo;
@@ -54,7 +54,7 @@ public class SaveReceiver {
   private final Suffix suffix;
 
   @Autowired
-  public SaveReceiver(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo,
+  public MessageReceiver(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, MaterialRepo materialRepo,
       AffairRepo affairRepo, ElasticsearchTemplate esTemplate, SaveSink saveSink,
       Suffix suffix) {
@@ -92,7 +92,7 @@ public class SaveReceiver {
     if (searchType != SearchType.AFFAIR) {
       createIfNotExists(searchType.getTargetClazz());
     }
-    logger.debug(entity.toString());
+    logger.debug("{}", entity);
 
 
     switch (searchType) {
@@ -133,7 +133,7 @@ public class SaveReceiver {
             announcementRepo.delete(((Announcement) entity).getId());
             break;
           default:
-              logger.error("Unsupported verb: " + verb);
+              logger.error("Unsupported verb: {}", verb);
         }
         break;
     }
