@@ -2,6 +2,7 @@ package cn.superid.search.entities.time.announcement;
 
 import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.time.TimeBasedIndex;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -50,6 +51,7 @@ public class Announcement implements TimeBasedIndex {
   @Field(type = FieldType.String, index = FieldIndex.no)
   private String avatar;
 
+  @JsonIgnore
   private Timestamp createTime;
 
   public Announcement() {

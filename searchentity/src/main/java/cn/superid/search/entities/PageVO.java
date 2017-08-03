@@ -10,9 +10,9 @@ import org.springframework.data.domain.Page;
 public class PageVO<T> {
 
   private List<T> content;
-  private long totalElements;
-  private int totalPages;
-  private int pageSize;
+  private Long totalElements;
+  private Integer totalPages;
+  private Integer pageSize;
 
   public PageVO() {
   }
@@ -33,11 +33,11 @@ public class PageVO<T> {
    *
    * @return the number of total pages
    */
-  public int getTotalPages() {
+  public Integer getTotalPages() {
     return totalPages;
   }
 
-  public void setTotalPages(int totalPages) {
+  public void setTotalPages(Integer totalPages) {
     this.totalPages = totalPages;
   }
 
@@ -46,19 +46,19 @@ public class PageVO<T> {
    *
    * @return the total amount of elements
    */
-  public long getTotalElements() {
+  public Long getTotalElements() {
     return totalElements;
   }
 
-  public void setTotalElements(long totalElements) {
+  public void setTotalElements(Long totalElements) {
     this.totalElements = totalElements;
   }
 
-  public int getPageSize() {
+  public Integer getPageSize() {
     return pageSize;
   }
 
-  public void setPageSize(int pageSize) {
+  public void setPageSize(Integer pageSize) {
     this.pageSize = pageSize;
   }
 

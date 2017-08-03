@@ -3,17 +3,18 @@ package cn.superid.search.impl.query;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import org.springframework.data.domain.Page;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * @author zzt
  */
-@Deprecated
-//@Configuration
-//@EnableWebMvc
+//@Deprecated
+@Configuration
+@EnableWebMvc
 public class ResponseConfig extends WebMvcConfigurerAdapter {
 
   /**
@@ -27,7 +28,6 @@ public class ResponseConfig extends WebMvcConfigurerAdapter {
     final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
     final ObjectMapper pageMapper = new ObjectMapper();
     pageMapper.setSerializationInclusion(Include.NON_NULL);
-    pageMapper.addMixIn(Page.class, IgnoreMixIn.class);
     converter.setObjectMapper(pageMapper);
     converters.add(converter);
     super.configureMessageConverters(converters);
