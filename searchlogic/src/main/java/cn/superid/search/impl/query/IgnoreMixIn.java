@@ -13,6 +13,7 @@ public abstract class IgnoreMixIn {
 
   /**
    * Because this method will cause NPE, I have to ignore this field
+   *
    * @see FacetedPageImpl#getFacets()
    */
   @JsonIgnore

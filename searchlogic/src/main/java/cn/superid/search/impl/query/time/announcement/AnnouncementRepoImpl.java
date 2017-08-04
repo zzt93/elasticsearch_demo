@@ -40,12 +40,12 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         .build();
     return template
         .queryForPage(searchQuery, Announcement.class,
-            new HighlightMapper<Announcement>((searchHit, announcement) -> {
-              HighlightField title = searchHit.getHighlightFields().get("title");
+            new HighlightMapper<Announcement>((highlightFields, announcement) -> {
+              HighlightField title = highlightFields.get("title");
               if (title != null) {
                 announcement.setTitle(title.fragments()[0].toString());
               }
-              HighlightField content = searchHit.getHighlightFields().get("content");
+              HighlightField content = highlightFields.get("content");
               if (content != null) {
                 announcement.setContent(content.fragments()[0].toString());
               }

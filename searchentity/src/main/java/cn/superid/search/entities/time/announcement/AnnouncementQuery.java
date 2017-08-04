@@ -10,7 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 /**
+ * The class encapsulates the query of {@link Announcement}
+ *
  * @author zzt
+ * @see Announcement
  */
 public class AnnouncementQuery {
 

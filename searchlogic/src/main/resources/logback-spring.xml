@@ -3,13 +3,13 @@
   <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
   <!--<appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
-    <!--<encoder>-->
-      <!--<pattern>%d %5p %40.40c:%4L - %m%n</pattern>-->
-    <!--</encoder>-->
+  <!--<encoder>-->
+  <!--<pattern>%d %5p %40.40c:%4L - %m%n</pattern>-->
+  <!--</encoder>-->
   <!--</appender>-->
 
   <!--<root level="error">-->
-    <!--<appender-ref ref="console"/>-->
+  <!--<appender-ref ref="console"/>-->
   <!--</root>-->
 
 </configuration>

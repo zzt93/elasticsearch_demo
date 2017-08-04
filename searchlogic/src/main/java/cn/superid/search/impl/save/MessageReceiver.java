@@ -94,7 +94,6 @@ public class MessageReceiver {
     }
     logger.debug("{}", entity);
 
-
     switch (searchType) {
       case FILE:
         fileRepo.save((File) entity);
@@ -133,7 +132,7 @@ public class MessageReceiver {
             announcementRepo.delete(((Announcement) entity).getId());
             break;
           default:
-              logger.error("Unsupported verb: {}", verb);
+            logger.error("Unsupported verb: {}", verb);
         }
         break;
     }

@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AnnouncementRepoImplTest {
+
   private Long affairId = 1L;
 
   @Autowired
@@ -46,13 +47,16 @@ public class AnnouncementRepoImplTest {
 
     String t1 = "java开发规范";
     announcementRepo.save(
-        new Announcement("a", t1, readAll(t1), Lists.newArrayList(), modifierRole, modifierUser, affairId));
+        new Announcement("a", t1, readAll(t1), Lists.newArrayList(), modifierRole, modifierUser,
+            affairId));
     String t2 = "我的第一个JAVA程序";
     announcementRepo.save(
-        new Announcement("b", t2, readAll(t2), Lists.newArrayList(), modifierRole, modifierUser, affairId));
+        new Announcement("b", t2, readAll(t2), Lists.newArrayList(), modifierRole, modifierUser,
+            affairId));
     String t3 = "Java 基础语法";
     announcementRepo.save(
-        new Announcement("c", t3, readAll(t3), Lists.newArrayList(), modifierRole, modifierUser, affairId));
+        new Announcement("c", t3, readAll(t3), Lists.newArrayList(), modifierRole, modifierUser,
+            affairId));
   }
 
   @Test

@@ -18,10 +18,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class ResponseConfig extends WebMvcConfigurerAdapter {
 
   /**
-   *
+   * @param converters converters to convert response
    * @see org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl
    * @see org.springframework.data.elasticsearch.core.FacetedPageImpl
-   * @param converters converters to convert response
    */
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

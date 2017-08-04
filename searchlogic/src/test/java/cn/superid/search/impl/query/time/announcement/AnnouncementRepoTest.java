@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AnnouncementRepoTest {
+
   private static Long affairId = 1L;
   private static final List<Long> affairIds = Lists.newArrayList(affairId);
 
@@ -52,16 +53,19 @@ public class AnnouncementRepoTest {
     String role6 = "前端架构";
     String role7 = "后端架构";
     announcementRepo
-        .save(new Announcement("4", "后端开发技术", content, Lists.newArrayList(), role4, role4, affairId));
+        .save(
+            new Announcement("4", "后端开发技术", content, Lists.newArrayList(), role4, role4, affairId));
     announcementRepo
-        .save(new Announcement("5", "前端开发技术", content, Lists.newArrayList(), role5, role5, affairId));
+        .save(
+            new Announcement("5", "前端开发技术", content, Lists.newArrayList(), role5, role5, affairId));
     announcementRepo
         .save(new Announcement("6", "前端人员", content, Lists.newArrayList(), role6, role6, affairId));
     announcementRepo
         .save(new Announcement("7", "后端人员", content, Lists.newArrayList(), role7, role7, affairId));
 
     announcementRepo.save(
-        new Announcement("8", "Brown fox brown dog", content, Lists.newArrayList(), role1, role1, affairId));
+        new Announcement("8", "Brown fox brown dog", content, Lists.newArrayList(), role1, role1,
+            affairId));
     announcementRepo.save(
         new Announcement("9", "The quick brown fox jumps over the lazy dog", content,
             Lists.newArrayList(), role1, role1, affairId));
@@ -69,7 +73,8 @@ public class AnnouncementRepoTest {
         new Announcement("10", "The quick brown fox jumps over the quick dog", content,
             Lists.newArrayList(), role1, role1, affairId));
     announcementRepo.save(
-        new Announcement("11", "The quick brown fox", content, Lists.newArrayList(), role1, role1, affairId));
+        new Announcement("11", "The quick brown fox", content, Lists.newArrayList(), role1, role1,
+            affairId));
   }
 
   @Test

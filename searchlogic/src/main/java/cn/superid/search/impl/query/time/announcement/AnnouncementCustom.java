@@ -38,6 +38,7 @@ public interface AnnouncementCustom {
           "      ]\n" +
           "  }" +
           "}";
+
   Page<Announcement> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
       List<Long> affairIds, String info,
       Pageable pageable);
