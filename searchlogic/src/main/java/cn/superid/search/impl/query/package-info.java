@@ -2,7 +2,7 @@
  * <p>
  * This package handles the query request of saved entities:
  * <ul>
- * <li>{@link cn.superid.search.entities.time.announcement.Announcement}</li>
+ * <li>{@link cn.superid.search.entities.time.announcement.AnnouncementVO}</li>
  * </ul>
  * </p>
  * <p>
@@ -18,6 +18,6 @@
  *
  * @author zzt
  * @see cn.superid.search.impl.query.QueryController
- * @see cn.superid.search.entities.time.announcement.Announcement
+ * @see cn.superid.search.entities.time.announcement.AnnouncementVO
  */
 package cn.superid.search.impl.query;

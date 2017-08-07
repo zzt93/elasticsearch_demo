@@ -1,7 +1,6 @@
 package cn.superid.search.impl.query.time.announcement;
 
 import cn.superid.search.entities.Tag;
-import cn.superid.search.entities.time.announcement.Announcement;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.junit.Before;
@@ -34,14 +33,17 @@ public class AnnouncementRepoTest {
     String role1 = "role1";
     String role2 = "role2";
     String content = "this is a announcement";
-    Announcement a1 = new Announcement("1", "announcement1", content, Lists.newArrayList(t1, t2),
+    AnnouncementPO a1 = new AnnouncementPO("1", "announcement1", content,
+        Lists.newArrayList(t1, t2),
         role1, role2, affairId);
 
     String role3 = "role3";
-    Announcement a2 = new Announcement("2", "announcement2", content, Lists.newArrayList(t1, t3),
+    AnnouncementPO a2 = new AnnouncementPO("2", "announcement2", content,
+        Lists.newArrayList(t1, t3),
         role1, role3, affairId);
 
-    Announcement a3 = new Announcement("3", "announcement3", content, Lists.newArrayList(t2, t3),
+    AnnouncementPO a3 = new AnnouncementPO("3", "announcement3", content,
+        Lists.newArrayList(t2, t3),
         role2, role3, affairId);
 
     announcementRepo.save(a1);
@@ -54,26 +56,30 @@ public class AnnouncementRepoTest {
     String role7 = "后端架构";
     announcementRepo
         .save(
-            new Announcement("4", "后端开发技术", content, Lists.newArrayList(), role4, role4, affairId));
+            new AnnouncementPO("4", "后端开发技术", content, Lists.newArrayList(), role4, role4,
+                affairId));
     announcementRepo
         .save(
-            new Announcement("5", "前端开发技术", content, Lists.newArrayList(), role5, role5, affairId));
+            new AnnouncementPO("5", "前端开发技术", content, Lists.newArrayList(), role5, role5,
+                affairId));
     announcementRepo
-        .save(new Announcement("6", "前端人员", content, Lists.newArrayList(), role6, role6, affairId));
+        .save(
+            new AnnouncementPO("6", "前端人员", content, Lists.newArrayList(), role6, role6, affairId));
     announcementRepo
-        .save(new Announcement("7", "后端人员", content, Lists.newArrayList(), role7, role7, affairId));
+        .save(
+            new AnnouncementPO("7", "后端人员", content, Lists.newArrayList(), role7, role7, affairId));
 
     announcementRepo.save(
-        new Announcement("8", "Brown fox brown dog", content, Lists.newArrayList(), role1, role1,
+        new AnnouncementPO("8", "Brown fox brown dog", content, Lists.newArrayList(), role1, role1,
             affairId));
     announcementRepo.save(
-        new Announcement("9", "The quick brown fox jumps over the lazy dog", content,
+        new AnnouncementPO("9", "The quick brown fox jumps over the lazy dog", content,
             Lists.newArrayList(), role1, role1, affairId));
     announcementRepo.save(
-        new Announcement("10", "The quick brown fox jumps over the quick dog", content,
+        new AnnouncementPO("10", "The quick brown fox jumps over the quick dog", content,
             Lists.newArrayList(), role1, role1, affairId));
     announcementRepo.save(
-        new Announcement("11", "The quick brown fox", content, Lists.newArrayList(), role1, role1,
+        new AnnouncementPO("11", "The quick brown fox", content, Lists.newArrayList(), role1, role1,
             affairId));
   }
 

@@ -1,6 +1,5 @@
 package cn.superid.search.impl.query.user.role;
 
-import cn.superid.search.entities.user.Role;
 import cn.superid.search.impl.save.Suffix;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,14 +25,14 @@ public class RoleRepoTest {
   public void setUp() throws Exception {
     long taskId = 1L;
     suffix.setSuffix("123");
-    roleRepo.save(new Role("1", "前端开发", false, 1L, taskId));
-    roleRepo.save(new Role("2", "后端开发", false, 1L, taskId));
-    roleRepo.save(new Role("6", "前端开发", false, 2L, taskId));
-    roleRepo.save(new Role("7", "后端开发", false, 2L, taskId));
+    roleRepo.save(new RolePO("1", "前端开发", false, 1L, taskId));
+    roleRepo.save(new RolePO("2", "后端开发", false, 1L, taskId));
+    roleRepo.save(new RolePO("6", "前端开发", false, 2L, taskId));
+    roleRepo.save(new RolePO("7", "后端开发", false, 2L, taskId));
     suffix.setSuffix("234");
-    roleRepo.save(new Role("3", "前端架构", false, 2L, taskId));
-    roleRepo.save(new Role("4", "后端架构", false, 2L, taskId));
-    roleRepo.save(new Role("5", "CTO", false, 3L, taskId));
+    roleRepo.save(new RolePO("3", "前端架构", false, 2L, taskId));
+    roleRepo.save(new RolePO("4", "后端架构", false, 2L, taskId));
+    roleRepo.save(new RolePO("5", "CTO", false, 3L, taskId));
   }
 
   @Test

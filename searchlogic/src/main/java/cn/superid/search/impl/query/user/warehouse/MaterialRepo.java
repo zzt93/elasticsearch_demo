@@ -1,6 +1,5 @@
 package cn.superid.search.impl.query.user.warehouse;
 
-import cn.superid.search.entities.user.Material;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
@@ -9,7 +8,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 /**
  * Created by zzt on 17/6/27.
  */
-public interface MaterialRepo extends ElasticsearchRepository<Material, String> {
+public interface MaterialRepo extends ElasticsearchRepository<MaterialPO, String> {
 
   @Query(" {" +
       " \"bool\": {\n" +
@@ -31,5 +30,5 @@ public interface MaterialRepo extends ElasticsearchRepository<Material, String> 
       "       } ]\n" +
       "  }" +
       "}")
-  Page<Material> findByTitleOrTagsIn(String info, Pageable pageable);
+  Page<MaterialPO> findByTitleOrTagsIn(String info, Pageable pageable);
 }

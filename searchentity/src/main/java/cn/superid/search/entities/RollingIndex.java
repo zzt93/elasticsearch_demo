@@ -8,8 +8,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
  */
 public interface RollingIndex {
 
-  String indexSuffix();
-
   static String indexNamePattern(Class<? extends RollingIndex> clazz) {
     return clazz.getAnnotation(Document.class).indexName().split("#")[0] + "*";
   }
@@ -17,6 +15,8 @@ public interface RollingIndex {
   static String indexName(Class<? extends RollingIndex> clazz, Object var) {
     return clazz.getAnnotation(Document.class).indexName().split("#")[0] + var.toString();
   }
+
+  String indexSuffix();
 
 
 }

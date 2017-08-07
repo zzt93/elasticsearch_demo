@@ -1,5 +1,6 @@
-package cn.superid.search.entities.user;
+package cn.superid.search.impl.query.user.role;
 
+import cn.superid.search.entities.user.RoleVO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -9,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/6/21.
  */
 @Document(indexName = "role-#{suffix.toString()}", type = "role", shards = 10, createIndex = false)
-public class Role implements UserBasedIndex {
+public class RolePO {
 
   @Id
   private String id;
@@ -23,15 +24,23 @@ public class Role implements UserBasedIndex {
   @Field(type = FieldType.Long)
   private Long taskId;
 
-  public Role() {
+  public RolePO() {
   }
 
-  public Role(String id, String title, Boolean deprecated, Long affairId, Long taskId) {
+  public RolePO(String id, String title, Boolean deprecated, Long affairId, Long taskId) {
     this.id = id;
     this.title = title;
     this.deprecated = deprecated;
     this.affairId = affairId;
     this.taskId = taskId;
+  }
+
+  public RolePO(RoleVO entity) {
+    id = entity.getId();
+    title = entity.getTitle();
+    deprecated = entity.getDeprecated();
+    affairId = entity.getAffairId();
+    taskId = entity.getTaskId();
   }
 
   public Long getAffairId() {
@@ -76,7 +85,7 @@ public class Role implements UserBasedIndex {
 
   @Override
   public String toString() {
-    return "Role{" +
+    return "RolePO{" +
         "id='" + id + '\'' +
         ", title='" + title + '\'' +
         ", deprecated=" + deprecated +
@@ -84,7 +93,4 @@ public class Role implements UserBasedIndex {
         '}';
   }
 
-  public String indexSuffix() {
-    return null;
-  }
 }

@@ -1,10 +1,8 @@
-package cn.superid.search.entities.time.announcement;
+package cn.superid.search.impl.query.time.announcement;
 
 import cn.superid.search.entities.Tag;
-import cn.superid.search.entities.time.TimeBasedIndex;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -16,7 +14,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/5/27.
  */
 @Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false)
-public class Announcement implements TimeBasedIndex {
+public class AnnouncementPO {
 
   @Id
   private String id;
@@ -51,13 +49,11 @@ public class Announcement implements TimeBasedIndex {
   @Field(type = FieldType.String, index = FieldIndex.no)
   private String avatar;
 
-  @JsonIgnore
-  private Timestamp createTime;
 
-  public Announcement() {
+  public AnnouncementPO() {
   }
 
-  public Announcement(String id, String title, String content, List<Tag> tags, String creatorRole,
+  public AnnouncementPO(String id, String title, String content, List<Tag> tags, String creatorRole,
       String creatorUser, Long affairId) {
     this.id = id;
     this.title = title;
@@ -68,11 +64,11 @@ public class Announcement implements TimeBasedIndex {
     this.affairId = affairId;
   }
 
-  public Announcement(String id, String title, String content, List<Tag> tags, String creatorRole,
+  public AnnouncementPO(String id, String title, String content, List<Tag> tags, String creatorRole,
       String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
       Long creatorUserId, Boolean isTop, Integer type, String entityMap,
-      String avatar, Timestamp createTime) {
+      String avatar) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -88,7 +84,24 @@ public class Announcement implements TimeBasedIndex {
     this.type = type;
     this.entityMap = entityMap;
     this.avatar = avatar;
-    this.createTime = createTime;
+  }
+
+  public AnnouncementPO(AnnouncementVO vo) {
+    id = vo.getId();
+    title = vo.getTitle();
+    content = vo.getContent();
+    tags = vo.getTags();
+    creatorRole = vo.getCreatorRole();
+    creatorUser = vo.getCreatorUser();
+    creatorRoleId = vo.getCreatorRoleId();
+    affairId = vo.getAffairId();
+    affairName = vo.getAffairName();
+    modifyTime = vo.getModifyTime();
+    creatorUserId = vo.getCreatorUserId();
+    isTop = vo.getTop();
+    type = vo.getType();
+    entityMap = vo.getEntityMap();
+    avatar = vo.getAvatar();
   }
 
   public String getId() {
@@ -171,10 +184,6 @@ public class Announcement implements TimeBasedIndex {
     this.creatorUserId = creatorUserId;
   }
 
-  public void setTop(Boolean top) {
-    isTop = top;
-  }
-
   public Integer getType() {
     return type;
   }
@@ -203,6 +212,10 @@ public class Announcement implements TimeBasedIndex {
     return isTop;
   }
 
+  public void setTop(Boolean top) {
+    isTop = top;
+  }
+
   public String getAvatar() {
     return avatar;
   }
@@ -229,20 +242,7 @@ public class Announcement implements TimeBasedIndex {
         ", type=" + type +
         ", entityMap='" + entityMap + '\'' +
         ", avatar='" + avatar + '\'' +
-        ", createTime=" + createTime +
         '}';
   }
 
-  public Timestamp getCreateTime() {
-    return createTime;
-  }
-
-  public void setCreateTime(Timestamp createTime) {
-    this.createTime = createTime;
-  }
-
-  public String indexSuffix() {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-    return simpleDateFormat.format(createTime);
-  }
 }

@@ -4,22 +4,29 @@ import cn.superid.common.notification.dto.NotificationMessage;
 import cn.superid.common.notification.enums.PublishType;
 import cn.superid.common.notification.enums.SearchType;
 import cn.superid.search.entities.RollingIndex;
-import cn.superid.search.entities.time.Chat;
-import cn.superid.search.entities.time.Task;
-import cn.superid.search.entities.time.announcement.Announcement;
-import cn.superid.search.entities.user.AffairNode;
-import cn.superid.search.entities.user.File;
-import cn.superid.search.entities.user.Material;
-import cn.superid.search.entities.user.Role;
-import cn.superid.search.entities.user.User;
+import cn.superid.search.entities.time.ChatVO;
+import cn.superid.search.entities.time.TaskVO;
+import cn.superid.search.entities.time.announcement.AnnouncementVO;
+import cn.superid.search.entities.user.AffairVO;
+import cn.superid.search.entities.user.FileVO;
+import cn.superid.search.entities.user.MaterialVO;
+import cn.superid.search.entities.user.RoleVO;
+import cn.superid.search.entities.user.UserVO;
+import cn.superid.search.impl.query.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.query.time.announcement.AnnouncementRepo;
+import cn.superid.search.impl.query.time.chat.ChatPO;
 import cn.superid.search.impl.query.time.chat.ChatRepo;
+import cn.superid.search.impl.query.time.task.TaskPO;
 import cn.superid.search.impl.query.time.task.TaskRepo;
-import cn.superid.search.impl.query.user.affair.Affair;
+import cn.superid.search.impl.query.user.affair.AffairPO;
 import cn.superid.search.impl.query.user.affair.AffairRepo;
+import cn.superid.search.impl.query.user.file.FilePO;
 import cn.superid.search.impl.query.user.file.FileRepo;
+import cn.superid.search.impl.query.user.role.RolePO;
 import cn.superid.search.impl.query.user.role.RoleRepo;
+import cn.superid.search.impl.query.user.user.UserPO;
 import cn.superid.search.impl.query.user.user.UserRepo;
+import cn.superid.search.impl.query.user.warehouse.MaterialPO;
 import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
@@ -96,40 +103,40 @@ public class MessageReceiver {
 
     switch (searchType) {
       case FILE:
-        fileRepo.save((File) entity);
+        fileRepo.save(new FilePO((FileVO) entity));
         break;
       case ROLE:
-        roleRepo.save((Role) entity);
+        roleRepo.save(new RolePO((RoleVO) entity));
         break;
       case USER:
-        userRepo.save((User) entity);
+        userRepo.save(new UserPO((UserVO) entity));
         break;
       case AFFAIR:
-        createIfNotExists(Affair.class);
-        AffairNode node = (AffairNode) entity;
-        Affair affair = new Affair(node.getId(), node.getName());
-        affair.makePath(affairRepo.findById(node.getFatherId()).getPath());
-        affairRepo.save(affair);
+        createIfNotExists(AffairPO.class);
+        AffairVO node = (AffairVO) entity;
+        AffairPO affairPO = new AffairPO(node.getId(), node.getName());
+        affairPO.makePath(affairRepo.findById(node.getFatherId()).getPath());
+        affairRepo.save(affairPO);
         break;
       case MATERIAL:
-        materialRepo.save((Material) entity);
+        materialRepo.save(new MaterialPO((MaterialVO) entity));
         break;
 
       // time-based repo
 
       case TASK:
-        taskRepo.save((Task) entity);
+        taskRepo.save(new TaskPO((TaskVO) entity));
         break;
       case CHAT:
-        chatRepo.save((Chat) entity);
+        chatRepo.save(new ChatPO((ChatVO) entity));
         break;
       case ANNOUNCEMENT:
         switch (verb) {
           case POST:
-            announcementRepo.save((Announcement) entity);
+            announcementRepo.save(new AnnouncementPO((AnnouncementVO) entity));
             break;
           case DELETE:
-            announcementRepo.delete(((Announcement) entity).getId());
+            announcementRepo.delete(((AnnouncementVO) entity).getId());
             break;
           default:
             logger.error("Unsupported verb: {}", verb);

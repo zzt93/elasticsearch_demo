@@ -1,6 +1,5 @@
 package cn.superid.search.impl.query.time.announcement;
 
-import cn.superid.search.entities.time.announcement.Announcement;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +38,7 @@ public interface AnnouncementCustom {
           "  }" +
           "}";
 
-  Page<Announcement> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
+  Page<AnnouncementPO> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
       List<Long> affairIds, String info,
       Pageable pageable);
 }

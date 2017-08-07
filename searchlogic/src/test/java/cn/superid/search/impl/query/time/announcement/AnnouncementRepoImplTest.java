@@ -1,6 +1,5 @@
 package cn.superid.search.impl.query.time.announcement;
 
-import cn.superid.search.entities.time.announcement.Announcement;
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class AnnouncementRepoImplTest {
 
   @Before
   public void setUp() throws Exception {
-    Class<?> aClass = Announcement.class;
+    Class<?> aClass = AnnouncementPO.class;
     if (!esTemplate.indexExists(aClass)) {
       esTemplate.createIndex(aClass);
       esTemplate.putMapping(aClass);
@@ -47,15 +46,15 @@ public class AnnouncementRepoImplTest {
 
     String t1 = "java开发规范";
     announcementRepo.save(
-        new Announcement("a", t1, readAll(t1), Lists.newArrayList(), modifierRole, modifierUser,
+        new AnnouncementPO("a", t1, readAll(t1), Lists.newArrayList(), modifierRole, modifierUser,
             affairId));
     String t2 = "我的第一个JAVA程序";
     announcementRepo.save(
-        new Announcement("b", t2, readAll(t2), Lists.newArrayList(), modifierRole, modifierUser,
+        new AnnouncementPO("b", t2, readAll(t2), Lists.newArrayList(), modifierRole, modifierUser,
             affairId));
     String t3 = "Java 基础语法";
     announcementRepo.save(
-        new Announcement("c", t3, readAll(t3), Lists.newArrayList(), modifierRole, modifierUser,
+        new AnnouncementPO("c", t3, readAll(t3), Lists.newArrayList(), modifierRole, modifierUser,
             affairId));
   }
 

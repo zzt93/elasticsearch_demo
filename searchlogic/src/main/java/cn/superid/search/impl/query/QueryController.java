@@ -1,22 +1,24 @@
 package cn.superid.search.impl.query;
 
 import cn.superid.search.entities.PageVO;
-import cn.superid.search.entities.time.Chat;
-import cn.superid.search.entities.time.Task;
-import cn.superid.search.entities.time.announcement.Announcement;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
-import cn.superid.search.entities.user.File;
-import cn.superid.search.entities.user.Material;
-import cn.superid.search.entities.user.Role;
-import cn.superid.search.entities.user.User;
+import cn.superid.search.entities.time.announcement.AnnouncementVO;
+import cn.superid.search.impl.query.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.query.time.announcement.AnnouncementRepo;
+import cn.superid.search.impl.query.time.announcement.AnnouncementRepoImpl;
+import cn.superid.search.impl.query.time.chat.ChatPO;
 import cn.superid.search.impl.query.time.chat.ChatRepo;
+import cn.superid.search.impl.query.time.task.TaskPO;
 import cn.superid.search.impl.query.time.task.TaskRepo;
-import cn.superid.search.impl.query.user.affair.Affair;
+import cn.superid.search.impl.query.user.affair.AffairPO;
 import cn.superid.search.impl.query.user.affair.AffairRepo;
+import cn.superid.search.impl.query.user.file.FilePO;
 import cn.superid.search.impl.query.user.file.FileRepo;
+import cn.superid.search.impl.query.user.role.RolePO;
 import cn.superid.search.impl.query.user.role.RoleRepo;
+import cn.superid.search.impl.query.user.user.UserPO;
 import cn.superid.search.impl.query.user.user.UserRepo;
+import cn.superid.search.impl.query.user.warehouse.MaterialPO;
 import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.Suffix;
 import java.util.Date;
@@ -65,16 +67,16 @@ public class QueryController {
   }
 
   @PostMapping("/announcement")
-  public PageVO<Announcement> queryAnnouncement(@RequestBody AnnouncementQuery query) {
+  public PageVO<AnnouncementVO> queryAnnouncement(@RequestBody AnnouncementQuery query) {
     PageRequest pageRequest = query.getPageRequest();
     if (checkPage(pageRequest.getPageNumber(), pageRequest.getPageSize())) {
       return null;
     }
-    Page<Announcement> res = announcementRepo
+    Page<AnnouncementPO> res = announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
             query.getAffairIds(), query.getQuery(),
             pageRequest);
-    return new PageVO<>(res);
+    return new PageVO<>(res, AnnouncementRepoImpl::toVO);
   }
 
   private boolean checkPage(@RequestParam int pageNum, @RequestParam int pageSize) {
@@ -82,53 +84,53 @@ public class QueryController {
   }
 
   @GetMapping("/task")
-  public Page<Task> queryTask(@RequestParam String query) {
+  public Page<TaskPO> queryTask(@RequestParam String query) {
     return taskRepo.findByTitle(query, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/file")
-  public Page<File> queryFile(@RequestParam String query) {
+  public Page<FilePO> queryFile(@RequestParam String query) {
     return fileRepo.findByTitleOrUploadRole(query, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/material")
-  public Page<Material> queryMaterial(@RequestParam String query) {
+  public Page<MaterialPO> queryMaterial(@RequestParam String query) {
     return materialRepo.findByTitleOrTagsIn(query, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/user/mainAffair")
-  public Page<User> queryUser(@RequestParam Long affairId, @RequestParam String mainAffair) {
+  public Page<UserPO> queryUser(@RequestParam Long affairId, @RequestParam String mainAffair) {
     return userRepo
         .findByAffairIdAndMainAffair(affairId, mainAffair, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/chat/date")
-  public Page<Chat> queryChatDate(@RequestParam Date from, @RequestParam Date to) {
+  public Page<ChatPO> queryChatDate(@RequestParam Date from, @RequestParam Date to) {
     return chatRepo.findAllByDateBetween(from, to, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/chat/sender")
-  public Page<Chat> queryChatSender(@RequestParam String sender) {
+  public Page<ChatPO> queryChatSender(@RequestParam String sender) {
     return chatRepo.findAllBySender(sender, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/chat/receiver")
-  public Page<Chat> queryChatReceiver(@RequestParam String receiver) {
+  public Page<ChatPO> queryChatReceiver(@RequestParam String receiver) {
     return chatRepo.findAllByReceiver(receiver, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/role/alliance")
-  public Page<Role> queryAllianceRole(Long allianceId, @RequestParam String role) {
+  public Page<RolePO> queryAllianceRole(Long allianceId, @RequestParam String role) {
     return roleRepo.findRoleExcept(allianceId, role, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("/role/all")
-  public Page<Role> queryAllRole(@RequestParam String role) {
+  public Page<RolePO> queryAllRole(@RequestParam String role) {
     return roleRepo.findRoleInterAlliance(role, new PageRequest(0, PAGE_SIZE));
   }
 
   @GetMapping("affair")
-  public Page<Affair> queryAffair(@RequestParam String affairInfo) {
+  public Page<AffairPO> queryAffair(@RequestParam String affairInfo) {
     return affairRepo.findByNameOrPath(affairInfo, new PageRequest(0, PAGE_SIZE));
   }
 }

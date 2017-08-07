@@ -8,9 +8,9 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 /**
  * Created by zzt on 17/6/29.
  */
-public interface AffairRepo extends ElasticsearchRepository<Affair, String> {
+public interface AffairRepo extends ElasticsearchRepository<AffairPO, String> {
 
-  Affair findById(String id);
+  AffairPO findById(String id);
 
   @Query(" {" +
       "\"multi_match\": {\n" +
@@ -18,5 +18,5 @@ public interface AffairRepo extends ElasticsearchRepository<Affair, String> {
       "        \"fields\":   [ \"name^2\", \"path\" ]\n" +
       "    }" +
       "}")
-  Page<Affair> findByNameOrPath(String info, Pageable pageable);
+  Page<AffairPO> findByNameOrPath(String info, Pageable pageable);
 }

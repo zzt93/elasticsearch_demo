@@ -3,7 +3,7 @@ package cn.superid.search.entities.user;
 /**
  * @author zzt
  */
-public class AffairNode implements UserBasedIndex {
+public class AffairVO implements UserBasedIndex {
 
   private String fatherId;
   private String id;

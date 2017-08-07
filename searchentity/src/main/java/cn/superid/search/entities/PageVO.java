@@ -1,10 +1,13 @@
 package cn.superid.search.entities;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 
 /**
  * This class is used to hold the searched result
+ *
  * @author zzt
  */
 public class PageVO<T> {
@@ -23,6 +26,16 @@ public class PageVO<T> {
       return;
     }
     this.content = page.getContent();
+    this.totalElements = page.getTotalElements();
+    this.totalPages = page.getTotalPages();
+    this.pageSize = page.getSize();
+  }
+
+  public <R> PageVO(Page<R> page, Function<R, T> mapper) {
+    if (page == null) {
+      return;
+    }
+    this.content = page.getContent().stream().map(mapper).collect(Collectors.toList());
     this.totalElements = page.getTotalElements();
     this.totalPages = page.getTotalPages();
     this.pageSize = page.getSize();

@@ -1,6 +1,6 @@
-package cn.superid.search.entities.user;
+package cn.superid.search.impl.query.user.file;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import cn.superid.search.entities.user.FileVO;
 import java.sql.Timestamp;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/5/27.
  */
 @Document(indexName = "file-#{suffix.toString()}", type = "file", refreshInterval = "10s", shards = 10)
-public class File implements UserBasedIndex {
+public class FilePO {
 
   @Id
   private String id;
@@ -30,13 +30,11 @@ public class File implements UserBasedIndex {
   @Field(type = FieldType.Integer, index = FieldIndex.no)
   private Integer publicType;
 
-  @JsonIgnore
-  private Long allianceId;
 
-  public File() {
+  public FilePO() {
   }
 
-  public File(String id, String name, String uploadRole, Timestamp modifyTime, Double size,
+  public FilePO(String id, String name, String uploadRole, Timestamp modifyTime, Double size,
       Integer version, Integer publicType, Long allianceId) {
     this.id = id;
     this.name = name;
@@ -45,7 +43,16 @@ public class File implements UserBasedIndex {
     this.size = size;
     this.version = version;
     this.publicType = publicType;
-    this.allianceId = allianceId;
+  }
+
+  public FilePO(FileVO vo) {
+    id = vo.getId();
+    name = vo.getName();
+    uploadRole = vo.getUploadRole();
+    modifyTime = vo.getModifyTime();
+    size = vo.getSize();
+    version = vo.getVersion();
+    publicType = vo.getPublicType();
   }
 
   public String getId() {
@@ -104,16 +111,5 @@ public class File implements UserBasedIndex {
     this.publicType = publicType;
   }
 
-  public Long getAllianceId() {
-    return allianceId;
-  }
-
-  public void setAllianceId(Long allianceId) {
-    this.allianceId = allianceId;
-  }
-
-  public String indexSuffix() {
-    return allianceId.toString();
-  }
 }
 

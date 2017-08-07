@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/6/27.
  */
 @Document(indexName = "affair", type = "affair", refreshInterval = "1s")
-public class Affair {
+public class AffairPO {
 
   @Id
   private String id;
@@ -18,10 +18,10 @@ public class Affair {
   @Field(type = FieldType.String, analyzer = "smartcn")
   private String path;
 
-  public Affair() {
+  public AffairPO() {
   }
 
-  public Affair(String id, String name) {
+  public AffairPO(String id, String name) {
     this.id = id;
     this.name = name;
   }
@@ -50,14 +50,14 @@ public class Affair {
     this.path = path;
   }
 
-  public Affair makePath(String father) {
+  public AffairPO makePath(String father) {
     this.path = father + " " + name;
     return this;
   }
 
   @Override
   public String toString() {
-    return "Affair{" +
+    return "AffairPO{" +
         "id='" + id + '\'' +
         ", name='" + name + '\'' +
         ", path='" + path + '\'' +
