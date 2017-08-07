@@ -1,38 +1,23 @@
-package cn.superid.search.entities.time.announcement;
+package cn.superid.search.entities.user.affair;
 
 import cn.superid.search.entities.PageRequestDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.util.List;
 import org.springframework.data.domain.PageRequest;
 
 /**
- * The class encapsulates the query of {@link AnnouncementVO}
- *
  * @author zzt
- * @see AnnouncementVO
  */
-public class AnnouncementQuery {
+public class AffairQuery {
 
-  private List<Long> affairIds;
   private String query;
   private PageRequest pageRequest;
 
-  public AnnouncementQuery() {
+  public AffairQuery() {
   }
 
-  public AnnouncementQuery(List<Long> affairIds, String query,
-      PageRequest pageRequest) {
-    this.affairIds = affairIds;
+  public AffairQuery(String query, PageRequest pageRequest) {
     this.query = query;
     this.pageRequest = pageRequest;
-  }
-
-  public List<Long> getAffairIds() {
-    return affairIds;
-  }
-
-  public void setAffairIds(List<Long> affairIds) {
-    this.affairIds = affairIds;
   }
 
   public String getQuery() {
@@ -51,5 +36,6 @@ public class AnnouncementQuery {
   public void setPageRequest(PageRequest pageRequest) {
     this.pageRequest = pageRequest;
   }
+
 
 }

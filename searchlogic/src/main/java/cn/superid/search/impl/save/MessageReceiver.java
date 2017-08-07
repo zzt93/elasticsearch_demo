@@ -7,27 +7,29 @@ import cn.superid.search.entities.RollingIndex;
 import cn.superid.search.entities.time.ChatVO;
 import cn.superid.search.entities.time.TaskVO;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
-import cn.superid.search.entities.user.AffairVO;
 import cn.superid.search.entities.user.FileVO;
 import cn.superid.search.entities.user.MaterialVO;
 import cn.superid.search.entities.user.RoleVO;
 import cn.superid.search.entities.user.UserVO;
-import cn.superid.search.impl.query.time.announcement.AnnouncementPO;
-import cn.superid.search.impl.query.time.announcement.AnnouncementRepo;
-import cn.superid.search.impl.query.time.chat.ChatPO;
-import cn.superid.search.impl.query.time.chat.ChatRepo;
-import cn.superid.search.impl.query.time.task.TaskPO;
-import cn.superid.search.impl.query.time.task.TaskRepo;
-import cn.superid.search.impl.query.user.affair.AffairPO;
-import cn.superid.search.impl.query.user.affair.AffairRepo;
-import cn.superid.search.impl.query.user.file.FilePO;
-import cn.superid.search.impl.query.user.file.FileRepo;
-import cn.superid.search.impl.query.user.role.RolePO;
-import cn.superid.search.impl.query.user.role.RoleRepo;
-import cn.superid.search.impl.query.user.user.UserPO;
-import cn.superid.search.impl.query.user.user.UserRepo;
-import cn.superid.search.impl.query.user.warehouse.MaterialPO;
-import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
+import cn.superid.search.entities.user.affair.AffairVO;
+import cn.superid.search.impl.entities.VO2PO;
+import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
+import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
+import cn.superid.search.impl.entities.time.chat.ChatPO;
+import cn.superid.search.impl.entities.time.chat.ChatRepo;
+import cn.superid.search.impl.entities.time.task.TaskPO;
+import cn.superid.search.impl.entities.time.task.TaskRepo;
+import cn.superid.search.impl.entities.user.affair.AffairPO;
+import cn.superid.search.impl.entities.user.affair.AffairRepo;
+import cn.superid.search.impl.entities.user.file.FilePO;
+import cn.superid.search.impl.entities.user.file.FileRepo;
+import cn.superid.search.impl.entities.user.role.RolePO;
+import cn.superid.search.impl.entities.user.role.RoleRepo;
+import cn.superid.search.impl.entities.user.user.UserPO;
+import cn.superid.search.impl.entities.user.user.UserRepo;
+import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
+import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
+import cn.superid.search.impl.save.rolling.Suffix;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -93,13 +95,11 @@ public class MessageReceiver {
     ObjectMapper mapper = new ObjectMapper();
     SearchType searchType = SearchType.valueOf(payload.getType().getDescription());
     RollingIndex entity = mapper.convertValue(data, searchType.getTargetClazz());
+    logger.debug("{}", entity);
 
     // prepare index and mapping
     suffix.setSuffix(entity.indexSuffix());
-    if (searchType != SearchType.AFFAIR) {
-      createIfNotExists(searchType.getTargetClazz());
-    }
-    logger.debug("{}", entity);
+    createIfNotExists(VO2PO.toPOClazz(searchType.getTargetClazz()));
 
     switch (searchType) {
       case FILE:
@@ -112,10 +112,23 @@ public class MessageReceiver {
         userRepo.save(new UserPO((UserVO) entity));
         break;
       case AFFAIR:
-        createIfNotExists(AffairPO.class);
         AffairVO node = (AffairVO) entity;
-        AffairPO affairPO = new AffairPO(node.getId(), node.getName());
-        affairPO.makePath(affairRepo.findById(node.getFatherId()).getPath());
+        String id = node.getId();
+        if (id == null || Long.parseLong(id) == 0) {
+          logger.warn("Invalid affairVO: {}", entity);
+          return;
+        }
+        AffairPO affairPO = new AffairPO(node);
+        if (Long.parseLong(node.getFatherId()) == 0) {
+          affairPO.setPath(node.getName());
+        } else {
+          AffairPO father = affairRepo.findById(node.getFatherId());
+          if (father == null) {
+            logger.warn("Invalid affairVO father id: {}", entity);
+            return;
+          }
+          affairPO.makePath(father.getPath());
+        }
         affairRepo.save(affairPO);
         break;
       case MATERIAL:

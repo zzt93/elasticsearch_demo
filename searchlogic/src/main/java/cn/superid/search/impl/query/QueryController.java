@@ -1,26 +1,29 @@
 package cn.superid.search.impl.query;
 
 import cn.superid.search.entities.PageVO;
+import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
-import cn.superid.search.impl.query.time.announcement.AnnouncementPO;
-import cn.superid.search.impl.query.time.announcement.AnnouncementRepo;
-import cn.superid.search.impl.query.time.announcement.AnnouncementRepoImpl;
-import cn.superid.search.impl.query.time.chat.ChatPO;
-import cn.superid.search.impl.query.time.chat.ChatRepo;
-import cn.superid.search.impl.query.time.task.TaskPO;
-import cn.superid.search.impl.query.time.task.TaskRepo;
-import cn.superid.search.impl.query.user.affair.AffairPO;
-import cn.superid.search.impl.query.user.affair.AffairRepo;
-import cn.superid.search.impl.query.user.file.FilePO;
-import cn.superid.search.impl.query.user.file.FileRepo;
-import cn.superid.search.impl.query.user.role.RolePO;
-import cn.superid.search.impl.query.user.role.RoleRepo;
-import cn.superid.search.impl.query.user.user.UserPO;
-import cn.superid.search.impl.query.user.user.UserRepo;
-import cn.superid.search.impl.query.user.warehouse.MaterialPO;
-import cn.superid.search.impl.query.user.warehouse.MaterialRepo;
-import cn.superid.search.impl.save.Suffix;
+import cn.superid.search.entities.user.affair.AffairQuery;
+import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
+import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
+import cn.superid.search.impl.entities.time.announcement.AnnouncementRepoImpl;
+import cn.superid.search.impl.entities.time.chat.ChatPO;
+import cn.superid.search.impl.entities.time.chat.ChatRepo;
+import cn.superid.search.impl.entities.time.task.TaskPO;
+import cn.superid.search.impl.entities.time.task.TaskRepo;
+import cn.superid.search.impl.entities.user.affair.AffairPO;
+import cn.superid.search.impl.entities.user.affair.AffairRepo;
+import cn.superid.search.impl.entities.user.file.FilePO;
+import cn.superid.search.impl.entities.user.file.FileRepo;
+import cn.superid.search.impl.entities.user.role.RolePO;
+import cn.superid.search.impl.entities.user.role.RoleRepo;
+import cn.superid.search.impl.entities.user.user.UserPO;
+import cn.superid.search.impl.entities.user.user.UserRepo;
+import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
+import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
+import cn.superid.search.impl.save.rolling.Suffix;
+import com.google.common.collect.Lists;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -129,8 +132,24 @@ public class QueryController {
     return roleRepo.findRoleInterAlliance(role, new PageRequest(0, PAGE_SIZE));
   }
 
-  @GetMapping("affair")
-  public Page<AffairPO> queryAffair(@RequestParam String affairInfo) {
-    return affairRepo.findByNameOrPath(affairInfo, new PageRequest(0, PAGE_SIZE));
+  @PostMapping("/affair")
+  public Page<AffairPO> queryAffair(@RequestBody AffairQuery affairInfo) {
+    return affairRepo.findAny(affairInfo.getQuery(), affairInfo.getPageRequest());
+  }
+
+  @PostMapping("/affair/tags")
+  public Page<AffairPO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
+    return affairRepo.findByTagsIn(Lists.newArrayList(new Tag(affairInfo.getQuery())),
+        affairInfo.getPageRequest());
+  }
+
+  @PostMapping("/affair/superId")
+  public Page<AffairPO> queryAffairSuperId(@RequestBody AffairQuery affairInfo) {
+    return affairRepo.findBySuperId(affairInfo.getQuery(), affairInfo.getPageRequest());
+  }
+
+  @PostMapping("/affair/name")
+  public Page<AffairPO> queryAffairName(@RequestBody AffairQuery affairInfo) {
+    return affairRepo.findByName(affairInfo.getQuery(), affairInfo.getPageRequest());
   }
 }
