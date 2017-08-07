@@ -24,13 +24,6 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
   @Autowired
   private ElasticsearchTemplate template;
 
-  public static AnnouncementVO toVO(AnnouncementPO po) {
-    return new AnnouncementVO(po.getId(), po.getTitle(), po.getContent(), po.getTags(),
-        po.getCreatorRole(), po.getCreatorUser(), po.getCreatorRoleId(), po.getCreatorRoleId(),
-        po.getAffairName(), po.getModifyTime(), po.getCreatorUserId(), po.getTop(), po.getType(),
-        po.getEntityMap(), po.getAvatar(), null);
-  }
-
   @Override
   public Page<AnnouncementPO> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
       List<Long> affairIds, String info,

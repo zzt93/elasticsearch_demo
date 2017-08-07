@@ -14,17 +14,43 @@ public class AffairVO implements UserBasedIndex {
   private String name;
   private String superId;
   private List<Tag> tags;
+  private Integer state;
+
+  private Long allianceId;
 
   public AffairVO() {
   }
 
+  public AffairVO(String fatherId, String id) {
+    this.fatherId = fatherId;
+    this.id = id;
+  }
+
   public AffairVO(String fatherId, String id, String name, String superId,
-      List<Tag> tags) {
+      List<Tag> tags, Integer state, Long allianceId) {
     this.fatherId = fatherId;
     this.id = id;
     this.name = name;
     this.superId = superId;
     this.tags = tags;
+    this.state = state;
+    this.allianceId = allianceId;
+  }
+
+  public Integer getState() {
+    return state;
+  }
+
+  public void setState(Integer state) {
+    this.state = state;
+  }
+
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
   }
 
   public String getFatherId() {
@@ -68,6 +94,6 @@ public class AffairVO implements UserBasedIndex {
   }
 
   public String indexSuffix() {
-    return null;
+    return allianceId.toString();
   }
 }

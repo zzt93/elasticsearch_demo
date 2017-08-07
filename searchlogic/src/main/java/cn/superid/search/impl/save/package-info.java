@@ -23,12 +23,12 @@
  *
  *       NotificationMessage message = new NotificationMessage();
  *       message.setType(NotificationType.INDEX_ANNOUNCEMENT);
- *       Map<String,Object> map = new HashedMap();
+ *       Map<String, Object> map = new HashedMap();
  *       // "data" is a fixed key
- *       map.put("data",announcement);
+ *       map.put("data", announcement);
  *       message.setParam(map);
  *
- *       // POST or DELETE
+ *       // POST or DELETE request
  * </pre>
  *
  *

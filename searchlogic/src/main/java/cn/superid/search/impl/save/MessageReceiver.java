@@ -12,7 +12,7 @@ import cn.superid.search.entities.user.MaterialVO;
 import cn.superid.search.entities.user.RoleVO;
 import cn.superid.search.entities.user.UserVO;
 import cn.superid.search.entities.user.affair.AffairVO;
-import cn.superid.search.impl.entities.VO2PO;
+import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
 import cn.superid.search.impl.entities.time.chat.ChatPO;
@@ -99,7 +99,7 @@ public class MessageReceiver {
 
     // prepare index and mapping
     suffix.setSuffix(entity.indexSuffix());
-    createIfNotExists(VO2PO.toPOClazz(searchType.getTargetClazz()));
+    createIfNotExists(VoAndPoConversion.toPOClazz(searchType.getTargetClazz()));
 
     switch (searchType) {
       case FILE:
@@ -112,24 +112,31 @@ public class MessageReceiver {
         userRepo.save(new UserPO((UserVO) entity));
         break;
       case AFFAIR:
-        AffairVO node = (AffairVO) entity;
-        String id = node.getId();
-        if (id == null || Long.parseLong(id) == 0) {
-          logger.warn("Invalid affairVO: {}", entity);
-          return;
+        switch (verb) {
+          case POST:
+            AffairVO node = (AffairVO) entity;
+            String id = node.getId();
+            if (id == null || Long.parseLong(id) == 0) {
+              logger.warn("Invalid affairVO: {}", entity);
+              return;
+            }
+            AffairPO affairPO = new AffairPO(node);
+            if (Long.parseLong(node.getFatherId()) == 0) {
+              affairPO.setPath(node.getName());
+            } else {
+              AffairPO father = affairRepo.findById(node.getFatherId());
+              if (father == null) {
+                logger.warn("Invalid affairVO father id: {}", entity);
+                return;
+              }
+              // TODO 17/8/7 move affair invalid the path
+              affairPO.makePath(father.getPath());
+            }
+            affairRepo.save(affairPO);
+            break;
+          default:
+            logger.error("Unsupported request method: {}", verb);
         }
-        AffairPO affairPO = new AffairPO(node);
-        if (Long.parseLong(node.getFatherId()) == 0) {
-          affairPO.setPath(node.getName());
-        } else {
-          AffairPO father = affairRepo.findById(node.getFatherId());
-          if (father == null) {
-            logger.warn("Invalid affairVO father id: {}", entity);
-            return;
-          }
-          affairPO.makePath(father.getPath());
-        }
-        affairRepo.save(affairPO);
         break;
       case MATERIAL:
         materialRepo.save(new MaterialPO((MaterialVO) entity));

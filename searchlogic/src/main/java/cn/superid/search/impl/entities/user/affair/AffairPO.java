@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/27.
  */
-@Document(indexName = "affair", type = "affair", refreshInterval = "1s")
+@Document(indexName = "affair-#{suffix.toString()}", type = "affair", refreshInterval = "1s", createIndex = false)
 public class AffairPO {
 
   @Id
@@ -27,6 +27,8 @@ public class AffairPO {
   private List<Tag> tags;
   @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
   private String superId;
+  @Field(type = FieldType.Integer)
+  private Integer state;
 
   public AffairPO() {
   }
@@ -37,6 +39,7 @@ public class AffairPO {
     fatherId = node.getFatherId();
     tags = node.getTags();
     superId = node.getSuperId();
+    state = node.getState();
   }
 
   AffairPO(String id, String name) {
@@ -95,6 +98,14 @@ public class AffairPO {
 
   public void setFatherId(String fatherId) {
     this.fatherId = fatherId;
+  }
+
+  public Integer getState() {
+    return state;
+  }
+
+  public void setState(Integer state) {
+    this.state = state;
   }
 
   @Override

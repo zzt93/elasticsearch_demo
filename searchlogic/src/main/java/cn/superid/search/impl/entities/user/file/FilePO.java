@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/5/27.
  */
-@Document(indexName = "file-#{suffix.toString()}", type = "file", refreshInterval = "10s", shards = 10)
+@Document(indexName = "file-#{suffix.toString()}", type = "file", refreshInterval = "10s", shards = 10, createIndex = false)
 public class FilePO {
 
   @Id

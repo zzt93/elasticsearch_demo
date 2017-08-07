@@ -5,9 +5,10 @@ import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.user.affair.AffairQuery;
+import cn.superid.search.entities.user.affair.AffairVO;
+import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
-import cn.superid.search.impl.entities.time.announcement.AnnouncementRepoImpl;
 import cn.superid.search.impl.entities.time.chat.ChatPO;
 import cn.superid.search.impl.entities.time.chat.ChatRepo;
 import cn.superid.search.impl.entities.time.task.TaskPO;
@@ -79,7 +80,7 @@ public class QueryController {
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
             query.getAffairIds(), query.getQuery(),
             pageRequest);
-    return new PageVO<>(res, AnnouncementRepoImpl::toVO);
+    return new PageVO<>(res, VoAndPoConversion::toVO);
   }
 
   private boolean checkPage(@RequestParam int pageNum, @RequestParam int pageSize) {
@@ -133,23 +134,33 @@ public class QueryController {
   }
 
   @PostMapping("/affair")
-  public Page<AffairPO> queryAffair(@RequestBody AffairQuery affairInfo) {
-    return affairRepo.findAny(affairInfo.getQuery(), affairInfo.getPageRequest());
+  public PageVO<AffairVO> queryAffair(@RequestBody AffairQuery affairInfo) {
+    suffix.setSuffix("*");
+    Page<AffairPO> page = affairRepo.findAny(affairInfo.getQuery(), affairInfo.getPageRequest());
+    return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 
   @PostMapping("/affair/tags")
-  public Page<AffairPO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
-    return affairRepo.findByTagsIn(Lists.newArrayList(new Tag(affairInfo.getQuery())),
-        affairInfo.getPageRequest());
+  public PageVO<AffairVO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
+    suffix.setSuffix("*");
+    Page<AffairPO> page = affairRepo
+        .findByTagsIn(Lists.newArrayList(new Tag(affairInfo.getQuery())),
+            affairInfo.getPageRequest());
+    return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 
   @PostMapping("/affair/superId")
-  public Page<AffairPO> queryAffairSuperId(@RequestBody AffairQuery affairInfo) {
-    return affairRepo.findBySuperId(affairInfo.getQuery(), affairInfo.getPageRequest());
+  public PageVO<AffairVO> queryAffairSuperId(@RequestBody AffairQuery affairInfo) {
+    suffix.setSuffix("*");
+    Page<AffairPO> page = affairRepo
+        .findBySuperId(affairInfo.getQuery(), affairInfo.getPageRequest());
+    return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 
   @PostMapping("/affair/name")
-  public Page<AffairPO> queryAffairName(@RequestBody AffairQuery affairInfo) {
-    return affairRepo.findByName(affairInfo.getQuery(), affairInfo.getPageRequest());
+  public PageVO<AffairVO> queryAffairName(@RequestBody AffairQuery affairInfo) {
+    suffix.setSuffix("*");
+    Page<AffairPO> page = affairRepo.findByName(affairInfo.getQuery(), affairInfo.getPageRequest());
+    return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 }

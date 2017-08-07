@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 /**
  * @author zzt
  */
-public class VO2PO {
+public class VoAndPoConversion {
 
-  private static final Logger logger = LoggerFactory.getLogger(VO2PO.class);
+  private static final Logger logger = LoggerFactory.getLogger(VoAndPoConversion.class);
 
   private static HashMap<Class<? extends RollingIndex>, Class> vo2po = new HashMap<>();
 
@@ -28,5 +28,16 @@ public class VO2PO {
       return vo2po.get(voClazz);
     }
     throw new IllegalArgumentException();
+  }
+
+  public static AnnouncementVO toVO(AnnouncementPO po) {
+    return new AnnouncementVO(po.getId(), po.getTitle(), po.getContent(), po.getTags(),
+        po.getCreatorRole(), po.getCreatorUser(), po.getCreatorRoleId(), po.getCreatorRoleId(),
+        po.getAffairName(), po.getModifyTime(), po.getCreatorUserId(), po.getTop(), po.getType(),
+        po.getEntityMap(), po.getAvatar(), null);
+  }
+
+  public static AffairVO toVO(AffairPO po) {
+    return new AffairVO(po.getFatherId(), po.getId());
   }
 }
