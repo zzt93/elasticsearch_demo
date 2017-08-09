@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.user.file;
 
-import cn.superid.search.entities.user.FileVO;
+import cn.superid.search.entities.user.file.FileVO;
 import java.sql.Timestamp;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;

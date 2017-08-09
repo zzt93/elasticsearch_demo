@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.user.role;
 
-import cn.superid.search.entities.user.RoleVO;
+import cn.superid.search.entities.user.role.RoleVO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;

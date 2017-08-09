@@ -1,17 +1,15 @@
-package cn.superid.search.entities.user;
+package cn.superid.search.entities.time.task;
 
-import cn.superid.search.entities.Tag;
-import java.util.List;
+import cn.superid.search.entities.time.TimeBasedIndex;
+import java.sql.Timestamp;
 
 /**
- * Created by zzt on 17/6/27.
+ * Created by zzt on 17/6/21.
  */
-public class MaterialVO implements UserBasedIndex {
+public class TaskVO implements TimeBasedIndex {
 
   private String id;
-
   private String title;
-  private List<Tag> tags;
 
   public String getId() {
     return id;
@@ -29,12 +27,12 @@ public class MaterialVO implements UserBasedIndex {
     this.title = title;
   }
 
-  public List<Tag> getTags() {
-    return tags;
+  public Timestamp getCreateTime() {
+    return null;
   }
 
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
+  public void setCreateTime(Timestamp createTime) {
+
   }
 
   public String indexSuffix() {

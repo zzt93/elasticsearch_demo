@@ -1,4 +1,6 @@
-package cn.superid.search.entities.user;
+package cn.superid.search.entities.user.role;
+
+import cn.superid.search.entities.user.UserBasedIndex;
 
 /**
  * Created by zzt on 17/6/21.

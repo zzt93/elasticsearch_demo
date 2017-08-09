@@ -21,8 +21,6 @@ public class AffairPO {
   private String fatherId;
   @Field(type = FieldType.String, analyzer = "smartcn")
   private String name;
-  @Field(type = FieldType.String, analyzer = "smartcn")
-  private String path;
   @Field(type = FieldType.Nested)
   private List<Tag> tags;
   @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
@@ -63,19 +61,6 @@ public class AffairPO {
     this.name = name;
   }
 
-  public String getPath() {
-    return path;
-  }
-
-  public void setPath(String path) {
-    this.path = path;
-  }
-
-  public AffairPO makePath(String father) {
-    this.path = father + " " + name;
-    return this;
-  }
-
   public List<Tag> getTags() {
     return tags;
   }
@@ -114,7 +99,6 @@ public class AffairPO {
         "id='" + id + '\'' +
         ", fatherId='" + fatherId + '\'' +
         ", name='" + name + '\'' +
-        ", path='" + path + '\'' +
         ", tags=" + tags +
         ", superId='" + superId + '\'' +
         '}';

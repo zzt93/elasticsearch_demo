@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.user.file;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
@@ -17,5 +17,5 @@ public interface FileRepo extends ElasticsearchRepository<FilePO, String> {
       "       \"fields\": [\"title\", \"uploadRole\"]\n" +
       "    }\n" +
       "}")
-  Page<FilePO> findByTitleOrUploadRole(String info, Pageable pageable);
+  List<FilePO> findByTitleOrUploadRole(String info, Pageable pageable);
 }

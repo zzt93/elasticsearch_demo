@@ -1,5 +1,6 @@
-package cn.superid.search.entities.time;
+package cn.superid.search.entities.time.chat;
 
+import cn.superid.search.entities.time.TimeBasedIndex;
 import java.sql.Timestamp;
 import java.util.Date;
 

@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.time.chat;
 
-import cn.superid.search.entities.time.ChatVO;
+import cn.superid.search.entities.time.chat.ChatVO;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;

@@ -1,7 +1,7 @@
 package cn.superid.search.impl.entities.user.warehouse;
 
 import cn.superid.search.entities.Tag;
-import cn.superid.search.entities.user.MaterialVO;
+import cn.superid.search.entities.user.warehouse.MaterialVO;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;

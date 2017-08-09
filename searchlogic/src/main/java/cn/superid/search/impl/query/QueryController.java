@@ -6,6 +6,8 @@ import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.user.affair.AffairQuery;
 import cn.superid.search.entities.user.affair.AffairVO;
+import cn.superid.search.entities.user.file.FileQuery;
+import cn.superid.search.entities.user.file.FileVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
@@ -15,7 +17,6 @@ import cn.superid.search.impl.entities.time.task.TaskPO;
 import cn.superid.search.impl.entities.time.task.TaskRepo;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.affair.AffairRepo;
-import cn.superid.search.impl.entities.user.file.FilePO;
 import cn.superid.search.impl.entities.user.file.FileRepo;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
@@ -26,6 +27,7 @@ import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.collect.Lists;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -92,9 +94,9 @@ public class QueryController {
     return taskRepo.findByTitle(query, new PageRequest(0, PAGE_SIZE));
   }
 
-  @GetMapping("/file")
-  public Page<FilePO> queryFile(@RequestParam String query) {
-    return fileRepo.findByTitleOrUploadRole(query, new PageRequest(0, PAGE_SIZE));
+  @PostMapping("/file")
+  public List<FileVO> queryFile(@RequestBody FileQuery query) {
+    return fileRepo.findByTitleOrUploadRole(query.getQuery(), query.getAffairId());
   }
 
   @GetMapping("/material")

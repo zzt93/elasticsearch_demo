@@ -1,7 +1,6 @@
 package cn.superid.search.entities.time.announcement;
 
-import cn.superid.search.entities.PageRequestDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import cn.superid.search.entities.PagedQuery;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 
@@ -11,11 +10,9 @@ import org.springframework.data.domain.PageRequest;
  * @author zzt
  * @see AnnouncementVO
  */
-public class AnnouncementQuery {
+public class AnnouncementQuery extends PagedQuery {
 
   private List<Long> affairIds;
-  private String query;
-  private PageRequest pageRequest;
 
   public AnnouncementQuery() {
   }
@@ -23,8 +20,8 @@ public class AnnouncementQuery {
   public AnnouncementQuery(List<Long> affairIds, String query,
       PageRequest pageRequest) {
     this.affairIds = affairIds;
-    this.query = query;
-    this.pageRequest = pageRequest;
+    setQuery(query);
+    setPageRequest(pageRequest);
   }
 
   public List<Long> getAffairIds() {
@@ -35,21 +32,5 @@ public class AnnouncementQuery {
     this.affairIds = affairIds;
   }
 
-  public String getQuery() {
-    return query;
-  }
-
-  public void setQuery(String query) {
-    this.query = query;
-  }
-
-  public PageRequest getPageRequest() {
-    return pageRequest;
-  }
-
-  @JsonDeserialize(converter = PageRequestDeserializer.class)
-  public void setPageRequest(PageRequest pageRequest) {
-    this.pageRequest = pageRequest;
-  }
 
 }

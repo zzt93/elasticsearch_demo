@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.time.task;
 
-import cn.superid.search.entities.time.TaskVO;
+import cn.superid.search.entities.time.task.TaskVO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;

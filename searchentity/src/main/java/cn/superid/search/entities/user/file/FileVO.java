@@ -1,5 +1,6 @@
-package cn.superid.search.entities.user;
+package cn.superid.search.entities.user.file;
 
+import cn.superid.search.entities.user.UserBasedIndex;
 import java.sql.Timestamp;
 
 /**

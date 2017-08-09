@@ -1,6 +1,7 @@
-package cn.superid.search.entities.user;
+package cn.superid.search.entities.user.user;
 
 import cn.superid.search.entities.Tag;
+import cn.superid.search.entities.user.UserBasedIndex;
 import java.util.List;
 
 /**

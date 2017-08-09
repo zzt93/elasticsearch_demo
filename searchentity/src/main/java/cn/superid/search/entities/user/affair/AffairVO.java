@@ -21,9 +21,10 @@ public class AffairVO implements UserBasedIndex {
   public AffairVO() {
   }
 
-  public AffairVO(String fatherId, String id) {
+  public AffairVO(String fatherId, String id, Integer state) {
     this.fatherId = fatherId;
     this.id = id;
+    this.state = state;
   }
 
   public AffairVO(String fatherId, String id, String name, String superId,
