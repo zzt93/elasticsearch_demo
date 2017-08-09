@@ -7,7 +7,11 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
+ * Suffix is affairId
  * Created by zzt on 17/6/21.
+ *
+ * @see cn.superid.search.impl.save.rolling.Suffix
+ * @see RoleVO#indexSuffix()
  */
 @Document(indexName = "role-#{suffix.toString()}", type = "role", shards = 10, createIndex = false)
 public class RolePO {

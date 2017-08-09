@@ -1,7 +1,6 @@
 package cn.superid.search.impl.entities.user.file;
 
-import cn.superid.search.entities.user.file.FileVO;
-import java.sql.Timestamp;
+import cn.superid.search.entities.user.file.FileSearchVO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -9,50 +8,35 @@ import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
+ * Suffix is affairId
+ *
  * Created by zzt on 17/5/27.
+ *
+ * @see FileSearchVO#indexSuffix()
+ * @see cn.superid.search.impl.save.rolling.Suffix
  */
-@Document(indexName = "file-#{suffix.toString()}", type = "file", refreshInterval = "10s", shards = 10, createIndex = false)
+@Document(indexName = "file-#{suffix.toString()}", type = "file", refreshInterval = "10s", shards = 1, createIndex = false)
 public class FilePO {
 
   @Id
   private String id;
   @Field(type = FieldType.String, analyzer = "smartcn")
   private String name;
-  @Field(type = FieldType.String, analyzer = "smartcn")
-  private String uploadRole;
-
-  @Field(type = FieldType.Date, index = FieldIndex.no, pattern = "YYYY-MM-DD HH:mm:ss.SSS")
-  private Timestamp modifyTime;
-  @Field(type = FieldType.Double, index = FieldIndex.no)
-  private Double size;
-  @Field(type = FieldType.Integer, index = FieldIndex.no)
-  private Integer version;
-  @Field(type = FieldType.Integer, index = FieldIndex.no)
-  private Integer publicType;
-
+  @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+  private String uploadRoleId;
+  @Field(type = FieldType.Integer)
+  private Integer type;
 
   public FilePO() {
   }
 
-  public FilePO(String id, String name, String uploadRole, Timestamp modifyTime, Double size,
-      Integer version, Integer publicType, Long allianceId) {
-    this.id = id;
-    this.name = name;
-    this.uploadRole = uploadRole;
-    this.modifyTime = modifyTime;
-    this.size = size;
-    this.version = version;
-    this.publicType = publicType;
-  }
-
-  public FilePO(FileVO vo) {
+  public FilePO(FileSearchVO vo) {
     id = vo.getId();
     name = vo.getName();
-    uploadRole = vo.getUploadRole();
-    modifyTime = vo.getModifyTime();
-    size = vo.getSize();
-    version = vo.getVersion();
-    publicType = vo.getPublicType();
+    uploadRoleId = vo.getUploadRoleId();
+    if (vo.getType() != null) {
+      type = vo.getType().ordinal();
+    }
   }
 
   public String getId() {
@@ -71,45 +55,20 @@ public class FilePO {
     this.name = name;
   }
 
-  public String getUploadRole() {
-    return uploadRole;
+  public String getUploadRoleId() {
+    return uploadRoleId;
   }
 
-  public void setUploadRole(String uploadRole) {
-    this.uploadRole = uploadRole;
+  public void setUploadRoleId(String uploadRoleId) {
+    this.uploadRoleId = uploadRoleId;
   }
 
-  public Timestamp getModifyTime() {
-    return modifyTime;
+  public Integer getType() {
+    return type;
   }
 
-  public void setModifyTime(Timestamp modifyTime) {
-    this.modifyTime = modifyTime;
+  public void setType(Integer type) {
+    this.type = type;
   }
-
-  public Double getSize() {
-    return size;
-  }
-
-  public void setSize(Double size) {
-    this.size = size;
-  }
-
-  public Integer getVersion() {
-    return version;
-  }
-
-  public void setVersion(Integer version) {
-    this.version = version;
-  }
-
-  public Integer getPublicType() {
-    return publicType;
-  }
-
-  public void setPublicType(Integer publicType) {
-    this.publicType = publicType;
-  }
-
 }
 

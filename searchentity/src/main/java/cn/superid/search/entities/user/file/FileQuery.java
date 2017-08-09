@@ -1,7 +1,6 @@
 package cn.superid.search.entities.user.file;
 
 import cn.superid.search.entities.StringQuery;
-import org.springframework.data.domain.PageRequest;
 
 /**
  * @author zzt
@@ -13,7 +12,7 @@ public class FileQuery extends StringQuery {
   public FileQuery() {
   }
 
-  public FileQuery(Long affairId, String query, PageRequest pageRequest) {
+  public FileQuery(Long affairId, String query) {
     this.affairId = affairId;
     setQuery(query);
   }

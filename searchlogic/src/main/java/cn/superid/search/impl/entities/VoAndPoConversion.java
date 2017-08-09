@@ -3,8 +3,10 @@ package cn.superid.search.impl.entities;
 import cn.superid.search.entities.RollingIndex;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.user.affair.AffairVO;
+import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
+import cn.superid.search.impl.entities.user.file.FilePO;
 import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,4 +42,11 @@ public class VoAndPoConversion {
   public static AffairVO toVO(AffairPO po) {
     return new AffairVO(po.getFatherId(), po.getId(), po.getState());
   }
+
+
+  public static FileSearchVO toVO(FilePO filePO) {
+    return new FileSearchVO(filePO.getId(), filePO.getType());
+  }
+
+
 }

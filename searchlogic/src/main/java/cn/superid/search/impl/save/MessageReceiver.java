@@ -8,7 +8,7 @@ import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.time.chat.ChatVO;
 import cn.superid.search.entities.time.task.TaskVO;
 import cn.superid.search.entities.user.affair.AffairVO;
-import cn.superid.search.entities.user.file.FileVO;
+import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
@@ -103,7 +103,14 @@ public class MessageReceiver {
 
     switch (searchType) {
       case FILE:
-        fileRepo.save(new FilePO((FileVO) entity));
+        switch (verb) {
+          case POST:
+            fileRepo.updateFileName(new FilePO(((FileSearchVO) entity)));
+            break;
+          case PUT:
+            fileRepo.save(new FilePO((FileSearchVO) entity));
+            break;
+        }
         break;
       case ROLE:
         roleRepo.save(new RolePO((RoleVO) entity));
@@ -113,7 +120,7 @@ public class MessageReceiver {
         break;
       case AFFAIR:
         switch (verb) {
-          case POST:
+          case PUT:
             AffairVO node = (AffairVO) entity;
             String id = node.getId();
             if (id == null || Long.parseLong(id) == 0) {
@@ -148,7 +155,7 @@ public class MessageReceiver {
         break;
       case ANNOUNCEMENT:
         switch (verb) {
-          case POST:
+          case PUT:
             announcementRepo.save(new AnnouncementPO((AnnouncementVO) entity));
             break;
           case DELETE:
