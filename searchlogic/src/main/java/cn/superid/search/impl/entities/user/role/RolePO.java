@@ -7,9 +7,10 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
- * Suffix is affairId
+ * Suffix is allianceId
  * Created by zzt on 17/6/21.
  *
+ * @author zzt
  * @see cn.superid.search.impl.save.rolling.Suffix
  * @see RoleVO#indexSuffix()
  */

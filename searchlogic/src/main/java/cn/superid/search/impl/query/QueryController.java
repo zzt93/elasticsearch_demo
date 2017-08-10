@@ -77,7 +77,7 @@ public class QueryController {
   @PostMapping("/announcement")
   public PageVO<AnnouncementVO> queryAnnouncement(@RequestBody AnnouncementQuery query) {
     PageRequest pageRequest = query.getPageRequest();
-    if (checkPage(pageRequest.getPageNumber(), pageRequest.getPageSize())) {
+    if (checkPage(pageRequest)) {
       return null;
     }
     Page<AnnouncementPO> res = announcementRepo
@@ -87,7 +87,9 @@ public class QueryController {
     return new PageVO<>(res, VoAndPoConversion::toVO);
   }
 
-  private boolean checkPage(@RequestParam int pageNum, @RequestParam int pageSize) {
+  private boolean checkPage(PageRequest pageRequest) {
+    int pageNum = pageRequest.getPageNumber();
+    int pageSize = pageRequest.getPageSize();
     return (pageNum + 1) * pageSize > 1000;
   }
 
@@ -102,7 +104,7 @@ public class QueryController {
     if (affairId == null || affairId == 0) {
       return null;
     }
-    List<FilePO> files = fileRepo.findByNameOrUploadRoleName(query.getQuery(), affairId);
+    List<FilePO> files = fileRepo.findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
     return files.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
   }
 
@@ -144,6 +146,9 @@ public class QueryController {
 
   @PostMapping("/affair")
   public PageVO<AffairVO> queryAffair(@RequestBody AffairQuery affairInfo) {
+    if (checkPage(affairInfo.getPageRequest())) {
+      return null;
+    }
     suffix.setSuffix("*");
     Page<AffairPO> page = affairRepo.findAny(affairInfo.getQuery(), affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);

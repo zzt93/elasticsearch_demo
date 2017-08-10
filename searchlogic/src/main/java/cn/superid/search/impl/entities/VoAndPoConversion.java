@@ -4,9 +4,11 @@ import cn.superid.search.entities.RollingIndex;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileSearchVO;
+import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.file.FilePO;
+import cn.superid.search.impl.entities.user.role.RolePO;
 import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,8 @@ public class VoAndPoConversion {
   static {
     vo2po.put(AffairVO.class, AffairPO.class);
     vo2po.put(AnnouncementVO.class, AnnouncementPO.class);
+    vo2po.put(FileSearchVO.class, FilePO.class);
+    vo2po.put(RoleVO.class, RolePO.class);
   }
 
   public static Class toPOClazz(Class<? extends RollingIndex> voClazz) {

@@ -9,6 +9,6 @@ public interface FileCustom {
 
   void updateFileName(FilePO file);
 
-  List<FilePO> findByNameOrUploadRoleName(String info, Long affairId);
+  List<FilePO> findByNameOrUploadRoleName(String info, Long allianceId, Long affairId);
 
 }

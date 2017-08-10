@@ -5,6 +5,7 @@ import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 
 import cn.superid.search.impl.entities.user.role.RolePO;
+import cn.superid.search.impl.entities.user.role.RoleRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,11 @@ import org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder;
 public class FileRepoImpl implements FileCustom {
 
   @Autowired
+  private Suffix suffix;
+  @Autowired
   private ElasticsearchTemplate template;
+  @Autowired
+  private RoleRepo roleRepo;
 
   @Override
   public void updateFileName(FilePO file) {
@@ -34,12 +39,11 @@ public class FileRepoImpl implements FileCustom {
   }
 
   @Override
-  public List<FilePO> findByNameOrUploadRoleName(String info, Long affairId) {
-    SearchQuery role = new NativeSearchQueryBuilder()
-        .withQuery(matchQuery("title", info))
-        .withIndices(Suffix.indexName(RolePO.class, affairId))
-        .build();
-    List<RolePO> rolePOS = template.queryForList(role, RolePO.class);
+  public List<FilePO> findByNameOrUploadRoleName(String info, Long allianceId,
+      Long affairId) {
+    suffix.setSuffix(allianceId.toString());
+    List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(affairId, info);
+
     List<String> ids = rolePOS.stream().map(RolePO::getId).collect(Collectors.toList());
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(

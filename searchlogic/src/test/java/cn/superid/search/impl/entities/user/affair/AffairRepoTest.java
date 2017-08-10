@@ -20,16 +20,16 @@ public class AffairRepoTest {
 
   @Before
   public void setUp() throws Exception {
-    AffairPO first = new AffairPO("1", "思目创意").makePath("");
+    AffairPO first = new AffairPO("1", "思目创意");
     affairRepo.save(first);
-    AffairPO second = new AffairPO("2", "开发部").makePath(first.getPath());
-    AffairPO third = new AffairPO("5", "设计部").makePath(first.getPath());
+    AffairPO second = new AffairPO("2", "开发部");
+    AffairPO third = new AffairPO("5", "设计部");
     affairRepo.save(second);
     affairRepo.save(third);
-    affairRepo.save(new AffairPO("3", "后端").makePath(second.getPath()));
-    affairRepo.save(new AffairPO("4", "前端").makePath(second.getPath()));
-    affairRepo.save(new AffairPO("6", "app").makePath(third.getPath()));
-    affairRepo.save(new AffairPO("7", "网页").makePath(third.getPath()));
+    affairRepo.save(new AffairPO("3", "后端"));
+    affairRepo.save(new AffairPO("4", "前端"));
+    affairRepo.save(new AffairPO("6", "app"));
+    affairRepo.save(new AffairPO("7", "网页"));
   }
 
   @Test
