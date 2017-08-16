@@ -2,7 +2,6 @@ package cn.superid.search.impl.entities.time.announcement;
 
 import static org.elasticsearch.index.query.QueryBuilders.wrapperQuery;
 
-import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.impl.query.HighlightMapper;
 import cn.superid.search.impl.query.QueryHelper;
 import cn.superid.search.impl.save.rolling.Suffix;
@@ -34,7 +33,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         FIND_BY_TITLE_OR_CONTENT_OR_MODIFIER_ROLE_OR_MODIFIER_USER_OR_TAGS_IN_QUERY, info,
         affairIds.toString());
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexNamePattern(AnnouncementVO.class))
+        .withIndices(Suffix.indexNamePattern(AnnouncementPO.class))
         .withQuery(wrapperQuery(query))
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
