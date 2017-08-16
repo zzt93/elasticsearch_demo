@@ -15,10 +15,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.stereotype.Component;
 
 /**
  * @author zzt
  */
+@Component
 public class AnnouncementRepoImpl implements AnnouncementCustom {
 
   @Autowired

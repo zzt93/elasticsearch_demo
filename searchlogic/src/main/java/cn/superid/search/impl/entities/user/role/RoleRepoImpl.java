@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by zzt on 17/6/27.
@@ -20,6 +21,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  * @see RoleRepoImpl
  * @see EnableElasticsearchRepositories#repositoryImplementationPostfix()
  */
+@Component
 public class RoleRepoImpl implements RoleCustom {
 
   private static final String EXCEPT_PREFIX = "-";

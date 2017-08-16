@@ -16,10 +16,12 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 import org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder;
+import org.springframework.stereotype.Component;
 
 /**
  * @author zzt
  */
+@Component
 public class FileRepoImpl implements FileCustom {
 
   @Autowired
