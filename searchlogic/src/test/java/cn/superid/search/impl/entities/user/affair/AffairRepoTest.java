@@ -1,11 +1,14 @@
 package cn.superid.search.impl.entities.user.affair;
 
+import cn.superid.search.impl.save.MessageReceiverTest;
+import cn.superid.search.impl.save.rolling.Suffix;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -17,9 +20,17 @@ public class AffairRepoTest {
 
   @Autowired
   private AffairRepo affairRepo;
+  @Autowired
+  private Suffix suffix;
+  @Autowired
+  private ElasticsearchTemplate esTemplate;
+
 
   @Before
   public void setUp() throws Exception {
+    suffix.setSuffix("1111");
+    MessageReceiverTest.createIfNotExist(esTemplate, AffairPO.class);
+
     AffairPO first = new AffairPO("1", "思目创意");
     affairRepo.save(first);
     AffairPO second = new AffairPO("2", "开发部");

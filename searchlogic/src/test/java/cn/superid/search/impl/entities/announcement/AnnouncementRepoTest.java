@@ -3,6 +3,8 @@ package cn.superid.search.impl.entities.announcement;
 import cn.superid.search.entities.Tag;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
+import cn.superid.search.impl.save.MessageReceiverTest;
+import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.collect.Lists;
 import java.util.List;
 import org.junit.Before;
@@ -11,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -29,9 +32,15 @@ public class AnnouncementRepoTest {
   private static Tag t3 = new Tag("t3");
   @Autowired
   private AnnouncementRepo announcementRepo;
+  @Autowired
+  private Suffix suffix;
+  @Autowired
+  private ElasticsearchTemplate esTemplate;
 
   @Before
   public void save() {
+    MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
+
     String role1 = "role1";
     String role2 = "role2";
     String content = "this is a announcement";

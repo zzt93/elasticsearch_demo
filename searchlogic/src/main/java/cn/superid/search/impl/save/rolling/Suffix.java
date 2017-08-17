@@ -15,10 +15,18 @@ public class Suffix {
   }
 
   public static String indexNamePattern(Class<?> clazz) {
+    clazzCheck(clazz);
     return clazz.getAnnotation(Document.class).indexName().split("#")[0] + "*";
   }
 
+  private static void clazzCheck(Class<?> clazz) {
+    if (clazz.getAnnotation(Document.class) == null) {
+      throw new IllegalArgumentException();
+    }
+  }
+
   public static String indexName(Class<?> clazz, Object var) {
+    clazzCheck(clazz);
     return clazz.getAnnotation(Document.class).indexName().split("#")[0] + var.toString();
   }
 
