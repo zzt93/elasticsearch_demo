@@ -1,1 +1,1 @@
-java -jar ./searchlogic/target/search-logic-0.0.1-SNAPSHOT.jar & disown
+nohup java -jar ./searchlogic/target/search-logic-0.0.1-SNAPSHOT.jar &
