@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 
 /**
  * @author zzt
+ * @see PagedQuery
  */
 public class AffairQuery extends PagedQuery {
 
@@ -15,6 +16,5 @@ public class AffairQuery extends PagedQuery {
     setQuery(query);
     setPageRequest(pageRequest);
   }
-
 
 }
