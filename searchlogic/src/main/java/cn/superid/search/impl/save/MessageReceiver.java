@@ -95,7 +95,7 @@ public class MessageReceiver {
     ObjectMapper mapper = new ObjectMapper();
     SearchType searchType = SearchType.valueOf(payload.getType().getDescription());
     RollingIndex entity = mapper.convertValue(data, searchType.getTargetClazz());
-    logger.debug("{}", entity);
+    logger.debug("Message entity: {}", entity);
 
     // prepare index and mapping
     suffix.setSuffix(entity.indexSuffix());
@@ -162,7 +162,7 @@ public class MessageReceiver {
             announcementRepo.delete(((AnnouncementVO) entity).getId());
             break;
           default:
-            logger.error("Unsupported verb: {}", verb);
+            logger.error("Unsupported request method: {}", verb);
         }
         break;
     }

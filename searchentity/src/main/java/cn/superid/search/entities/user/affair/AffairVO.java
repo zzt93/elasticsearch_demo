@@ -97,4 +97,17 @@ public class AffairVO implements UserBasedIndex {
   public String indexSuffix() {
     return allianceId.toString();
   }
+
+  @Override
+  public String toString() {
+    return "AffairVO{" +
+        "fatherId='" + fatherId + '\'' +
+        ", id='" + id + '\'' +
+        ", name='" + name + '\'' +
+        ", superId='" + superId + '\'' +
+        ", tags=" + tags +
+        ", state=" + state +
+        ", allianceId=" + allianceId +
+        '}';
+  }
 }
