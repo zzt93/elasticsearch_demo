@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.time.announcement;
 
 import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -17,6 +18,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class AnnouncementPO {
 
   @Id
+  @JsonIgnore
   private String id;
   @Field(type = FieldType.String, analyzer = "smartcn")
   private String title;

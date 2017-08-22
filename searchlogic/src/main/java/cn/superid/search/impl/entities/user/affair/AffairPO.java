@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.affair;
 
 import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.user.affair.AffairVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -16,6 +17,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class AffairPO {
 
   @Id
+  @JsonIgnore
   private String id;
   @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
   private String fatherId;

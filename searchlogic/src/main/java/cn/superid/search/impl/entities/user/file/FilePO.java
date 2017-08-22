@@ -1,6 +1,7 @@
 package cn.superid.search.impl.entities.user.file;
 
 import cn.superid.search.entities.user.file.FileSearchVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -19,6 +20,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class FilePO {
 
   @Id
+  @JsonIgnore
   private String id;
   @Field(type = FieldType.String, analyzer = "smartcn")
   private String name;

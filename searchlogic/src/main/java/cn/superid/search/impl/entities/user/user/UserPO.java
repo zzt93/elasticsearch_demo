@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.user;
 
 import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.user.user.UserVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -12,60 +13,35 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/5.
  */
-@Document(indexName = "user", type = "user", refreshInterval = "1s", shards = 10)
+@Document(indexName = "user-#{suffix.toString()", type = "user", refreshInterval = "1s", shards = 10, createIndex = false)
 public class UserPO {
 
   @Id
+  @JsonIgnore
   private String id;
-  @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
-  private String realname;
   @Field(type = FieldType.String, analyzer = "smartcn")
   private String username;
-  @Field(type = FieldType.String, analyzer = "smartcn")
-  private String role;
-
+  @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+  private String superId;
   @Field(type = FieldType.Nested)
   private List<Tag> tags;
-  @Field(type = FieldType.Long)
-  private Long affairId;
-  @Field(type = FieldType.String, analyzer = "smartcn")
-  private String mainAffair;
+
 
   public UserPO() {
   }
 
   public UserPO(UserVO vo) {
     id = vo.getId();
-    realname = vo.getRealname();
     username = vo.getUsername();
-    role = vo.getRole();
     tags = vo.getTags();
-    affairId = vo.getAffairId();
-    mainAffair = vo.getMainAffair();
   }
 
-  public String getMainAffair() {
-    return mainAffair;
+  public String getSuperId() {
+    return superId;
   }
 
-  public void setMainAffair(String mainAffair) {
-    this.mainAffair = mainAffair;
-  }
-
-  public String getRole() {
-    return role;
-  }
-
-  public void setRole(String role) {
-    this.role = role;
-  }
-
-  public Long getAffairId() {
-    return affairId;
-  }
-
-  public void setAffairId(Long affairId) {
-    this.affairId = affairId;
+  public void setSuperId(String superId) {
+    this.superId = superId;
   }
 
   public String getId() {
@@ -74,14 +50,6 @@ public class UserPO {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public String getRealname() {
-    return realname;
-  }
-
-  public void setRealname(String realname) {
-    this.realname = realname;
   }
 
   public String getUsername() {

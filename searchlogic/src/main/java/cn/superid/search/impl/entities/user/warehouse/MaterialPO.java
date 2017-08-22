@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.warehouse;
 
 import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -11,10 +12,11 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/27.
  */
-@Document(indexName = "warehouse", type = "material")
+@Document(indexName = "warehouse-#{suffix.toString()", type = "material", createIndex = false)
 public class MaterialPO {
 
   @Id
+  @JsonIgnore
   private String id;
 
   @Field(type = FieldType.String, analyzer = "smartcn")

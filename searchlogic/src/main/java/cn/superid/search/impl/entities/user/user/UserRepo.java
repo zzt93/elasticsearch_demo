@@ -2,8 +2,6 @@ package cn.superid.search.impl.entities.user.user;
 
 import cn.superid.search.entities.Tag;
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -11,15 +9,11 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 // equivalent to extends repo interface
 //@RepositoryDefinition()
-public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
+public interface UserRepo extends ElasticsearchRepository<UserPO, String>, UserCustom {
 
-  Page<UserPO> findByAffairIdAndRealname(Long affairId, String realname, Pageable pageable);
+  List<UserPO> findTop20ByTagsIn(List<Tag> tags);
 
-  Page<UserPO> findByAffairIdAndUsername(Long affairId, String username, Pageable pageable);
+  List<UserPO> findTop20ByUsernameOrSuperId(String username, String superId);
 
-  Page<UserPO> findByAffairIdAndRole(Long affairId, String role, Pageable pageable);
 
-  Page<UserPO> findByAffairIdAndMainAffair(Long affairId, String mainAffair, Pageable pageable);
-
-  Page<UserPO> findByAffairIdAndTagsIn(Long affairId, List<Tag> tags, Pageable pageable);
 }

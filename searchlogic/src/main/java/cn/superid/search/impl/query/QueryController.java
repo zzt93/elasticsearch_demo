@@ -115,8 +115,7 @@ public class QueryController {
 
   @GetMapping("/user/mainAffair")
   public Page<UserPO> queryUser(@RequestParam Long affairId, @RequestParam String mainAffair) {
-    return userRepo
-        .findByAffairIdAndMainAffair(affairId, mainAffair, new PageRequest(0, PAGE_SIZE));
+    return null;
   }
 
   @GetMapping("/chat/date")

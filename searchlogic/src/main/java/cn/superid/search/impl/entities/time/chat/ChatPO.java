@@ -1,6 +1,7 @@
 package cn.superid.search.impl.entities.time.chat;
 
 import cn.superid.search.entities.time.chat.ChatVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
@@ -11,10 +12,11 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/5.
  */
-@Document(indexName = "chat", type = "chat", refreshInterval = "10s")
+@Document(indexName = "chat-#{suffix.toString()", type = "chat", refreshInterval = "10s", createIndex = false)
 public class ChatPO {
 
   @Id
+  @JsonIgnore
   private String id;
   @Field(type = FieldType.Date, format = DateFormat.date)
   private Date date;

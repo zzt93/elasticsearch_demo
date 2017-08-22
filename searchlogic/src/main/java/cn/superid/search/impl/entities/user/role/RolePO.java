@@ -1,6 +1,7 @@
 package cn.superid.search.impl.entities.user.role;
 
 import cn.superid.search.entities.user.role.RoleVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -18,6 +19,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class RolePO {
 
   @Id
+  @JsonIgnore
   private String id;
 
   @Field(type = FieldType.String, analyzer = "smartcn")
