@@ -8,6 +8,7 @@ import cn.superid.search.entities.user.affair.AffairQuery;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
+import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
@@ -21,8 +22,7 @@ import cn.superid.search.impl.entities.user.file.FilePO;
 import cn.superid.search.impl.entities.user.file.FileRepo;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
-import cn.superid.search.impl.entities.user.user.UserPO;
-import cn.superid.search.impl.entities.user.user.UserRepo;
+import cn.superid.search.impl.entities.user.user.UserService;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class QueryController {
 
   private static final int PAGE_SIZE = 10;
-  private final UserRepo userRepo;
+  private final UserService userService;
   private final ChatRepo chatRepo;
   private final FileRepo fileRepo;
   private final RoleRepo roleRepo;
@@ -60,10 +60,10 @@ public class QueryController {
   private final Suffix suffix;
 
   @Autowired
-  public QueryController(UserRepo userRepo, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo,
+  public QueryController(UserService userService, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
       MaterialRepo materialRepo, Suffix suffix) {
-    this.userRepo = userRepo;
+    this.userService = userService;
     this.chatRepo = chatRepo;
     this.fileRepo = fileRepo;
     this.roleRepo = roleRepo;
@@ -113,9 +113,19 @@ public class QueryController {
     return materialRepo.findByTitleOrTagsIn(query, new PageRequest(0, PAGE_SIZE));
   }
 
-  @GetMapping("/user/mainAffair")
-  public Page<UserPO> queryUser(@RequestParam Long affairId, @RequestParam String mainAffair) {
-    return null;
+  @GetMapping("/user/tag")
+  public List<UserVO> queryUserByTag(@RequestParam String query) {
+    return userService.findTop20ByTags(query);
+  }
+
+  @GetMapping("/user/username")
+  public List<UserVO> queryUserByUsername(@RequestParam String query) {
+    return userService.findTop20ByUserNameOrSuperId(query);
+  }
+
+  @GetMapping("/user")
+  public List<UserVO> queryUserByUsernameOrSuperIdOrTags(@RequestParam String query) {
+    return userService.findTop20ByUsernameOrSuperIdOrTags(query);
   }
 
   @GetMapping("/chat/date")

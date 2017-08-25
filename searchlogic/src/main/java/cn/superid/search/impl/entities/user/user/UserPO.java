@@ -13,7 +13,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/5.
  */
-@Document(indexName = "user-#{suffix.toString()", type = "user", refreshInterval = "1s", shards = 10, createIndex = false)
+@Document(indexName = "user", type = "user", refreshInterval = "1s", shards = 10)
 public class UserPO {
 
   @Id
@@ -30,10 +30,17 @@ public class UserPO {
   public UserPO() {
   }
 
+  UserPO(String id, String username, String superId,
+      List<Tag> tags) {
+    this.id = id;
+    this.username = username;
+    this.superId = superId;
+    this.tags = tags;
+  }
+
   public UserPO(UserVO vo) {
     id = vo.getId();
     username = vo.getUsername();
-    tags = vo.getTags();
   }
 
   public String getSuperId() {

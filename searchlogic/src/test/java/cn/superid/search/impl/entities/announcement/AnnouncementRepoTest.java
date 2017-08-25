@@ -97,12 +97,13 @@ public class AnnouncementRepoTest {
   @Test
   public void findAll() {
     announcementRepo.findAll().forEach(System.out::println);
-  }
-
-  @Test
-  public void findTagsInList() {
     System.out
         .println(announcementRepo.findByAll("_all", "t1", new PageRequest(0, 10)).getContent());
+  }
+
+
+  @Test
+  public void findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair() throws Exception {
     System.out.println(announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "t1",
             new PageRequest(0, 10))
@@ -119,10 +120,7 @@ public class AnnouncementRepoTest {
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "t3",
             new PageRequest(0, 10))
         .getContent());
-  }
 
-  @Test
-  public void findAllByTitleOrModifierRoleOrModifierUserOrTagsIn() throws Exception {
 //        Tag t10 = new Tag("10");
 //        Tag t20 = new Tag("20");
 //        Slice<Announcement> test1 = announcementRepo.findByTitle("announcement", new PageRequest(0, 10));

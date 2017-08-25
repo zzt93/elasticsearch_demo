@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/27.
  */
-@Document(indexName = "warehouse-#{suffix.toString()", type = "material", createIndex = false)
+@Document(indexName = "warehouse-#{suffix.toString()}", type = "material", createIndex = false)
 public class MaterialPO {
 
   @Id

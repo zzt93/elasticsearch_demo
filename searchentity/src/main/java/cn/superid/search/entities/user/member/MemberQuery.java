@@ -1,4 +1,4 @@
-package cn.superid.search.entities.user.user;
+package cn.superid.search.entities.user.member;
 
 import cn.superid.search.entities.StringQuery;
 import java.util.List;
