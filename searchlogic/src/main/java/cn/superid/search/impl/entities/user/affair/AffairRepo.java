@@ -26,7 +26,7 @@ public interface AffairRepo extends ElasticsearchRepository<AffairPO, String> {
       "       {\n" +
       "         \"multi_match\": {" +
       "            \"query\":    \"?0\",\n" +
-      "            \"fields\":   [ \"name\", \"path\", \"superId\"]\n" +
+      "            \"fields\":   [ \"name\", \"superId\"]\n" +
       "          }" +
       "       },\n" +
       "       {\n" +
