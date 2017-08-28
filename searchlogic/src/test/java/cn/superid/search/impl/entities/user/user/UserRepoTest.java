@@ -45,12 +45,12 @@ public class UserRepoTest {
     // when
     List<UserPO> top20ByTagsIn2 = userRepo.findByTagsIn(TAG_2.getDes(), UserService.TOP20).getContent();
     // then
-    assertTrue(top20ByTagsIn2.size() == 1);
+    assertTrue(top20ByTagsIn2.size() == 2);
 
     // when
     List<UserPO> top20ByTagsIn3 = userRepo.findByTagsIn(TAG_3.getDes(), UserService.TOP20).getContent();
     // then
-    assertTrue(top20ByTagsIn3.size() == 1);
+    assertTrue(top20ByTagsIn3.size() == 2);
 
 
   }
