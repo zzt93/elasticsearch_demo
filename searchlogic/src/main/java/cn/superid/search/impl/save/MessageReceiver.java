@@ -30,7 +30,9 @@ import cn.superid.search.impl.entities.user.user.UserRepo;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,16 +92,33 @@ public class MessageReceiver {
     Map param = payload.getParam();
     Object data = param.get("data");
     RequestMethod verb = ((RequestMethod) param.get("verb"));
+    Boolean batch = (Boolean) param.get("batch");
 
     // convert the data
     ObjectMapper mapper = new ObjectMapper();
     SearchType searchType = SearchType.valueOf(payload.getType().getDescription());
-    RollingIndex entity = mapper.convertValue(data, searchType.getTargetClazz());
+    if (batch == null) {
+      RollingIndex entity = mapper.convertValue(data, searchType.getTargetClazz());
+      handleVo(verb, searchType, entity);
+    } else {
+      // TODO 17/8/28 implement batch one by one now, because of the horizontal split of index by time or id
+      assert batch;
+      TypeReference<List<Map>> typeRef = new TypeReference<List<Map>>() {
+      };
+      List<Map> list = mapper.convertValue(data, typeRef);
+      list.stream().map(in -> mapper.convertValue(in, searchType.getTargetClazz())).forEach(
+          vo -> handleVo(verb, searchType, vo)
+      );
+    }
+  }
+
+  private void handleVo(RequestMethod verb, SearchType searchType, RollingIndex entity) {
     logger.debug("Message entity: {}", entity);
 
     // prepare index and mapping
     suffix.setSuffix(entity.indexSuffix());
-    createIfNotExists(VoAndPoConversion.toPOClazz(searchType.getTargetClazz()));
+    Class poClazz = VoAndPoConversion.toPOClazz(searchType.getTargetClazz());
+    createIfNotExists(poClazz);
 
     switch (searchType) {
       case FILE:
@@ -110,6 +129,8 @@ public class MessageReceiver {
           case PUT:
             fileRepo.save(new FilePO((FileSearchVO) entity));
             break;
+          default:
+            logger.warn("Unsupported request method: {}", verb);
         }
         break;
       case ROLE:
@@ -138,7 +159,7 @@ public class MessageReceiver {
             affairRepo.save(affairPO);
             break;
           default:
-            logger.error("Unsupported request method: {}", verb);
+            logger.warn("Unsupported request method: {}", verb);
         }
         break;
       case MATERIAL:
@@ -158,11 +179,8 @@ public class MessageReceiver {
           case PUT:
             announcementRepo.save(new AnnouncementPO((AnnouncementVO) entity));
             break;
-          case DELETE:
-            announcementRepo.delete(((AnnouncementVO) entity).getId());
-            break;
           default:
-            logger.error("Unsupported request method: {}", verb);
+            logger.warn("Unsupported request method: {}", verb);
         }
         break;
     }

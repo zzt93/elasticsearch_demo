@@ -33,12 +33,13 @@ public class FilePO {
   }
 
   public FilePO(FileSearchVO vo) {
-    id = vo.getId();
+    if (vo.getType() == null) {
+      return;
+    }
+    id = vo.getType().name() + vo.getId();
     name = vo.getName();
     uploadRoleId = vo.getUploadRoleId();
-    if (vo.getType() != null) {
-      type = vo.getType().ordinal();
-    }
+    type = vo.getType().ordinal();
   }
 
   public String getId() {
