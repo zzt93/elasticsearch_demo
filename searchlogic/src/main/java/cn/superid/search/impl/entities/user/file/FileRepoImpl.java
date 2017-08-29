@@ -35,7 +35,10 @@ public class FileRepoImpl implements FileCustom {
   public void updateFileName(FilePO file) {
     IndexRequest indexRequest = new IndexRequest();
     indexRequest.source("name", file.getName());
-    UpdateQuery updateQuery = new UpdateQueryBuilder().withId(file.getId()).withClass(FilePO.class)
+    UpdateQuery updateQuery = new UpdateQueryBuilder().withId(file.getId())
+        // class is used to get `index` and `type`
+        .withClass(FilePO.class)
+        // indexRequest will be used as `doc`
         .withIndexRequest(indexRequest).build();
     template.update(updateQuery);
   }
