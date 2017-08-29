@@ -52,7 +52,7 @@ public class VoAndPoConversion {
 
 
   public static FileSearchVO toVO(FilePO filePO) {
-    return new FileSearchVO(filePO.getId(), filePO.getType());
+    return new FileSearchVO(filePO.voId(), filePO.getType());
   }
 
 

@@ -19,6 +19,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "file-#{suffix.toString()}", type = "file", refreshInterval = "10s", shards = 1, createIndex = false)
 public class FilePO {
 
+  private static final String SPLIT = "#";
   @Id
   @JsonIgnore
   private String id;
@@ -36,7 +37,7 @@ public class FilePO {
     if (vo.getType() == null) {
       return;
     }
-    id = vo.getType().name() + vo.getId();
+    id = vo.getType().name() + SPLIT + vo.getId();
     name = vo.getName();
     uploadRoleId = vo.getUploadRoleId();
     type = vo.getType().ordinal();
@@ -44,6 +45,10 @@ public class FilePO {
 
   public String getId() {
     return id;
+  }
+
+  public String voId() {
+    return id.split(SPLIT)[1];
   }
 
   public void setId(String id) {
