@@ -2,6 +2,8 @@ package cn.superid.search.impl.entities.announcement;
 
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
+import cn.superid.search.impl.save.MessageReceiverTest;
+import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
@@ -28,7 +30,8 @@ public class AnnouncementRepoImplTest {
   private AnnouncementRepo announcementRepo;
   @Autowired
   private ElasticsearchTemplate esTemplate;
-
+  @Autowired
+  private Suffix suffix;
 
   private static String readAll(String title) throws IOException {
     InputStream resourceAsStream = ClassLoader.getSystemClassLoader().getResourceAsStream(title);
@@ -37,11 +40,8 @@ public class AnnouncementRepoImplTest {
 
   @Before
   public void setUp() throws Exception {
-    Class<?> aClass = AnnouncementPO.class;
-    if (!esTemplate.indexExists(aClass)) {
-      esTemplate.createIndex(aClass);
-      esTemplate.putMapping(aClass);
-    }
+    suffix.setSuffix("2016.10.11");
+    MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String modifierUser = "xxx";
     String modifierRole = "cto";
