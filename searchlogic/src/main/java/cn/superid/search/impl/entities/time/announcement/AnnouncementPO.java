@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
@@ -20,35 +19,35 @@ public class AnnouncementPO {
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String title;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String content;
   @Field(type = FieldType.Nested)
   private List<Tag> tags;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String creatorRole;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String creatorUser;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String affairName;
 
-  @Field(type = FieldType.Long, index = FieldIndex.not_analyzed)
+  @Field(type = FieldType.Long)
   private Long affairId;
 
-  @Field(type = FieldType.Date, index = FieldIndex.no, pattern = "YYYY-MM-DD HH:mm:ss.SSS")
+  @Field(type = FieldType.Date, pattern = "YYYY-MM-DD HH:mm:ss.SSS")
   private Timestamp modifyTime;
-  @Field(type = FieldType.Long, index = FieldIndex.no)
+  @Field(type = FieldType.Long, index = false)
   private Long creatorUserId;
-  @Field(type = FieldType.Long, index = FieldIndex.no)
+  @Field(type = FieldType.Long, index = false)
   private Long creatorRoleId;
-  @Field(type = FieldType.Boolean, index = FieldIndex.no)
+  @Field(type = FieldType.Boolean, index = false)
   private Boolean isTop;
-  @Field(type = FieldType.Integer, index = FieldIndex.no)
+  @Field(type = FieldType.Integer, index = false)
   private Integer type;
-  @Field(type = FieldType.String, store = false, index = FieldIndex.no)
+  @Field(type = FieldType.keyword, store = false, index = false)
   private String entityMap;
-  @Field(type = FieldType.String, index = FieldIndex.no)
+  @Field(type = FieldType.keyword, index = false)
   private String avatar;
 
 

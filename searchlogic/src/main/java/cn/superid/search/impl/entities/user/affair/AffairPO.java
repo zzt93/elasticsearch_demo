@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
@@ -19,13 +18,13 @@ public class AffairPO {
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+  @Field(type = FieldType.keyword, index = false)
   private String fatherId;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String name;
   @Field(type = FieldType.Nested)
   private List<Tag> tags;
-  @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+  @Field(type = FieldType.keyword, index = false)
   private String superId;
   @Field(type = FieldType.Integer)
   private Integer state;

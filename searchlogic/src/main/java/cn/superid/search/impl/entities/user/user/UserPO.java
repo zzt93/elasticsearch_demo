@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
@@ -19,9 +18,9 @@ public class UserPO {
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String username;
-  @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+  @Field(type = FieldType.keyword)
   private String superId;
   @Field(type = FieldType.Nested)
   private List<Tag> tags;

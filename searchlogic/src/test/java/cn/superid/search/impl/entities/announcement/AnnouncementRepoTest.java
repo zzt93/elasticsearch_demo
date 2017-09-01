@@ -39,6 +39,7 @@ public class AnnouncementRepoTest {
 
   @Before
   public void save() {
+    suffix.setSuffix("2016.10.10");
     MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String role1 = "role1";
@@ -98,7 +99,7 @@ public class AnnouncementRepoTest {
   public void findAll() {
     announcementRepo.findAll().forEach(System.out::println);
     System.out
-        .println(announcementRepo.findByAll("_all", "t1", new PageRequest(0, 10)).getContent());
+        .println(announcementRepo.findByAll("_all", "t1", PageRequest.of(0, 10)).getContent());
   }
 
 
@@ -106,53 +107,53 @@ public class AnnouncementRepoTest {
   public void findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair() throws Exception {
     System.out.println(announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "t1",
-            new PageRequest(0, 10))
+            PageRequest.of(0, 10))
         .getContent());
     System.out
-        .println(announcementRepo.findByAll("_all", "t2", new PageRequest(0, 10)).getContent());
+        .println(announcementRepo.findByAll("_all", "t2", PageRequest.of(0, 10)).getContent());
     System.out.println(announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "t2",
-            new PageRequest(0, 10))
+            PageRequest.of(0, 10))
         .getContent());
     System.out
-        .println(announcementRepo.findByAll("_all", "t3", new PageRequest(0, 10)).getContent());
+        .println(announcementRepo.findByAll("_all", "t3", PageRequest.of(0, 10)).getContent());
     System.out.println(announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "t3",
-            new PageRequest(0, 10))
+            PageRequest.of(0, 10))
         .getContent());
 
 //        Tag t10 = new Tag("10");
 //        Tag t20 = new Tag("20");
-//        Slice<Announcement> test1 = announcementRepo.findByTitle("announcement", new PageRequest(0, 10));
+//        Slice<Announcement> test1 = announcementRepo.findByTitle("announcement", PageRequest.of(0, 10));
 //        System.out.println(test1.getContent());
-//        List<Announcement> test2 = announcementRepo.findAllByTitle("announcement1", new PageRequest(0, 10));
+//        List<Announcement> test2 = announcementRepo.findAllByTitle("announcement1", PageRequest.of(0, 10));
 //        System.out.println(test2);
-//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcement", "", "", Lists.newArrayList(t10, t20), new PageRequest(0, 10)).getContent());
-//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcementx", "", "", Lists.newArrayList(t1, t2), new PageRequest(0, 10)).getContent());
-//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcement role1", "", "", Lists.newArrayList(t10, t20), new PageRequest(0, 10)).getContent());
+//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcement", "", "", Lists.newArrayList(t10, t20), PageRequest.of(0, 10)).getContent());
+//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcementx", "", "", Lists.newArrayList(t1, t2), PageRequest.of(0, 10)).getContent());
+//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcement role1", "", "", Lists.newArrayList(t10, t20), PageRequest.of(0, 10)).getContent());
 
     System.out.println(
-        announcementRepo.findByAll("_all", "announcement2 role1", new PageRequest(0, 10))
+        announcementRepo.findByAll("_all", "announcement2 role1", PageRequest.of(0, 10))
             .getContent());
     System.out.println(announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds,
             "announcement2 role1",
-            new PageRequest(0, 10)).getContent());
+            PageRequest.of(0, 10)).getContent());
   }
 
   @Test
   public void testChinese() {
     System.out
-        .println(announcementRepo.findByAll("_all", "后端", new PageRequest(0, 10)).getContent());
+        .println(announcementRepo.findByAll("_all", "后端", PageRequest.of(0, 10)).getContent());
     System.out.println(announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "后端",
-            new PageRequest(0, 10))
+            PageRequest.of(0, 10))
         .getContent());
     System.out
-        .println(announcementRepo.findByAll("_all", "开发", new PageRequest(0, 10)).getContent());
+        .println(announcementRepo.findByAll("_all", "开发", PageRequest.of(0, 10)).getContent());
     System.out.println(announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "开发",
-            new PageRequest(0, 10))
+            PageRequest.of(0, 10))
         .getContent());
   }
 
@@ -160,7 +161,7 @@ public class AnnouncementRepoTest {
   public void testMultiWord() {
     System.out.println(announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds,
-            "BROWN DOG", new PageRequest(0, 10))
+            "BROWN DOG", PageRequest.of(0, 10))
         .getContent());
   }
 }

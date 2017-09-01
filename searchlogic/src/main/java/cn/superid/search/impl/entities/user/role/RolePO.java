@@ -15,14 +15,14 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * @see cn.superid.search.impl.save.rolling.Suffix
  * @see RoleVO#indexSuffix()
  */
-@Document(indexName = "role-#{suffix.toString()}", type = "role", shards = 10, createIndex = false)
+@Document(indexName = "role-#{suffix.toString()}", type = "role", createIndex = false)
 public class RolePO {
 
   @Id
   @JsonIgnore
   private String id;
 
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String title;
   @Field(type = FieldType.Boolean)
   private Boolean deprecated;

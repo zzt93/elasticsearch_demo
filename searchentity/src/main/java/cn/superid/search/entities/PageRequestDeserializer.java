@@ -15,7 +15,7 @@ public class PageRequestDeserializer implements
 
 
   public PageRequest convert(Map<String, Object> value) {
-    return new PageRequest(((Integer) value.get("pageNumber")),
+    return PageRequest.of(((Integer) value.get("pageNumber")),
         ((Integer) value.get("pageSize")), (Sort) value.get("sort"));
   }
 

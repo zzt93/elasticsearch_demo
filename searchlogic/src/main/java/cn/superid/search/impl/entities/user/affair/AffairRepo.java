@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.affair;
 
 import cn.superid.search.entities.Tag;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
@@ -12,7 +13,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface AffairRepo extends ElasticsearchRepository<AffairPO, String> {
 
-  AffairPO findById(String id);
+  Optional<AffairPO> findById(String id);
 
   Page<AffairPO> findByName(String name, Pageable pageable);
 

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-  static final PageRequest TOP20 = new PageRequest(0, 20);
+  static final PageRequest TOP20 = PageRequest.of(0, 20);
 
   private final UserRepo userRepo;
 

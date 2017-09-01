@@ -52,14 +52,14 @@ public class AffairRepoTest {
 
   @Test
   public void findAny() throws Exception {
-    System.out.println(affairRepo.findAny("开发", new PageRequest(0, 10)).getContent());
-    System.out.println(affairRepo.findAny("开发部", new PageRequest(0, 10)).getContent());
-    System.out.println(affairRepo.findAny("后端开发", new PageRequest(0, 10)).getContent());
+    System.out.println(affairRepo.findAny("开发", PageRequest.of(0, 10)).getContent());
+    System.out.println(affairRepo.findAny("开发部", PageRequest.of(0, 10)).getContent());
+    System.out.println(affairRepo.findAny("后端开发", PageRequest.of(0, 10)).getContent());
   }
 
   @Test //SUPERID-313
   public void bugFix313() throws Exception {
     suffix.setSuffix("*");
-    System.out.println(affairRepo.findAny("1", new PageRequest(0, 10)).getContent());
+    System.out.println(affairRepo.findAny("1", PageRequest.of(0, 10)).getContent());
   }
 }

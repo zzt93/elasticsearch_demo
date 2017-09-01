@@ -1,7 +1,6 @@
 package cn.superid.search.entities;
 
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
@@ -9,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  */
 public class Tag {
 
-  @Field(type = FieldType.String, index = FieldIndex.not_analyzed)
+  @Field(type = FieldType.keyword)
   private String des;
 
   public Tag() {

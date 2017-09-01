@@ -3,7 +3,8 @@
 ## ES Server Config
 
 - Cluster name: elasticsearch_demo
-- Elasticsearch version 2.4.4
+- Port: 9200
+- Elasticsearch version 5.5.2
 - Other configs can be found at `/etc/elasticsearch/`
 
 ## Other Related Server
@@ -21,5 +22,6 @@
 - Config: `$FILEBEAT_HOME/filebeat.yml`
 
 ### Kibana
-- Version: 4.6.2
-- Config: ``
+- Version: 5.5.2
+- Port: 5601
+- Config: `/etc/kibana/kibana.yml`

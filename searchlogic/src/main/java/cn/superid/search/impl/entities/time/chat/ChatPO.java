@@ -20,11 +20,11 @@ public class ChatPO {
   private String id;
   @Field(type = FieldType.Date, format = DateFormat.date)
   private Date date;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String sender;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String receiver;
-  @Field(type = FieldType.String, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "smartcn")
   private String message;
 
   public ChatPO() {

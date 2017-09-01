@@ -34,6 +34,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,8 +151,8 @@ public class MessageReceiver {
             }
             AffairPO affairPO = new AffairPO(node);
             if (Long.parseLong(node.getFatherId()) != 0) {
-              AffairPO father = affairRepo.findById(node.getFatherId());
-              if (father == null) {
+              Optional<AffairPO> byId = affairRepo.findById(node.getFatherId());
+              if (!byId.isPresent()) {
                 logger.warn("Invalid affairVO father id: {}", entity);
                 return;
               }

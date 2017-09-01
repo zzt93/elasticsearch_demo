@@ -95,7 +95,7 @@ public class QueryController {
 
   @GetMapping("/task")
   public Page<TaskPO> queryTask(@RequestParam String query) {
-    return taskRepo.findByTitle(query, new PageRequest(0, PAGE_SIZE));
+    return taskRepo.findByTitle(query, PageRequest.of(0, PAGE_SIZE));
   }
 
   @PostMapping("/file")
@@ -110,7 +110,7 @@ public class QueryController {
 
   @GetMapping("/material")
   public Page<MaterialPO> queryMaterial(@RequestParam String query) {
-    return materialRepo.findByTitleOrTagsIn(query, new PageRequest(0, PAGE_SIZE));
+    return materialRepo.findByTitleOrTagsIn(query, PageRequest.of(0, PAGE_SIZE));
   }
 
   @GetMapping("/user/tag")
@@ -130,27 +130,27 @@ public class QueryController {
 
   @GetMapping("/chat/date")
   public Page<ChatPO> queryChatDate(@RequestParam Date from, @RequestParam Date to) {
-    return chatRepo.findAllByDateBetween(from, to, new PageRequest(0, PAGE_SIZE));
+    return chatRepo.findAllByDateBetween(from, to, PageRequest.of(0, PAGE_SIZE));
   }
 
   @GetMapping("/chat/sender")
   public Page<ChatPO> queryChatSender(@RequestParam String sender) {
-    return chatRepo.findAllBySender(sender, new PageRequest(0, PAGE_SIZE));
+    return chatRepo.findAllBySender(sender, PageRequest.of(0, PAGE_SIZE));
   }
 
   @GetMapping("/chat/receiver")
   public Page<ChatPO> queryChatReceiver(@RequestParam String receiver) {
-    return chatRepo.findAllByReceiver(receiver, new PageRequest(0, PAGE_SIZE));
+    return chatRepo.findAllByReceiver(receiver, PageRequest.of(0, PAGE_SIZE));
   }
 
   @GetMapping("/role/alliance")
   public Page<RolePO> queryAllianceRole(Long allianceId, @RequestParam String role) {
-    return roleRepo.findRoleExcept(allianceId, role, new PageRequest(0, PAGE_SIZE));
+    return roleRepo.findRoleExcept(allianceId, role, PageRequest.of(0, PAGE_SIZE));
   }
 
   @GetMapping("/role/all")
   public Page<RolePO> queryAllRole(@RequestParam String role) {
-    return roleRepo.findRoleInterAlliance(role, new PageRequest(0, PAGE_SIZE));
+    return roleRepo.findRoleInterAlliance(role, PageRequest.of(0, PAGE_SIZE));
   }
 
   @PostMapping("/affair")
