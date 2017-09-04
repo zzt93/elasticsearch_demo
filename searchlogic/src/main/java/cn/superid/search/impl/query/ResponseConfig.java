@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author zzt
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 //@Deprecated
 @Configuration
 @EnableWebMvc
-public class ResponseConfig extends WebMvcConfigurerAdapter {
+public class ResponseConfig implements WebMvcConfigurer {
 
   /**
    * @param converters converters to convert response
@@ -29,7 +29,6 @@ public class ResponseConfig extends WebMvcConfigurerAdapter {
     pageMapper.setSerializationInclusion(Include.NON_NULL);
     converter.setObjectMapper(pageMapper);
     converters.add(converter);
-    super.configureMessageConverters(converters);
   }
 
 

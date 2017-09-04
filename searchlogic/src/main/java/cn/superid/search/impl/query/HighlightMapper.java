@@ -25,13 +25,14 @@ public class HighlightMapper<R> extends DefaultResultMapper {
     function = s;
   }
 
+  @SuppressWarnings({"Because the DefaultResultMapper's interface"})
   @Override
   public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz,
       Pageable pageable) {
     AggregatedPage<T> res = super.mapResults(response, clazz, pageable);
     List<T> chunk = res.getContent();
     SearchHits hits = response.getHits();
-    for (int i = 0; i < hits.hits().length; i++) {
+    for (int i = 0; i < hits.getHits().length; i++) {
       SearchHit at = hits.getAt(i);
       T t = chunk.get(i);
       function.accept(at.getHighlightFields(), (R) t);
