@@ -24,7 +24,7 @@ public class AffairPO {
   private String name;
   @Field(type = FieldType.Nested)
   private List<Tag> tags;
-  @Field(type = FieldType.keyword, index = false)
+  @Field(type = FieldType.keyword)
   private String superId;
   @Field(type = FieldType.Integer)
   private Integer state;
