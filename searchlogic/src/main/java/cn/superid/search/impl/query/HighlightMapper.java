@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
+import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 
 /**
  * The mapper used to add the highlight information
@@ -21,7 +22,10 @@ public class HighlightMapper<R> extends DefaultResultMapper {
 
   private BiConsumer<Map<String, HighlightField>, R> function;
 
-  public HighlightMapper(BiConsumer<Map<String, HighlightField>, R> s) {
+
+  public HighlightMapper(ElasticsearchConverter elasticsearchConverter,
+      BiConsumer<Map<String, HighlightField>, R> s) {
+    super(elasticsearchConverter.getMappingContext());
     function = s;
   }
 

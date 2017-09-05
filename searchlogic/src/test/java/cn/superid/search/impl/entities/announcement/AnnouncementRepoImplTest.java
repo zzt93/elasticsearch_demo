@@ -8,6 +8,10 @@ import com.google.common.collect.Lists;
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +28,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AnnouncementRepoImplTest {
 
-  private Long affairId = 1L;
+  private static final Timestamp modifyTime;
+  private static final Long affairId = 1L;
+
+  static {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss.SSS");
+    Date parsedDate = null;
+    try {
+      parsedDate = dateFormat.parse("2016.10.11 10:10:10.100");
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    modifyTime = new Timestamp(parsedDate.getTime());
+  }
 
   @Autowired
   private AnnouncementRepo announcementRepo;
@@ -49,15 +65,15 @@ public class AnnouncementRepoImplTest {
     String t1 = "java开发规范";
     announcementRepo.save(
         new AnnouncementPO("a", t1, readAll(t1), Lists.newArrayList(), modifierRole, modifierUser,
-            affairId));
+            affairId, modifyTime));
     String t2 = "我的第一个JAVA程序";
     announcementRepo.save(
         new AnnouncementPO("b", t2, readAll(t2), Lists.newArrayList(), modifierRole, modifierUser,
-            affairId));
+            affairId, modifyTime));
     String t3 = "Java 基础语法";
     announcementRepo.save(
         new AnnouncementPO("c", t3, readAll(t3), Lists.newArrayList(), modifierRole, modifierUser,
-            affairId));
+            affairId, modifyTime));
   }
 
   @Test

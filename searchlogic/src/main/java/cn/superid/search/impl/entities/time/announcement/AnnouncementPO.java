@@ -54,8 +54,11 @@ public class AnnouncementPO {
   public AnnouncementPO() {
   }
 
+  /**
+   * For test
+   */
   public AnnouncementPO(String id, String title, String content, List<Tag> tags, String creatorRole,
-      String creatorUser, Long affairId) {
+      String creatorUser, Long affairId, Timestamp modifyTime) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -63,6 +66,7 @@ public class AnnouncementPO {
     this.creatorRole = creatorRole;
     this.creatorUser = creatorUser;
     this.affairId = affairId;
+    this.modifyTime = modifyTime;
   }
 
   public AnnouncementPO(String id, String title, String content, List<Tag> tags, String creatorRole,

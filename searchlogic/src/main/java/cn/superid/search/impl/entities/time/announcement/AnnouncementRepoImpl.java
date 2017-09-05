@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,8 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
 
   @Autowired
   private ElasticsearchTemplate template;
+  @Autowired
+  private ElasticsearchConverter elasticsearchConverter;
 
   @Override
   public Page<AnnouncementPO> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
@@ -41,7 +44,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         .build();
     return template
         .queryForPage(searchQuery, AnnouncementPO.class,
-            new HighlightMapper<AnnouncementPO>((highlightFields, announcement) -> {
+            new HighlightMapper<AnnouncementPO>(elasticsearchConverter, (highlightFields, announcement) -> {
               HighlightField title = highlightFields.get("title");
               if (title != null) {
                 announcement.setTitle(title.fragments()[0].toString());
