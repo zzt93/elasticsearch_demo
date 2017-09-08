@@ -53,12 +53,5 @@
     </plugins>
   </build>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>simu-server-snapshots</name>
-      <url>http://192.168.1.100:8081/artifactory/libs-snapshot-local</url>
-    </snapshotRepository>
-  </distributionManagement>
 
 </project>
