@@ -47,7 +47,7 @@ public class VoAndPoConversion {
   }
 
   public static AffairVO toVO(AffairPO po) {
-    return new AffairVO(po.getFatherId(), po.getId(), po.getState());
+    return new AffairVO(po.getParentId(), po.getId(), po.getState());
   }
 
 

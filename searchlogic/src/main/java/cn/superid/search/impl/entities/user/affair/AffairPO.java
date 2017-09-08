@@ -19,7 +19,7 @@ public class AffairPO {
   @JsonIgnore
   private String id;
   @Field(type = FieldType.keyword, index = false)
-  private String fatherId;
+  private String parentId;
   @Field(type = FieldType.text, analyzer = "smartcn")
   private String name;
   @Field(type = FieldType.Nested)
@@ -35,7 +35,7 @@ public class AffairPO {
   public AffairPO(AffairVO node) {
     id = node.getId();
     name = node.getName();
-    fatherId = node.getFatherId();
+    parentId = node.getParentId();
     tags = node.getTags();
     superId = node.getSuperId();
     state = node.getState();
@@ -78,12 +78,12 @@ public class AffairPO {
     this.superId = superId;
   }
 
-  public String getFatherId() {
-    return fatherId;
+  public String getParentId() {
+    return parentId;
   }
 
-  public void setFatherId(String fatherId) {
-    this.fatherId = fatherId;
+  public void setParentId(String parentId) {
+    this.parentId = parentId;
   }
 
   public Integer getState() {
@@ -98,7 +98,7 @@ public class AffairPO {
   public String toString() {
     return "AffairPO{" +
         "id='" + id + '\'' +
-        ", fatherId='" + fatherId + '\'' +
+        ", parentId='" + parentId + '\'' +
         ", name='" + name + '\'' +
         ", tags=" + tags +
         ", superId='" + superId + '\'' +

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class AffairVO implements UserBasedIndex {
 
-  private String fatherId;
+  private String parentId;
   private String id;
   private String name;
   private String superId;
@@ -21,15 +21,15 @@ public class AffairVO implements UserBasedIndex {
   public AffairVO() {
   }
 
-  public AffairVO(String fatherId, String id, Integer state) {
-    this.fatherId = fatherId;
+  public AffairVO(String parentId, String id, Integer state) {
+    this.parentId = parentId;
     this.id = id;
     this.state = state;
   }
 
-  public AffairVO(String fatherId, String id, String name, String superId,
+  public AffairVO(String parentId, String id, String name, String superId,
       List<Tag> tags, Integer state, Long allianceId) {
-    this.fatherId = fatherId;
+    this.parentId = parentId;
     this.id = id;
     this.name = name;
     this.superId = superId;
@@ -54,12 +54,12 @@ public class AffairVO implements UserBasedIndex {
     this.allianceId = allianceId;
   }
 
-  public String getFatherId() {
-    return fatherId;
+  public String getParentId() {
+    return parentId;
   }
 
-  public void setFatherId(String fatherId) {
-    this.fatherId = fatherId;
+  public void setParentId(String parentId) {
+    this.parentId = parentId;
   }
 
   public String getId() {
@@ -101,7 +101,7 @@ public class AffairVO implements UserBasedIndex {
   @Override
   public String toString() {
     return "AffairVO{" +
-        "fatherId='" + fatherId + '\'' +
+        "parentId='" + parentId + '\'' +
         ", id='" + id + '\'' +
         ", name='" + name + '\'' +
         ", superId='" + superId + '\'' +

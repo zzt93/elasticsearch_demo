@@ -150,8 +150,8 @@ public class MessageReceiver {
               return;
             }
             AffairPO affairPO = new AffairPO(node);
-            if (Long.parseLong(node.getFatherId()) != 0) {
-              Optional<AffairPO> byId = affairRepo.findById(node.getFatherId());
+            if (Long.parseLong(node.getParentId()) != 0) {
+              Optional<AffairPO> byId = affairRepo.findById(node.getParentId());
               if (!byId.isPresent()) {
                 logger.warn("Invalid affairVO father id: {}", entity);
                 return;
