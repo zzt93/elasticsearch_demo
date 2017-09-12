@@ -1,7 +1,7 @@
 package cn.superid.search.impl.entities.user.user;
 
-import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.user.user.UserVO;
+import cn.superid.search.impl.entities.TagPO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -23,14 +23,14 @@ public class UserPO {
   @Field(type = FieldType.keyword)
   private String superId;
   @Field(type = FieldType.Nested)
-  private List<Tag> tags;
+  private List<TagPO> tags;
 
 
   public UserPO() {
   }
 
   UserPO(String id, String username, String superId,
-      List<Tag> tags) {
+      List<TagPO> tags) {
     this.id = id;
     this.username = username;
     this.superId = superId;
@@ -66,11 +66,11 @@ public class UserPO {
     this.username = username;
   }
 
-  public List<Tag> getTags() {
+  public List<TagPO> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<TagPO> tags) {
     this.tags = tags;
   }
 

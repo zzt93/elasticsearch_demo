@@ -1,4 +1,4 @@
-package cn.superid.search.entities;
+package cn.superid.search.impl.entities;
 
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -6,15 +6,15 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/6.
  */
-public class Tag {
+public class TagPO {
 
   @Field(type = FieldType.keyword)
   private String des;
 
-  public Tag() {
+  public TagPO() {
   }
 
-  public Tag(String des) {
+  public TagPO(String des) {
     this.des = des;
   }
 

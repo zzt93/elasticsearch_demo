@@ -1,6 +1,6 @@
 package cn.superid.search.entities.user.warehouse;
 
-import cn.superid.search.entities.Tag;
+import cn.superid.search.entities.TagVO;
 import cn.superid.search.entities.user.UserBasedIndex;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class MaterialVO implements UserBasedIndex {
   private String id;
 
   private String title;
-  private List<Tag> tags;
+  private List<TagVO> tagVOS;
 
   public String getId() {
     return id;
@@ -30,12 +30,12 @@ public class MaterialVO implements UserBasedIndex {
     this.title = title;
   }
 
-  public List<Tag> getTags() {
-    return tags;
+  public List<TagVO> getTagVOS() {
+    return tagVOS;
   }
 
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
+  public void setTagVOS(List<TagVO> tagVOS) {
+    this.tagVOS = tagVOS;
   }
 
   public String indexSuffix() {

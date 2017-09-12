@@ -1,7 +1,6 @@
 package cn.superid.search.impl.query;
 
 import cn.superid.search.entities.PageVO;
-import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.user.affair.AffairQuery;
@@ -9,6 +8,7 @@ import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.user.UserVO;
+import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
@@ -167,7 +167,7 @@ public class QueryController {
   public PageVO<AffairVO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
     Page<AffairPO> page = affairRepo
-        .findByTagsIn(Lists.newArrayList(new Tag(affairInfo.getQuery())),
+        .findByTagsIn(Lists.newArrayList(new TagPO(affairInfo.getQuery())),
             affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }

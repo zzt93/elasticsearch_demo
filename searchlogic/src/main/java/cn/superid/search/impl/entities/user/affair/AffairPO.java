@@ -1,7 +1,8 @@
 package cn.superid.search.impl.entities.user.affair;
 
-import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.user.affair.AffairVO;
+import cn.superid.search.impl.entities.TagPO;
+import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -23,7 +24,7 @@ public class AffairPO {
   @Field(type = FieldType.text, analyzer = "smartcn")
   private String name;
   @Field(type = FieldType.Nested)
-  private List<Tag> tags;
+  private List<TagPO> tags;
   @Field(type = FieldType.keyword)
   private String superId;
   @Field(type = FieldType.Integer)
@@ -36,7 +37,7 @@ public class AffairPO {
     id = node.getId();
     name = node.getName();
     parentId = node.getParentId();
-    tags = node.getTags();
+    tags = VoAndPoConversion.toPOs(node.getTagVOS());
     superId = node.getSuperId();
     state = node.getState();
   }
@@ -62,11 +63,11 @@ public class AffairPO {
     this.name = name;
   }
 
-  public List<Tag> getTags() {
+  public List<TagPO> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<TagPO> tags) {
     this.tags = tags;
   }
 

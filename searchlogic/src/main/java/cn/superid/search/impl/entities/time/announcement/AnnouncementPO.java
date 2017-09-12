@@ -1,7 +1,8 @@
 package cn.superid.search.impl.entities.time.announcement;
 
-import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
+import cn.superid.search.impl.entities.TagPO;
+import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
 import java.util.List;
@@ -24,7 +25,7 @@ public class AnnouncementPO {
   @Field(type = FieldType.text, analyzer = "smartcn")
   private String content;
   @Field(type = FieldType.Nested)
-  private List<Tag> tags;
+  private List<TagPO> tags;
   @Field(type = FieldType.text, analyzer = "smartcn")
   private String creatorRole;
   @Field(type = FieldType.text, analyzer = "smartcn")
@@ -57,7 +58,7 @@ public class AnnouncementPO {
   /**
    * For test
    */
-  public AnnouncementPO(String id, String title, String content, List<Tag> tags, String creatorRole,
+  public AnnouncementPO(String id, String title, String content, List<TagPO> tags, String creatorRole,
       String creatorUser, Long affairId, Timestamp modifyTime) {
     this.id = id;
     this.title = title;
@@ -69,7 +70,7 @@ public class AnnouncementPO {
     this.modifyTime = modifyTime;
   }
 
-  public AnnouncementPO(String id, String title, String content, List<Tag> tags, String creatorRole,
+  public AnnouncementPO(String id, String title, String content, List<TagPO> tags, String creatorRole,
       String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
       Long creatorUserId, Boolean isTop, Integer type, String entityMap,
@@ -95,7 +96,7 @@ public class AnnouncementPO {
     id = vo.getId();
     title = vo.getTitle();
     content = vo.getContent();
-    tags = vo.getTags();
+    tags = VoAndPoConversion.toPOs(vo.getTagVOS());
     creatorRole = vo.getCreatorRole();
     creatorUser = vo.getCreatorUser();
     creatorRoleId = vo.getCreatorRoleId();
@@ -125,11 +126,11 @@ public class AnnouncementPO {
     this.title = title;
   }
 
-  public List<Tag> getTags() {
+  public List<TagPO> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<TagPO> tags) {
     this.tags = tags;
   }
 

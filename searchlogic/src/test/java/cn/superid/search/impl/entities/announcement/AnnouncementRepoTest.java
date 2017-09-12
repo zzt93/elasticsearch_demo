@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.announcement;
 
-import cn.superid.search.entities.Tag;
+import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
 import cn.superid.search.impl.save.MessageReceiverTest;
@@ -30,9 +30,9 @@ public class AnnouncementRepoTest {
   private static final Timestamp modifyTime;
   private static final Long affairId = 1L;
   private static final List<Long> affairIds = Lists.newArrayList(affairId);
-  private static Tag t1 = new Tag("t1");
-  private static Tag t2 = new Tag("t2");
-  private static Tag t3 = new Tag("t3");
+  private static TagPO t1 = new TagPO("t1");
+  private static TagPO t2 = new TagPO("t2");
+  private static TagPO t3 = new TagPO("t3");
 
   static {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss.SSS");
@@ -140,8 +140,8 @@ public class AnnouncementRepoTest {
             PageRequest.of(0, 10))
         .getContent());
 
-//        Tag t10 = new Tag("10");
-//        Tag t20 = new Tag("20");
+//        TagPO t10 = new TagPO("10");
+//        TagPO t20 = new TagPO("20");
 //        Slice<Announcement> test1 = announcementRepo.findByTitle("announcement", PageRequest.of(0, 10));
 //        System.out.println(test1.getContent());
 //        List<Announcement> test2 = announcementRepo.findAllByTitle("announcement1", PageRequest.of(0, 10));

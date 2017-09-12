@@ -1,7 +1,8 @@
 package cn.superid.search.impl.entities.user.warehouse;
 
-import cn.superid.search.entities.Tag;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
+import cn.superid.search.impl.entities.TagPO;
+import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -22,7 +23,7 @@ public class MaterialPO {
   @Field(type = FieldType.text, analyzer = "smartcn")
   private String title;
   @Field(type = FieldType.Nested)
-  private List<Tag> tags;
+  private List<TagPO> tags;
 
   public MaterialPO() {
   }
@@ -30,7 +31,7 @@ public class MaterialPO {
   public MaterialPO(MaterialVO entity) {
     id = entity.getId();
     title = entity.getTitle();
-    tags = entity.getTags();
+    tags = VoAndPoConversion.toPOs(entity.getTagVOS());
   }
 
   public String getId() {
@@ -49,11 +50,11 @@ public class MaterialPO {
     this.title = title;
   }
 
-  public List<Tag> getTags() {
+  public List<TagPO> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<TagPO> tags) {
     this.tags = tags;
   }
 

@@ -1,6 +1,6 @@
 package cn.superid.search.entities.time.announcement;
 
-import cn.superid.search.entities.Tag;
+import cn.superid.search.entities.TagVO;
 import cn.superid.search.entities.time.TimeBasedIndex;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -14,7 +14,7 @@ public class AnnouncementVO implements TimeBasedIndex {
   private String id;
   private String title;
   private String content;
-  private List<Tag> tags;
+  private List<TagVO> tagVOS;
   private String creatorRole;
   private String creatorUser;
   private String affairName;
@@ -34,18 +34,18 @@ public class AnnouncementVO implements TimeBasedIndex {
   public AnnouncementVO() {
   }
 
-  public AnnouncementVO(String id, String title, String content, List<Tag> tags, String creatorRole,
+  public AnnouncementVO(String id, String title, String content, List<TagVO> tagVOS, String creatorRole,
       String creatorUser, Long affairId) {
     this.id = id;
     this.title = title;
     this.content = content;
-    this.tags = tags;
+    this.tagVOS = tagVOS;
     this.creatorRole = creatorRole;
     this.creatorUser = creatorUser;
     this.affairId = affairId;
   }
 
-  public AnnouncementVO(String id, String title, String content, List<Tag> tags, String creatorRole,
+  public AnnouncementVO(String id, String title, String content, List<TagVO> tagVOS, String creatorRole,
       String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
       Long creatorUserId, Boolean isTop, Integer type, String entityMap,
@@ -53,7 +53,7 @@ public class AnnouncementVO implements TimeBasedIndex {
     this.id = id;
     this.title = title;
     this.content = content;
-    this.tags = tags;
+    this.tagVOS = tagVOS;
     this.creatorRole = creatorRole;
     this.creatorUser = creatorUser;
     this.creatorRoleId = creatorRoleId;
@@ -85,12 +85,12 @@ public class AnnouncementVO implements TimeBasedIndex {
     this.title = title;
   }
 
-  public List<Tag> getTags() {
-    return tags;
+  public List<TagVO> getTagVOS() {
+    return tagVOS;
   }
 
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
+  public void setTagVOS(List<TagVO> tagVOS) {
+    this.tagVOS = tagVOS;
   }
 
   public String getCreatorUser() {
@@ -195,7 +195,7 @@ public class AnnouncementVO implements TimeBasedIndex {
         "id='" + id + '\'' +
         ", title='" + title + '\'' +
         ", content='" + content + '\'' +
-        ", tags=" + tags +
+        ", tagVOS=" + tagVOS +
         ", creatorRole='" + creatorRole + '\'' +
         ", creatorUser='" + creatorUser + '\'' +
         ", affairName='" + affairName + '\'' +

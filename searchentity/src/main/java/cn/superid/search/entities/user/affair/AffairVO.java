@@ -1,6 +1,6 @@
 package cn.superid.search.entities.user.affair;
 
-import cn.superid.search.entities.Tag;
+import cn.superid.search.entities.TagVO;
 import cn.superid.search.entities.user.UserBasedIndex;
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class AffairVO implements UserBasedIndex {
   private String id;
   private String name;
   private String superId;
-  private List<Tag> tags;
+  private List<TagVO> tagVOS;
   private Integer state;
 
   private Long allianceId;
@@ -28,12 +28,12 @@ public class AffairVO implements UserBasedIndex {
   }
 
   public AffairVO(String parentId, String id, String name, String superId,
-      List<Tag> tags, Integer state, Long allianceId) {
+      List<TagVO> tagVOS, Integer state, Long allianceId) {
     this.parentId = parentId;
     this.id = id;
     this.name = name;
     this.superId = superId;
-    this.tags = tags;
+    this.tagVOS = tagVOS;
     this.state = state;
     this.allianceId = allianceId;
   }
@@ -86,12 +86,12 @@ public class AffairVO implements UserBasedIndex {
     this.superId = superId;
   }
 
-  public List<Tag> getTags() {
-    return tags;
+  public List<TagVO> getTagVOS() {
+    return tagVOS;
   }
 
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
+  public void setTagVOS(List<TagVO> tagVOS) {
+    this.tagVOS = tagVOS;
   }
 
   public String indexSuffix() {
@@ -105,7 +105,7 @@ public class AffairVO implements UserBasedIndex {
         ", id='" + id + '\'' +
         ", name='" + name + '\'' +
         ", superId='" + superId + '\'' +
-        ", tags=" + tags +
+        ", tagVOS=" + tagVOS +
         ", state=" + state +
         ", allianceId=" + allianceId +
         '}';

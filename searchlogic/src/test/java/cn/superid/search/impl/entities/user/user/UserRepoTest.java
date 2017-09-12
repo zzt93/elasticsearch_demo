@@ -2,7 +2,7 @@ package cn.superid.search.impl.entities.user.user;
 
 import static org.junit.Assert.assertTrue;
 
-import cn.superid.search.entities.Tag;
+import cn.superid.search.impl.entities.TagPO;
 import java.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
@@ -19,9 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class UserRepoTest {
 
-  private static final Tag TAG_1 = new Tag("tag1");
-  private static final Tag TAG_2 = new Tag("tag2");
-  private static final Tag TAG_3 = new Tag("tag3");
+  private static final TagPO TAG_1 = new TagPO("tag1");
+  private static final TagPO TAG_2 = new TagPO("tag2");
+  private static final TagPO TAG_3 = new TagPO("tag3");
 
   @Autowired
   private UserRepo userRepo;

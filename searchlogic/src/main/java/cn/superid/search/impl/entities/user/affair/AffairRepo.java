@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.user.affair;
 
-import cn.superid.search.entities.Tag;
+import cn.superid.search.impl.entities.TagPO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,7 @@ public interface AffairRepo extends ElasticsearchRepository<AffairPO, String> {
 
   Page<AffairPO> findBySuperId(String superId, Pageable pageable);
 
-  Page<AffairPO> findByTagsIn(List<Tag> tags, Pageable pageable);
+  Page<AffairPO> findByTagsIn(List<TagPO> tags, Pageable pageable);
 
   @Query(" {" +
       " \"bool\": { " +
