@@ -32,25 +32,16 @@
 
   <repositories>
     <repository>
-      <id>snapshots</id>
-      <name>libs-snapshot</name>
-      <url>http://192.168.1.100:8081/artifactory/libs-snapshot</url>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>spring.milestone</id>
-      <name>spring milestone</name>
-      <url>http://repo.spring.io/milestone/</url>
+      <id>all</id>
+      <name>all</name>
+      <url>http://192.168.1.100:8081/artifactory/all</url>
     </repository>
   </repositories>
-
   <pluginRepositories>
     <pluginRepository>
-      <id>spring.milestone</id>
-      <name>spring milestone</name>
-      <url>http://repo.spring.io/milestone/</url>
+      <id>all</id>
+      <name>all</name>
+      <url>http://192.168.1.100:8081/artifactory/all</url>
     </pluginRepository>
   </pluginRepositories>
 
@@ -98,7 +89,7 @@
     <snapshotRepository>
       <id>snapshots</id>
       <name>simu-server-snapshots</name>
-      <url>http://192.168.1.100:8081/artifactory/libs-snapshot-local</url>
+      <url>http://192.168.1.100:8081/artifactory/all</url>
     </snapshotRepository>
   </distributionManagement>
 
