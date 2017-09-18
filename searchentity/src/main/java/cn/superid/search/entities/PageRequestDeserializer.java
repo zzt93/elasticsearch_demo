@@ -37,8 +37,8 @@ public class PageRequestDeserializer implements
     } else {
       sort = Sort.unsorted();
     }
-    return PageRequest.of(((Integer) value.get("pageNumber")),
-        ((Integer) value.get("pageSize")), sort);
+    return PageRequest.of(((Integer) value.get("page")),
+        ((Integer) value.get("size")), sort);
   }
 
   public JavaType getInputType(TypeFactory typeFactory) {
