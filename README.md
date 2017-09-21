@@ -13,7 +13,7 @@
 - [Config File Backup Repo](http://192.168.1.100:81/zzt/logstash)
 
 ### Logstash
-- Version: 5.5.0
+- Version: 5.6.0
 - Logstash config: `/etc/logstash/{logstash.yml, log4j2.properties}`
 - Pipeline config: `/etc/logstash/conf.d/xxx.conf`
 

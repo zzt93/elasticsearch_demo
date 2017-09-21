@@ -7,11 +7,13 @@ import static org.apache.commons.lang.StringUtils.substringBeforeLast;
 import java.net.InetAddress;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.xpack.client.PreBuiltXPackTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,8 @@ public class ESConfig {
 
 
   private final ElasticsearchProperties properties;
+  @Value("${ES_USER}")
+  private String esUser;
 
   @Autowired
   public ESConfig(ElasticsearchProperties properties) {
@@ -51,9 +55,14 @@ public class ESConfig {
   }
 
   private Settings settings() {
-    return Settings.builder()
-        .put("cluster.name", properties.getClusterName())
-        .put("xpack.security.user", "elastic:changeme")
+    Builder put = Settings.builder()
+        .put("cluster.name", properties.getClusterName());
+    if (esUser == null) {
+      logger.error("Not config elastic user and password in environment variable, set 'ES_USER'");
+      return put.build();
+    }
+    return put
+        .put("xpack.security.user", esUser)
 //        .put("client.transport.sniff", clientTransportSniff)
 //        .put("client.transport.ignore_cluster_name", clientIgnoreClusterName)
 //        .put("client.transport.ping_timeout", clientPingTimeout)
