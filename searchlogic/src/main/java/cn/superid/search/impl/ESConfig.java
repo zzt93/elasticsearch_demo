@@ -30,7 +30,7 @@ public class ESConfig {
 
 
   private final ElasticsearchProperties properties;
-  @Value("${ES_USER}")
+  @Value("${es_user}")
   private String esUser;
 
   @Autowired
