@@ -18,6 +18,7 @@ import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchPr
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * @author zzt
@@ -30,7 +31,7 @@ public class ESConfig {
 
 
   private final ElasticsearchProperties properties;
-  @Value("${es_user}")
+  @Value("${ES_USER}")
   private String esUser;
 
   @Autowired
@@ -57,7 +58,7 @@ public class ESConfig {
   private Settings settings() {
     Builder put = Settings.builder()
         .put("cluster.name", properties.getClusterName());
-    if (esUser == null) {
+    if (StringUtils.isEmpty(esUser)) {
       logger.error("Not config elastic user and password in environment variable, set 'ES_USER'");
       return put.build();
     }
