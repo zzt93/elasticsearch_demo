@@ -1,0 +1,28 @@
+{
+  "affair" : {
+    "properties": {
+      "name": {
+        "type": "text",
+        "analyzer": "smartcn"
+      },
+      "parentId": {
+        "type": "keyword",
+        "index": false
+      },
+      "state": {
+        "type": "integer"
+      },
+      "superId": {
+        "type": "keyword"
+      },
+      "tags": {
+        "type": "nested",
+        "properties": {
+          "des": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}

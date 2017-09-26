@@ -42,6 +42,13 @@ public class FilePO {
     type = vo.getType().ordinal();
   }
 
+  public FilePO(String id, String name, String uploadRoleId, Integer type) {
+    this.id = id;
+    this.name = name;
+    this.uploadRoleId = uploadRoleId;
+    this.type = type;
+  }
+
   public String getId() {
     return id;
   }

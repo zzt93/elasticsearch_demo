@@ -1,17 +1,15 @@
 {
-  "file": {
-    "properties": {
-      "title": {
-        "type": "string",
-        "analyzer": "smartcn"
+  "file" : {
+    "properties" : {
+      "name" : {
+        "type" : "text",
+        "analyzer" : "smartcn"
       },
-      "uploadRole": {
-        "type": "string",
-        "analyzer": "smartcn"
+      "type" : {
+        "type" : "integer"
       },
-      "uploadUser": {
-        "type": "string",
-        "analyzer": "smartcn"
+      "uploadRoleId" : {
+        "type" : "keyword"
       }
     }
   }

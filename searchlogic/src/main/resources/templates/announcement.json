@@ -1,31 +1,65 @@
 {
-  "announcement": {
-    "properties": {
-      "id": {
-        "type": "string",
-        "index": "not_analyzed"
+  "announcement" : {
+    "properties" : {
+      "affairId" : {
+        "type" : "long"
       },
-      "modifier": {
-        "type": "string",
-        "analyzer": "smartcn"
+      "affairName" : {
+        "type" : "text",
+        "analyzer" : "smartcn"
       },
-      "publisher": {
-        "type": "string",
-        "analyzer": "smartcn"
+      "avatar" : {
+        "type" : "keyword",
+        "index" : false
       },
-      "tags": {
-        "type": "nested",
-        "properties": {
-          "des": {
-            "type": "string",
-            "index": "not_analyzed"
+      "content" : {
+        "type" : "text",
+        "analyzer" : "smartcn"
+      },
+      "creatorRole" : {
+        "type" : "text",
+        "analyzer" : "smartcn"
+      },
+      "creatorRoleId" : {
+        "type" : "long",
+        "index" : false
+      },
+      "creatorUser" : {
+        "type" : "text",
+        "analyzer" : "smartcn"
+      },
+      "creatorUserId" : {
+        "type" : "long",
+        "index" : false
+      },
+      "entityMap" : {
+        "type" : "keyword",
+        "index" : false
+      },
+      "isTop" : {
+        "type" : "boolean",
+        "index" : false
+      },
+      "modifyTime" : {
+        "type" : "date"
+      },
+      "tags" : {
+        "type" : "nested",
+        "properties" : {
+          "des" : {
+            "type" : "keyword"
           }
         }
       },
-      "title": {
-        "type": "string",
-        "analyzer": "smartcn"
+      "title" : {
+        "type" : "text",
+        "analyzer" : "smartcn"
+      },
+      "type" : {
+        "type" : "integer",
+        "index" : false
       }
     }
   }
 }
+
