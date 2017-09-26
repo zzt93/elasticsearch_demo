@@ -35,9 +35,10 @@ public class FileRepoImpl implements FileCustom {
   public void updateFileName(FilePO file) {
     IndexRequest indexRequest = new IndexRequest();
     indexRequest.source("name", file.getName());
-    UpdateQuery updateQuery = new UpdateQueryBuilder().withId(file.getId())
-        // class is used to get `index` and `type`
+    UpdateQuery updateQuery = new UpdateQueryBuilder()
+        // class is used to infer `index` and `type`
         .withClass(FilePO.class)
+        .withId(file.getId())
         // indexRequest will be used as `doc`
         .withIndexRequest(indexRequest).build();
     template.update(updateQuery);
@@ -47,6 +48,7 @@ public class FileRepoImpl implements FileCustom {
   public List<FilePO> findByNameOrUploadRoleName(String info, Long allianceId,
       Long affairId) {
     suffix.setSuffix(allianceId.toString());
+    // TODO 17/9/26 combine two search
     List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(affairId, info);
 
     List<String> ids = rolePOS.stream().map(RolePO::getId).collect(Collectors.toList());

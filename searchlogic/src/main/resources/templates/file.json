@@ -1,16 +1,29 @@
 {
-  "file" : {
-    "properties" : {
-      "name" : {
-        "type" : "text",
-        "analyzer" : "smartcn"
-      },
-      "type" : {
-        "type" : "integer"
-      },
-      "uploadRoleId" : {
-        "type" : "keyword"
+  "template": "file-*",
+  "mappings" : {
+    "file" : {
+      "properties" : {
+        "name" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
+        },
+        "type" : {
+          "type" : "integer"
+        },
+        "uploadRoleId" : {
+          "type" : "keyword"
+        }
       }
+    }
+  },
+  "settings" : {
+    "index" : {
+      "refresh_interval" : "10s",
+      "number_of_shards" : "1",
+      "store" : {
+        "type" : "fs"
+      },
+      "number_of_replicas" : "1"
     }
   }
 }

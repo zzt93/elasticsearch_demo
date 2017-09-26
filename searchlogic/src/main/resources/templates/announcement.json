@@ -1,64 +1,77 @@
 {
-  "announcement" : {
-    "properties" : {
-      "affairId" : {
-        "type" : "long"
-      },
-      "affairName" : {
-        "type" : "text",
-        "analyzer" : "smartcn"
-      },
-      "avatar" : {
-        "type" : "keyword",
-        "index" : false
-      },
-      "content" : {
-        "type" : "text",
-        "analyzer" : "smartcn"
-      },
-      "creatorRole" : {
-        "type" : "text",
-        "analyzer" : "smartcn"
-      },
-      "creatorRoleId" : {
-        "type" : "long",
-        "index" : false
-      },
-      "creatorUser" : {
-        "type" : "text",
-        "analyzer" : "smartcn"
-      },
-      "creatorUserId" : {
-        "type" : "long",
-        "index" : false
-      },
-      "entityMap" : {
-        "type" : "keyword",
-        "index" : false
-      },
-      "isTop" : {
-        "type" : "boolean",
-        "index" : false
-      },
-      "modifyTime" : {
-        "type" : "date"
-      },
-      "tags" : {
-        "type" : "nested",
-        "properties" : {
-          "des" : {
-            "type" : "keyword"
+  "template": "announcement-*",
+  "mappings" : {
+    "announcement" : {
+      "properties" : {
+        "affairId" : {
+          "type" : "long"
+        },
+        "affairName" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
+        },
+        "avatar" : {
+          "type" : "keyword",
+          "index" : false
+        },
+        "content" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
+        },
+        "creatorRole" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
+        },
+        "creatorRoleId" : {
+          "type" : "long",
+          "index" : false
+        },
+        "creatorUser" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
+        },
+        "creatorUserId" : {
+          "type" : "long",
+          "index" : false
+        },
+        "entityMap" : {
+          "type" : "keyword",
+          "index" : false
+        },
+        "isTop" : {
+          "type" : "boolean",
+          "index" : false
+        },
+        "modifyTime" : {
+          "type" : "date"
+        },
+        "tags" : {
+          "type" : "nested",
+          "properties" : {
+            "des" : {
+              "type" : "keyword"
+            }
           }
+        },
+        "title" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
+        },
+        "type" : {
+          "type" : "integer",
+          "index" : false
         }
-      },
-      "title" : {
-        "type" : "text",
-        "analyzer" : "smartcn"
-      },
-      "type" : {
-        "type" : "integer",
-        "index" : false
       }
+    }
+  },
+  "settings" : {
+    "index" : {
+      "refresh_interval" : "1s",
+      "number_of_shards" : "5",
+      "store" : {
+        "type" : "fs"
+      },
+      "number_of_replicas" : "1"
     }
   }
 }

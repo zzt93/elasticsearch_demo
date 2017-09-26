@@ -1,7 +1,9 @@
 package cn.superid.search.impl.entities.user.role;
 
 import cn.superid.search.entities.user.role.RoleVO;
+import cn.superid.search.impl.entities.TagPO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -28,8 +30,9 @@ public class RolePO {
   private Boolean deprecated;
   @Field(type = FieldType.Long)
   private Long affairId;
-  @Field(type = FieldType.Long)
-  private Long taskId;
+  @Field(type = FieldType.Nested)
+  private List<TagPO> tags;
+
 
   public RolePO() {
   }
@@ -39,7 +42,6 @@ public class RolePO {
     this.title = title;
     this.deprecated = deprecated;
     this.affairId = affairId;
-    this.taskId = taskId;
   }
 
   public RolePO(RoleVO entity) {
@@ -47,7 +49,6 @@ public class RolePO {
     title = entity.getTitle();
     deprecated = entity.getDeprecated();
     affairId = entity.getAffairId();
-    taskId = entity.getTaskId();
   }
 
   public Long getAffairId() {
@@ -82,12 +83,12 @@ public class RolePO {
     this.deprecated = deprecated;
   }
 
-  public Long getTaskId() {
-    return taskId;
+  public List<TagPO> getTags() {
+    return tags;
   }
 
-  public void setTaskId(Long taskId) {
-    this.taskId = taskId;
+  public void setTags(List<TagPO> tags) {
+    this.tags = tags;
   }
 
   @Override

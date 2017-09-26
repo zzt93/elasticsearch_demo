@@ -1,21 +1,34 @@
 {
-  "user" : {
-    "properties" : {
-      "superId" : {
-        "type" : "keyword"
-      },
-      "tags" : {
-        "type" : "nested",
-        "properties" : {
-          "des" : {
-            "type" : "keyword"
+  "template": "user",
+  "mappings" : {
+    "user" : {
+      "properties" : {
+        "superId" : {
+          "type" : "keyword"
+        },
+        "tags" : {
+          "type" : "nested",
+          "properties" : {
+            "des" : {
+              "type" : "keyword"
+            }
           }
+        },
+        "username" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
         }
-      },
-      "username" : {
-        "type" : "text",
-        "analyzer" : "smartcn"
       }
+    }
+  },
+  "settings" : {
+    "index" : {
+      "refresh_interval" : "1s",
+      "number_of_shards" : "10",
+      "store" : {
+        "type" : "fs"
+      },
+      "number_of_replicas" : "1",
     }
   }
 }

@@ -1,28 +1,41 @@
 {
-  "affair" : {
-    "properties": {
-      "name": {
-        "type": "text",
-        "analyzer": "smartcn"
-      },
-      "parentId": {
-        "type": "keyword",
-        "index": false
-      },
-      "state": {
-        "type": "integer"
-      },
-      "superId": {
-        "type": "keyword"
-      },
-      "tags": {
-        "type": "nested",
-        "properties": {
-          "des": {
-            "type": "keyword"
+  "template": "affair-*",
+  "mappings" : {
+    "affair" : {
+      "properties" : {
+        "name" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
+        },
+        "parentId" : {
+          "type" : "keyword",
+          "index" : false
+        },
+        "state" : {
+          "type" : "integer"
+        },
+        "superId" : {
+          "type" : "keyword"
+        },
+        "tags" : {
+          "type" : "nested",
+          "properties" : {
+            "des" : {
+              "type" : "keyword"
+            }
           }
         }
       }
+    }
+  },
+  "settings" : {
+    "index" : {
+      "refresh_interval" : "1s",
+      "number_of_shards" : "5",
+      "store" : {
+        "type" : "fs"
+      },
+      "number_of_replicas" : "1"
     }
   }
 }
