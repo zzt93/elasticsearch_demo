@@ -12,6 +12,10 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * Created by zzt on 17/6/27.
+ *
+ * Suffix is allianceId
+ *
+ * @see AffairVO#indexSuffix()
  */
 @Document(indexName = "affair-#{suffix.toString()}", type = "affair", refreshInterval = "1s", createIndex = false)
 public class AffairPO {

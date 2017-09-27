@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-mvn -DES_USER=$1 package
 export BUILD_ID=dontKillMe
 fuser -k -n tcp 9500
 ES_USER=$1

@@ -11,22 +11,17 @@ public class RoleVO implements UserBasedIndex {
 
   private String id;
   private String title;
-  private Boolean deprecated;
   private Long affairId;
-  private Long taskId;
 
   private Long allianceId;
 
   public RoleVO() {
   }
 
-  public RoleVO(String id, String title, Boolean deprecated, Long affairId, Long taskId,
-      Long allianceId) {
+  public RoleVO(String id, String title, Long affairId, Long allianceId) {
     this.id = id;
     this.title = title;
-    this.deprecated = deprecated;
     this.affairId = affairId;
-    this.taskId = taskId;
     this.allianceId = allianceId;
   }
 
@@ -54,22 +49,6 @@ public class RoleVO implements UserBasedIndex {
     this.title = title;
   }
 
-  public Boolean getDeprecated() {
-    return deprecated;
-  }
-
-  public void setDeprecated(Boolean deprecated) {
-    this.deprecated = deprecated;
-  }
-
-  public Long getTaskId() {
-    return taskId;
-  }
-
-  public void setTaskId(Long taskId) {
-    this.taskId = taskId;
-  }
-
   public Long getAllianceId() {
     return allianceId;
   }
@@ -83,9 +62,7 @@ public class RoleVO implements UserBasedIndex {
     return "RoleVO{" +
         "id='" + id + '\'' +
         ", title='" + title + '\'' +
-        ", deprecated=" + deprecated +
         ", affairId=" + affairId +
-        ", taskId=" + taskId +
         ", allianceId=" + allianceId +
         '}';
   }

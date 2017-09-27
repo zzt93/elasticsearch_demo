@@ -10,8 +10,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface RoleRepo extends ElasticsearchRepository<RolePO, String>, RoleCustom {
 
-  Page<RolePO> findByTaskIdAndTitle(Long taskId, String title, Pageable pageable);
-
   Page<RolePO> findByAffairIdAndTitle(Long affairId, String title, Pageable pageable);
 
   List<RolePO> findByAffairIdAndTitle(Long affairId, String title);
