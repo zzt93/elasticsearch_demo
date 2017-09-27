@@ -21,8 +21,7 @@ public interface AnnouncementCustom {
           "       {\n" +
           "         \"multi_match\": {\n" +
           "           \"query\": \"?0\",\n" +
-          "           \"fields\": [\"title\", \"content\", \"creatorRole\", \"creatorUser\", \"affairName\"]\n"
-          +
+          "           \"fields\": [\"title\", \"content\", \"creatorRole\", \"creatorUser\", \"affairName\"]\n" +
           "         }\n" +
           "       },\n" +
           "       {\n" +
@@ -34,11 +33,23 @@ public interface AnnouncementCustom {
           "             }}\n" +
           "         }\n" +
           "       } " +
-          "      ]\n" +
+          "      ],\n" + "      \"must\": {\n" +
+          "        \"range\" : {\n" +
+          "          \"modifyTime\":{\n" +
+          "            \"gt\": \"?2\",\n" +
+          "            \"lte\": \"?3\"\n" + ",\n" +
+          "                \"format\": \"yyyy-MM-dd hh:mm:ss\"" +
+          "          }\n" +
+          "        }\n" +
+          "      }" +
           "  }" +
           "}";
 
   Page<AnnouncementPO> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
       List<Long> affairIds, String info,
+      Pageable pageable);
+
+  Page<AnnouncementPO> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsWithTimeInAffair(
+      List<Long> affairIds, String info, long startTime, long endTime,
       Pageable pageable);
 }

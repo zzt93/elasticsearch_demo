@@ -5,9 +5,14 @@ import static org.elasticsearch.index.query.QueryBuilders.wrapperQuery;
 import cn.superid.search.impl.query.HighlightMapper;
 import cn.superid.search.impl.query.QueryHelper;
 import cn.superid.search.impl.save.rolling.Suffix;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,15 +34,23 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
   private ElasticsearchConverter elasticsearchConverter;
 
   @Override
-  public Page<AnnouncementPO> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
-      List<Long> affairIds, String info,
+  public Page<AnnouncementPO> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(List<Long> affairIds,
+      String info, Pageable pageable) {
+    return findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsWithTimeInAffair(affairIds, info, 0, new Date().getTime(), pageable);
+  }
+
+  @Override
+  public Page<AnnouncementPO> findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsWithTimeInAffair(
+      List<Long> affairIds, String info, long startTime, long endTime,
       Pageable pageable) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String query = QueryHelper.replacePlaceholders(
         FIND_BY_TITLE_OR_CONTENT_OR_MODIFIER_ROLE_OR_MODIFIER_USER_OR_TAGS_IN_QUERY, info,
-        affairIds.toString());
+        affairIds.toString(), dateFormat.format(new Date(startTime)), dateFormat.format(new Date(endTime)));
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AnnouncementPO.class))
         .withQuery(wrapperQuery(query))
+        .withSort(SortBuilders.fieldSort("modifyTime").order(SortOrder.DESC))
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
             new HighlightBuilder.Field("content"))
