@@ -13,6 +13,7 @@ public class MaterialVO implements UserBasedIndex {
 
   private String title;
   private List<TagVO> tagVOS;
+  private Long allianceId;
 
   public String getId() {
     return id;
@@ -38,7 +39,15 @@ public class MaterialVO implements UserBasedIndex {
     this.tagVOS = tagVOS;
   }
 
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
+  }
+
   public String indexSuffix() {
-    return null;
+    return allianceId.toString();
   }
 }

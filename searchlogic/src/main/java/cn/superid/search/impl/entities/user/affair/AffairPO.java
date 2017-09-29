@@ -4,6 +4,7 @@ import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -46,9 +47,13 @@ public class AffairPO {
     state = node.getState();
   }
 
+  /**
+   * This constructor is for test
+   */
   AffairPO(String id, String name) {
     this.id = id;
     this.name = name;
+    tags = Lists.newArrayList(new TagPO("test1"), new TagPO("test2"));
   }
 
   public String getId() {

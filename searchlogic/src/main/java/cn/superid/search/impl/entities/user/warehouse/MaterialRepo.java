@@ -16,7 +16,7 @@ public interface MaterialRepo extends ElasticsearchRepository<MaterialPO, String
       "       {\n" +
       "         \"match\": {\n" +
       "           \"query\": \"?0\",\n" +
-      "           \"fields\": [\"title\"]\n" +
+      "           \"fields\": [\"name\"]\n" +
       "         }\n" +
       "       },\n" +
       "       {\n" +
@@ -30,5 +30,5 @@ public interface MaterialRepo extends ElasticsearchRepository<MaterialPO, String
       "       } ]\n" +
       "  }" +
       "}")
-  Page<MaterialPO> findByTitleOrTagsIn(String info, Pageable pageable);
+  Page<MaterialPO> findByNameOrTagsIn(String info, Pageable pageable);
 }

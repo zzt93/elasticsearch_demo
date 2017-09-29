@@ -110,7 +110,7 @@ public class QueryController {
 
   @GetMapping("/material")
   public Page<MaterialPO> queryMaterial(@RequestParam String query) {
-    return materialRepo.findByTitleOrTagsIn(query, PageRequest.of(0, PAGE_SIZE));
+    return materialRepo.findByNameOrTagsIn(query, PageRequest.of(0, PAGE_SIZE));
   }
 
   @GetMapping("/user/tag")

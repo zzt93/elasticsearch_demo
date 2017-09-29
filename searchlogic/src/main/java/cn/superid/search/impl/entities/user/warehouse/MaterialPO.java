@@ -11,9 +11,13 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
+ * suffix is allianceId
+ *
  * Created by zzt on 17/6/27.
+ *
+ * @see MaterialVO#indexSuffix()
  */
-@Document(indexName = "warehouse-#{suffix.toString()}", type = "material", createIndex = false)
+@Document(indexName = "material-#{suffix.toString()}", type = "material", createIndex = false)
 public class MaterialPO {
 
   @Id
@@ -21,16 +25,37 @@ public class MaterialPO {
   private String id;
 
   @Field(type = FieldType.text, analyzer = "smartcn")
-  private String title;
+  private String name;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
+  @Field(type = FieldType.Long)
+  private Long warehouseId;
+  @Field(type = FieldType.Long)
+  private Long affairId;
+  @Field(type = FieldType.Integer)
+  private Integer type;
+  @Field(type = FieldType.Integer)
+  private Integer publicType;
+
+
 
   public MaterialPO() {
   }
 
+  MaterialPO(String id, String name,
+      List<TagPO> tags, Long warehouseId, Long affairId, Integer type, Integer publicType) {
+    this.id = id;
+    this.name = name;
+    this.tags = tags;
+    this.warehouseId = warehouseId;
+    this.affairId = affairId;
+    this.type = type;
+    this.publicType = publicType;
+  }
+
   public MaterialPO(MaterialVO entity) {
     id = entity.getId();
-    title = entity.getTitle();
+    name = entity.getTitle();
     tags = VoAndPoConversion.toPOs(entity.getTagVOS());
   }
 
@@ -42,12 +67,12 @@ public class MaterialPO {
     this.id = id;
   }
 
-  public String getTitle() {
-    return title;
+  public String getName() {
+    return name;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public List<TagPO> getTags() {
@@ -58,4 +83,35 @@ public class MaterialPO {
     this.tags = tags;
   }
 
+  public Long getWarehouseId() {
+    return warehouseId;
+  }
+
+  public void setWarehouseId(Long warehouseId) {
+    this.warehouseId = warehouseId;
+  }
+
+  public Long getAffairId() {
+    return affairId;
+  }
+
+  public void setAffairId(Long affairId) {
+    this.affairId = affairId;
+  }
+
+  public Integer getType() {
+    return type;
+  }
+
+  public void setType(Integer type) {
+    this.type = type;
+  }
+
+  public Integer getPublicType() {
+    return publicType;
+  }
+
+  public void setPublicType(Integer publicType) {
+    this.publicType = publicType;
+  }
 }

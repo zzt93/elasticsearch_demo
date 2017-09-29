@@ -17,6 +17,9 @@
         "title": {
           "type": "text",
           "analyzer": "smartcn"
+        },
+        "type": {
+          "type": "byte"
         }
       }
     }

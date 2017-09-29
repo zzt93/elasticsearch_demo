@@ -31,15 +31,20 @@ public class RolePO {
   private Long affairId;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
+  @Field(type = FieldType.Integer)
+  private Integer type;
 
 
   public RolePO() {
   }
 
-  public RolePO(String id, String title, Boolean deprecated, Long affairId, Long taskId) {
+  RolePO(String id, String title, Long affairId, Integer type,
+      List<TagPO> t) {
     this.id = id;
     this.title = title;
     this.affairId = affairId;
+    this.type = type;
+    this.tags = t;
   }
 
   public RolePO(RoleVO entity) {
@@ -80,6 +85,14 @@ public class RolePO {
     this.tags = tags;
   }
 
+  public Integer getType() {
+    return type;
+  }
+
+  public void setType(Integer type) {
+    this.type = type;
+  }
+
   @Override
   public String toString() {
     return "RolePO{" +
@@ -87,6 +100,7 @@ public class RolePO {
         ", title='" + title + '\'' +
         ", affairId=" + affairId +
         ", tags=" + tags +
+        ", type=" + type +
         '}';
   }
 }

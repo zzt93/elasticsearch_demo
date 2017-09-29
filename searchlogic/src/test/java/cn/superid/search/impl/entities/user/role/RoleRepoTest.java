@@ -1,7 +1,9 @@
 package cn.superid.search.impl.entities.user.role;
 
+import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.save.MessageReceiverTest;
 import cn.superid.search.impl.save.rolling.Suffix;
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,17 +33,17 @@ public class RoleRepoTest {
     suffix.setSuffix("123");
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 
-    roleRepo.save(new RolePO("1", "前端开发", false, 1L, taskId));
-    roleRepo.save(new RolePO("2", "后端开发", false, 1L, taskId));
-    roleRepo.save(new RolePO("6", "前端开发", false, 2L, taskId));
-    roleRepo.save(new RolePO("7", "后端开发", false, 2L, taskId));
+    roleRepo.save(new RolePO("1", "前端开发", 1L, 0, Lists.newArrayList(new TagPO("tag"))));
+    roleRepo.save(new RolePO("2", "后端开发", 1L, 0, Lists.newArrayList(new TagPO("tag"))));
+    roleRepo.save(new RolePO("6", "前端开发", 2L, 0, Lists.newArrayList(new TagPO("tag"))));
+    roleRepo.save(new RolePO("7", "后端开发", 2L, 0, Lists.newArrayList(new TagPO("tag"))));
 
     suffix.setSuffix("234");
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 
-    roleRepo.save(new RolePO("3", "前端架构", false, 2L, taskId));
-    roleRepo.save(new RolePO("4", "后端架构", false, 2L, taskId));
-    roleRepo.save(new RolePO("5", "CTO", false, 3L, taskId));
+    roleRepo.save(new RolePO("3", "前端架构", 2L, 0, Lists.newArrayList(new TagPO("tag"))));
+    roleRepo.save(new RolePO("4", "后端架构", 2L, 0, Lists.newArrayList(new TagPO("tag"))));
+    roleRepo.save(new RolePO("5", "CTO", 3L, 0, Lists.newArrayList(new TagPO("tag"))));
   }
 
   @Test

@@ -1,19 +1,43 @@
 {
-  "material": {
-    "properties": {
-      "tags": {
-        "type": "nested",
-        "properties": {
-          "des": {
-            "type": "string",
-            "index": "not_analyzed"
+  "template": "material-*",
+  "mappings": {
+    "material": {
+      "properties": {
+        "affairId": {
+          "type": "long"
+        },
+        "name": {
+          "type": "text",
+          "analyzer": "smartcn"
+        },
+        "publicType": {
+          "type": "byte"
+        },
+        "tags": {
+          "type": "nested",
+          "properties": {
+            "des": {
+              "type": "keyword"
+            }
           }
+        },
+        "type": {
+          "type": "byte"
+        },
+        "warehouseId": {
+          "type": "long"
         }
-      },
-      "title": {
-        "type": "string",
-        "analyzer": "smartcn"
       }
+    }
+  },
+  "settings": {
+    "index": {
+      "refresh_interval": "1s",
+      "number_of_shards": "5",
+      "store": {
+        "type": "fs"
+      },
+      "number_of_replicas": "1"
     }
   }
 }
