@@ -23,7 +23,7 @@ public class SearchdemoApplication implements CommandLineRunner {
 
 
   public static void main(String[] args) throws Exception {
-    SpringApplication.run(SearchdemoApplication.class, "--debug");
+    SpringApplication.run(SearchdemoApplication.class, args);
   }
 
 
