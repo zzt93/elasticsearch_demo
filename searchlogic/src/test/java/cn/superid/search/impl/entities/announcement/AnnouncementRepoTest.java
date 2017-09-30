@@ -28,7 +28,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class AnnouncementRepoTest {
 
   private static final Timestamp modifyTime;
-  private static final Long affairId = 1L;
+  private static final Long affairId = 9038L;
   private static final List<Long> affairIds = Lists.newArrayList(affairId);
   private static TagPO t1 = new TagPO("t1");
   private static TagPO t2 = new TagPO("t2");

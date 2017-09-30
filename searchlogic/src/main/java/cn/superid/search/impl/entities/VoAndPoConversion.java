@@ -44,7 +44,7 @@ public class VoAndPoConversion {
 
   public static AnnouncementVO toVO(AnnouncementPO po) {
     return new AnnouncementVO(po.getId(), po.getTitle(), po.getContent(), toVOs(po.getTags()),
-        po.getCreatorRole(), po.getCreatorUser(), po.getCreatorRoleId(), po.getCreatorRoleId(),
+        po.getCreatorRole(), po.getCreatorUser(), po.getCreatorRoleId(), po.getAffairId(),
         po.getAffairName(), po.getModifyTime(), po.getCreatorUserId(), po.getTop(), po.getType(),
         po.getEntityMap(), po.getAvatar(), null);
   }
