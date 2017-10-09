@@ -25,6 +25,10 @@ public class RoleVO implements UserBasedIndex {
     this.allianceId = allianceId;
   }
 
+  public RoleVO(String id) {
+    this.id = id;
+  }
+
   public Long getAffairId() {
     return affairId;
   }

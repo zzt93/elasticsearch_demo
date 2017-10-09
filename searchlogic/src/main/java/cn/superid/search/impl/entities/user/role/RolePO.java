@@ -33,18 +33,24 @@ public class RolePO {
   private List<TagPO> tags;
   @Field(type = FieldType.Integer)
   private Integer type;
+  @Field(type = FieldType.Long)
+  private Long ownerRoleId;
 
 
   public RolePO() {
   }
 
+  /**
+   * for test
+   */
   RolePO(String id, String title, Long affairId, Integer type,
-      List<TagPO> t) {
+      List<TagPO> t, Long ownerRoleId) {
     this.id = id;
     this.title = title;
     this.affairId = affairId;
     this.type = type;
     this.tags = t;
+    this.ownerRoleId = ownerRoleId;
   }
 
   public RolePO(RoleVO entity) {
@@ -93,6 +99,14 @@ public class RolePO {
     this.type = type;
   }
 
+  public Long getOwnerRoleId() {
+    return ownerRoleId;
+  }
+
+  public void setOwnerRoleId(Long ownerRoleId) {
+    this.ownerRoleId = ownerRoleId;
+  }
+
   @Override
   public String toString() {
     return "RolePO{" +
@@ -101,6 +115,7 @@ public class RolePO {
         ", affairId=" + affairId +
         ", tags=" + tags +
         ", type=" + type +
+        ", ownerRoleId=" + ownerRoleId +
         '}';
   }
 }

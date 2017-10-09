@@ -6,6 +6,9 @@
         "affairId": {
           "type": "long"
         },
+        "ownerRoleId": {
+          "type": "long"
+        },
         "tags": {
           "type": "nested",
           "properties": {

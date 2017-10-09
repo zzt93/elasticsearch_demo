@@ -12,4 +12,5 @@ public interface RoleCustom {
 
   Page<RolePO> findRoleInterAlliance(String query, Pageable pageable);
 
+  Page<RolePO> findByAll(String query);
 }

@@ -7,11 +7,13 @@ import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.entities.user.user.UserVO;
+import cn.superid.search.entities.user.warehouse.MaterialVO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.file.FilePO;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.user.UserPO;
+import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,6 +51,10 @@ public class VoAndPoConversion {
         po.getEntityMap(), po.getAvatar(), null);
   }
 
+  public static MaterialVO toVO(MaterialPO po) {
+    return new MaterialVO(po.getId());
+  }
+
   public static AffairVO toVO(AffairPO po) {
     return new AffairVO(po.getParentId(), po.getId(), po.getState());
   }
@@ -77,5 +83,9 @@ public class VoAndPoConversion {
 
   public static List<TagVO> toVOs(List<TagPO> tagPOS) {
     return tagPOS.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
+  }
+
+  public static RoleVO toVO(RolePO po) {
+    return new RoleVO(po.getId());
   }
 }

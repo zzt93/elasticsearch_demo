@@ -7,14 +7,17 @@ import cn.superid.search.entities.user.affair.AffairQuery;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
+import cn.superid.search.entities.user.role.RoleQuery;
+import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.entities.user.user.UserVO;
+import cn.superid.search.entities.user.warehouse.MaterialQuery;
+import cn.superid.search.entities.user.warehouse.MaterialVO;
 import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
 import cn.superid.search.impl.entities.time.chat.ChatPO;
 import cn.superid.search.impl.entities.time.chat.ChatRepo;
-import cn.superid.search.impl.entities.time.task.TaskPO;
 import cn.superid.search.impl.entities.time.task.TaskRepo;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.affair.AffairRepo;
@@ -74,12 +77,20 @@ public class QueryController {
     this.suffix = suffix;
   }
 
+  @PostMapping("/file")
+  public List<FileSearchVO> queryFile(@RequestBody FileQuery query) {
+    Long affairId = query.getAffairId();
+    if (affairId == null || affairId == 0) {
+      throw new IllegalArgumentException("Invalid page request");
+    }
+    List<FilePO> files = fileRepo.findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
+    return files.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
+  }
+
   @PostMapping("/announcement")
   public PageVO<AnnouncementVO> queryAnnouncement(@RequestBody AnnouncementQuery query) {
     PageRequest pageRequest = query.getPageRequest();
-    if (checkPage(pageRequest)) {
-      return null;
-    }
+    checkPage(pageRequest);
     Page<AnnouncementPO> res = announcementRepo
         .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
             query.getAffairIds(), query.getQuery(),
@@ -87,31 +98,96 @@ public class QueryController {
     return new PageVO<>(res, VoAndPoConversion::toVO);
   }
 
-  private boolean checkPage(PageRequest pageRequest) {
+  private static void checkPage(PageRequest pageRequest) {
     int pageNum = pageRequest.getPageNumber();
     int pageSize = pageRequest.getPageSize();
-    return (pageNum + 1) * pageSize > 1000;
-  }
-
-  @GetMapping("/task")
-  public Page<TaskPO> queryTask(@RequestParam String query) {
-    return taskRepo.findByTitle(query, PageRequest.of(0, PAGE_SIZE));
-  }
-
-  @PostMapping("/file")
-  public List<FileSearchVO> queryFile(@RequestBody FileQuery query) {
-    Long affairId = query.getAffairId();
-    if (affairId == null || affairId == 0) {
-      return null;
+    if ((pageNum + 1) * pageSize > 1000) {
+      throw new IllegalArgumentException("Invalid page request");
     }
-    List<FilePO> files = fileRepo.findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
-    return files.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
   }
 
-  @GetMapping("/material")
-  public Page<MaterialPO> queryMaterial(@RequestParam String query) {
-    return materialRepo.findByNameOrTagsIn(query, PageRequest.of(0, PAGE_SIZE));
+  @PostMapping("/material")
+  public PageVO<MaterialVO> queryMaterial(@RequestBody MaterialQuery query) {
+    checkPage(query.getPageRequest());
+    checkAllianceId(query.getAllianceId());
+
+    Page<MaterialPO> byNameOrTagsIn = materialRepo
+        .findByAllInfo(query, query.getPageRequest());
+    return new PageVO<>(byNameOrTagsIn, VoAndPoConversion::toVO);
   }
+
+  private static void checkAllianceId(Long id) {
+    if (id == null) {
+      throw new IllegalArgumentException("Invalid query, no allianceId");
+    }
+  }
+
+  @PostMapping("/material/tags")
+  public PageVO<MaterialVO> queryMaterialTags(@RequestBody MaterialQuery query) {
+    checkPage(query.getPageRequest());
+    checkAllianceId(query.getAllianceId());
+
+    suffix.setSuffix(query.getAllianceId().toString());
+    Page<MaterialPO> byTagsIn = materialRepo
+        .findByTagsIn(query.getTags().stream().map(VoAndPoConversion::toPO).collect(
+            Collectors.toList()), query.getPageRequest());
+    return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/affair")
+  public PageVO<AffairVO> queryAffair(@RequestBody AffairQuery query) {
+    checkPage(query.getPageRequest());
+
+    suffix.setSuffix("*");
+    Page<AffairPO> page = affairRepo.findAny(query.getQuery(), query.getPageRequest());
+    return new PageVO<>(page, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/affair/tags")
+  public PageVO<AffairVO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
+    suffix.setSuffix("*");
+    Page<AffairPO> page = affairRepo
+        .findByTagsIn(Lists.newArrayList(new TagPO(affairInfo.getQuery())),
+            affairInfo.getPageRequest());
+    return new PageVO<>(page, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/affair/superId")
+  public PageVO<AffairVO> queryAffairSuperId(@RequestBody AffairQuery affairInfo) {
+    suffix.setSuffix("*");
+    Page<AffairPO> page = affairRepo
+        .findBySuperId(affairInfo.getQuery(), affairInfo.getPageRequest());
+    return new PageVO<>(page, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/affair/name")
+  public PageVO<AffairVO> queryAffairName(@RequestBody AffairQuery affairInfo) {
+    suffix.setSuffix("*");
+    Page<AffairPO> page = affairRepo.findByName(affairInfo.getQuery(), affairInfo.getPageRequest());
+    return new PageVO<>(page, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/role")
+  public PageVO<RoleVO> queryRole(@RequestBody RoleQuery query) {
+    checkPage(query.getPageRequest());
+    checkAllianceId(query.getAllianceId());
+
+    Page<RolePO> byAll = roleRepo.findByAll(query.getQuery());
+    return new PageVO<>(byAll, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/role/tags")
+  public PageVO<RoleVO> queryRoleTags(@RequestBody RoleQuery query) {
+    checkPage(query.getPageRequest());
+    checkAllianceId(query.getAllianceId());
+
+    suffix.setSuffix(query.getAllianceId().toString());
+    List<TagPO> tagPOS = query.getTags().stream().map(VoAndPoConversion::toPO)
+        .collect(Collectors.toList());
+    Page<RolePO> byTagsIn = roleRepo.findByTagsIn(tagPOS, query.getPageRequest());
+    return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
+  }
+
 
   @GetMapping("/user/tag")
   public List<UserVO> queryUserByTag(@RequestParam String query) {
@@ -151,39 +227,5 @@ public class QueryController {
   @GetMapping("/role/all")
   public Page<RolePO> queryAllRole(@RequestParam String role) {
     return roleRepo.findRoleInterAlliance(role, PageRequest.of(0, PAGE_SIZE));
-  }
-
-  @PostMapping("/affair")
-  public PageVO<AffairVO> queryAffair(@RequestBody AffairQuery affairInfo) {
-    if (checkPage(affairInfo.getPageRequest())) {
-      return null;
-    }
-    suffix.setSuffix("*");
-    Page<AffairPO> page = affairRepo.findAny(affairInfo.getQuery(), affairInfo.getPageRequest());
-    return new PageVO<>(page, VoAndPoConversion::toVO);
-  }
-
-  @PostMapping("/affair/tags")
-  public PageVO<AffairVO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
-    suffix.setSuffix("*");
-    Page<AffairPO> page = affairRepo
-        .findByTagsIn(Lists.newArrayList(new TagPO(affairInfo.getQuery())),
-            affairInfo.getPageRequest());
-    return new PageVO<>(page, VoAndPoConversion::toVO);
-  }
-
-  @PostMapping("/affair/superId")
-  public PageVO<AffairVO> queryAffairSuperId(@RequestBody AffairQuery affairInfo) {
-    suffix.setSuffix("*");
-    Page<AffairPO> page = affairRepo
-        .findBySuperId(affairInfo.getQuery(), affairInfo.getPageRequest());
-    return new PageVO<>(page, VoAndPoConversion::toVO);
-  }
-
-  @PostMapping("/affair/name")
-  public PageVO<AffairVO> queryAffairName(@RequestBody AffairQuery affairInfo) {
-    suffix.setSuffix("*");
-    Page<AffairPO> page = affairRepo.findByName(affairInfo.getQuery(), affairInfo.getPageRequest());
-    return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 }

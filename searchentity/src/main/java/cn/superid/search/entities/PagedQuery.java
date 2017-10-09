@@ -32,4 +32,6 @@ public class PagedQuery extends StringQuery {
   public void setPageRequest(PageRequest pageRequest) {
     this.pageRequest = pageRequest;
   }
+
+
 }

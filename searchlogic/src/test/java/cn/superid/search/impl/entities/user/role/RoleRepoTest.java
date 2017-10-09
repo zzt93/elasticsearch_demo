@@ -26,6 +26,7 @@ public class RoleRepoTest {
   private Suffix suffix;
   @Autowired
   private ElasticsearchTemplate esTemplate;
+  private static final Long ownerRoleId = 110l;
 
   @Before
   public void setUp() throws Exception {
@@ -33,17 +34,17 @@ public class RoleRepoTest {
     suffix.setSuffix("123");
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 
-    roleRepo.save(new RolePO("1", "前端开发", 1L, 0, Lists.newArrayList(new TagPO("tag"))));
-    roleRepo.save(new RolePO("2", "后端开发", 1L, 0, Lists.newArrayList(new TagPO("tag"))));
-    roleRepo.save(new RolePO("6", "前端开发", 2L, 0, Lists.newArrayList(new TagPO("tag"))));
-    roleRepo.save(new RolePO("7", "后端开发", 2L, 0, Lists.newArrayList(new TagPO("tag"))));
+    roleRepo.save(new RolePO("1", "前端开发", 1L, 0, Lists.newArrayList(new TagPO("tag")), ownerRoleId));
+    roleRepo.save(new RolePO("2", "后端开发", 1L, 0, Lists.newArrayList(new TagPO("tag")), ownerRoleId));
+    roleRepo.save(new RolePO("6", "前端开发", 2L, 0, Lists.newArrayList(new TagPO("tag")), ownerRoleId));
+    roleRepo.save(new RolePO("7", "后端开发", 2L, 0, Lists.newArrayList(new TagPO("tag")), ownerRoleId));
 
     suffix.setSuffix("234");
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 
-    roleRepo.save(new RolePO("3", "前端架构", 2L, 0, Lists.newArrayList(new TagPO("tag"))));
-    roleRepo.save(new RolePO("4", "后端架构", 2L, 0, Lists.newArrayList(new TagPO("tag"))));
-    roleRepo.save(new RolePO("5", "CTO", 3L, 0, Lists.newArrayList(new TagPO("tag"))));
+    roleRepo.save(new RolePO("3", "前端架构", 2L, 0, Lists.newArrayList(new TagPO("tag")), ownerRoleId));
+    roleRepo.save(new RolePO("4", "后端架构", 2L, 0, Lists.newArrayList(new TagPO("tag")), ownerRoleId));
+    roleRepo.save(new RolePO("5", "CTO", 3L, 0, Lists.newArrayList(new TagPO("tag")), ownerRoleId));
   }
 
   @Test

@@ -15,6 +15,10 @@ public class MaterialVO implements UserBasedIndex {
   private List<TagVO> tagVOS;
   private Long allianceId;
 
+  public MaterialVO(String id) {
+    this.id = id;
+  }
+
   public String getId() {
     return id;
   }

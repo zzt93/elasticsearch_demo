@@ -46,4 +46,9 @@ public class RoleRepoImpl implements RoleCustom {
         .build();
     return template.queryForPage(searchQuery, RolePO.class);
   }
+
+  @Override
+  public Page<RolePO> findByAll(String query) {
+    return null;
+  }
 }
