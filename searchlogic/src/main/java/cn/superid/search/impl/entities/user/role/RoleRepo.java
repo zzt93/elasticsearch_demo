@@ -3,7 +3,6 @@ package cn.superid.search.impl.entities.user.role;
 import cn.superid.search.impl.entities.TagPO;
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
@@ -35,7 +34,7 @@ public interface RoleRepo extends ElasticsearchRepository<RolePO, String>, RoleC
       "       } ]\n" +
       "  }" +
       "}")
-  Page<RolePO> findByTagsInOrTitle(String query, PageRequest pageRequest);
+  Page<RolePO> findByTagsInOrTitle(String query, Pageable pageRequest);
 
   Page<RolePO> findByAffairIdAndTitle(Long affairId, String title, Pageable pageable);
 
