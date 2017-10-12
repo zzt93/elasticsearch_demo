@@ -45,7 +45,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The controller for query entities
- * Created by zzt on 17/6/6.
+ *
+ * @author zzt
  */
 @RestController
 @RequestMapping("/query")
@@ -63,7 +64,8 @@ public class QueryController {
   private final Suffix suffix;
 
   @Autowired
-  public QueryController(UserService userService, ChatRepo chatRepo, FileRepo fileRepo, RoleRepo roleRepo,
+  public QueryController(UserService userService, ChatRepo chatRepo, FileRepo fileRepo,
+      RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
       MaterialRepo materialRepo, Suffix suffix) {
     this.userService = userService;
@@ -77,13 +79,28 @@ public class QueryController {
     this.suffix = suffix;
   }
 
+  private static void checkPage(PageRequest pageRequest) {
+    int pageNum = pageRequest.getPageNumber();
+    int pageSize = pageRequest.getPageSize();
+    if ((pageNum + 1) * pageSize > 1000) {
+      throw new IllegalArgumentException("Invalid page request");
+    }
+  }
+
+  private static void checkAllianceId(Long id) {
+    if (id == null) {
+      throw new IllegalArgumentException("Invalid query, no allianceId");
+    }
+  }
+
   @PostMapping("/file")
   public List<FileSearchVO> queryFile(@RequestBody FileQuery query) {
     Long affairId = query.getAffairId();
     if (affairId == null || affairId == 0) {
       throw new IllegalArgumentException("Invalid page request");
     }
-    List<FilePO> files = fileRepo.findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
+    List<FilePO> files = fileRepo
+        .findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
     return files.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
   }
 
@@ -98,14 +115,6 @@ public class QueryController {
     return new PageVO<>(res, VoAndPoConversion::toVO);
   }
 
-  private static void checkPage(PageRequest pageRequest) {
-    int pageNum = pageRequest.getPageNumber();
-    int pageSize = pageRequest.getPageSize();
-    if ((pageNum + 1) * pageSize > 1000) {
-      throw new IllegalArgumentException("Invalid page request");
-    }
-  }
-
   @PostMapping("/material")
   public PageVO<MaterialVO> queryMaterial(@RequestBody MaterialQuery query) {
     checkPage(query.getPageRequest());
@@ -114,12 +123,6 @@ public class QueryController {
     Page<MaterialPO> byNameOrTagsIn = materialRepo
         .findByAllInfo(query, query.getPageRequest());
     return new PageVO<>(byNameOrTagsIn, VoAndPoConversion::toVO);
-  }
-
-  private static void checkAllianceId(Long id) {
-    if (id == null) {
-      throw new IllegalArgumentException("Invalid query, no allianceId");
-    }
   }
 
   @PostMapping("/material/tags")
@@ -188,8 +191,13 @@ public class QueryController {
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
   }
 
+  @PostMapping("/user")
+  public List<UserVO> queryUserByUsernameOrSuperIdOrTags(@RequestBody String query) {
+    return userService.findTop20ByUsernameOrSuperIdOrTags(query);
+  }
 
-  @GetMapping("/user/tag")
+
+  @GetMapping("/user/tags")
   public List<UserVO> queryUserByTag(@RequestParam String query) {
     return userService.findTop20ByTags(query);
   }
@@ -197,11 +205,6 @@ public class QueryController {
   @GetMapping("/user/username")
   public List<UserVO> queryUserByUsername(@RequestParam String query) {
     return userService.findTop20ByUserNameOrSuperId(query);
-  }
-
-  @GetMapping("/user")
-  public List<UserVO> queryUserByUsernameOrSuperIdOrTags(@RequestParam String query) {
-    return userService.findTop20ByUsernameOrSuperIdOrTags(query);
   }
 
   @GetMapping("/chat/date")
