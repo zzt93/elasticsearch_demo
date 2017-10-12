@@ -5,6 +5,7 @@ import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.nestedQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
+import cn.superid.search.entities.ScrollQuery;
 import cn.superid.search.entities.user.warehouse.MaterialQuery;
 import cn.superid.search.impl.save.rolling.Suffix;
 import org.apache.lucene.search.join.ScoreMode;
@@ -15,11 +16,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 /**
  * @author zzt
  */
+@Component
 public class MaterialRepoImpl implements MaterialCustom {
 
   private final ElasticsearchTemplate template;
@@ -51,7 +54,14 @@ public class MaterialRepoImpl implements MaterialCustom {
     }
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexName(MaterialPO.class, info.getAllianceId()))
-        .withQuery(bool).build();
-    return template.queryForPage(searchQuery, MaterialPO.class);
+        .withQuery(bool)
+        .withPageable(pageable).build();
+    return template.startScroll(ScrollQuery.SCROLL_TIME_IN_MILLIS, searchQuery, MaterialPO.class);
+  }
+
+  @Override
+  public Page<MaterialPO> findByAllInfo(ScrollQuery query) {
+    return template
+        .continueScroll(query.getScrollId(), ScrollQuery.SCROLL_TIME_IN_MILLIS, MaterialPO.class);
   }
 }

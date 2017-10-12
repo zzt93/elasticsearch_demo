@@ -117,12 +117,17 @@ public class QueryController {
 
   @PostMapping("/material")
   public PageVO<MaterialVO> queryMaterial(@RequestBody MaterialQuery query) {
-    checkPage(query.getPageRequest());
-    checkAllianceId(query.getAllianceId());
+    Page<MaterialPO> materialPOS;
+    if (query.getScrollQuery() != null) {
+      checkPage(query.getPageRequest());
+      checkAllianceId(query.getAllianceId());
 
-    Page<MaterialPO> byNameOrTagsIn = materialRepo
-        .findByAllInfo(query, query.getPageRequest());
-    return new PageVO<>(byNameOrTagsIn, VoAndPoConversion::toVO);
+      materialPOS = materialRepo
+          .findByAllInfo(query, query.getPageRequest());
+    } else {
+      materialPOS = materialRepo.findByAllInfo(query.getScrollQuery());
+    }
+    return new PageVO<>(materialPOS, VoAndPoConversion::toVO);
   }
 
   @PostMapping("/material/tags")

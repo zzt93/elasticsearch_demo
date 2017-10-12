@@ -1,6 +1,7 @@
 package cn.superid.search.entities.user.warehouse;
 
 import cn.superid.search.entities.PagedQuery;
+import cn.superid.search.entities.ScrollQuery;
 import cn.superid.search.entities.TagVO;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
@@ -18,9 +19,17 @@ public class MaterialQuery extends PagedQuery {
 
   private final Long allianceId;
 
+  private ScrollQuery scrollQuery;
 
   public MaterialQuery(String query, PageRequest pageRequest, Long allianceId) {
     this.allianceId = allianceId;
+    setQuery(query);
+    setPageRequest(pageRequest);
+  }
+
+  public MaterialQuery(String query, PageRequest pageRequest, Long allianceId, String scrollId) {
+    this.allianceId = allianceId;
+    scrollQuery = new ScrollQuery(scrollId);
     setQuery(query);
     setPageRequest(pageRequest);
   }
@@ -29,6 +38,10 @@ public class MaterialQuery extends PagedQuery {
     this.tags = tags;
     this.allianceId = allianceId;
     setPageRequest(pageRequest);
+  }
+
+  public ScrollQuery getScrollQuery() {
+    return scrollQuery;
   }
 
   public Integer getMaterialType() {

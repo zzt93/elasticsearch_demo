@@ -25,8 +25,12 @@ import org.springframework.stereotype.Component;
 public class RoleRepoImpl implements RoleCustom {
 
   private static final String EXCEPT_PREFIX = "-";
+  private final ElasticsearchTemplate template;
+
   @Autowired
-  private ElasticsearchTemplate template;
+  public RoleRepoImpl(ElasticsearchTemplate template) {
+    this.template = template;
+  }
 
   @Override
   public Page<RolePO> findRoleExcept(Long alliance, String query, Pageable pageable) {
