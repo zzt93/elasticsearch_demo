@@ -12,23 +12,13 @@ import org.springframework.data.domain.Page;
  */
 public class PageVO<T> {
 
+  private String scrollId;
   private List<T> content;
   private Long totalElements;
   private Integer totalPages;
   private Integer pageSize;
 
   public PageVO() {
-  }
-
-
-  public PageVO(Page<T> page) {
-    if (page == null) {
-      return;
-    }
-    this.content = page.getContent();
-    this.totalElements = page.getTotalElements();
-    this.totalPages = page.getTotalPages();
-    this.pageSize = page.getSize();
   }
 
   public <R> PageVO(Page<R> page, Function<R, T> mapper) {
@@ -39,6 +29,16 @@ public class PageVO<T> {
     this.totalElements = page.getTotalElements();
     this.totalPages = page.getTotalPages();
     this.pageSize = page.getSize();
+  }
+  public <R> PageVO(Page<R> page, Function<R, T> mapper, String scrollId) {
+    if (page == null) {
+      return;
+    }
+    this.content = page.getContent().stream().map(mapper).collect(Collectors.toList());
+    this.totalElements = page.getTotalElements();
+    this.totalPages = page.getTotalPages();
+    this.pageSize = page.getSize();
+    this.scrollId = scrollId;
   }
 
   /**
@@ -81,5 +81,9 @@ public class PageVO<T> {
 
   public void setContent(List<T> content) {
     this.content = content;
+  }
+
+  public String getScrollId() {
+    return scrollId;
   }
 }

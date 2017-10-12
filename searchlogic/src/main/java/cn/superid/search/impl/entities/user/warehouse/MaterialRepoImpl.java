@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.SearchResultMapper;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,8 @@ public class MaterialRepoImpl implements MaterialCustom {
   }
 
   @Override
-  public Page<MaterialPO> findByAllInfo(MaterialQuery info, Pageable pageable) {
+  public Page<MaterialPO> findByAllInfo(MaterialQuery info, Pageable pageable,
+      SearchResultMapper mapper) {
     Assert.notNull(info.getAllianceId(), "[Lacking allianceId]");
     Assert.notNull(info.getQuery(), "[Lacking query string]");
 
@@ -56,7 +58,8 @@ public class MaterialRepoImpl implements MaterialCustom {
         .withIndices(Suffix.indexName(MaterialPO.class, info.getAllianceId()))
         .withQuery(bool)
         .withPageable(pageable).build();
-    return template.startScroll(ScrollQuery.SCROLL_TIME_IN_MILLIS, searchQuery, MaterialPO.class);
+    return template.startScroll(ScrollQuery.SCROLL_TIME_IN_MILLIS, searchQuery, MaterialPO.class,
+        mapper);
   }
 
   @Override

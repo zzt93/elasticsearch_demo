@@ -122,12 +122,14 @@ public class QueryController {
       checkPage(query.getPageRequest());
       checkAllianceId(query.getAllianceId());
 
+      ScrollMapper mapper = new ScrollMapper();
       materialPOS = materialRepo
-          .findByAllInfo(query, query.getPageRequest());
+          .findByAllInfo(query, query.getPageRequest(), mapper);
+      return new PageVO<>(materialPOS, VoAndPoConversion::toVO, mapper.getScrollId());
     } else {
       materialPOS = materialRepo.findByAllInfo(query.getScrollQuery());
+      return new PageVO<>(materialPOS, VoAndPoConversion::toVO);
     }
-    return new PageVO<>(materialPOS, VoAndPoConversion::toVO);
   }
 
   @PostMapping("/material/tags")
