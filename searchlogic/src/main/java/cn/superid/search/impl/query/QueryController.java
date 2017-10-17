@@ -33,9 +33,12 @@ import com.google.common.collect.Lists;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,6 +56,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class QueryController {
 
   private static final int PAGE_SIZE = 10;
+  private static final Logger logger = LoggerFactory.getLogger(QueryController.class);
   private final UserService userService;
   private final ChatRepo chatRepo;
   private final FileRepo fileRepo;
@@ -62,12 +66,13 @@ public class QueryController {
   private final AffairRepo affairRepo;
   private final MaterialRepo materialRepo;
   private final Suffix suffix;
+  private final ElasticsearchConverter elasticsearchConverter;
 
   @Autowired
   public QueryController(UserService userService, ChatRepo chatRepo, FileRepo fileRepo,
       RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
-      MaterialRepo materialRepo, Suffix suffix) {
+      MaterialRepo materialRepo, Suffix suffix, ElasticsearchConverter elasticsearchConverter) {
     this.userService = userService;
     this.chatRepo = chatRepo;
     this.fileRepo = fileRepo;
@@ -77,6 +82,7 @@ public class QueryController {
     this.affairRepo = affairRepo;
     this.materialRepo = materialRepo;
     this.suffix = suffix;
+    this.elasticsearchConverter = elasticsearchConverter;
   }
 
   private static void checkPage(PageRequest pageRequest) {
@@ -118,17 +124,17 @@ public class QueryController {
   @PostMapping("/material")
   public PageVO<MaterialVO> queryMaterial(@RequestBody MaterialQuery query) {
     Page<MaterialPO> materialPOS;
-    if (query.getScrollQuery() != null) {
+    ScrollMapper mapper = new ScrollMapper(elasticsearchConverter);
+    if (query.getScrollQuery() == null) {
       checkPage(query.getPageRequest());
       checkAllianceId(query.getAllianceId());
 
-      ScrollMapper mapper = new ScrollMapper();
-      materialPOS = materialRepo
-          .findByAllInfo(query, query.getPageRequest(), mapper);
+        materialPOS = materialRepo
+            .findByAllInfo(query, query.getPageRequest(), mapper);
       return new PageVO<>(materialPOS, VoAndPoConversion::toVO, mapper.getScrollId());
     } else {
-      materialPOS = materialRepo.findByAllInfo(query.getScrollQuery());
-      return new PageVO<>(materialPOS, VoAndPoConversion::toVO);
+      materialPOS = materialRepo.findByAllInfo(query.getScrollQuery(), mapper);
+      return new PageVO<>(materialPOS, VoAndPoConversion::toVO, mapper.getScrollId());
     }
   }
 

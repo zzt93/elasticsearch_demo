@@ -9,6 +9,9 @@ public class ScrollQuery {
   private long scrollTimeInMill;
   private String scrollId;
 
+  public ScrollQuery() {
+  }
+
   public ScrollQuery(long scrollTimeInMill, String scrollId) {
     this.scrollTimeInMill = scrollTimeInMill;
     this.scrollId = scrollId;

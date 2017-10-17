@@ -1,5 +1,6 @@
 package cn.superid.search.entities;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,6 +20,9 @@ public class PageVO<T> {
   private Integer pageSize;
 
   public PageVO() {
+    totalElements = 0L;
+    totalPages = 0;
+    content = Collections.emptyList();
   }
 
   public <R> PageVO(Page<R> page, Function<R, T> mapper) {

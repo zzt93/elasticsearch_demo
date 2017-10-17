@@ -14,5 +14,6 @@ public interface MaterialCustom {
   Page<MaterialPO> findByAllInfo(MaterialQuery info, Pageable pageable,
       SearchResultMapper mapper);
 
-  Page<MaterialPO> findByAllInfo(ScrollQuery query);
+  Page<MaterialPO> findByAllInfo(ScrollQuery query,
+      SearchResultMapper mapper);
 }

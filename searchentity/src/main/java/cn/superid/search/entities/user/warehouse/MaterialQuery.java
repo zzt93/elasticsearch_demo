@@ -17,27 +17,40 @@ public class MaterialQuery extends PagedQuery {
   private Long warehouseId;
   private Long affairId;
 
-  private final Long allianceId;
+  private Long allianceId;
 
   private ScrollQuery scrollQuery;
 
-  public MaterialQuery(String query, PageRequest pageRequest, Long allianceId) {
-    this.allianceId = allianceId;
-    setQuery(query);
-    setPageRequest(pageRequest);
+  public MaterialQuery() {
   }
 
-  public MaterialQuery(String query, PageRequest pageRequest, Long allianceId, String scrollId) {
-    this.allianceId = allianceId;
-    scrollQuery = new ScrollQuery(scrollId);
-    setQuery(query);
+  /**
+   * No scrollId, the first query
+   */
+  public MaterialQuery(String query, PageRequest pageRequest, Long allianceId) {
     setPageRequest(pageRequest);
+    setQuery(query);
+    this.allianceId = allianceId;
+    scrollQuery = null;
+  }
+
+  public MaterialQuery(String scrollId) {
+    scrollQuery = new ScrollQuery(scrollId);
   }
 
   public MaterialQuery(List<TagVO> tags, PageRequest pageRequest, Long allianceId) {
+    setPageRequest(pageRequest);
     this.tags = tags;
     this.allianceId = allianceId;
+    scrollQuery = null;
+  }
+
+  public MaterialQuery(String query, List<TagVO> tags, PageRequest pageRequest, Long allianceId) {
+    setQuery(query);
     setPageRequest(pageRequest);
+    this.tags = tags;
+    this.allianceId = allianceId;
+    scrollQuery = null;
   }
 
   public ScrollQuery getScrollQuery() {

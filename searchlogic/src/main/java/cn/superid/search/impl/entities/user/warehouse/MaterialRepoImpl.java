@@ -4,6 +4,7 @@ import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.nestedQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 
 import cn.superid.search.entities.ScrollQuery;
 import cn.superid.search.entities.user.warehouse.MaterialQuery;
@@ -54,6 +55,9 @@ public class MaterialRepoImpl implements MaterialCustom {
     if (info.getWarehouseId() != null) {
       bool.filter(termQuery("warehouseId", info.getWarehouseId()));
     }
+    if (info.getTags() != null) {
+      bool.filter(nestedQuery("tags", termsQuery("tags.des", info.getTags()), ScoreMode.Avg));
+    }
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexName(MaterialPO.class, info.getAllianceId()))
         .withQuery(bool)
@@ -63,8 +67,8 @@ public class MaterialRepoImpl implements MaterialCustom {
   }
 
   @Override
-  public Page<MaterialPO> findByAllInfo(ScrollQuery query) {
+  public Page<MaterialPO> findByAllInfo(ScrollQuery query, SearchResultMapper mapper) {
     return template
-        .continueScroll(query.getScrollId(), ScrollQuery.SCROLL_TIME_IN_MILLIS, MaterialPO.class);
+        .continueScroll(query.getScrollId(), ScrollQuery.SCROLL_TIME_IN_MILLIS, MaterialPO.class, mapper);
   }
 }
