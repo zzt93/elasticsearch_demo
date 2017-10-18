@@ -20,6 +20,10 @@ public class UserPO {
   private String id;
   @Field(type = FieldType.text, analyzer = "smartcn")
   private String username;
+  @Field(type = FieldType.text, analyzer = "smartcn")
+  private String email;
+  @Field(type = FieldType.text, analyzer = "smartcn")
+  private String mobile;
   @Field(type = FieldType.keyword)
   private String superId;
   @Field(type = FieldType.Nested)
@@ -74,4 +78,19 @@ public class UserPO {
     this.tags = tags;
   }
 
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getMobile() {
+    return mobile;
+  }
+
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
+  }
 }

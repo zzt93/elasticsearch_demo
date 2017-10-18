@@ -6,8 +6,16 @@
         "affairId": {
           "type": "long"
         },
+        "affairName": {
+          "type": "text",
+          "analyzer": "smartcn"
+        },
         "ownerRoleId": {
           "type": "long"
+        },
+        "ownerRoleTitle": {
+          "type": "text",
+          "analyzer": "smartcn"
         },
         "tags": {
           "type": "nested",

@@ -29,12 +29,16 @@ public class RolePO {
   private String title;
   @Field(type = FieldType.Long)
   private Long affairId;
+  @Field(type = FieldType.text, analyzer = "smartcn")
+  private String affairName;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
   @Field(type = FieldType.Integer)
   private Integer type;
   @Field(type = FieldType.Long)
   private Long ownerRoleId;
+  @Field(type = FieldType.text, analyzer = "smartcn")
+  private String ownerRoleTitle;
 
 
   public RolePO() {
@@ -105,6 +109,22 @@ public class RolePO {
 
   public void setOwnerRoleId(Long ownerRoleId) {
     this.ownerRoleId = ownerRoleId;
+  }
+
+  public String getAffairName() {
+    return affairName;
+  }
+
+  public void setAffairName(String affairName) {
+    this.affairName = affairName;
+  }
+
+  public String getOwnerRoleTitle() {
+    return ownerRoleTitle;
+  }
+
+  public void setOwnerRoleTitle(String ownerRoleTitle) {
+    this.ownerRoleTitle = ownerRoleTitle;
   }
 
   @Override

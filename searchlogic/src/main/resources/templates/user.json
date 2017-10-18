@@ -15,6 +15,14 @@
           }
         },
         "username" : {
+          "type": "text",
+          "analyzer": "smartcn"
+        } ,
+        "email" : {
+          "type" : "text",
+          "analyzer" : "smartcn"
+        },
+        "mobile" : {
           "type" : "text",
           "analyzer" : "smartcn"
         }
@@ -28,7 +36,7 @@
       "store" : {
         "type" : "fs"
       },
-      "number_of_replicas" : "1",
+      "number_of_replicas" : "1"
     }
   }
 }
