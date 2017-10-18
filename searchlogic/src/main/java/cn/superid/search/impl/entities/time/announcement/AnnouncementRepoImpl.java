@@ -10,9 +10,6 @@ import java.util.Date;
 import java.util.List;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
-import org.elasticsearch.search.sort.SortBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +47,6 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AnnouncementPO.class))
         .withQuery(wrapperQuery(query))
-        .withSort(SortBuilders.fieldSort("modifyTime").order(SortOrder.DESC))
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
             new HighlightBuilder.Field("content"))

@@ -60,16 +60,16 @@ public class AnnouncementRepoTest {
     String role1 = "role1";
     String role2 = "role2";
     String content = "this is a announcement";
-    AnnouncementPO a1 = new AnnouncementPO("1", "announcement1", content,
+    AnnouncementPO a1 = new AnnouncementPO("11", "announcement1", content,
         Lists.newArrayList(t1, t2),
         role1, role2, affairId, modifyTime);
 
     String role3 = "role3";
-    AnnouncementPO a2 = new AnnouncementPO("2", "announcement2", content,
+    AnnouncementPO a2 = new AnnouncementPO("12", "announcement2", content,
         Lists.newArrayList(t1, t3),
         role1, role3, affairId, modifyTime);
 
-    AnnouncementPO a3 = new AnnouncementPO("3", "announcement3", content,
+    AnnouncementPO a3 = new AnnouncementPO("13", "announcement3", content,
         Lists.newArrayList(t2, t3),
         role2, role3, affairId, modifyTime);
 
@@ -83,32 +83,32 @@ public class AnnouncementRepoTest {
     String role7 = "后端架构";
     announcementRepo
         .save(
-            new AnnouncementPO("4", "后端开发技术", content, Lists.newArrayList(), role4, role4,
+            new AnnouncementPO("14", "后端开发技术", content, Lists.newArrayList(), role4, role4,
                 affairId, modifyTime));
     announcementRepo
         .save(
-            new AnnouncementPO("5", "前端开发技术", content, Lists.newArrayList(), role5, role5,
+            new AnnouncementPO("15", "前端开发技术", content, Lists.newArrayList(), role5, role5,
                 affairId, modifyTime));
     announcementRepo
         .save(
-            new AnnouncementPO("6", "前端人员", content, Lists.newArrayList(), role6, role6, affairId,
+            new AnnouncementPO("16", "前端人员", content, Lists.newArrayList(), role6, role6, affairId,
                 modifyTime));
     announcementRepo
         .save(
-            new AnnouncementPO("7", "后端人员", content, Lists.newArrayList(), role7, role7, affairId,
+            new AnnouncementPO("17", "后端人员", content, Lists.newArrayList(), role7, role7, affairId,
                 modifyTime));
 
     announcementRepo.save(
-        new AnnouncementPO("8", "Brown fox brown dog", content, Lists.newArrayList(), role1, role1,
+        new AnnouncementPO("18", "Brown fox brown dog", content, Lists.newArrayList(), role1, role1,
             affairId, modifyTime));
     announcementRepo.save(
-        new AnnouncementPO("9", "The quick brown fox jumps over the lazy dog", content,
+        new AnnouncementPO("19", "The quick brown fox jumps over the lazy dog", content,
             Lists.newArrayList(), role1, role1, affairId, modifyTime));
     announcementRepo.save(
-        new AnnouncementPO("10", "The quick brown fox jumps over the quick dog", content,
+        new AnnouncementPO("110", "The quick brown fox jumps over the quick dog", content,
             Lists.newArrayList(), role1, role1, affairId, modifyTime));
     announcementRepo.save(
-        new AnnouncementPO("11", "The quick brown fox", content, Lists.newArrayList(), role1, role1,
+        new AnnouncementPO("111", "The quick brown fox", content, Lists.newArrayList(), role1, role1,
             affairId, modifyTime));
   }
 
