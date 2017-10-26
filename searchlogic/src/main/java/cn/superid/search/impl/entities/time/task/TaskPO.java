@@ -16,7 +16,7 @@ public class TaskPO {
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String title;
 
   public TaskPO() {

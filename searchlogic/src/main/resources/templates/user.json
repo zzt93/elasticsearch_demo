@@ -16,15 +16,15 @@
         },
         "username" : {
           "type": "text",
-          "analyzer": "smartcn"
+          "analyzer": "standard"
         } ,
         "email" : {
           "type" : "text",
-          "analyzer" : "smartcn"
+          "analyzer" : "standard"
         },
         "mobile" : {
           "type" : "text",
-          "analyzer" : "smartcn"
+          "analyzer" : "standard"
         }
       }
     }

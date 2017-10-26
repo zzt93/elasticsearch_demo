@@ -8,14 +8,14 @@
         },
         "affairName": {
           "type": "text",
-          "analyzer": "smartcn"
+          "analyzer": "ik_smart"
         },
         "ownerRoleId": {
           "type": "long"
         },
         "ownerRoleTitle": {
           "type": "text",
-          "analyzer": "smartcn"
+          "analyzer": "ik_smart"
         },
         "tags": {
           "type": "nested",
@@ -27,7 +27,7 @@
         },
         "title": {
           "type": "text",
-          "analyzer": "smartcn"
+          "analyzer": "ik_smart"
         },
         "type": {
           "type": "byte"

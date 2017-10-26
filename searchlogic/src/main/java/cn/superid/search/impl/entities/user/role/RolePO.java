@@ -25,11 +25,11 @@ public class RolePO {
   @JsonIgnore
   private String id;
 
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String title;
   @Field(type = FieldType.Long)
   private Long affairId;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
@@ -37,7 +37,7 @@ public class RolePO {
   private Integer type;
   @Field(type = FieldType.Long)
   private Long ownerRoleId;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String ownerRoleTitle;
 
 

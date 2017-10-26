@@ -5,7 +5,7 @@
       "properties" : {
         "name" : {
           "type" : "text",
-          "analyzer" : "smartcn"
+          "analyzer" : "ik_smart"
         },
         "parentId" : {
           "type" : "keyword",

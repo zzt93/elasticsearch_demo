@@ -22,7 +22,7 @@ public class FilePO {
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String name;
   @Field(type = FieldType.keyword)
   private String uploadRoleId;

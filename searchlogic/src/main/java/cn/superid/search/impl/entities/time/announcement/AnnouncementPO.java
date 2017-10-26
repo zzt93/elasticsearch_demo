@@ -20,17 +20,17 @@ public class AnnouncementPO {
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String title;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String content;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String creatorRole;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String creatorUser;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
 
   @Field(type = FieldType.Long)

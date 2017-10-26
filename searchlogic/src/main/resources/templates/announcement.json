@@ -8,7 +8,7 @@
         },
         "affairName" : {
           "type" : "text",
-          "analyzer" : "smartcn"
+          "analyzer" : "ik_smart"
         },
         "avatar" : {
           "type" : "keyword",
@@ -16,11 +16,11 @@
         },
         "content" : {
           "type" : "text",
-          "analyzer" : "smartcn"
+          "analyzer" : "ik_smart"
         },
         "creatorRole" : {
           "type" : "text",
-          "analyzer" : "smartcn"
+          "analyzer" : "ik_smart"
         },
         "creatorRoleId" : {
           "type" : "long",
@@ -28,7 +28,7 @@
         },
         "creatorUser" : {
           "type" : "text",
-          "analyzer" : "smartcn"
+          "analyzer" : "ik_smart"
         },
         "creatorUserId" : {
           "type" : "long",
@@ -55,7 +55,7 @@
         },
         "title" : {
           "type" : "text",
-          "analyzer" : "smartcn"
+          "analyzer" : "ik_smart"
         },
         "type" : {
           "type" : "integer",

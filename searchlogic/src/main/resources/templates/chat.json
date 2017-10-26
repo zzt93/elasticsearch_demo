@@ -7,15 +7,15 @@
       },
       "message": {
         "type": "string",
-        "analyzer": "smartcn"
+        "analyzer": "ik_smart"
       },
       "receiver": {
         "type": "string",
-        "analyzer": "smartcn"
+        "analyzer": "ik_smart"
       },
       "sender": {
         "type": "string",
-        "analyzer": "smartcn"
+        "analyzer": "ik_smart"
       }
     }
   }

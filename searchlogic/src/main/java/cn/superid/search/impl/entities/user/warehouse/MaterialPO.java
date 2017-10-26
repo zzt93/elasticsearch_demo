@@ -24,7 +24,7 @@ public class MaterialPO {
   @JsonIgnore
   private String id;
 
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "ik_smart")
   private String name;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;

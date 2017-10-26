@@ -18,11 +18,11 @@ public class UserPO {
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "standard")
   private String username;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "standard")
   private String email;
-  @Field(type = FieldType.text, analyzer = "smartcn")
+  @Field(type = FieldType.text, analyzer = "standard")
   private String mobile;
   @Field(type = FieldType.keyword)
   private String superId;

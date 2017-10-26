@@ -3,7 +3,7 @@
     "properties": {
       "title": {
         "type": "string",
-        "analyzer": "smartcn"
+        "analyzer": "ik_smart"
       }
     }
   }
