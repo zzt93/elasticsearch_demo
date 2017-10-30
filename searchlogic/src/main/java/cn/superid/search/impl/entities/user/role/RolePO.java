@@ -27,7 +27,7 @@ public class RolePO {
 
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String title;
-  @Field(type = FieldType.Long)
+  @Field(type = FieldType.Long, index = false)
   private Long affairId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
@@ -35,7 +35,7 @@ public class RolePO {
   private List<TagPO> tags;
   @Field(type = FieldType.Integer)
   private Integer type;
-  @Field(type = FieldType.Long)
+  @Field(type = FieldType.Long, index = false)
   private Long ownerRoleId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String ownerRoleTitle;

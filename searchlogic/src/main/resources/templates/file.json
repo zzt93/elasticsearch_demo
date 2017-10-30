@@ -10,7 +10,7 @@
         "type" : {
           "type" : "integer"
         },
-        "uploadRoleId" : {
+        "uploaderRoleId" : {
           "type" : "keyword"
         }
       }

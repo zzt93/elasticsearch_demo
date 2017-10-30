@@ -25,7 +25,7 @@ public class FilePO {
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String name;
   @Field(type = FieldType.keyword)
-  private String uploadRoleId;
+  private String uploaderRoleId;
   @Field(type = FieldType.Integer)
   private Integer type;
 
@@ -38,14 +38,14 @@ public class FilePO {
     }
     id = vo.getType().name() + SPLIT + vo.getId();
     name = vo.getName();
-    uploadRoleId = vo.getUploadRoleId();
+    uploaderRoleId = vo.getUploadRoleId();
     type = vo.getType().ordinal();
   }
 
-  public FilePO(String id, String name, String uploadRoleId, Integer type) {
+  public FilePO(String id, String name, String uploaderRoleId, Integer type) {
     this.id = id;
     this.name = name;
-    this.uploadRoleId = uploadRoleId;
+    this.uploaderRoleId = uploaderRoleId;
     this.type = type;
   }
 
@@ -69,12 +69,12 @@ public class FilePO {
     this.name = name;
   }
 
-  public String getUploadRoleId() {
-    return uploadRoleId;
+  public String getUploaderRoleId() {
+    return uploaderRoleId;
   }
 
-  public void setUploadRoleId(String uploadRoleId) {
-    this.uploadRoleId = uploadRoleId;
+  public void setUploaderRoleId(String uploaderRoleId) {
+    this.uploaderRoleId = uploaderRoleId;
   }
 
   public Integer getType() {
