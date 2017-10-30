@@ -148,6 +148,10 @@ public class AnnouncementPO {
     this.modifyTime = modifyTime;
   }
 
+  public Long getCreatorRoleId() {
+    return creatorRoleId;
+  }
+
   @Override
   public String toString() {
     return "Announcement{" +

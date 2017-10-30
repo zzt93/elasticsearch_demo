@@ -10,10 +10,6 @@
           "type" : "text",
           "analyzer" : "ik_smart"
         },
-        "avatar" : {
-          "type" : "keyword",
-          "index" : false
-        },
         "content" : {
           "type" : "text",
           "analyzer" : "ik_smart"
@@ -23,24 +19,7 @@
           "analyzer" : "ik_smart"
         },
         "creatorRoleId" : {
-          "type" : "long",
-          "index" : false
-        },
-        "creatorUser" : {
-          "type" : "text",
-          "analyzer" : "ik_smart"
-        },
-        "creatorUserId" : {
-          "type" : "long",
-          "index" : false
-        },
-        "entityMap" : {
-          "type" : "keyword",
-          "index" : false
-        },
-        "isTop" : {
-          "type" : "boolean",
-          "index" : false
+          "type" : "long"
         },
         "modifyTime" : {
           "type" : "date"
@@ -56,10 +35,6 @@
         "title" : {
           "type" : "text",
           "analyzer" : "ik_smart"
-        },
-        "type" : {
-          "type" : "integer",
-          "index" : false
         }
       }
     }

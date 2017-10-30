@@ -4,16 +4,14 @@
     "role": {
       "properties": {
         "affairId": {
-          "type": "long",
-          "index" : false
+          "type": "long"
         },
         "affairName": {
           "type": "text",
           "analyzer": "ik_smart"
         },
         "ownerRoleId": {
-          "type": "long",
-          "index" : false
+          "type": "long"
         },
         "ownerRoleTitle": {
           "type": "text",

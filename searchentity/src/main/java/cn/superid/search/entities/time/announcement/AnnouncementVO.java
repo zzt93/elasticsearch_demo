@@ -16,18 +16,12 @@ public class AnnouncementVO implements TimeBasedIndex {
   private String content;
   private List<TagVO> tagVOS;
   private String creatorRole;
-  private String creatorUser;
   private String affairName;
 
   private Long affairId;
 
   private Timestamp modifyTime;
-  private Long creatorUserId;
   private Long creatorRoleId;
-  private Boolean isTop;
-  private Integer type;
-  private String entityMap;
-  private String avatar;
 
   private Timestamp createTime;
 
@@ -41,30 +35,22 @@ public class AnnouncementVO implements TimeBasedIndex {
     this.content = content;
     this.tagVOS = tagVOS;
     this.creatorRole = creatorRole;
-    this.creatorUser = creatorUser;
     this.affairId = affairId;
   }
 
   public AnnouncementVO(String id, String title, String content, List<TagVO> tagVOS, String creatorRole,
-      String creatorUser, Long creatorRoleId, Long affairId, String affairName,
+       Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
-      Long creatorUserId, Boolean isTop, Integer type, String entityMap,
-      String avatar, Timestamp createTime) {
+      Timestamp createTime) {
     this.id = id;
     this.title = title;
     this.content = content;
     this.tagVOS = tagVOS;
     this.creatorRole = creatorRole;
-    this.creatorUser = creatorUser;
     this.creatorRoleId = creatorRoleId;
     this.affairId = affairId;
     this.affairName = affairName;
     this.modifyTime = modifyTime;
-    this.creatorUserId = creatorUserId;
-    this.isTop = isTop;
-    this.type = type;
-    this.entityMap = entityMap;
-    this.avatar = avatar;
     this.createTime = createTime;
   }
 
@@ -91,14 +77,6 @@ public class AnnouncementVO implements TimeBasedIndex {
 
   public void setTagVOS(List<TagVO> tagVOS) {
     this.tagVOS = tagVOS;
-  }
-
-  public String getCreatorUser() {
-    return creatorUser;
-  }
-
-  public void setCreatorUser(String creatorUser) {
-    this.creatorUser = creatorUser;
   }
 
   public String getCreatorRole() {
@@ -141,52 +119,12 @@ public class AnnouncementVO implements TimeBasedIndex {
     this.modifyTime = modifyTime;
   }
 
-  public Long getCreatorUserId() {
-    return creatorUserId;
-  }
-
-  public void setCreatorUserId(Long creatorUserId) {
-    this.creatorUserId = creatorUserId;
-  }
-
-  public Integer getType() {
-    return type;
-  }
-
-  public void setType(Integer type) {
-    this.type = type;
-  }
-
-  public String getEntityMap() {
-    return entityMap;
-  }
-
-  public void setEntityMap(String entityMap) {
-    this.entityMap = entityMap;
-  }
-
   public Long getCreatorRoleId() {
     return creatorRoleId;
   }
 
   public void setCreatorRoleId(Long creatorRoleId) {
     this.creatorRoleId = creatorRoleId;
-  }
-
-  public Boolean getTop() {
-    return isTop;
-  }
-
-  public void setTop(Boolean top) {
-    isTop = top;
-  }
-
-  public String getAvatar() {
-    return avatar;
-  }
-
-  public void setAvatar(String avatar) {
-    this.avatar = avatar;
   }
 
   @Override
@@ -197,16 +135,10 @@ public class AnnouncementVO implements TimeBasedIndex {
         ", content='" + content + '\'' +
         ", tagVOS=" + tagVOS +
         ", creatorRole='" + creatorRole + '\'' +
-        ", creatorUser='" + creatorUser + '\'' +
         ", affairName='" + affairName + '\'' +
         ", modifyTime=" + modifyTime +
-        ", creatorUserId=" + creatorUserId +
         ", creatorRoleId=" + creatorRoleId +
         ", affairId=" + affairId +
-        ", isTop=" + isTop +
-        ", type=" + type +
-        ", entityMap='" + entityMap + '\'' +
-        ", avatar='" + avatar + '\'' +
         ", createTime=" + createTime +
         '}';
   }
