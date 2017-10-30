@@ -26,30 +26,17 @@ public class AnnouncementPO {
   private String content;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
+  @Field(type = FieldType.Long, index = false)
+  private Long creatorRoleId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String creatorRole;
-  @Field(type = FieldType.text, analyzer = "ik_smart")
-  private String creatorUser;
+  @Field(type = FieldType.Long, index = false)
+  private Long affairId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
 
-  @Field(type = FieldType.Long)
-  private Long affairId;
-
   @Field(type = FieldType.Date, pattern = "YYYY-MM-DD HH:mm:ss.SSS")
   private Timestamp modifyTime;
-  @Field(type = FieldType.Long, index = false)
-  private Long creatorUserId;
-  @Field(type = FieldType.Long, index = false)
-  private Long creatorRoleId;
-  @Field(type = FieldType.Boolean, index = false)
-  private Boolean isTop;
-  @Field(type = FieldType.Integer, index = false)
-  private Integer type;
-  @Field(type = FieldType.keyword, store = false, index = false)
-  private String entityMap;
-  @Field(type = FieldType.keyword, index = false)
-  private String avatar;
 
 
   public AnnouncementPO() {
@@ -65,7 +52,6 @@ public class AnnouncementPO {
     this.content = content;
     this.tags = tags;
     this.creatorRole = creatorRole;
-    this.creatorUser = creatorUser;
     this.affairId = affairId;
     this.modifyTime = modifyTime;
   }
@@ -80,16 +66,10 @@ public class AnnouncementPO {
     this.content = content;
     this.tags = tags;
     this.creatorRole = creatorRole;
-    this.creatorUser = creatorUser;
     this.creatorRoleId = creatorRoleId;
     this.affairId = affairId;
     this.affairName = affairName;
     this.modifyTime = modifyTime;
-    this.creatorUserId = creatorUserId;
-    this.isTop = isTop;
-    this.type = type;
-    this.entityMap = entityMap;
-    this.avatar = avatar;
   }
 
   public AnnouncementPO(AnnouncementVO vo) {
@@ -98,16 +78,10 @@ public class AnnouncementPO {
     content = vo.getContent();
     tags = VoAndPoConversion.toPOs(vo.getTagVOS());
     creatorRole = vo.getCreatorRole();
-    creatorUser = vo.getCreatorUser();
     creatorRoleId = vo.getCreatorRoleId();
     affairId = vo.getAffairId();
     affairName = vo.getAffairName();
     modifyTime = vo.getModifyTime();
-    creatorUserId = vo.getCreatorUserId();
-    isTop = vo.getTop();
-    type = vo.getType();
-    entityMap = vo.getEntityMap();
-    avatar = vo.getAvatar();
   }
 
   public String getId() {
@@ -132,14 +106,6 @@ public class AnnouncementPO {
 
   public void setTags(List<TagPO> tags) {
     this.tags = tags;
-  }
-
-  public String getCreatorUser() {
-    return creatorUser;
-  }
-
-  public void setCreatorUser(String creatorUser) {
-    this.creatorUser = creatorUser;
   }
 
   public String getCreatorRole() {
@@ -182,54 +148,6 @@ public class AnnouncementPO {
     this.modifyTime = modifyTime;
   }
 
-  public Long getCreatorUserId() {
-    return creatorUserId;
-  }
-
-  public void setCreatorUserId(Long creatorUserId) {
-    this.creatorUserId = creatorUserId;
-  }
-
-  public Integer getType() {
-    return type;
-  }
-
-  public void setType(Integer type) {
-    this.type = type;
-  }
-
-  public String getEntityMap() {
-    return entityMap;
-  }
-
-  public void setEntityMap(String entityMap) {
-    this.entityMap = entityMap;
-  }
-
-  public Long getCreatorRoleId() {
-    return creatorRoleId;
-  }
-
-  public void setCreatorRoleId(Long creatorRoleId) {
-    this.creatorRoleId = creatorRoleId;
-  }
-
-  public Boolean getTop() {
-    return isTop;
-  }
-
-  public void setTop(Boolean top) {
-    isTop = top;
-  }
-
-  public String getAvatar() {
-    return avatar;
-  }
-
-  public void setAvatar(String avatar) {
-    this.avatar = avatar;
-  }
-
   @Override
   public String toString() {
     return "Announcement{" +
@@ -238,16 +156,10 @@ public class AnnouncementPO {
         ", content='" + content + '\'' +
         ", tags=" + tags +
         ", creatorRole='" + creatorRole + '\'' +
-        ", creatorUser='" + creatorUser + '\'' +
         ", affairName='" + affairName + '\'' +
         ", modifyTime=" + modifyTime +
-        ", creatorUserId=" + creatorUserId +
         ", creatorRoleId=" + creatorRoleId +
         ", affairId=" + affairId +
-        ", isTop=" + isTop +
-        ", type=" + type +
-        ", entityMap='" + entityMap + '\'' +
-        ", avatar='" + avatar + '\'' +
         '}';
   }
 

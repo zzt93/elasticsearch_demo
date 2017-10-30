@@ -18,12 +18,14 @@ public class UserPO {
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.text, analyzer = "standard")
+
+  @Field(type = FieldType.keyword)
   private String username;
-  @Field(type = FieldType.text, analyzer = "standard")
+  @Field(type = FieldType.keyword)
   private String email;
-  @Field(type = FieldType.text, analyzer = "standard")
+  @Field(type = FieldType.keyword)
   private String mobile;
+
   @Field(type = FieldType.keyword)
   private String superId;
   @Field(type = FieldType.Nested)

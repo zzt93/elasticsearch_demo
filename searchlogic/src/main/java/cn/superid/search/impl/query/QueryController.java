@@ -205,8 +205,8 @@ public class QueryController {
   }
 
   @PostMapping("/user")
-  public List<UserVO> queryUserByUsernameOrSuperIdOrTags(@RequestBody String query) {
-    return userService.findTop20ByUsernameOrSuperIdOrTags(query);
+  public List<UserVO> findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(@RequestBody String query) {
+    return userService.findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(query);
   }
 
 

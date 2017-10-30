@@ -28,26 +28,33 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
   Page<UserPO> findByTagsIn(String query, Pageable pageable);
 
 
-  @Query(" {" +
-      " \"bool\": { " +
-      "     \"should\": [\n" +
-      "       {\n" +
-      "         \"multi_match\": {" +
-      "            \"query\":    \"?0\",\n" +
-      "            \"fields\":   [ \"username\", \"superId\"]\n" +
-      "          }" +
-      "       },\n" +
-      "       {\n" +
-      "         \"nested\": {\n" +
-      "           \"path\": \"tags\",\n" +
-      "           \"query\": {\n" +
-      "             \"match\": {\n" +
-      "               \"tags.des\": \"?0\"\n" +
-      "             }}\n" +
-      "         }\n" +
-      "       } " +
-      "     ]\n" +
-      "  }" +
-      "}")
-  Page<UserPO> findByUserNameOrSuperIdOrTagsIn(String query, Pageable pageable);
+  @Query("{\n"
+      + "    \"bool\": {\n"
+      + "      \"should\": [\n"
+      + "        {\n"
+      + "          \"prefix\" : { \"username\" : \"?0\" }\n"
+      + "        },\n"
+      + "        {\n"
+      + "          \"prefix\" : { \"email\" : \"?0\" }\n"
+      + "        },\n"
+      + "        {\n"
+      + "          \"prefix\" : { \"mobile\" : \"?0\" }\n"
+      + "        },\n"
+      + "        {\n"
+      + "          \"prefix\" : { \"superId\" : \"?0\" }\n"
+      + "        },\n"
+      + "        {\n"
+      + "          \"nested\": {\n"
+      + "            \"path\": \"tags\",\n"
+      + "            \"query\": {\n"
+      + "              \"match\": {\n"
+      + "                \"tags.des\": \"?0\"\n"
+      + "              }\n"
+      + "            }\n"
+      + "          }\n"
+      + "        }\n"
+      + "      ]\n"
+      + "    }\n"
+      + "  }")
+  Page<UserPO> findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(String query, Pageable pageable);
 }

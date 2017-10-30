@@ -37,8 +37,8 @@ public class UserService {
         .collect(Collectors.toList());
   }
 
-  public List<UserVO> findTop20ByUsernameOrSuperIdOrTags(String query) {
-    return userRepo.findByUserNameOrSuperIdOrTagsIn(query, TOP20).getContent()
+  public List<UserVO> findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(String query) {
+    return userRepo.findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(query, TOP20).getContent()
         .stream()
         .map(VoAndPoConversion::toVO)
         .collect(Collectors.toList());
