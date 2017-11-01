@@ -26,11 +26,11 @@ public class AnnouncementPO {
   private String content;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
-  @Field(type = FieldType.Long, index = false)
+  @Field(type = FieldType.Long)
   private Long creatorRoleId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String creatorRole;
-  @Field(type = FieldType.Long, index = false)
+  @Field(type = FieldType.Long)
   private Long affairId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
