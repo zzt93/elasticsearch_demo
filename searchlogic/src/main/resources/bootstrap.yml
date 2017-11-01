@@ -40,7 +40,7 @@ spring:
         initial-interval: 1000
         max-attempts: 4
         max-interval: 1000
-      host: ${CONSUL_ADDRESS:192.168.1.100}
+      host: ${CONSUL_ADDRESS:192.168.1.200}
       port: ${CONSUL_PORT:8500}
 
 
