@@ -152,7 +152,7 @@ public class AnnouncementVO implements TimeBasedIndex {
   }
 
   public String indexSuffix() {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM");
     return simpleDateFormat.format(createTime);
   }
 }

@@ -15,8 +15,18 @@ public class DateTest {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     Date date = new Date(timestamp.getTime());
 
-    // S is the millisecond
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+
+    System.out.println(simpleDateFormat.format(timestamp));
+    System.out.println(simpleDateFormat.format(date));
+  }
+
+  @Test
+  public void format2() throws Exception {
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    Date date = new Date(timestamp.getTime());
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM");
 
     System.out.println(simpleDateFormat.format(timestamp));
     System.out.println(simpleDateFormat.format(date));

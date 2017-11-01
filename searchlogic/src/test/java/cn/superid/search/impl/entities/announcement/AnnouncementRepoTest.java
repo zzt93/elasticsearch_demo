@@ -54,7 +54,7 @@ public class AnnouncementRepoTest {
 
   @Before
   public void save() {
-    suffix.setSuffix("2016.10.10");
+    suffix.setSuffix("2016-10");
     MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String role1 = "role1";

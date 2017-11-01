@@ -56,7 +56,7 @@ public class AnnouncementRepoImplTest {
 
   @Before
   public void setUp() throws Exception {
-    suffix.setSuffix("2016.10.11");
+    suffix.setSuffix("2016-09");
     MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String modifierUser = "xxx";
