@@ -17,7 +17,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  *
  * @see MaterialVO#indexSuffix()
  */
-@Document(indexName = "material-#{suffix.toString()}", type = "material", createIndex = false)
+@Document(indexName = "material-#{suffix.toString()}", type = "material", createIndex = false, shards = 2)
 public class MaterialPO {
 
   @Id

@@ -1,21 +1,21 @@
-spring:
-  cloud:
-    stream:
-      bindings:
-        search-index-input: # channelName 自定义的通道名称
-          group: indexGroup      # 消费者分组可实现多消费者监听同一通道消息的负载均衡
-          content-type: application/x-java-object;type=cn.superid.common.notification.dto.NotificationMessage
-          destination: searchSaveExchange
-      binders:
-        rabbit-search:
-          type: rabbit     #可以是其它，比如kafka
-          environment:
-            spring:
-              rabbitmq:
-                host: 192.168.1.100   #rabbitMQ服务器地址
-                port: 5672          #rabbitMQ服务器端口
-                username: searcher
-                password: searcher
-                virtual-host: search_host
+#spring:
+#  cloud:
+#    stream:
+#      bindings:
+#        search-index-input: # channelName 自定义的通道名称
+#          group: indexGroup      # 消费者分组可实现多消费者监听同一通道消息的负载均衡
+#          content-type: application/x-java-object;type=cn.superid.common.notification.dto.NotificationMessage
+#          destination: searchSaveExchange
+#      binders:
+#        rabbit-search:
+#          type: rabbit     #可以是其它，比如kafka
+#          environment:
+#            spring:
+#              rabbitmq:
+#                host: 192.168.1.100   #rabbitMQ服务器地址
+#                port: 5672          #rabbitMQ服务器端口
+#                username: searcher
+#                password: searcher
+#                virtual-host: search_host
 
 

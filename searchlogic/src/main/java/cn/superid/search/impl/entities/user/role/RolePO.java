@@ -18,7 +18,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * @see cn.superid.search.impl.save.rolling.Suffix
  * @see RoleVO#indexSuffix()
  */
-@Document(indexName = "role-#{suffix.toString()}", type = "role", createIndex = false)
+@Document(indexName = "role-#{suffix.toString()}", type = "role", createIndex = false, shards = 2)
 public class RolePO {
 
   @Id

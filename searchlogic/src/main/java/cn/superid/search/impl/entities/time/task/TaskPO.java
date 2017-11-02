@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/21.
  */
-@Document(indexName = "task-#{suffix.toString()}", type = "task", refreshInterval = "1s", createIndex = false)
+@Document(indexName = "task-#{suffix.toString()}", type = "task", refreshInterval = "1s", createIndex = false, shards = 2)
 public class TaskPO {
 
   @Id

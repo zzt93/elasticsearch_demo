@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/5/27.
  */
-@Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false)
+@Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false, shards = 2)
 public class AnnouncementPO {
 
   @Id

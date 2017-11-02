@@ -14,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 // If no base package is configured, it will use the one the configuration class resides in
 @EnableElasticsearchRepositories(
     queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
-//@EnableDiscoveryClient
 @EnableWebMvc
 public class SearchdemoApplication implements CommandLineRunner {
 
