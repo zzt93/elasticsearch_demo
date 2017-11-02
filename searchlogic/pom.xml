@@ -13,7 +13,7 @@
 
   <properties>
     <maven.deploy.skip>true</maven.deploy.skip>
-    <spring.consul.version>1.2.0.RELEASE</spring.consul.version>
+    <spring.consul.version>2.0.0.M1</spring.consul.version>
   </properties>
 
   <repositories>
