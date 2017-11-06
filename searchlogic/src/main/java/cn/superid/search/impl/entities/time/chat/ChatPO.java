@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/5.
  */
-@Document(indexName = "chat-#{suffix.toString()}", type = "chat", refreshInterval = "10s", createIndex = false, shards = 2)
+@Document(indexName = "chat-#{suffix.toString()}", type = "chat", refreshInterval = "10s", createIndex = false, shards = 1)
 public class ChatPO {
 
   @Id

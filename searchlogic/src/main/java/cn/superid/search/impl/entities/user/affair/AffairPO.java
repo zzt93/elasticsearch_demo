@@ -18,7 +18,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  *
  * @see AffairVO#indexSuffix()
  */
-@Document(indexName = "affair-#{suffix.toString()}", type = "affair", refreshInterval = "1s", createIndex = false, shards = 2)
+@Document(indexName = "affair-#{suffix.toString()}", type = "affair", refreshInterval = "1s", createIndex = false, shards = 1)
 public class AffairPO {
 
   @Id
