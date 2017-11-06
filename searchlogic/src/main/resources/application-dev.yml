@@ -1,0 +1,6 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-name: searcher-dev
+      cluster-nodes: "192.168.1.100:9300"
+

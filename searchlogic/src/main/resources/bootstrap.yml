@@ -1,6 +1,6 @@
 spring:
   application:
-    name: search-${spring.profiles.active:default}
+    name: searcher-${spring.profiles.active:default}
 
 ---
 
@@ -16,14 +16,11 @@ spring:
         preferIpAddress: true
         enabled: true
         register: true
-        service-name: notice
-        #hostname: localhost
+        service-name: searcher
         health-check-interval: 10s
         health-check-timeout: 20s
         heartbeat:
           enabled: true
-        #health-check-url:
-        #instance-id: server:172.16.33.150:server
         ip-address: ${HOST_ADDRESS:localhost}
         port: ${SERVER_PORT:${server.port}}
         lifecycle:
@@ -32,10 +29,6 @@ spring:
         prefer-agent-address: false
         register-health-check: true
         tags: master
-        #health-check-path: ping -c1 google.com >/dev/null
-        #enabled: false
-        #fail-fast: true
-        #default-context: application
       retry:
         initial-interval: 1000
         max-attempts: 4
@@ -46,7 +39,7 @@ spring:
 
 ---
 spring:
-  profiles: expuser
+  profiles: dev
   cloud:
     config:
       discovery:
@@ -59,41 +52,23 @@ spring:
         preferIpAddress: true
         enabled: true
         register: true
-        service-name: userservice
-        #hostname: localhost
+        service-name: searcher-dev
         health-check-interval: 10s
         health-check-timeout: 20s
         heartbeat:
           enabled: true
-        #health-check-url:
-        #host-info: cn.superid.demo.config-host-info
-        #instance-id: server:172.16.33.150:server
         ip-address: ${HOST_ADDRESS:localhost}
-        port: ${SERVER_PORT:19990}
+        port: ${SERVER_PORT:${server.port}}
         lifecycle:
           enabled: true
         scheme: http
         prefer-agent-address: false
         register-health-check: true
         tags: master
-        #health-check-path: ping -c1 google.com >/dev/null
-        #com.superid.demo.config:
-        #enabled: false
-        #fail-fast: true
-        #default-context: application
       retry:
         initial-interval: 1000
         max-attempts: 4
         max-interval: 1000
-      host: ${CONSUL_ADDRESS:192.168.30.58}
+      host: ${CONSUL_ADDRESS:192.168.1.200}
       port: ${CONSUL_PORT:8500}
 
----
-spring:
-  profiles: default
-  cloud:
-    config:
-      service-id: config-service
-      discovery:
-        health-check-path: /health
-        enabled: true
