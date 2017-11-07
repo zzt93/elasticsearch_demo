@@ -31,7 +31,7 @@ public class ESConfig {
 
 
   private final ElasticsearchProperties properties;
-  @Value("${esUser}")
+  @Value("${esUser:':'}")
   private String esUser;
 
   @Autowired
@@ -56,13 +56,13 @@ public class ESConfig {
   }
 
   private Settings settings() {
-    Builder put = Settings.builder()
+    Builder builder = Settings.builder()
         .put("cluster.name", properties.getClusterName());
     if (StringUtils.isEmpty(esUser)) {
       logger.error("Not config elastic user and password in environment variable, set 'ES_USER'");
-      return put.build();
+      return builder.build();
     }
-    return put
+    return builder
         .put("xpack.security.user", esUser)
 //        .put("client.transport.sniff", clientTransportSniff)
 //        .put("client.transport.ignore_cluster_name", clientIgnoreClusterName)
