@@ -17,7 +17,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  *
  * @see MaterialVO#indexSuffix()
  */
-@Document(indexName = "material-#{suffix.toString()}", type = "material", createIndex = false, shards = 1)
+@Document(indexName = "material-#{suffix.toString()}", type = "material", createIndex = false, shards = 1, replicas = 0)
 public class MaterialPO {
 
   @Id
@@ -36,7 +36,6 @@ public class MaterialPO {
   private Integer type;
   @Field(type = FieldType.Integer)
   private Integer publicType;
-
 
 
   public MaterialPO() {

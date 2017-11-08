@@ -14,6 +14,9 @@
   <properties>
     <maven.deploy.skip>true</maven.deploy.skip>
     <spring.consul.version>2.0.0.M1</spring.consul.version>
+    <docker.skip.build>false</docker.skip.build>
+    <docker.image.prefix>192.168.1.202/library</docker.image.prefix>
+    <maven.docker.version>0.4.14</maven.docker.version>
   </properties>
 
   <repositories>
@@ -138,6 +141,49 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>${maven.docker.version}</version>
+        <!--插件绑定到phase-->
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!--配置变量，包括是否build、imageName、imageTag，非常灵活-->
+          <skipDocker>${docker.skip.build}</skipDocker>
+          <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+          <!--最后镜像产生了两个tag，版本和和最新的-->
+          <imageTags>
+            <imageTag>${project.version}</imageTag>
+            <imageTag>latest</imageTag>
+          </imageTags>
+          <forceTags>true</forceTags>
+          <env>
+            <TZ>Asia/Shanghai</TZ>
+          </env>
+          <!--时区配置-->
+          <runs>
+            <run>ln -snf /usr/share/zoneinfo/$TZ /etc/localtime</run>
+            <run>echo $TZ > /etc/timezone</run>
+          </runs>
+          <dockerDirectory>${project.basedir}</dockerDirectory>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+          </resources>
+          <!--push到私有的hub-->
+          <serverId>docker-registry</serverId>
+        </configuration>
       </plugin>
     </plugins>
   </build>
