@@ -22,7 +22,8 @@
           "type" : "long"
         },
         "modifyTime" : {
-          "type" : "date"
+          "type" : "date",
+          "format": "yyyy-MM-DD HH:mm:ss.SSS||date_optional_time"
         },
         "tags" : {
           "type" : "nested",
