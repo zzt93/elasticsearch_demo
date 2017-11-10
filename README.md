@@ -36,4 +36,3 @@
   - elasticsearch url
   - elastic user & password
 
-
