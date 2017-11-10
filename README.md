@@ -35,3 +35,4 @@
 - Config: `/etc/kibana/kibana.yml`
   - elasticsearch url
   - elastic user & password
+
