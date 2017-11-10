@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>search-logic</artifactId>
+  <artifactId>searcher</artifactId>
 
   <properties>
     <maven.deploy.skip>true</maven.deploy.skip>
