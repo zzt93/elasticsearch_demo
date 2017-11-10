@@ -35,7 +35,7 @@ public class AnnouncementPO {
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
 
-  @Field(type = FieldType.Date, pattern = "YYYY-MM-DD HH:mm:ss.SSS")
+  @Field(type = FieldType.Date, pattern = "YYYY-MM-DD HH:mm:ss.SSS||date_optional_time||epoch_millis")
   private Timestamp modifyTime;
 
 

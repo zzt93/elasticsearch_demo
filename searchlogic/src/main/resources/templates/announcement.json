@@ -23,7 +23,7 @@
         },
         "modifyTime" : {
           "type" : "date",
-          "format": "yyyy-MM-DD HH:mm:ss.SSS||date_optional_time"
+          "format": "yyyy-MM-DD HH:mm:ss.SSS||date_optional_time||epoch_millis"
         },
         "tags" : {
           "type" : "nested",
