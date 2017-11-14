@@ -81,6 +81,9 @@ public class VoAndPoConversion {
   }
 
   public static List<TagVO> toVOs(List<TagPO> tagPOS) {
+    if (tagPOS == null) {
+      return null;
+    }
     return tagPOS.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
   }
 
