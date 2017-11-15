@@ -3,6 +3,7 @@ package cn.superid.search.impl.entities.time.announcement;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
 import java.util.List;
@@ -35,7 +36,8 @@ public class AnnouncementPO {
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
 
-  @Field(type = FieldType.Date, pattern = "YYYY-MM-DD HH:mm:ss.SSS||date_optional_time||epoch_millis")
+  @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp modifyTime;
 
 
