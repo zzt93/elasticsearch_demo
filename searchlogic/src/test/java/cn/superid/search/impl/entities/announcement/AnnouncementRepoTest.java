@@ -5,6 +5,7 @@ import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
 import cn.superid.search.impl.save.MessageReceiverTest;
 import cn.superid.search.impl.save.rolling.Suffix;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Lists;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -53,8 +54,8 @@ public class AnnouncementRepoTest {
   private ElasticsearchTemplate esTemplate;
 
   @Before
-  public void save() {
-    suffix.setSuffix("2016-10");
+  public void save() throws JsonProcessingException {
+    suffix.setSuffix("2016.10");
     MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String role1 = "role1";
