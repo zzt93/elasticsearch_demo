@@ -1,27 +1,30 @@
 {
   "template": "file-*",
-  "mappings" : {
-    "file" : {
-      "properties" : {
-        "name" : {
-          "type" : "text",
-          "analyzer" : "ik_smart"
+  "mappings": {
+    "file": {
+      "properties": {
+        "name": {
+          "type": "text",
+          "analyzer": "ik_smart"
         },
-        "type" : {
-          "type" : "integer"
+        "type": {
+          "type": "byte"
         },
-        "uploaderRoleId" : {
-          "type" : "keyword"
+        "publicType": {
+          "type": "byte"
+        },
+        "uploaderRoleId": {
+          "type": "keyword"
         }
       }
     }
   },
-  "settings" : {
-    "index" : {
-      "refresh_interval" : "10s",
-      "number_of_shards" : "1",
-      "store" : {
-        "type" : "fs"
+  "settings": {
+    "index": {
+      "refresh_interval": "10s",
+      "number_of_shards": "1",
+      "store": {
+        "type": "fs"
       },
       "number_of_replicas": "0"
     }

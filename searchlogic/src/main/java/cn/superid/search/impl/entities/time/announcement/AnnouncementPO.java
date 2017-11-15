@@ -37,9 +37,10 @@ public class AnnouncementPO {
   private String affairName;
 
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp modifyTime;
-
+  @Field(type = FieldType.Integer)
+  private Integer publicType;
 
   public AnnouncementPO() {
   }
@@ -47,7 +48,8 @@ public class AnnouncementPO {
   /**
    * For test
    */
-  public AnnouncementPO(String id, String title, String content, List<TagPO> tags, String creatorRole,
+  public AnnouncementPO(String id, String title, String content, List<TagPO> tags,
+      String creatorRole,
       String creatorUser, Long affairId, Timestamp modifyTime) {
     this.id = id;
     this.title = title;
@@ -58,7 +60,9 @@ public class AnnouncementPO {
     this.modifyTime = modifyTime;
   }
 
-  public AnnouncementPO(String id, String title, String content, List<TagPO> tags, String creatorRole,
+
+  public AnnouncementPO(String id, String title, String content, List<TagPO> tags,
+      String creatorRole,
       String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
       Long creatorUserId, Boolean isTop, Integer type, String entityMap,
@@ -84,6 +88,15 @@ public class AnnouncementPO {
     affairId = vo.getAffairId();
     affairName = vo.getAffairName();
     modifyTime = vo.getModifyTime();
+  }
+
+  public Integer getPublicType() {
+    return publicType;
+  }
+
+  public AnnouncementPO setPublicType(Integer publicType) {
+    this.publicType = publicType;
+    return this;
   }
 
   public String getId() {

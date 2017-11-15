@@ -34,6 +34,8 @@ public class AffairPO {
   private String superId;
   @Field(type = FieldType.Integer)
   private Integer state;
+  @Field(type = FieldType.Integer)
+  private Integer publicType;
 
   public AffairPO() {
   }
@@ -102,6 +104,15 @@ public class AffairPO {
 
   public void setState(Integer state) {
     this.state = state;
+  }
+
+  public Integer getPublicType() {
+    return publicType;
+  }
+
+  public AffairPO setPublicType(Integer publicType) {
+    this.publicType = publicType;
+    return this;
   }
 
   @Override

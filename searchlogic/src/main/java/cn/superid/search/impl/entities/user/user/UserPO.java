@@ -30,7 +30,8 @@ public class UserPO {
   private String superId;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
-
+  @Field(type = FieldType.Integer)
+  private Integer publicType;
 
   public UserPO() {
   }
@@ -46,6 +47,15 @@ public class UserPO {
   public UserPO(UserVO vo) {
     id = vo.getId();
     username = vo.getUsername();
+  }
+
+  public Integer getPublicType() {
+    return publicType;
+  }
+
+  public UserPO setPublicType(Integer publicType) {
+    this.publicType = publicType;
+    return this;
   }
 
   public String getSuperId() {
