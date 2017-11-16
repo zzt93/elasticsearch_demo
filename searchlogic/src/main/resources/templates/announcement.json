@@ -1,51 +1,54 @@
 {
   "template": "announcement-*",
-  "mappings" : {
-    "announcement" : {
-      "properties" : {
-        "affairId" : {
-          "type" : "long"
+  "mappings": {
+    "announcement": {
+      "properties": {
+        "affairId": {
+          "type": "long"
         },
-        "affairName" : {
-          "type" : "text",
-          "analyzer" : "ik_smart"
+        "affairName": {
+          "type": "text",
+          "analyzer": "ik_smart"
         },
-        "content" : {
-          "type" : "text",
-          "analyzer" : "ik_smart"
+        "content": {
+          "type": "text",
+          "analyzer": "ik_smart"
         },
-        "creatorRole" : {
-          "type" : "text",
-          "analyzer" : "ik_smart"
+        "creatorRole": {
+          "type": "text",
+          "analyzer": "ik_smart"
         },
-        "creatorRoleId" : {
-          "type" : "long"
+        "creatorRoleId": {
+          "type": "long"
         },
-        "modifyTime" : {
-          "type" : "date",
-          "format": "yyyy-MM-DD HH:mm:ss.SSS||date_optional_time||epoch_millis"
+        "modifyTime": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss.SSS"
         },
-        "tags" : {
-          "type" : "nested",
-          "properties" : {
-            "des" : {
-              "type" : "keyword"
+        "tags": {
+          "type": "nested",
+          "properties": {
+            "des": {
+              "type": "keyword"
             }
           }
         },
-        "title" : {
-          "type" : "text",
-          "analyzer" : "ik_smart"
+        "title": {
+          "type": "text",
+          "analyzer": "ik_smart"
+        },
+        "publicType": {
+          "type": "byte"
         }
       }
     }
   },
-  "settings" : {
-    "index" : {
-      "refresh_interval" : "1s",
-      "number_of_shards" : "1",
-      "store" : {
-        "type" : "fs"
+  "settings": {
+    "index": {
+      "refresh_interval": "1s",
+      "number_of_shards": "1",
+      "store": {
+        "type": "fs"
       },
       "number_of_replicas": "0"
     }

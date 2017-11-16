@@ -20,6 +20,9 @@
         "email": {
           "type": "keyword"
         },
+        "publicType": {
+          "type": "byte"
+        },
         "mobile": {
           "type": "keyword"
         }
