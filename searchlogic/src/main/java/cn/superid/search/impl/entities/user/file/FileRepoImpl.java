@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.file;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 
 import cn.superid.search.impl.entities.user.role.RolePO;
@@ -45,8 +46,8 @@ public class FileRepoImpl implements FileCustom {
   }
 
   @Override
-  public List<FilePO> findByNameOrUploadRoleName(String info, Long allianceId,
-      Long affairId) {
+  public List<FilePO> findByNameOrUploadRoleName(Integer level, String info,
+      Long allianceId, Long affairId) {
     suffix.setSuffix(allianceId.toString());
     // TODO 17/9/26 combine two search
     List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(affairId, info);
@@ -54,7 +55,8 @@ public class FileRepoImpl implements FileCustom {
     List<String> ids = rolePOS.stream().map(RolePO::getId).collect(Collectors.toList());
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(
-            boolQuery().should(matchQuery("name", info)).should(termsQuery("uploadRoleId", ids)))
+            boolQuery().filter(rangeQuery("publicType").lte(level))
+                .should(matchQuery("name", info)).should(termsQuery("uploadRoleId", ids)))
         .withIndices(Suffix.indexName(FilePO.class, affairId))
         .build();
     return template.queryForList(searchQuery, FilePO.class);

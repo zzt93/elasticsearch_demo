@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class MaterialRepoTest {
 
+  private static final byte type = 0;
   @Autowired
   private MaterialRepo materialRepo;
   @Autowired
@@ -32,7 +33,8 @@ public class MaterialRepoTest {
     MessageReceiverTest.createIfNotExist(esTemplate, MaterialPO.class);
 
     materialRepo.save(
-        new MaterialPO("1", "computer", Lists.newArrayList(new TagPO("mac")), 1L, 1111L, 0, 0));
+        new MaterialPO("1", "computer", Lists.newArrayList(new TagPO("mac")), 1L, 1111L, type,
+            type));
   }
 
   @Test

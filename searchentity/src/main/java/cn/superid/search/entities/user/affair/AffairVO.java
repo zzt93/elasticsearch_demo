@@ -14,21 +14,21 @@ public class AffairVO implements UserBasedIndex {
   private String name;
   private String superId;
   private List<TagVO> tagVOS;
-  private Integer state;
+  private Byte state;
 
   private Long allianceId;
 
   public AffairVO() {
   }
 
-  public AffairVO(String parentId, String id, Integer state) {
+  public AffairVO(String parentId, String id, Byte state) {
     this.parentId = parentId;
     this.id = id;
     this.state = state;
   }
 
   public AffairVO(String parentId, String id, String name, String superId,
-      List<TagVO> tagVOS, Integer state, Long allianceId) {
+      List<TagVO> tagVOS, Byte state, Long allianceId) {
     this.parentId = parentId;
     this.id = id;
     this.name = name;
@@ -38,11 +38,11 @@ public class AffairVO implements UserBasedIndex {
     this.allianceId = allianceId;
   }
 
-  public Integer getState() {
+  public Byte getState() {
     return state;
   }
 
-  public void setState(Integer state) {
+  public void setState(Byte state) {
     this.state = state;
   }
 

@@ -3,6 +3,7 @@ package cn.superid.search.impl.entities.time.announcement;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
 import java.util.List;
@@ -35,9 +36,11 @@ public class AnnouncementPO {
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
 
-  @Field(type = FieldType.Date, pattern = "YYYY-MM-DD HH:mm:ss.SSS||date_optional_time||epoch_millis")
+  @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp modifyTime;
-
+  @Field(type = FieldType.Byte)
+  private Byte publicType;
 
   public AnnouncementPO() {
   }
@@ -45,7 +48,8 @@ public class AnnouncementPO {
   /**
    * For test
    */
-  public AnnouncementPO(String id, String title, String content, List<TagPO> tags, String creatorRole,
+  public AnnouncementPO(String id, String title, String content, List<TagPO> tags,
+      String creatorRole,
       String creatorUser, Long affairId, Timestamp modifyTime) {
     this.id = id;
     this.title = title;
@@ -56,10 +60,12 @@ public class AnnouncementPO {
     this.modifyTime = modifyTime;
   }
 
-  public AnnouncementPO(String id, String title, String content, List<TagPO> tags, String creatorRole,
+
+  public AnnouncementPO(String id, String title, String content, List<TagPO> tags,
+      String creatorRole,
       String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
-      Long creatorUserId, Boolean isTop, Integer type, String entityMap,
+      Long creatorUserId, Boolean isTop, Byte type, String entityMap,
       String avatar) {
     this.id = id;
     this.title = title;
@@ -82,6 +88,15 @@ public class AnnouncementPO {
     affairId = vo.getAffairId();
     affairName = vo.getAffairName();
     modifyTime = vo.getModifyTime();
+  }
+
+  public Byte getPublicType() {
+    return publicType;
+  }
+
+  public AnnouncementPO setPublicType(Byte publicType) {
+    this.publicType = publicType;
+    return this;
   }
 
   public String getId() {
