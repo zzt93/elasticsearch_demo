@@ -35,15 +35,14 @@ public class RolePO {
   private List<TagPO> tags;
   @Field(type = FieldType.Integer)
   private Integer type;
+  @Field(type = FieldType.Integer)
+  private Integer publicType;
   @Field(type = FieldType.Long)
   private Long ownerRoleId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String ownerRoleTitle;
-
-
   public RolePO() {
   }
-
   /**
    * for test
    */
@@ -57,10 +56,20 @@ public class RolePO {
     this.ownerRoleId = ownerRoleId;
   }
 
+
   public RolePO(RoleVO entity) {
     id = entity.getId();
     title = entity.getTitle();
     affairId = entity.getAffairId();
+  }
+
+  public Integer getPublicType() {
+    return publicType;
+  }
+
+  public RolePO setPublicType(Integer publicType) {
+    this.publicType = publicType;
+    return this;
   }
 
   public Long getAffairId() {

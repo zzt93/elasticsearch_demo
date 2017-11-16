@@ -28,6 +28,8 @@ public class FilePO {
   private String uploaderRoleId;
   @Field(type = FieldType.Integer)
   private Integer type;
+  @Field(type = FieldType.Integer)
+  private Integer publicType;
 
   public FilePO() {
   }
@@ -42,6 +44,7 @@ public class FilePO {
     type = vo.getType().ordinal();
   }
 
+
   public FilePO(String id, String name, String uploaderRoleId, Integer type) {
     this.id = id;
     this.name = name;
@@ -49,16 +52,25 @@ public class FilePO {
     this.type = type;
   }
 
+  public Integer getPublicType() {
+    return publicType;
+  }
+
+  public FilePO setPublicType(Integer publicType) {
+    this.publicType = publicType;
+    return this;
+  }
+
   public String getId() {
     return id;
   }
 
-  public String voId() {
-    return id.split(SPLIT)[1];
-  }
-
   public void setId(String id) {
     this.id = id;
+  }
+
+  public String voId() {
+    return id.split(SPLIT)[1];
   }
 
   public String getName() {
