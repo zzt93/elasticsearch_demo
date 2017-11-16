@@ -32,17 +32,17 @@ public class MaterialPO {
   private Long warehouseId;
   @Field(type = FieldType.Long)
   private Long affairId;
-  @Field(type = FieldType.Integer)
-  private Integer type;
-  @Field(type = FieldType.Integer)
-  private Integer publicType;
+  @Field(type = FieldType.Byte)
+  private Byte type;
+  @Field(type = FieldType.Byte)
+  private Byte publicType;
 
 
   public MaterialPO() {
   }
 
   MaterialPO(String id, String name,
-      List<TagPO> tags, Long warehouseId, Long affairId, Integer type, Integer publicType) {
+      List<TagPO> tags, Long warehouseId, Long affairId, Byte type, Byte publicType) {
     this.id = id;
     this.name = name;
     this.tags = tags;
@@ -98,19 +98,19 @@ public class MaterialPO {
     this.affairId = affairId;
   }
 
-  public Integer getType() {
+  public Byte getType() {
     return type;
   }
 
-  public void setType(Integer type) {
+  public void setType(Byte type) {
     this.type = type;
   }
 
-  public Integer getPublicType() {
+  public Byte getPublicType() {
     return publicType;
   }
 
-  public void setPublicType(Integer publicType) {
+  public void setPublicType(Byte publicType) {
     this.publicType = publicType;
   }
 }

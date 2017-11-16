@@ -17,7 +17,7 @@ public class FileSearchVO implements UserBasedIndex {
   public FileSearchVO() {
   }
 
-  public FileSearchVO(String id, Integer type) {
+  public FileSearchVO(String id, Byte type) {
     this.id = id;
     this.type = FileType.values()[type];
   }

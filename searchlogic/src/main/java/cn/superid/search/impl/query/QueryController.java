@@ -106,7 +106,7 @@ public class QueryController {
       throw new IllegalArgumentException("Invalid page request");
     }
     List<FilePO> files = fileRepo
-        .findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
+        .findByNameOrUploadRoleName(query.getLevel(), query.getQuery(), query.getAllianceId(), affairId);
     return files.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
   }
 

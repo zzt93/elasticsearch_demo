@@ -32,10 +32,10 @@ public class AffairPO {
   private List<TagPO> tags;
   @Field(type = FieldType.keyword)
   private String superId;
-  @Field(type = FieldType.Integer)
-  private Integer state;
-  @Field(type = FieldType.Integer)
-  private Integer publicType;
+  @Field(type = FieldType.Byte)
+  private Byte state;
+  @Field(type = FieldType.Byte)
+  private Byte publicType;
 
   public AffairPO() {
   }
@@ -98,19 +98,19 @@ public class AffairPO {
     this.parentId = parentId;
   }
 
-  public Integer getState() {
+  public Byte getState() {
     return state;
   }
 
-  public void setState(Integer state) {
+  public void setState(Byte state) {
     this.state = state;
   }
 
-  public Integer getPublicType() {
+  public Byte getPublicType() {
     return publicType;
   }
 
-  public AffairPO setPublicType(Integer publicType) {
+  public AffairPO setPublicType(Byte publicType) {
     this.publicType = publicType;
     return this;
   }

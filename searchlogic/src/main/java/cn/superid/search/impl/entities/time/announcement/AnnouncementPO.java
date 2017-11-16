@@ -39,8 +39,8 @@ public class AnnouncementPO {
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp modifyTime;
-  @Field(type = FieldType.Integer)
-  private Integer publicType;
+  @Field(type = FieldType.Byte)
+  private Byte publicType;
 
   public AnnouncementPO() {
   }
@@ -65,7 +65,7 @@ public class AnnouncementPO {
       String creatorRole,
       String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
-      Long creatorUserId, Boolean isTop, Integer type, String entityMap,
+      Long creatorUserId, Boolean isTop, Byte type, String entityMap,
       String avatar) {
     this.id = id;
     this.title = title;
@@ -90,11 +90,11 @@ public class AnnouncementPO {
     modifyTime = vo.getModifyTime();
   }
 
-  public Integer getPublicType() {
+  public Byte getPublicType() {
     return publicType;
   }
 
-  public AnnouncementPO setPublicType(Integer publicType) {
+  public AnnouncementPO setPublicType(Byte publicType) {
     this.publicType = publicType;
     return this;
   }

@@ -33,10 +33,10 @@ public class RolePO {
   private String affairName;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
-  @Field(type = FieldType.Integer)
-  private Integer type;
-  @Field(type = FieldType.Integer)
-  private Integer publicType;
+  @Field(type = FieldType.Byte)
+  private Byte type;
+  @Field(type = FieldType.Byte)
+  private Byte publicType;
   @Field(type = FieldType.Long)
   private Long ownerRoleId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
@@ -46,7 +46,7 @@ public class RolePO {
   /**
    * for test
    */
-  RolePO(String id, String title, Long affairId, Integer type,
+  RolePO(String id, String title, Long affairId, Byte type,
       List<TagPO> t, Long ownerRoleId) {
     this.id = id;
     this.title = title;
@@ -63,11 +63,11 @@ public class RolePO {
     affairId = entity.getAffairId();
   }
 
-  public Integer getPublicType() {
+  public Byte getPublicType() {
     return publicType;
   }
 
-  public RolePO setPublicType(Integer publicType) {
+  public RolePO setPublicType(Byte publicType) {
     this.publicType = publicType;
     return this;
   }
@@ -104,11 +104,11 @@ public class RolePO {
     this.tags = tags;
   }
 
-  public Integer getType() {
+  public Byte getType() {
     return type;
   }
 
-  public void setType(Integer type) {
+  public void setType(Byte type) {
     this.type = type;
   }
 

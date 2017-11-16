@@ -30,7 +30,7 @@ public class UserPO {
   private String superId;
   @Field(type = FieldType.Nested)
   private List<TagPO> tags;
-  @Field(type = FieldType.Integer)
+  @Field(type = FieldType.Byte)
   private Integer publicType;
 
   public UserPO() {

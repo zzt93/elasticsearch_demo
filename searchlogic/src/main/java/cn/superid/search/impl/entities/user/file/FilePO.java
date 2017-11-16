@@ -26,10 +26,10 @@ public class FilePO {
   private String name;
   @Field(type = FieldType.keyword)
   private String uploaderRoleId;
-  @Field(type = FieldType.Integer)
-  private Integer type;
-  @Field(type = FieldType.Integer)
-  private Integer publicType;
+  @Field(type = FieldType.Byte)
+  private Byte type;
+  @Field(type = FieldType.Byte)
+  private Byte publicType;
 
   public FilePO() {
   }
@@ -41,22 +41,22 @@ public class FilePO {
     id = vo.getType().name() + SPLIT + vo.getId();
     name = vo.getName();
     uploaderRoleId = vo.getUploadRoleId();
-    type = vo.getType().ordinal();
+    type = ((byte) vo.getType().ordinal());
   }
 
 
-  public FilePO(String id, String name, String uploaderRoleId, Integer type) {
+  public FilePO(String id, String name, String uploaderRoleId, Byte type) {
     this.id = id;
     this.name = name;
     this.uploaderRoleId = uploaderRoleId;
     this.type = type;
   }
 
-  public Integer getPublicType() {
+  public Byte getPublicType() {
     return publicType;
   }
 
-  public FilePO setPublicType(Integer publicType) {
+  public FilePO setPublicType(Byte publicType) {
     this.publicType = publicType;
     return this;
   }
@@ -89,12 +89,11 @@ public class FilePO {
     this.uploaderRoleId = uploaderRoleId;
   }
 
-  public Integer getType() {
+  public Byte getType() {
     return type;
   }
 
-  public void setType(Integer type) {
+  public void setType(Byte type) {
     this.type = type;
   }
 }
-

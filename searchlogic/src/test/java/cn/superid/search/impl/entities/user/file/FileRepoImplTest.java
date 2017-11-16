@@ -23,13 +23,14 @@ public class FileRepoImplTest {
   private Suffix suffix;
   @Autowired
   private ElasticsearchTemplate esTemplate;
+  private static final byte type = 0;
 
   @Before
   public void setUp() throws Exception {
     suffix.setSuffix("1111");
     MessageReceiverTest.createIfNotExist(esTemplate, FilePO.class);
 
-    fileRepo.save(new FilePO("1", "fileName", "1234", 0));
+    fileRepo.save(new FilePO("1", "fileName", "1234", type));
   }
 
   @Test
