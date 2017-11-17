@@ -1,6 +1,5 @@
 # Searcher
 
-
 ## ES Server Config
 
 - Cluster name: elasticsearch_demo
