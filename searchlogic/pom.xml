@@ -17,6 +17,7 @@
     <docker.skip.build>false</docker.skip.build>
     <docker.image.prefix>192.168.1.202/library</docker.image.prefix>
     <maven.docker.version>0.4.14</maven.docker.version>
+    <spring-cloud.version>2.0.0.M1</spring-cloud.version>
   </properties>
 
   <repositories>
@@ -127,6 +128,24 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+      <version>${spring-cloud.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>
+      <version>${spring-cloud.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-sleuth</artifactId>
+      <version>${spring-cloud.version}</version>
     </dependency>
 
   </dependencies>
