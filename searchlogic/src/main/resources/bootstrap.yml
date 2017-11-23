@@ -5,7 +5,6 @@ spring:
 ---
 
 spring:
-  profiles: default
   cloud:
     config:
       discovery:
@@ -34,41 +33,7 @@ spring:
         max-attempts: 4
         max-interval: 1000
       host: ${CONSUL_ADDRESS:192.168.1.200}
-      port: ${CONSUL_PORT:8500}
+      port: ${CONSUL_PORT:8501}
 
 
----
-spring:
-  profiles: dev
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: configservice
-      enabled: true
-      fail-fast: true
-    consul:
-      discovery:
-        preferIpAddress: true
-        enabled: true
-        register: true
-        service-name: searcher-dev
-        health-check-interval: 10s
-        health-check-timeout: 20s
-        heartbeat:
-          enabled: true
-        ip-address: ${HOST_ADDRESS:localhost}
-        port: ${SERVER_PORT:${server.port}}
-        lifecycle:
-          enabled: true
-        scheme: http
-        prefer-agent-address: false
-        register-health-check: true
-        tags: master
-      retry:
-        initial-interval: 1000
-        max-attempts: 4
-        max-interval: 1000
-      host: ${CONSUL_ADDRESS:192.168.1.200}
-      port: ${CONSUL_PORT:8500}
 
