@@ -1,15 +1,14 @@
 spring:
   application:
-    name: searcher-${spring.profiles.active:default}
+    name: searcher
+server:
+  port: 9500
+
 
 ---
 
 spring:
   cloud:
-    config:
-      discovery:
-        service-id: config-service
-        enabled: true
     consul:
       discovery:
         preferIpAddress: true
@@ -32,6 +31,45 @@ spring:
         initial-interval: 1000
         max-attempts: 4
         max-interval: 1000
+    config:
+      discovery:
+        service-id: config-service
+        enabled: true
+      failFast: true
+      retry:
+        initial-interval: 1000
+        max-attempts: 4
+        max-interval: 1000
+
+
+---
+spring:
+  profiles: dev
+  cloud:
+    consul:
+      host: ${CONSUL_ADDRESS:192.168.1.204}
+      port: ${CONSUL_PORT:8501}
+
+---
+
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+
+---
+spring:
+  profiles: integration
+  cloud:
+    consul:
+      host: ${CONSUL_ADDRESS:192.168.1.100}
+      port: ${CONSUL_PORT:8501}
+
+
+---
+spring:
+  profiles: stable
+  cloud:
+    consul:
       host: ${CONSUL_ADDRESS:192.168.1.200}
       port: ${CONSUL_PORT:8501}
 
