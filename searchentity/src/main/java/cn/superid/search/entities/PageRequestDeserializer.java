@@ -21,7 +21,7 @@ public class PageRequestDeserializer implements
 
   public PageRequest convert(Map<String, Object> value) {
     Sort sort;
-    if (value.containsKey("sort")) {
+    if (value.containsKey("sort") && value.get("sort") != null) {
       List<Map> orderList = (List<Map>) ((Map) value.get("sort")).get("orders");
       List<Order> orders = new ArrayList<>();
       for (Map map : orderList) {
