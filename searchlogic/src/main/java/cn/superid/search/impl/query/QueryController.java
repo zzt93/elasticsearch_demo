@@ -1,6 +1,7 @@
 package cn.superid.search.impl.query;
 
 import cn.superid.search.entities.PageVO;
+import cn.superid.search.entities.StringQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.user.affair.AffairQuery;
@@ -205,8 +206,8 @@ public class QueryController {
   }
 
   @PostMapping("/user")
-  public List<UserVO> findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(@RequestBody String query) {
-    return userService.findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(query);
+  public List<UserVO> findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(@RequestBody StringQuery query) {
+    return userService.findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(query.getQuery());
   }
 
 
