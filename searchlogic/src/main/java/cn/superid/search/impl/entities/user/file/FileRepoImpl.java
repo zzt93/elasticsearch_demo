@@ -59,6 +59,6 @@ public class FileRepoImpl implements FileCustom {
         .withIndices(Suffix.indexName(FilePO.class, affairId))
         .build();
     return template.queryForList(searchQuery, FilePO.class);
-
   }
+
 }

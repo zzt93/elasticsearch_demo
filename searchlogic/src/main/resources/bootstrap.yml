@@ -11,6 +11,7 @@ spring:
   cloud:
     consul:
       discovery:
+        instanceId: ${spring.cloud.consul.discovery.service-name}-${spring.profiles.active}-${spring.cloud.consul.discovery.ip-address}-${random.value}
         preferIpAddress: true
         enabled: true
         register: true
