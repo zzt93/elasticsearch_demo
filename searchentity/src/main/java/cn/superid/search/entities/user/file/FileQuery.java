@@ -34,4 +34,13 @@ public class FileQuery extends StringQuery {
   public void setAllianceId(Long allianceId) {
     this.allianceId = allianceId;
   }
+
+  @Override
+  public String toString() {
+    return "FileQuery{" +
+        "allianceId=" + allianceId +
+        ", affairId=" + affairId +
+        ", " + super.toString() +
+        '}';
+  }
 }

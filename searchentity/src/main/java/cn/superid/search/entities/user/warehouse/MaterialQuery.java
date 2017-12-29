@@ -96,4 +96,18 @@ public class MaterialQuery extends PagedQuery {
   public List<TagVO> getTags() {
     return tags;
   }
+
+  @Override
+  public String toString() {
+    return "MaterialQuery{" +
+        "tags=" + tags +
+        ", materialType=" + materialType +
+        ", publicType=" + publicType +
+        ", warehouseId=" + warehouseId +
+        ", affairId=" + affairId +
+        ", allianceId=" + allianceId +
+        ", scrollQuery=" + scrollQuery +
+        ", " + super.toString() +
+        '}';
+  }
 }

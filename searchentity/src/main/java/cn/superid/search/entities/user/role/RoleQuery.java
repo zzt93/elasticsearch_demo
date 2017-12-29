@@ -33,4 +33,13 @@ public class RoleQuery extends PagedQuery {
   public List<TagVO> getTags() {
     return tags;
   }
+
+  @Override
+  public String toString() {
+    return "RoleQuery{" +
+        "tags=" + tags +
+        ", allianceId=" + allianceId +
+        ", " + super.toString() +
+        '}';
+  }
 }
