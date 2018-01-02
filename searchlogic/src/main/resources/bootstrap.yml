@@ -42,7 +42,7 @@ spring:
         max-attempts: 4
         max-interval: 1000
 
-
+ribbon.NFLoadBalancerRuleClassName: cn.superid.common.label.LabelAndWeightMetadataRule
 ---
 spring:
   profiles: dev
