@@ -68,7 +68,7 @@ public class AnnouncementQuery extends PagedQuery {
         "affairIds=" + affairIds +
         ", startTime=" + startTime +
         ", endTime=" + endTime +
-        ", " + super.toString() +
+        ", pagedQuery=" + super.toString() +
         '}';
   }
 }

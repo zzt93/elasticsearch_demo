@@ -39,7 +39,7 @@ public class RoleQuery extends PagedQuery {
     return "RoleQuery{" +
         "tags=" + tags +
         ", allianceId=" + allianceId +
-        ", " + super.toString() +
+        ", pagedQuery=" + super.toString() +
         '}';
   }
 }

@@ -37,6 +37,7 @@ public class PagedQuery extends StringQuery {
   public String toString() {
     return "PagedQuery{" +
         "pageRequest=" + pageRequest.toString() +
+        ", stringQuery=" + super.toString() +
         '}';
   }
 }

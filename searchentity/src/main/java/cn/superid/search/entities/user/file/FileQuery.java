@@ -40,7 +40,7 @@ public class FileQuery extends StringQuery {
     return "FileQuery{" +
         "allianceId=" + allianceId +
         ", affairId=" + affairId +
-        ", " + super.toString() +
+        ", stringQuery=" + super.toString() +
         '}';
   }
 }
