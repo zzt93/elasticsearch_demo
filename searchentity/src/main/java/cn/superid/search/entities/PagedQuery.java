@@ -33,5 +33,10 @@ public class PagedQuery extends StringQuery {
     this.pageRequest = pageRequest;
   }
 
-
+  @Override
+  public String toString() {
+    return "PagedQuery{" +
+        "pageRequest=" + pageRequest.toString() +
+        '}';
+  }
 }

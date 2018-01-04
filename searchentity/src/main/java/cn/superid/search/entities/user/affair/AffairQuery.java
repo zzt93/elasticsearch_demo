@@ -17,4 +17,10 @@ public class AffairQuery extends PagedQuery {
     setPageRequest(pageRequest);
   }
 
+  @Override
+  public String toString() {
+    return "AffairQuery{"
+        + super.toString()
+        + "}";
+  }
 }

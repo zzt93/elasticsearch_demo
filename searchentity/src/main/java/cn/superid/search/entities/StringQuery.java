@@ -39,4 +39,10 @@ public class StringQuery {
     return query != null ? query.hashCode() : 0;
   }
 
+  @Override
+  public String toString() {
+    return "StringQuery{" +
+        "query='" + query + '\'' +
+        '}';
+  }
 }

@@ -61,4 +61,14 @@ public class AnnouncementQuery extends PagedQuery {
   public void setEndTime(long endTime) {
     this.endTime = endTime;
   }
+
+  @Override
+  public String toString() {
+    return "AnnouncementQuery{" +
+        "affairIds=" + affairIds +
+        ", startTime=" + startTime +
+        ", endTime=" + endTime +
+        ", " + super.toString() +
+        '}';
+  }
 }
