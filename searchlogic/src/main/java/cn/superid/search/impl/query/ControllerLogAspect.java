@@ -18,7 +18,7 @@ public class ControllerLogAspect {
 
   @Before("execution(* QueryController.*(..))")
   public void logServiceAccess(JoinPoint joinPoint) {
-    logger.info("{}", Arrays.toString(joinPoint.getArgs()));
+    logger.info("Search {} with {}", joinPoint.getSignature().toShortString(), Arrays.toString(joinPoint.getArgs()));
   }
 
 }
