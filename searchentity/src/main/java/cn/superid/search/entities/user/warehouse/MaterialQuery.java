@@ -107,7 +107,7 @@ public class MaterialQuery extends PagedQuery {
         ", affairId=" + affairId +
         ", allianceId=" + allianceId +
         ", scrollQuery=" + scrollQuery +
-        ", " + super.toString() +
+        ", pagedQuery=" + super.toString() +
         '}';
   }
 }

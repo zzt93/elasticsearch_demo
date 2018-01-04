@@ -33,4 +33,11 @@ public class ScrollQuery {
     return scrollId;
   }
 
+  @Override
+  public String toString() {
+    return "ScrollQuery{" +
+        "scrollTimeInMill=" + scrollTimeInMill +
+        ", scrollId='" + scrollId + '\'' +
+        '}';
+  }
 }
