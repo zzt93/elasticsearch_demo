@@ -70,7 +70,7 @@ public class FilePO {
   }
 
   public String voId() {
-    return id.split(SPLIT)[1];
+    return id;
   }
 
   public String getName() {
