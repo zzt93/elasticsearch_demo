@@ -1,6 +1,5 @@
 package cn.superid.search.impl.entities.user.role;
 
-import cn.superid.search.impl.entities.TagPO;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface RoleRepo extends ElasticsearchRepository<RolePO, String>, RoleCustom {
 
-  Page<RolePO> findByTagsIn(List<TagPO> tags, Pageable pageable);
+  Page<RolePO> findByTagsIn(String[] tags, Pageable pageable);
 
   @Query(" {" +
       " \"bool\": {\n" +

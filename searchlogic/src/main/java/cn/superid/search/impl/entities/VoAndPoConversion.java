@@ -1,7 +1,6 @@
 package cn.superid.search.impl.entities;
 
 import cn.superid.search.entities.RollingIndex;
-import cn.superid.search.entities.TagVO;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileSearchVO;
@@ -15,8 +14,6 @@ import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.user.UserPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,23 +65,16 @@ public class VoAndPoConversion {
     return new UserVO(userPO.getId());
   }
 
-  public static TagPO toPO(TagVO tagVO) {
-    return new TagPO(tagVO.getDes());
+
+  public static String[] toPOs(String[] tagVOS) {
+    return tagVOS;
   }
 
-  public static TagVO toVO(TagPO tagPO) {
-    return new TagVO(tagPO.getDes());
-  }
-
-  public static List<TagPO> toPOs(List<TagVO> tagVOS) {
-    return tagVOS.stream().map(VoAndPoConversion::toPO).collect(Collectors.toList());
-  }
-
-  public static List<TagVO> toVOs(List<TagPO> tagPOS) {
+  public static String[] toVOs(String[] tagPOS) {
     if (tagPOS == null) {
       return null;
     }
-    return tagPOS.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
+    return tagPOS;
   }
 
   public static RoleVO toVO(RolePO po) {

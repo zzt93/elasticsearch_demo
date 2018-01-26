@@ -1,9 +1,7 @@
 package cn.superid.search.impl.entities.user.user;
 
 import cn.superid.search.entities.user.user.UserVO;
-import cn.superid.search.impl.entities.TagPO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -29,7 +27,7 @@ public class UserPO {
   @Field(type = FieldType.keyword)
   private String superId;
   @Field(type = FieldType.Nested)
-  private List<TagPO> tags;
+  private String[] tags;
   @Field(type = FieldType.Byte)
   private Integer publicType;
 
@@ -37,7 +35,7 @@ public class UserPO {
   }
 
   UserPO(String id, String username, String superId,
-      List<TagPO> tags) {
+      String[] tags) {
     this.id = id;
     this.username = username;
     this.superId = superId;
@@ -82,11 +80,11 @@ public class UserPO {
     this.username = username;
   }
 
-  public List<TagPO> getTags() {
+  public String[] getTags() {
     return tags;
   }
 
-  public void setTags(List<TagPO> tags) {
+  public void setTags(String[] tags) {
     this.tags = tags;
   }
 

@@ -1,9 +1,7 @@
 package cn.superid.search.impl.entities.user.role;
 
 import cn.superid.search.entities.user.role.RoleVO;
-import cn.superid.search.impl.entities.TagPO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -32,7 +30,7 @@ public class RolePO {
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
   @Field(type = FieldType.Nested)
-  private List<TagPO> tags;
+  private String[] tags;
   @Field(type = FieldType.Byte)
   private Byte type;
   @Field(type = FieldType.Byte)
@@ -47,7 +45,7 @@ public class RolePO {
    * for test
    */
   RolePO(String id, String title, Long affairId, Byte type,
-      List<TagPO> t, Long ownerRoleId) {
+      String[] t, Long ownerRoleId) {
     this.id = id;
     this.title = title;
     this.affairId = affairId;
@@ -96,11 +94,11 @@ public class RolePO {
     this.title = title;
   }
 
-  public List<TagPO> getTags() {
+  public String[] getTags() {
     return tags;
   }
 
-  public void setTags(List<TagPO> tags) {
+  public void setTags(String[] tags) {
     this.tags = tags;
   }
 

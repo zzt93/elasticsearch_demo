@@ -1,6 +1,5 @@
 package cn.superid.search.impl.entities.announcement;
 
-import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
 import cn.superid.search.impl.save.MessageReceiverTest;
@@ -31,9 +30,9 @@ public class AnnouncementRepoTest {
   private static final Timestamp modifyTime;
   private static final Long affairId = 9038L;
   private static final List<Long> affairIds = Lists.newArrayList(affairId);
-  private static TagPO t1 = new TagPO("t1");
-  private static TagPO t2 = new TagPO("t2");
-  private static TagPO t3 = new TagPO("t3");
+  private static final String T1 = "T1";
+  private static final String T2 = "T2";
+  private static final String T3 = "T3";
 
   static {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss.SSS");
@@ -62,16 +61,16 @@ public class AnnouncementRepoTest {
     String role2 = "role2";
     String content = "this is a announcement";
     AnnouncementPO a1 = new AnnouncementPO("11", "announcement1", content,
-        Lists.newArrayList(t1, t2),
+        new String[]{T1, T2},
         role1, role2, affairId, modifyTime);
 
     String role3 = "role3";
     AnnouncementPO a2 = new AnnouncementPO("12", "announcement2", content,
-        Lists.newArrayList(t1, t3),
+        new String[]{T1, T3},
         role1, role3, affairId, modifyTime);
 
     AnnouncementPO a3 = new AnnouncementPO("13", "announcement3", content,
-        Lists.newArrayList(t2, t3),
+        new String[]{T2, T3},
         role2, role3, affairId, modifyTime);
 
     announcementRepo.save(a1);
@@ -84,32 +83,32 @@ public class AnnouncementRepoTest {
     String role7 = "后端架构";
     announcementRepo
         .save(
-            new AnnouncementPO("14", "后端开发技术", content, Lists.newArrayList(), role4, role4,
+            new AnnouncementPO("14", "后端开发技术", content, new String[]{}, role4, role4,
                 affairId, modifyTime));
     announcementRepo
         .save(
-            new AnnouncementPO("15", "前端开发技术", content, Lists.newArrayList(), role5, role5,
+            new AnnouncementPO("15", "前端开发技术", content, new String[]{}, role5, role5,
                 affairId, modifyTime));
     announcementRepo
         .save(
-            new AnnouncementPO("16", "前端人员", content, Lists.newArrayList(), role6, role6, affairId,
+            new AnnouncementPO("16", "前端人员", content, new String[]{}, role6, role6, affairId,
                 modifyTime));
     announcementRepo
         .save(
-            new AnnouncementPO("17", "后端人员", content, Lists.newArrayList(), role7, role7, affairId,
+            new AnnouncementPO("17", "后端人员", content, new String[]{}, role7, role7, affairId,
                 modifyTime));
 
     announcementRepo.save(
-        new AnnouncementPO("18", "Brown fox brown dog", content, Lists.newArrayList(), role1, role1,
+        new AnnouncementPO("18", "Brown fox brown dog", content, new String[]{}, role1, role1,
             affairId, modifyTime));
     announcementRepo.save(
         new AnnouncementPO("19", "The quick brown fox jumps over the lazy dog", content,
-            Lists.newArrayList(), role1, role1, affairId, modifyTime));
+            new String[]{}, role1, role1, affairId, modifyTime));
     announcementRepo.save(
         new AnnouncementPO("110", "The quick brown fox jumps over the quick dog", content,
-            Lists.newArrayList(), role1, role1, affairId, modifyTime));
+            new String[]{}, role1, role1, affairId, modifyTime));
     announcementRepo.save(
-        new AnnouncementPO("111", "The quick brown fox", content, Lists.newArrayList(), role1, role1,
+        new AnnouncementPO("111", "The quick brown fox", content, new String[]{}, role1, role1,
             affairId, modifyTime));
   }
 
@@ -117,7 +116,7 @@ public class AnnouncementRepoTest {
   public void findAll() {
     announcementRepo.findAll().forEach(System.out::println);
     System.out
-        .println(announcementRepo.findByAll("_all", "t1", PageRequest.of(0, 10)).getContent());
+        .println(announcementRepo.findByAll("_all", "T1", PageRequest.of(0, 10)).getContent());
   }
 
 
@@ -125,19 +124,19 @@ public class AnnouncementRepoTest {
   public void findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair()
       throws Exception {
     System.out.println(announcementRepo
-        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "t1",
+        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "T1",
             PageRequest.of(0, 10))
         .getContent());
     System.out
-        .println(announcementRepo.findByAll("_all", "t2", PageRequest.of(0, 10)).getContent());
+        .println(announcementRepo.findByAll("_all", "T2", PageRequest.of(0, 10)).getContent());
     System.out.println(announcementRepo
-        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "t2",
+        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "T2",
             PageRequest.of(0, 10))
         .getContent());
     System.out
-        .println(announcementRepo.findByAll("_all", "t3", PageRequest.of(0, 10)).getContent());
+        .println(announcementRepo.findByAll("_all", "T3", PageRequest.of(0, 10)).getContent());
     System.out.println(announcementRepo
-        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "t3",
+        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(affairIds, "T3",
             PageRequest.of(0, 10))
         .getContent());
 
@@ -147,9 +146,9 @@ public class AnnouncementRepoTest {
 //        System.out.println(test1.getContent());
 //        List<Announcement> test2 = announcementRepo.findAllByTitle("announcement1", PageRequest.of(0, 10));
 //        System.out.println(test2);
-//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcement", "", "", Lists.newArrayList(t10, t20), PageRequest.of(0, 10)).getContent());
-//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcementx", "", "", Lists.newArrayList(t1, t2), PageRequest.of(0, 10)).getContent());
-//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcement role1", "", "", Lists.newArrayList(t10, t20), PageRequest.of(0, 10)).getContent());
+//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcement", "", "", new String[]{t10, t20}, PageRequest.of(0, 10)).getContent());
+//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcementx", "", "", new String[]{T1, T2}, PageRequest.of(0, 10)).getContent());
+//        System.out.println(announcementRepo.findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair("announcement role1", "", "", new String[]{t10, t20}, PageRequest.of(0, 10)).getContent());
 
     System.out.println(
         announcementRepo.findByAll("_all", "announcement2 role1", PageRequest.of(0, 10))

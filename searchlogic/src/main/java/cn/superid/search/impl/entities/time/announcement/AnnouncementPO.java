@@ -1,12 +1,10 @@
 package cn.superid.search.impl.entities.time.announcement;
 
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
-import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
-import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -26,7 +24,7 @@ public class AnnouncementPO {
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String content;
   @Field(type = FieldType.Nested)
-  private List<TagPO> tags;
+  private String[] tags;
   @Field(type = FieldType.Long)
   private Long creatorRoleId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
@@ -48,7 +46,7 @@ public class AnnouncementPO {
   /**
    * For test
    */
-  public AnnouncementPO(String id, String title, String content, List<TagPO> tags,
+  public AnnouncementPO(String id, String title, String content, String[] tags,
       String creatorRole,
       String creatorUser, Long affairId, Timestamp modifyTime) {
     this.id = id;
@@ -61,7 +59,7 @@ public class AnnouncementPO {
   }
 
 
-  public AnnouncementPO(String id, String title, String content, List<TagPO> tags,
+  public AnnouncementPO(String id, String title, String content, String[] tags,
       String creatorRole,
       String creatorUser, Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
@@ -115,11 +113,11 @@ public class AnnouncementPO {
     this.title = title;
   }
 
-  public List<TagPO> getTags() {
+  public String[] getTags() {
     return tags;
   }
 
-  public void setTags(List<TagPO> tags) {
+  public void setTags(String[] tags) {
     this.tags = tags;
   }
 

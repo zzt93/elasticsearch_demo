@@ -1,9 +1,7 @@
 package cn.superid.search.impl.entities.announcement;
 
-import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,8 +52,6 @@ public class DateTest {
 
   private static final Timestamp modifyTime;
   private static final Long affairId = 9038L;
-  private static TagPO t1 = new TagPO("t1");
-  private static TagPO t2 = new TagPO("t2");
 
   static {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss.SSS");
@@ -72,8 +68,10 @@ public class DateTest {
   public void toJson() throws Exception {
     String role1 = "role1";
     String role2 = "role2";
+    String t1 = "t1";
+    String t2 = "t2";
     AnnouncementPO a1 = new AnnouncementPO("11", "announcement1", "content",
-        Lists.newArrayList(t1, t2),
+        new String[]{t1, t2},
         role1, role2, affairId, modifyTime);
 
     ObjectMapper mapper = new ObjectMapper();

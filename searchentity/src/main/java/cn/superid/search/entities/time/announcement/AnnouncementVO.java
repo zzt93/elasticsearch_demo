@@ -1,10 +1,8 @@
 package cn.superid.search.entities.time.announcement;
 
-import cn.superid.search.entities.TagVO;
 import cn.superid.search.entities.time.TimeBasedIndex;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * Created by zzt on 17/5/27.
@@ -14,7 +12,7 @@ public class AnnouncementVO implements TimeBasedIndex {
   private String id;
   private String title;
   private String content;
-  private List<TagVO> tagVOS;
+  private String[] tagVOS;
   private String creatorRole;
   private String affairName;
 
@@ -28,7 +26,7 @@ public class AnnouncementVO implements TimeBasedIndex {
   public AnnouncementVO() {
   }
 
-  public AnnouncementVO(String id, String title, String content, List<TagVO> tagVOS, String creatorRole,
+  public AnnouncementVO(String id, String title, String content, String[] tagVOS, String creatorRole,
       String creatorUser, Long affairId) {
     this.id = id;
     this.title = title;
@@ -38,7 +36,7 @@ public class AnnouncementVO implements TimeBasedIndex {
     this.affairId = affairId;
   }
 
-  public AnnouncementVO(String id, String title, String content, List<TagVO> tagVOS, String creatorRole,
+  public AnnouncementVO(String id, String title, String content, String[] tagVOS, String creatorRole,
        Long creatorRoleId, Long affairId, String affairName,
       Timestamp modifyTime,
       Timestamp createTime) {
@@ -71,11 +69,11 @@ public class AnnouncementVO implements TimeBasedIndex {
     this.title = title;
   }
 
-  public List<TagVO> getTagVOS() {
+  public String[] getTagVOS() {
     return tagVOS;
   }
 
-  public void setTagVOS(List<TagVO> tagVOS) {
+  public void setTagVOS(String[] tagVOS) {
     this.tagVOS = tagVOS;
   }
 
