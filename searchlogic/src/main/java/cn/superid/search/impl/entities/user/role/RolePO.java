@@ -19,6 +19,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "role-#{suffix.toString()}", type = "role", createIndex = false, shards = 1, replicas = 0)
 public class RolePO {
 
+  public static final int CLUSTER_SIZE = 1000;
   @Id
   @JsonIgnore
   private String id;

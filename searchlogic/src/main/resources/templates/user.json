@@ -7,12 +7,7 @@
           "type": "keyword"
         },
         "tags": {
-          "type": "nested",
-          "properties": {
-            "des": {
-              "type": "keyword"
-            }
-          }
+          "type": "keyword"
         },
         "username": {
           "type": "keyword"

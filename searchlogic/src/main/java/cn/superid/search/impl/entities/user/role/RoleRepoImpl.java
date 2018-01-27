@@ -37,7 +37,7 @@ public class RoleRepoImpl implements RoleCustom {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(matchQuery("title", query))
         .withIndices(Suffix.indexNamePattern(RolePO.class),
-            EXCEPT_PREFIX + Suffix.indexName(RolePO.class, alliance))
+            EXCEPT_PREFIX + Suffix.indexName(RolePO.class, alliance/ RolePO.CLUSTER_SIZE))
         .build();
     return template.queryForPage(searchQuery, RolePO.class);
   }

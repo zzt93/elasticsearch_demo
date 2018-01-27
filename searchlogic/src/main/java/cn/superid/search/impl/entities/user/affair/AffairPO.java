@@ -18,6 +18,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "affair-#{suffix.toString()}", type = "affair", refreshInterval = "1s", createIndex = false, shards = 1, replicas = 0)
 public class AffairPO {
 
+  private static final int CLUSTER_SIZE = 500;
+
   @Id
   @JsonIgnore
   private String id;

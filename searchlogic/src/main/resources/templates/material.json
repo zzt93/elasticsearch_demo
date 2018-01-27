@@ -14,12 +14,7 @@
           "type": "byte"
         },
         "tags": {
-          "type": "nested",
-          "properties": {
-            "des": {
-              "type": "keyword"
-            }
-          }
+          "type": "keyword"
         },
         "type": {
           "type": "byte"

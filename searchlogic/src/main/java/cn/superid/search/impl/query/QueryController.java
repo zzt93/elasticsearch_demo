@@ -142,7 +142,7 @@ public class QueryController {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
 
-    suffix.setSuffix(query.getAllianceId().toString());
+    suffix.setSuffix(String.valueOf(query.getAllianceId()/ MaterialPO.CLUSTER_SIZE));
     Page<MaterialPO> byTagsIn = materialRepo
         .findByTagsIn(query.getTags(), query.getPageRequest());
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
@@ -195,7 +195,7 @@ public class QueryController {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
 
-    suffix.setSuffix(query.getAllianceId().toString());
+    suffix.setSuffix(String.valueOf(query.getAllianceId()/ RolePO.CLUSTER_SIZE));
     String[] tagPOS = query.getTags();
     Page<RolePO> byTagsIn = roleRepo.findByTagsIn(tagPOS, query.getPageRequest());
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);

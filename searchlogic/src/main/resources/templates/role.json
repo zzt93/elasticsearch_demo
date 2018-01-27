@@ -18,12 +18,7 @@
           "analyzer": "ik_smart"
         },
         "tags": {
-          "type": "nested",
-          "properties": {
-            "des": {
-              "type": "keyword"
-            }
-          }
+          "type": "keyword"
         },
         "title": {
           "type": "text",

@@ -18,6 +18,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "material-#{suffix.toString()}", type = "material", createIndex = false, shards = 1, replicas = 0)
 public class MaterialPO {
 
+  public static final int CLUSTER_SIZE = 100;
   @Id
   @JsonIgnore
   private String id;

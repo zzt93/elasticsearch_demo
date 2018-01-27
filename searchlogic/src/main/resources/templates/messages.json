@@ -1,27 +1,23 @@
 {
-  "template": "affair-*",
+  "template": "messages-*",
   "mappings": {
-    "affair": {
+    "messages": {
       "properties": {
         "name": {
           "type": "text",
           "analyzer": "ik_smart"
         },
-        "parentId": {
-          "type": "keyword",
-          "index": false
-        },
-        "state": {
-          "type": "byte"
-        },
-        "publicType": {
-          "type": "byte"
-        },
-        "superId": {
+        "chatId": {
           "type": "keyword"
         },
-        "tags": {
-          "type": "keyword"
+        "content": {
+          "type": "text"
+        },
+        "sub": {
+          "type": "byte"
+        },
+        "time": {
+          "type": "long"
         }
       }
     }

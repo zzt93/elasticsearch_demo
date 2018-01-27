@@ -59,7 +59,7 @@ public class MaterialRepoImpl implements MaterialCustom {
       bool.filter(nestedQuery("tags", termsQuery("tags.des", info.getTags()), ScoreMode.Avg));
     }
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexName(MaterialPO.class, info.getAllianceId()))
+        .withIndices(Suffix.indexName(MaterialPO.class, info.getAllianceId() / MaterialPO.CLUSTER_SIZE))
         .withQuery(bool)
         .withPageable(pageable).build();
     return template.startScroll(ScrollQuery.SCROLL_TIME_IN_MILLIS, searchQuery, MaterialPO.class,
