@@ -26,7 +26,7 @@ public class UserPO {
 
   @Field(type = FieldType.keyword)
   private String superId;
-  @Field(type = FieldType.Nested)
+  @Field(type = FieldType.keyword)
   private String[] tags;
   @Field(type = FieldType.Byte)
   private Integer publicType;

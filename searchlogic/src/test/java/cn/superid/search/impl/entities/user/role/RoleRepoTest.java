@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class RoleRepoTest {
 
+  public static final long ALLIANCE1 = 123;
+  public static final long ALLIANCE2 = 234;
   @Autowired
   private RoleRepo roleRepo;
   @Autowired
@@ -30,7 +32,7 @@ public class RoleRepoTest {
   @Before
   public void setUp() throws Exception {
     long taskId = 1L;
-    suffix.setSuffix("123");
+    suffix.setSuffix(""+ ALLIANCE1/RolePO.CLUSTER_SIZE);
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 
     roleRepo.save(new RolePO("1", "前端开发", 1L, type, new String[]{"tag"}, ownerRoleId));
@@ -38,7 +40,7 @@ public class RoleRepoTest {
     roleRepo.save(new RolePO("6", "前端开发", 2L, type, new String[]{"tag"}, ownerRoleId));
     roleRepo.save(new RolePO("7", "后端开发", 2L, type, new String[]{"tag"}, ownerRoleId));
 
-    suffix.setSuffix("234");
+    suffix.setSuffix(""+ ALLIANCE2/RolePO.CLUSTER_SIZE);
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 
     roleRepo.save(new RolePO("3", "前端架构", 2L, type, new String[]{"tag"}, ownerRoleId));

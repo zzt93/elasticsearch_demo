@@ -27,7 +27,7 @@ public class AffairPO {
   private String parentId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String name;
-  @Field(type = FieldType.Nested)
+  @Field(type = FieldType.keyword)
   private String[] tags;
   @Field(type = FieldType.keyword)
   private String superId;

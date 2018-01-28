@@ -23,7 +23,7 @@ public class AnnouncementPO {
   private String title;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String content;
-  @Field(type = FieldType.Nested)
+  @Field(type = FieldType.keyword)
   private String[] tags;
   @Field(type = FieldType.Long)
   private Long creatorRoleId;

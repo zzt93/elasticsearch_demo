@@ -25,8 +25,8 @@ public class RoleRepoImplTest {
 
   @Test
   public void findRoleExcept() throws Exception {
-    System.out.println(roleRepo.findRoleExcept(123L, "架构", PageRequest.of(0, 10)).getContent());
-    System.out.println(roleRepo.findRoleExcept(234L, "前端", PageRequest.of(0, 10)).getContent());
+    System.out.println(roleRepo.findRoleExcept(RoleRepoTest.ALLIANCE1, "架构", PageRequest.of(0, 10)).getContent());
+    System.out.println(roleRepo.findRoleExcept(RoleRepoTest.ALLIANCE2, "前端", PageRequest.of(0, 10)).getContent());
   }
 
   @Test

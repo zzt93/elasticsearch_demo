@@ -23,13 +23,7 @@ public interface RoleRepo extends ElasticsearchRepository<RolePO, String>, RoleC
       "         }\n" +
       "       },\n" +
       "       {\n" +
-      "         \"nested\": {\n" +
-      "           \"path\": \"tags\",\n" +
-      "           \"query\": {\n" +
-      "             \"match\": {\n" +
-      "               \"tags.des\": \"?0\"\n" +
-      "             }}\n" +
-      "         }\n" +
+      "         \"match\": {\"tags\": \"?0\"}" +
       "       } ]\n" +
       "  }" +
       "}")

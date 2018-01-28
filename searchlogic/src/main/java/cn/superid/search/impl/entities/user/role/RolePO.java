@@ -30,7 +30,7 @@ public class RolePO {
   private Long affairId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
-  @Field(type = FieldType.Nested)
+  @Field(type = FieldType.keyword)
   private String[] tags;
   @Field(type = FieldType.Byte)
   private Byte type;
