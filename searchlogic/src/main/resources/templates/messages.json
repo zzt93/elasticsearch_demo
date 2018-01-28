@@ -11,7 +11,7 @@
           "type": "keyword"
         },
         "content": {
-          "type": "text"
+          "type": "keyword"
         },
         "sub": {
           "type": "byte"
