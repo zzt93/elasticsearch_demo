@@ -1,10 +1,8 @@
 package cn.superid.search.impl.entities.user.warehouse;
 
 import cn.superid.search.entities.user.warehouse.MaterialVO;
-import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -20,14 +18,15 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "material-#{suffix.toString()}", type = "material", createIndex = false, shards = 1, replicas = 0)
 public class MaterialPO {
 
+  public static final int CLUSTER_SIZE = 100;
   @Id
   @JsonIgnore
   private String id;
 
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String name;
-  @Field(type = FieldType.Nested)
-  private List<TagPO> tags;
+  @Field(type = FieldType.keyword)
+  private String[] tags;
   @Field(type = FieldType.Long)
   private Long warehouseId;
   @Field(type = FieldType.Long)
@@ -42,7 +41,7 @@ public class MaterialPO {
   }
 
   MaterialPO(String id, String name,
-      List<TagPO> tags, Long warehouseId, Long affairId, Byte type, Byte publicType) {
+      String[] tags, Long warehouseId, Long affairId, Byte type, Byte publicType) {
     this.id = id;
     this.name = name;
     this.tags = tags;
@@ -74,11 +73,11 @@ public class MaterialPO {
     this.name = name;
   }
 
-  public List<TagPO> getTags() {
+  public String[] getTags() {
     return tags;
   }
 
-  public void setTags(List<TagPO> tags) {
+  public void setTags(String[] tags) {
     this.tags = tags;
   }
 

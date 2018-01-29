@@ -1,11 +1,8 @@
 package cn.superid.search.impl.entities.user.affair;
 
 import cn.superid.search.entities.user.affair.AffairVO;
-import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Lists;
-import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -21,6 +18,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "affair-#{suffix.toString()}", type = "affair", refreshInterval = "1s", createIndex = false, shards = 1, replicas = 0)
 public class AffairPO {
 
+  private static final int CLUSTER_SIZE = 500;
+
   @Id
   @JsonIgnore
   private String id;
@@ -28,8 +27,8 @@ public class AffairPO {
   private String parentId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String name;
-  @Field(type = FieldType.Nested)
-  private List<TagPO> tags;
+  @Field(type = FieldType.keyword)
+  private String[] tags;
   @Field(type = FieldType.keyword)
   private String superId;
   @Field(type = FieldType.Byte)
@@ -55,7 +54,7 @@ public class AffairPO {
   AffairPO(String id, String name) {
     this.id = id;
     this.name = name;
-    tags = Lists.newArrayList(new TagPO("test1"), new TagPO("test2"));
+    tags = new String[]{"test1", "test2"};
   }
 
   public String getId() {
@@ -74,11 +73,11 @@ public class AffairPO {
     this.name = name;
   }
 
-  public List<TagPO> getTags() {
+  public String[] getTags() {
     return tags;
   }
 
-  public void setTags(List<TagPO> tags) {
+  public void setTags(String[] tags) {
     this.tags = tags;
   }
 

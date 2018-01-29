@@ -1,8 +1,6 @@
 package cn.superid.search.entities.user.affair;
 
-import cn.superid.search.entities.TagVO;
 import cn.superid.search.entities.user.UserBasedIndex;
-import java.util.List;
 
 /**
  * @author zzt
@@ -13,7 +11,7 @@ public class AffairVO implements UserBasedIndex {
   private String id;
   private String name;
   private String superId;
-  private List<TagVO> tagVOS;
+  private String[] tagVOS;
   private Byte state;
 
   private Long allianceId;
@@ -28,7 +26,7 @@ public class AffairVO implements UserBasedIndex {
   }
 
   public AffairVO(String parentId, String id, String name, String superId,
-      List<TagVO> tagVOS, Byte state, Long allianceId) {
+      String[] tagVOS, Byte state, Long allianceId) {
     this.parentId = parentId;
     this.id = id;
     this.name = name;
@@ -86,11 +84,11 @@ public class AffairVO implements UserBasedIndex {
     this.superId = superId;
   }
 
-  public List<TagVO> getTagVOS() {
+  public String[] getTagVOS() {
     return tagVOS;
   }
 
-  public void setTagVOS(List<TagVO> tagVOS) {
+  public void setTagVOS(String[] tagVOS) {
     this.tagVOS = tagVOS;
   }
 

@@ -26,12 +26,7 @@
           "format": "yyyy-MM-dd HH:mm:ss.SSS"
         },
         "tags": {
-          "type": "nested",
-          "properties": {
-            "des": {
-              "type": "keyword"
-            }
-          }
+          "type": "keyword"
         },
         "title": {
           "type": "text",

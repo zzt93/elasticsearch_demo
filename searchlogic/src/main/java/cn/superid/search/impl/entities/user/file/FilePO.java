@@ -19,6 +19,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class FilePO {
 
   private static final String SPLIT = "#";
+  static final int CLUSTER_SIZE = 500;
   @Id
   @JsonIgnore
   private String id;

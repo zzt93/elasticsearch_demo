@@ -2,14 +2,11 @@ package cn.superid.search.impl.entities.user.warehouse;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
-import static org.elasticsearch.index.query.QueryBuilders.nestedQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
-import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 
 import cn.superid.search.entities.ScrollQuery;
 import cn.superid.search.entities.user.warehouse.MaterialQuery;
 import cn.superid.search.impl.save.rolling.Suffix;
-import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,8 +38,7 @@ public class MaterialRepoImpl implements MaterialCustom {
     Assert.notNull(info.getQuery(), "[Lacking query string]");
 
     BoolQueryBuilder bool = boolQuery()
-        .should(matchQuery("name", info.getQuery()))
-        .should(nestedQuery("tags", matchQuery("tags.des", info.getQuery()), ScoreMode.Avg));
+        .should(matchQuery("name", info.getQuery()));
     if (info.getAffairId() != null) {
       bool.filter(termQuery("affairId", info.getAffairId()));
     }
@@ -56,10 +52,11 @@ public class MaterialRepoImpl implements MaterialCustom {
       bool.filter(termQuery("warehouseId", info.getWarehouseId()));
     }
     if (info.getTags() != null) {
-      bool.filter(nestedQuery("tags", termsQuery("tags.des", info.getTags()), ScoreMode.Avg));
+      bool.filter(termQuery("tags", info.getQuery()));
     }
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexName(MaterialPO.class, info.getAllianceId()))
+        .withIndices(
+            Suffix.indexName(MaterialPO.class, info.getAllianceId() / MaterialPO.CLUSTER_SIZE))
         .withQuery(bool)
         .withPageable(pageable).build();
     return template.startScroll(ScrollQuery.SCROLL_TIME_IN_MILLIS, searchQuery, MaterialPO.class,
@@ -69,6 +66,7 @@ public class MaterialRepoImpl implements MaterialCustom {
   @Override
   public Page<MaterialPO> findByAllInfo(ScrollQuery query, SearchResultMapper mapper) {
     return template
-        .continueScroll(query.getScrollId(), ScrollQuery.SCROLL_TIME_IN_MILLIS, MaterialPO.class, mapper);
+        .continueScroll(query.getScrollId(), ScrollQuery.SCROLL_TIME_IN_MILLIS, MaterialPO.class,
+            mapper);
   }
 }

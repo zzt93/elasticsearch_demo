@@ -1,9 +1,7 @@
 package cn.superid.search.impl.entities.user.warehouse;
 
-import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.save.MessageReceiverTest;
 import cn.superid.search.impl.save.rolling.Suffix;
-import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +31,7 @@ public class MaterialRepoTest {
     MessageReceiverTest.createIfNotExist(esTemplate, MaterialPO.class);
 
     materialRepo.save(
-        new MaterialPO("1", "computer", Lists.newArrayList(new TagPO("mac")), 1L, 1111L, type,
+        new MaterialPO("1", "computer", new String[]{"mac"}, 1L, 1111L, type,
             type));
   }
 

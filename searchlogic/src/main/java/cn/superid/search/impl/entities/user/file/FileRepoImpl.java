@@ -47,7 +47,7 @@ public class FileRepoImpl implements FileCustom {
   @Override
   public List<FilePO> findByNameOrUploadRoleName(String info,
       Long allianceId, Long affairId) {
-    suffix.setSuffix(allianceId.toString());
+    suffix.setSuffix(String.valueOf(allianceId/ RolePO.CLUSTER_SIZE));
     // TODO 17/9/26 combine two search
     List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(affairId, info);
 
@@ -56,7 +56,7 @@ public class FileRepoImpl implements FileCustom {
         .withQuery(
             boolQuery()
                 .should(matchQuery("name", info)).should(termsQuery("uploadRoleId", ids)))
-        .withIndices(Suffix.indexName(FilePO.class, affairId))
+        .withIndices(Suffix.indexName(FilePO.class, affairId / FilePO.CLUSTER_SIZE))
         .build();
     return template.queryForList(searchQuery, FilePO.class);
   }

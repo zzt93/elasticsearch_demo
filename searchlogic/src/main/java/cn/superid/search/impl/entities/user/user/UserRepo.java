@@ -16,15 +16,9 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
   Page<UserPO> findByUsernameOrSuperId(String username, String superId, Pageable pageable);
 
 
-  @Query("{\n" +
-      "         \"nested\": {\n" +
-      "           \"path\": \"tags\",\n" +
-      "           \"query\": {\n" +
-      "             \"match\": {\n" +
-      "               \"tags.des\": \"?0\"\n" +
-      "             }}\n" +
-      "         }\n" +
-      "       }")
+  @Query("{\n"
+      + "    \"match\": {\"tags\": \"?0\"}\n"
+      + "  }")
   Page<UserPO> findByTagsIn(String query, Pageable pageable);
 
 
@@ -44,14 +38,7 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
       + "          \"prefix\" : { \"superId\" : \"?0\" }\n"
       + "        },\n"
       + "        {\n"
-      + "          \"nested\": {\n"
-      + "            \"path\": \"tags\",\n"
-      + "            \"query\": {\n"
-      + "              \"match\": {\n"
-      + "                \"tags.des\": \"?0\"\n"
-      + "              }\n"
-      + "            }\n"
-      + "          }\n"
+      + "            \"match\": {\"tags\": \"?0\"}"
       + "        }\n"
       + "      ]\n"
       + "    }\n"

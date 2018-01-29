@@ -13,7 +13,6 @@ import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.entities.user.warehouse.MaterialQuery;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
-import cn.superid.search.impl.entities.TagPO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
@@ -30,7 +29,6 @@ import cn.superid.search.impl.entities.user.user.UserService;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
-import com.google.common.collect.Lists;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -144,10 +142,9 @@ public class QueryController {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
 
-    suffix.setSuffix(query.getAllianceId().toString());
+    suffix.setSuffix(String.valueOf(query.getAllianceId()/ MaterialPO.CLUSTER_SIZE));
     Page<MaterialPO> byTagsIn = materialRepo
-        .findByTagsIn(query.getTags().stream().map(VoAndPoConversion::toPO).collect(
-            Collectors.toList()), query.getPageRequest());
+        .findByTagsIn(query.getTags(), query.getPageRequest());
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
   }
 
@@ -164,7 +161,7 @@ public class QueryController {
   public PageVO<AffairVO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
     Page<AffairPO> page = affairRepo
-        .findByTagsIn(Lists.newArrayList(new TagPO(affairInfo.getQuery())),
+        .findByTagsIn(new String[]{affairInfo.getQuery()},
             affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }
@@ -198,9 +195,8 @@ public class QueryController {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
 
-    suffix.setSuffix(query.getAllianceId().toString());
-    List<TagPO> tagPOS = query.getTags().stream().map(VoAndPoConversion::toPO)
-        .collect(Collectors.toList());
+    suffix.setSuffix(String.valueOf(query.getAllianceId()/ RolePO.CLUSTER_SIZE));
+    String[] tagPOS = query.getTags();
     Page<RolePO> byTagsIn = roleRepo.findByTagsIn(tagPOS, query.getPageRequest());
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
   }

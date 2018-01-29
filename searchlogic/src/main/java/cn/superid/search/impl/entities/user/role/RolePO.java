@@ -1,9 +1,7 @@
 package cn.superid.search.impl.entities.user.role;
 
 import cn.superid.search.entities.user.role.RoleVO;
-import cn.superid.search.impl.entities.TagPO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -21,6 +19,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "role-#{suffix.toString()}", type = "role", createIndex = false, shards = 1, replicas = 0)
 public class RolePO {
 
+  public static final int CLUSTER_SIZE = 1000;
   @Id
   @JsonIgnore
   private String id;
@@ -31,8 +30,8 @@ public class RolePO {
   private Long affairId;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String affairName;
-  @Field(type = FieldType.Nested)
-  private List<TagPO> tags;
+  @Field(type = FieldType.keyword)
+  private String[] tags;
   @Field(type = FieldType.Byte)
   private Byte type;
   @Field(type = FieldType.Byte)
@@ -47,7 +46,7 @@ public class RolePO {
    * for test
    */
   RolePO(String id, String title, Long affairId, Byte type,
-      List<TagPO> t, Long ownerRoleId) {
+      String[] t, Long ownerRoleId) {
     this.id = id;
     this.title = title;
     this.affairId = affairId;
@@ -96,11 +95,11 @@ public class RolePO {
     this.title = title;
   }
 
-  public List<TagPO> getTags() {
+  public String[] getTags() {
     return tags;
   }
 
-  public void setTags(List<TagPO> tags) {
+  public void setTags(String[] tags) {
     this.tags = tags;
   }
 
