@@ -161,7 +161,7 @@ public class QueryController {
   public PageVO<AffairVO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
     Page<AffairPO> page = affairRepo
-        .findByTagsIn(new String[]{affairInfo.getQuery()},
+        .findByTagsIn(affairInfo.getTags(),
             affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }

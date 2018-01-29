@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
  * @see PagedQuery
  */
 public class AffairQuery extends PagedQuery {
+  private String[] tags;
 
   public AffairQuery() {
   }
@@ -17,10 +18,20 @@ public class AffairQuery extends PagedQuery {
     setPageRequest(pageRequest);
   }
 
+  public AffairQuery(String query, PageRequest pageRequest, String[] tags) {
+    setQuery(query);
+    setPageRequest(pageRequest);
+    this.tags = tags;
+  }
+
   @Override
   public String toString() {
     return "AffairQuery{"
         + super.toString()
         + "}";
+  }
+
+  public String[] getTags() {
+    return tags;
   }
 }
