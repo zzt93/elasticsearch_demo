@@ -45,7 +45,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         FIND_BY_TITLE_OR_CONTENT_OR_MODIFIER_ROLE_OR_MODIFIER_USER_OR_TAGS_IN_QUERY, info,
         affairIds.toString(), dateFormat.format(new Date(startTime)), dateFormat.format(new Date(endTime)));
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexNamePattern(AnnouncementPO.class))
+        .withIndices(Suffix.timeBasedPattern(AnnouncementPO.class, startTime, endTime))
         .withQuery(wrapperQuery(query))
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),

@@ -38,7 +38,7 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
       + "          \"prefix\" : { \"superId\" : \"?0\" }\n"
       + "        },\n"
       + "        {\n"
-      + "            \"match\": {\"tags\": \"?0\"}"
+      + "          \"match\": {\"tags\": \"?0\"}"
       + "        }\n"
       + "      ]\n"
       + "    }\n"

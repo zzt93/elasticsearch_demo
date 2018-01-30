@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.time.announcement;
 
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
+import cn.superid.search.impl.entities.time.TimeBasedIndex;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
@@ -14,7 +15,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/5/27.
  */
 @Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false, shards = 1, replicas = 0)
-public class AnnouncementPO {
+public class AnnouncementPO implements TimeBasedIndex {
 
   @Id
   @JsonIgnore
@@ -180,4 +181,13 @@ public class AnnouncementPO {
         '}';
   }
 
+  @Override
+  public int timeFormatLen() {
+    return "yyyy-MM".length();
+  }
+
+  @Override
+  public String indexSuffix() {
+    return null;
+  }
 }
