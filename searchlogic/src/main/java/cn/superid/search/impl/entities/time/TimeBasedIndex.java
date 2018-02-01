@@ -9,7 +9,7 @@ public interface TimeBasedIndex extends RollingIndex {
 
 
   static String timeFormat() {
-    return "yyyy-MM-dd";
+    return "yyyy.MM.dd";
   }
 
   int timeFormatLen();

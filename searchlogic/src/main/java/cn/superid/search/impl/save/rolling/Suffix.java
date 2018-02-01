@@ -35,7 +35,7 @@ public class Suffix {
       String timeFormat;
       int len;
       try {
-        timeFormat = (String) ReflectionUtils.invokeMethod(clazz.getMethod("timeFormat"), null);
+        timeFormat = TimeBasedIndex.timeFormat();
         len = (int) ReflectionUtils.invokeMethod(clazz.getMethod("timeFormatLen"), clazz.newInstance());
       } catch (NoSuchMethodException | IllegalAccessException | InstantiationException ignored) {
         logger.error("", ignored);

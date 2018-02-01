@@ -1,12 +1,11 @@
 package cn.superid.search.entities.time.task;
 
-import cn.superid.search.entities.time.TimeBasedIndex;
 import java.sql.Timestamp;
 
 /**
  * Created by zzt on 17/6/21.
  */
-public class TaskVO implements TimeBasedIndex {
+public class TaskVO {
 
   private String id;
   private String title;

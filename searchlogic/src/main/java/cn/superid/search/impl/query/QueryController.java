@@ -209,6 +209,7 @@ public class QueryController {
 
   @PostMapping("/chat")
   public PageVO<MessagesVO> queryChat(@RequestBody ChatQuery chatQuery) {
+    checkPage(chatQuery.getPageRequest());
     Page<MessagesPO> byMessage = messagesRepo.findByMessage(chatQuery, chatQuery.getPageRequest());
     return new PageVO<>(byMessage, VoAndPoConversion::toVO);
   }
@@ -224,15 +225,6 @@ public class QueryController {
     return userService.findTop20ByUserNameOrSuperId(query);
   }
 
-  @GetMapping("/chat/sender")
-  public Page<MessagesPO> queryChatSender(@RequestParam String sender) {
-    return messagesRepo.findAllBySender(sender, PageRequest.of(0, PAGE_SIZE));
-  }
-
-  @GetMapping("/chat/receiver")
-  public Page<MessagesPO> queryChatReceiver(@RequestParam String receiver) {
-    return messagesRepo.findAllByReceiver(receiver, PageRequest.of(0, PAGE_SIZE));
-  }
 
   @GetMapping("/role/alliance")
   public Page<RolePO> queryAllianceRole(Long allianceId, @RequestParam String role) {
