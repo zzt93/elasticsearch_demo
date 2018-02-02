@@ -1,13 +1,13 @@
 package cn.superid.search.entities.time.announcement;
 
-import cn.superid.search.entities.time.TimeBasedIndex;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 /**
  * Created by zzt on 17/5/27.
  */
-public class AnnouncementVO implements TimeBasedIndex {
+public class AnnouncementVO {
 
   private String id;
   private String title;
@@ -131,7 +131,7 @@ public class AnnouncementVO implements TimeBasedIndex {
         "id='" + id + '\'' +
         ", title='" + title + '\'' +
         ", content='" + content + '\'' +
-        ", tagVOS=" + tagVOS +
+        ", tagVOS=" + Arrays.toString(tagVOS) +
         ", creatorRole='" + creatorRole + '\'' +
         ", affairName='" + affairName + '\'' +
         ", modifyTime=" + modifyTime +

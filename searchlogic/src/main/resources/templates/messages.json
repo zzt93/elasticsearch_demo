@@ -3,10 +3,6 @@
   "mappings": {
     "messages": {
       "properties": {
-        "name": {
-          "type": "text",
-          "analyzer": "ik_smart"
-        },
         "chatId": {
           "type": "keyword"
         },
@@ -17,7 +13,8 @@
           "type": "byte"
         },
         "time": {
-          "type": "long"
+          "type": "date",
+          "format": "epoch_millis"
         }
       }
     }

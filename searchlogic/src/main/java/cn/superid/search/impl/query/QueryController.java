@@ -4,6 +4,8 @@ import cn.superid.search.entities.PageVO;
 import cn.superid.search.entities.StringQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
+import cn.superid.search.entities.time.chat.ChatQuery;
+import cn.superid.search.entities.time.chat.MessagesVO;
 import cn.superid.search.entities.user.affair.AffairQuery;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileQuery;
@@ -16,8 +18,8 @@ import cn.superid.search.entities.user.warehouse.MaterialVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
-import cn.superid.search.impl.entities.time.chat.ChatPO;
-import cn.superid.search.impl.entities.time.chat.ChatRepo;
+import cn.superid.search.impl.entities.time.chat.MessagesPO;
+import cn.superid.search.impl.entities.time.chat.MessagesRepo;
 import cn.superid.search.impl.entities.time.task.TaskRepo;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.affair.AffairRepo;
@@ -29,7 +31,6 @@ import cn.superid.search.impl.entities.user.user.UserService;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -57,7 +58,7 @@ public class QueryController {
   private static final int PAGE_SIZE = 10;
   private static final Logger logger = LoggerFactory.getLogger(QueryController.class);
   private final UserService userService;
-  private final ChatRepo chatRepo;
+  private final MessagesRepo messagesRepo;
   private final FileRepo fileRepo;
   private final RoleRepo roleRepo;
   private final AnnouncementRepo announcementRepo;
@@ -68,12 +69,12 @@ public class QueryController {
   private final ElasticsearchConverter elasticsearchConverter;
 
   @Autowired
-  public QueryController(UserService userService, ChatRepo chatRepo, FileRepo fileRepo,
+  public QueryController(UserService userService, MessagesRepo messagesRepo, FileRepo fileRepo,
       RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
       MaterialRepo materialRepo, Suffix suffix, ElasticsearchConverter elasticsearchConverter) {
     this.userService = userService;
-    this.chatRepo = chatRepo;
+    this.messagesRepo = messagesRepo;
     this.fileRepo = fileRepo;
     this.roleRepo = roleRepo;
     this.announcementRepo = announcementRepo;
@@ -206,6 +207,13 @@ public class QueryController {
     return userService.findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(query.getQuery());
   }
 
+  @PostMapping("/chat")
+  public PageVO<MessagesVO> queryChat(@RequestBody ChatQuery chatQuery) {
+    checkPage(chatQuery.getPageRequest());
+    Page<MessagesPO> byMessage = messagesRepo.findByMessage(chatQuery, chatQuery.getPageRequest());
+    return new PageVO<>(byMessage, VoAndPoConversion::toVO);
+  }
+
 
   @GetMapping("/user/tags")
   public List<UserVO> queryUserByTag(@RequestParam String query) {
@@ -217,20 +225,6 @@ public class QueryController {
     return userService.findTop20ByUserNameOrSuperId(query);
   }
 
-  @GetMapping("/chat/date")
-  public Page<ChatPO> queryChatDate(@RequestParam Date from, @RequestParam Date to) {
-    return chatRepo.findAllByDateBetween(from, to, PageRequest.of(0, PAGE_SIZE));
-  }
-
-  @GetMapping("/chat/sender")
-  public Page<ChatPO> queryChatSender(@RequestParam String sender) {
-    return chatRepo.findAllBySender(sender, PageRequest.of(0, PAGE_SIZE));
-  }
-
-  @GetMapping("/chat/receiver")
-  public Page<ChatPO> queryChatReceiver(@RequestParam String receiver) {
-    return chatRepo.findAllByReceiver(receiver, PageRequest.of(0, PAGE_SIZE));
-  }
 
   @GetMapping("/role/alliance")
   public Page<RolePO> queryAllianceRole(Long allianceId, @RequestParam String role) {
