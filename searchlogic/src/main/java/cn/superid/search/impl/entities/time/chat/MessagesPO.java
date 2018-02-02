@@ -20,15 +20,15 @@ public class MessagesPO implements TimeBasedIndex {
   private long time;
   @Field(type = FieldType.keyword)
   private String content;
-  @Field(type = FieldType.Long)
-  private long chatId;
+  @Field(type = FieldType.keyword)
+  private String chatId;
   @Field(type = FieldType.Byte)
   private byte sub;
 
   public MessagesPO() {
   }
 
-  public MessagesPO(String id, long time, String name, String content, long chatId, byte sub) {
+  public MessagesPO(String id, long time, String name, String content, String chatId, byte sub) {
     this.id = id;
     this.time = time;
     this.content = content;
@@ -60,11 +60,11 @@ public class MessagesPO implements TimeBasedIndex {
     this.content = content;
   }
 
-  public long getChatId() {
+  public String getChatId() {
     return chatId;
   }
 
-  public void setChatId(long chatId) {
+  public void setChatId(String chatId) {
     this.chatId = chatId;
   }
 

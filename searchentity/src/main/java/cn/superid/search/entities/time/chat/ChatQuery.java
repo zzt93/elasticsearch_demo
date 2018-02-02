@@ -10,10 +10,13 @@ public class ChatQuery extends PagedQuery {
 
   private long startTime;
   private long endTime;
-  private long chatId;
+  private String chatId;
   private byte subType;
 
-  public ChatQuery(String query, PageRequest pageRequest, long startTime, long endTime, long chatId, byte subType) {
+  public ChatQuery() {
+  }
+
+  public ChatQuery(String query, PageRequest pageRequest, long startTime, long endTime, String chatId, byte subType) {
     setQuery(query);
     setPageRequest(pageRequest);
     this.startTime = startTime;
@@ -30,7 +33,7 @@ public class ChatQuery extends PagedQuery {
     return endTime;
   }
 
-  public long getChatId() {
+  public String getChatId() {
     return chatId;
   }
 
