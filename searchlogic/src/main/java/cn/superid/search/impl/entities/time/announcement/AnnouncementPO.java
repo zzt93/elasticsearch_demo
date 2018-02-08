@@ -1,20 +1,21 @@
 package cn.superid.search.impl.entities.time.announcement;
 
-import cn.superid.search.entities.time.announcement.AnnouncementVO;
-import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.TimeBasedIndex;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Mapping;
 
 /**
  * Created by zzt on 17/5/27.
  */
 @Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false, shards = 1, replicas = 0)
+@Mapping(mappingPath = "mapping/announcement.json")
 public class AnnouncementPO implements TimeBasedIndex {
 
   @Id
@@ -27,19 +28,17 @@ public class AnnouncementPO implements TimeBasedIndex {
   @Field(type = FieldType.keyword)
   private String[] tags;
   @Field(type = FieldType.Long)
-  private Long creatorRoleId;
-  @Field(type = FieldType.text, analyzer = "ik_smart")
-  private String creatorRole;
-  @Field(type = FieldType.Long)
   private Long affairId;
-  @Field(type = FieldType.text, analyzer = "ik_smart")
-  private String affairName;
 
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp modifyTime;
+  @Field(type = FieldType.Long)
+  private long[] roles;
   @Field(type = FieldType.Byte)
-  private Byte publicType;
+  private Byte plateType;
+  @Field(type = FieldType.Byte)
+  private Byte type;
 
   public AnnouncementPO() {
   }
@@ -48,54 +47,39 @@ public class AnnouncementPO implements TimeBasedIndex {
    * For test
    */
   public AnnouncementPO(String id, String title, String content, String[] tags,
-      String creatorRole,
+      long[] roles,
       String creatorUser, Long affairId, Timestamp modifyTime) {
     this.id = id;
     this.title = title;
     this.content = content;
     this.tags = tags;
-    this.creatorRole = creatorRole;
     this.affairId = affairId;
     this.modifyTime = modifyTime;
+    this.roles = roles;
   }
 
-
-  public AnnouncementPO(String id, String title, String content, String[] tags,
-      String creatorRole,
-      String creatorUser, Long creatorRoleId, Long affairId, String affairName,
-      Timestamp modifyTime,
-      Long creatorUserId, Boolean isTop, Byte type, String entityMap,
-      String avatar) {
-    this.id = id;
-    this.title = title;
-    this.content = content;
-    this.tags = tags;
-    this.creatorRole = creatorRole;
-    this.creatorRoleId = creatorRoleId;
-    this.affairId = affairId;
-    this.affairName = affairName;
-    this.modifyTime = modifyTime;
+  public long[] getRoles() {
+    return roles;
   }
 
-  public AnnouncementPO(AnnouncementVO vo) {
-    id = vo.getId();
-    title = vo.getTitle();
-    content = vo.getContent();
-    tags = VoAndPoConversion.toPOs(vo.getTagVOS());
-    creatorRole = vo.getCreatorRole();
-    creatorRoleId = vo.getCreatorRoleId();
-    affairId = vo.getAffairId();
-    affairName = vo.getAffairName();
-    modifyTime = vo.getModifyTime();
+  public Byte getPlateType() {
+    return plateType;
   }
 
-  public Byte getPublicType() {
-    return publicType;
+  public void setPlateType(Byte plateType) {
+    this.plateType = plateType;
   }
 
-  public AnnouncementPO setPublicType(Byte publicType) {
-    this.publicType = publicType;
-    return this;
+  public Byte getType() {
+    return type;
+  }
+
+  public void setType(Byte type) {
+    this.type = type;
+  }
+
+  public void setRoles(long[] roles) {
+    this.roles = roles;
   }
 
   public String getId() {
@@ -122,14 +106,6 @@ public class AnnouncementPO implements TimeBasedIndex {
     this.tags = tags;
   }
 
-  public String getCreatorRole() {
-    return creatorRole;
-  }
-
-  public void setCreatorRole(String creatorRole) {
-    this.creatorRole = creatorRole;
-  }
-
   public String getContent() {
     return content;
   }
@@ -146,14 +122,6 @@ public class AnnouncementPO implements TimeBasedIndex {
     this.affairId = affairId;
   }
 
-  public String getAffairName() {
-    return affairName;
-  }
-
-  public void setAffairName(String affairName) {
-    this.affairName = affairName;
-  }
-
   public Timestamp getModifyTime() {
     return modifyTime;
   }
@@ -162,21 +130,14 @@ public class AnnouncementPO implements TimeBasedIndex {
     this.modifyTime = modifyTime;
   }
 
-  public Long getCreatorRoleId() {
-    return creatorRoleId;
-  }
-
   @Override
   public String toString() {
     return "Announcement{" +
         "id='" + id + '\'' +
         ", title='" + title + '\'' +
         ", content='" + content + '\'' +
-        ", tags=" + tags +
-        ", creatorRole='" + creatorRole + '\'' +
-        ", affairName='" + affairName + '\'' +
+        ", tags=" + Arrays.toString(tags) +
         ", modifyTime=" + modifyTime +
-        ", creatorRoleId=" + creatorRoleId +
         ", affairId=" + affairId +
         '}';
   }

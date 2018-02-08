@@ -6,20 +6,9 @@
         "affairId": {
           "type": "long"
         },
-        "affairName": {
-          "type": "text",
-          "analyzer": "ik_smart"
-        },
         "content": {
           "type": "text",
           "analyzer": "ik_smart"
-        },
-        "creatorRole": {
-          "type": "text",
-          "analyzer": "ik_smart"
-        },
-        "creatorRoleId": {
-          "type": "long"
         },
         "modifyTime": {
           "type": "date",
@@ -32,8 +21,14 @@
           "type": "text",
           "analyzer": "ik_smart"
         },
-        "publicType": {
+        "state": {
           "type": "byte"
+        },
+        "plateType": {
+          "type": "byte"
+        },
+        "roles": {
+          "type": "long"
         }
       }
     }

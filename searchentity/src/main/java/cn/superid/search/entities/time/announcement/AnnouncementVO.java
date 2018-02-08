@@ -13,41 +13,34 @@ public class AnnouncementVO {
   private String title;
   private String content;
   private String[] tagVOS;
-  private String creatorRole;
-  private String affairName;
 
   private Long affairId;
 
   private Timestamp modifyTime;
-  private Long creatorRoleId;
 
   private Timestamp createTime;
 
   public AnnouncementVO() {
   }
 
-  public AnnouncementVO(String id, String title, String content, String[] tagVOS, String creatorRole,
-      String creatorUser, Long affairId) {
+  public AnnouncementVO(String id, String title, String content, String[] tagVOS,
+      Long affairId) {
     this.id = id;
     this.title = title;
     this.content = content;
     this.tagVOS = tagVOS;
-    this.creatorRole = creatorRole;
     this.affairId = affairId;
   }
 
-  public AnnouncementVO(String id, String title, String content, String[] tagVOS, String creatorRole,
-       Long creatorRoleId, Long affairId, String affairName,
+  public AnnouncementVO(String id, String title, String content, String[] tagVOS,
+      Long affairId,
       Timestamp modifyTime,
       Timestamp createTime) {
     this.id = id;
     this.title = title;
     this.content = content;
     this.tagVOS = tagVOS;
-    this.creatorRole = creatorRole;
-    this.creatorRoleId = creatorRoleId;
     this.affairId = affairId;
-    this.affairName = affairName;
     this.modifyTime = modifyTime;
     this.createTime = createTime;
   }
@@ -77,13 +70,6 @@ public class AnnouncementVO {
     this.tagVOS = tagVOS;
   }
 
-  public String getCreatorRole() {
-    return creatorRole;
-  }
-
-  public void setCreatorRole(String creatorRole) {
-    this.creatorRole = creatorRole;
-  }
 
   public String getContent() {
     return content;
@@ -101,28 +87,12 @@ public class AnnouncementVO {
     this.affairId = affairId;
   }
 
-  public String getAffairName() {
-    return affairName;
-  }
-
-  public void setAffairName(String affairName) {
-    this.affairName = affairName;
-  }
-
   public Timestamp getModifyTime() {
     return modifyTime;
   }
 
   public void setModifyTime(Timestamp modifyTime) {
     this.modifyTime = modifyTime;
-  }
-
-  public Long getCreatorRoleId() {
-    return creatorRoleId;
-  }
-
-  public void setCreatorRoleId(Long creatorRoleId) {
-    this.creatorRoleId = creatorRoleId;
   }
 
   @Override
@@ -132,10 +102,7 @@ public class AnnouncementVO {
         ", title='" + title + '\'' +
         ", content='" + content + '\'' +
         ", tagVOS=" + Arrays.toString(tagVOS) +
-        ", creatorRole='" + creatorRole + '\'' +
-        ", affairName='" + affairName + '\'' +
         ", modifyTime=" + modifyTime +
-        ", creatorRoleId=" + creatorRoleId +
         ", affairId=" + affairId +
         ", createTime=" + createTime +
         '}';

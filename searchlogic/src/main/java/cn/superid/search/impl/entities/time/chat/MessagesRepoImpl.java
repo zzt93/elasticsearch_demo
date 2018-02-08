@@ -7,12 +7,9 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.time.chat.ChatQuery;
-import cn.superid.search.impl.query.HighlightMapper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder.Field;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,28 +33,22 @@ public class MessagesRepoImpl implements MessagesCustom {
     Preconditions.checkArgument(pageable != null);
 
     BoolQueryBuilder bool = boolQuery()
-        .should(matchQuery("chatId", info.getChatId()));
+        .filter(matchQuery("chatId", info.getChatId()));
     if (info.getQuery() != null) {
-      bool.should(wildcardQuery("content", "*" + info.getQuery() + "*"));
+      bool.must(wildcardQuery("content", "*" + info.getQuery() + "*"));
     }
     if (info.getStartTime() != 0 && info.getEndTime() != 0) {
       bool.filter(rangeQuery("time").gte(info.getStartTime()).lte(info.getEndTime()));
     }
-    if (info.getSubType() != 0) {
+    if (info.getSubType() != null) {
       bool.filter(termQuery("sub", info.getSubType()));
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(
             Suffix.timeBasedPattern(MessagesPO.class, info.getStartTime(), info.getEndTime()))
-        .withQuery(bool).withHighlightFields(new Field("content"))
+        .withQuery(bool)
         .withPageable(pageable).build();
-    return template.queryForPage(searchQuery, MessagesPO.class,
-        new HighlightMapper<MessagesPO>(elasticsearchConverter, (highlightFields, message) -> {
-          HighlightField content = highlightFields.get("content");
-          if (content != null) {
-            message.setContent(content.fragments()[0].toString());
-          }
-        }));
+    return template.queryForPage(searchQuery, MessagesPO.class);
   }
 }

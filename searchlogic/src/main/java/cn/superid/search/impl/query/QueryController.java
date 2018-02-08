@@ -115,9 +115,7 @@ public class QueryController {
     PageRequest pageRequest = query.getPageRequest();
     checkPage(pageRequest);
     Page<AnnouncementPO> res = announcementRepo
-        .findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair(
-            query.getAffairIds(), query.getQuery(),
-            pageRequest);
+        .findByTitleOrContentOrTags(query, pageRequest);
     return new PageVO<>(res, VoAndPoConversion::toVO);
   }
 
@@ -129,8 +127,8 @@ public class QueryController {
       checkPage(query.getPageRequest());
       checkAllianceId(query.getAllianceId());
 
-        materialPOS = materialRepo
-            .findByAllInfo(query, query.getPageRequest(), mapper);
+      materialPOS = materialRepo
+          .findByAllInfo(query, query.getPageRequest(), mapper);
       return new PageVO<>(materialPOS, VoAndPoConversion::toVO, mapper.getScrollId());
     } else {
       materialPOS = materialRepo.findByAllInfo(query.getScrollQuery(), mapper);
@@ -143,7 +141,7 @@ public class QueryController {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
 
-    suffix.setSuffix(String.valueOf(query.getAllianceId()/ MaterialPO.CLUSTER_SIZE));
+    suffix.setSuffix(String.valueOf(query.getAllianceId() / MaterialPO.CLUSTER_SIZE));
     Page<MaterialPO> byTagsIn = materialRepo
         .findByTagsIn(query.getTags(), query.getPageRequest());
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
@@ -196,7 +194,7 @@ public class QueryController {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
 
-    suffix.setSuffix(String.valueOf(query.getAllianceId()/ RolePO.CLUSTER_SIZE));
+    suffix.setSuffix(String.valueOf(query.getAllianceId() / RolePO.CLUSTER_SIZE));
     String[] tagPOS = query.getTags();
     Page<RolePO> byTagsIn = roleRepo.findByTagsIn(tagPOS, query.getPageRequest());
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);

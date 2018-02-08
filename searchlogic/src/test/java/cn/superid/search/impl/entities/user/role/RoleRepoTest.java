@@ -1,7 +1,10 @@
 package cn.superid.search.impl.entities.user.role;
 
+import static org.junit.Assert.assertEquals;
+
 import cn.superid.search.impl.save.MessageReceiverTest;
 import cn.superid.search.impl.save.rolling.Suffix;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +21,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class RoleRepoTest {
 
-  public static final long ALLIANCE1 = 123;
-  public static final long ALLIANCE2 = 234;
+  public static final long ALLIANCE1 = 123000;
+  public static final long ALLIANCE2 = 234000;
   @Autowired
   private RoleRepo roleRepo;
   @Autowired
@@ -55,17 +58,19 @@ public class RoleRepoTest {
   @Test
   public void findByAffairIdAndTitle() throws Exception {
     suffix.setSuffix("123");
-    System.out
-        .println(roleRepo.findByAffairIdAndTitle(2L, "前端", PageRequest.of(0, 10)).getContent());
+    List<RolePO> front = roleRepo.findByAffairIdAndTitle(2L, "前端", PageRequest.of(0, 10)).getContent();
+    assertEquals(front.size(), 1);
     suffix.setSuffix("234");
-    System.out
-        .println(roleRepo.findByAffairIdAndTitle(2L, "前端", PageRequest.of(0, 10)).getContent());
+    List<RolePO> front2 = roleRepo.findByAffairIdAndTitle(2L, "前端", PageRequest.of(0, 10)).getContent();
+    assertEquals(front2.size(), 1);
   }
 
   @Test
   public void findByTitleAndAffairIdNot() throws Exception {
-    System.out
-        .println(roleRepo.findByTitleAndAffairIdNot("前端", 1L, PageRequest.of(0, 5)).getContent());
+    List<RolePO> front = roleRepo.findByTitleAndAffairIdNot("前端", 1L, PageRequest.of(0, 5))
+        .getContent();
+    assertEquals(front.size(), 1);
   }
+
 
 }
