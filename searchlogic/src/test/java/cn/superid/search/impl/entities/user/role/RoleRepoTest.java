@@ -34,7 +34,6 @@ public class RoleRepoTest {
 
   @Before
   public void setUp() throws Exception {
-    long taskId = 1L;
     suffix.setSuffix(""+ ALLIANCE1/RolePO.CLUSTER_SIZE);
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 

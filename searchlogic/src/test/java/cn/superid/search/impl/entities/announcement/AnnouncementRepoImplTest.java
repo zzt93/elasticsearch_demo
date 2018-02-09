@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities.announcement;
 
+import static cn.superid.search.impl.entities.announcement.AnnouncementRepoTest.ALLIANCE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -95,9 +96,8 @@ public class AnnouncementRepoImplTest {
 
   @After
   public void tearDown() throws Exception {
-    String indexName = Suffix
-        .timeBasedPattern(AnnouncementPO.class, modifyTime.getTime(), modifyTime.getTime());
-    assertEquals(indexName, "announcement-2016.09*");
+    String indexName = Suffix.indexName(AnnouncementPO.class, ALLIANCE );
+    assertEquals(indexName, "announcement-2016.10*");
     boolean b = esTemplate.deleteIndex(indexName);
     assertTrue(b);
   }

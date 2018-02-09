@@ -6,6 +6,10 @@
         "affairId": {
           "type": "long"
         },
+        "thumb_content": {
+          "type": "text",
+          "analyzer": "ik_smart"
+        },
         "content": {
           "type": "text",
           "analyzer": "ik_smart"

@@ -41,9 +41,9 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
   public Page<AnnouncementPO> findByTitleOrContentOrTags(AnnouncementQuery info,
       Pageable pageable) {
     Preconditions.checkArgument(pageable != null);
+    Preconditions.checkArgument(info.getAllianceId() != 0);
     Preconditions.checkArgument(info.getQuery() != null);
     Preconditions.checkArgument(info.getAffairIds() != null);
-    Preconditions.checkArgument(info.getRoleIds() != null);
 
     BoolQueryBuilder bool = boolQuery()
         .must(
@@ -73,12 +73,11 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(
-            Suffix.timeBasedPattern(AnnouncementPO.class, info.getStartTime(), info.getEndTime()))
+        .withIndices(Suffix.indexName(AnnouncementPO.class, info.getAllianceId()))
         .withQuery(bool)
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
-            new HighlightBuilder.Field("content"))
+            new HighlightBuilder.Field("thumbContent"))
         .build();
     return template
         .queryForPage(searchQuery, AnnouncementPO.class,
@@ -88,7 +87,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
                   if (title != null) {
                     announcement.setTitle(title.fragments()[0].toString());
                   }
-                  HighlightField content = highlightFields.get("content");
+                  HighlightField content = highlightFields.get("thumbContent");
                   if (content != null) {
                     announcement.setContent(content.fragments()[0].toString());
                   }

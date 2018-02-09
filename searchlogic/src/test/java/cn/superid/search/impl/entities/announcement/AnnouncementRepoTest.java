@@ -1,6 +1,7 @@
 package cn.superid.search.impl.entities.announcement;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
@@ -38,6 +39,7 @@ public class AnnouncementRepoTest {
   private static final String T2 = "T2";
   private static final String T3 = "T3";
   private static final long ROLE_ID1 = 1L;
+  public static final int ALLIANCE = 1000;
 
 
   static {
@@ -60,7 +62,7 @@ public class AnnouncementRepoTest {
 
   @Before
   public void save() throws JsonProcessingException {
-    suffix.setSuffix("2016.10");
+    suffix.setSuffix("" + ALLIANCE /100);
     MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String role1 = "role1";
@@ -107,16 +109,16 @@ public class AnnouncementRepoTest {
                 modifyTime));
 
     announcementRepo.save(
-        new AnnouncementPO("18", "Brown fox brown dog", content, new String[]{}, roles, role1,
+        new AnnouncementPO("18", content, "Brown fox brown dog", new String[]{}, roles, role1,
             affairId, modifyTime));
     announcementRepo.save(
-        new AnnouncementPO("19", "The quick brown fox jumps over the lazy dog", content,
+        new AnnouncementPO("19", content, "The quick brown fox jumps over the lazy dog",
             new String[]{}, roles, role1, affairId, modifyTime));
     announcementRepo.save(
-        new AnnouncementPO("110", "The quick brown fox jumps over the quick dog", content,
+        new AnnouncementPO("110", content, "The quick brown fox jumps over the quick dog",
             new String[]{}, roles, role1, affairId, modifyTime));
     announcementRepo.save(
-        new AnnouncementPO("111", "The quick brown fox", content, new String[]{}, roles, role1,
+        new AnnouncementPO("111", content, "The quick brown fox", new String[]{}, roles, role1,
             affairId, modifyTime));
   }
 
@@ -165,7 +167,7 @@ public class AnnouncementRepoTest {
         .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds,
                 "announcement2 quick", null, Lists.newArrayList(ROLE_ID1)),
             PageRequest.of(0, 10)).getContent();
-    assertEquals(announcement2_role1.size(), 2);
+    assertEquals(announcement2_role1.size(), 3);
   }
 
   @Test
@@ -208,10 +210,9 @@ public class AnnouncementRepoTest {
 
   @After
   public void tearDown() throws Exception {
-//    String indexName = Suffix
-//        .timeBasedPattern(AnnouncementPO.class, modifyTime.getTime(), modifyTime.getTime());
-//    assertEquals(indexName, "announcement-2016.10*");
-//    boolean b = esTemplate.deleteIndex(indexName);
-//    assertTrue(b);
+    String indexName = Suffix.indexName(AnnouncementPO.class, ALLIANCE );
+    assertEquals(indexName, "announcement-2016.10*");
+    boolean b = esTemplate.deleteIndex(indexName);
+    assertTrue(b);
   }
 }

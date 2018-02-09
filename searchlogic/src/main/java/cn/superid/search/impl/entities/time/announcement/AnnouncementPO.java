@@ -1,6 +1,5 @@
 package cn.superid.search.impl.entities.time.announcement;
 
-import cn.superid.search.impl.entities.time.TimeBasedIndex;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
@@ -16,13 +15,15 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
  */
 @Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false, shards = 1, replicas = 0)
 @Mapping(mappingPath = "mapping/announcement.json")
-public class AnnouncementPO implements TimeBasedIndex {
+public class AnnouncementPO {
 
   @Id
   @JsonIgnore
   private String id;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String title;
+  @Field(type = FieldType.text, analyzer = "ik_smart")
+  private String thumbContent;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String content;
   @Field(type = FieldType.keyword)
@@ -130,6 +131,14 @@ public class AnnouncementPO implements TimeBasedIndex {
     this.modifyTime = modifyTime;
   }
 
+  public String getThumbContent() {
+    return thumbContent;
+  }
+
+  public void setThumbContent(String thumbContent) {
+    this.thumbContent = thumbContent;
+  }
+
   @Override
   public String toString() {
     return "Announcement{" +
@@ -142,13 +151,4 @@ public class AnnouncementPO implements TimeBasedIndex {
         '}';
   }
 
-  @Override
-  public int timeFormatLen() {
-    return "yyyy-MM".length();
-  }
-
-  @Override
-  public String indexSuffix() {
-    return null;
-  }
 }

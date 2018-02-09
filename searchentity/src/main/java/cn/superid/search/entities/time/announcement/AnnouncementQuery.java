@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
  */
 public class AnnouncementQuery extends PagedQuery {
 
+  private Long allianceId;
   private List<Long> affairIds;
   private boolean excludeAffair = false;
   private List<Long> roleIds;
@@ -41,6 +42,14 @@ public class AnnouncementQuery extends PagedQuery {
     this.endTime = new Date().getTime();
     setPageRequest(pageRequest);
     setRoleIds(roles);
+  }
+
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
   }
 
   public boolean isExcludeAffair() {

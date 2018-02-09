@@ -45,8 +45,7 @@ public class VoAndPoConversion {
   }
 
   public static AnnouncementVO toVO(AnnouncementPO po) {
-    return new AnnouncementVO(po.getId(), po.getTitle(), po.getContent(), po.getTags(),
-        po.getAffairId(), po.getModifyTime(), null);
+    return new AnnouncementVO(po.getId(), po.getTitle(), po.getThumbContent(), po.getContent());
   }
 
   public static MaterialVO toVO(MaterialPO po) {

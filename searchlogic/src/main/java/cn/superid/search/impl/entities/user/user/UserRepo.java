@@ -17,7 +17,7 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
 
 
   @Query("{\n"
-      + "    \"match\": {\"tags\": \"?0\"}\n"
+      + "    \"term\": {\"tags\": \"?0\"}\n"
       + "  }")
   Page<UserPO> findByTagsIn(String query, Pageable pageable);
 
@@ -38,7 +38,7 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
       + "          \"term\" : { \"superId\" : \"?0\" }\n"
       + "        },\n"
       + "        {\n"
-      + "          \"match\": {\"tags\": \"?0\"}"
+      + "          \"term\": {\"tags\": \"?0\"}"
       + "        }\n"
       + "      ]\n"
       + "    }\n"
