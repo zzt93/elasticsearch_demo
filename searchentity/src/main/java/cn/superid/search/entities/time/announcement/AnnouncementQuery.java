@@ -13,9 +13,14 @@ import org.springframework.data.domain.PageRequest;
  */
 public class AnnouncementQuery extends PagedQuery {
 
+  private Long allianceId;
   private List<Long> affairIds;
+  private boolean excludeAffair = false;
+  private List<Long> roleIds;
   private long startTime;
   private long endTime;
+  private Byte state;
+  private Byte plateType;
 
   public AnnouncementQuery() {
   }
@@ -30,12 +35,53 @@ public class AnnouncementQuery extends PagedQuery {
   }
 
   public AnnouncementQuery(List<Long> affairIds, String query,
-      PageRequest pageRequest) {
+      PageRequest pageRequest, List<Long> roles) {
     this.affairIds = affairIds;
     setQuery(query);
     this.startTime = 0;
     this.endTime = new Date().getTime();
     setPageRequest(pageRequest);
+    setRoleIds(roles);
+  }
+
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
+  }
+
+  public boolean isExcludeAffair() {
+    return excludeAffair;
+  }
+
+  public void setExcludeAffair(boolean excludeAffair) {
+    this.excludeAffair = excludeAffair;
+  }
+
+  public Byte getState() {
+    return state;
+  }
+
+  public void setState(Byte state) {
+    this.state = state;
+  }
+
+  public Byte getPlateType() {
+    return plateType;
+  }
+
+  public void setPlateType(Byte plateType) {
+    this.plateType = plateType;
+  }
+
+  public List<Long> getRoleIds() {
+    return roleIds;
+  }
+
+  public void setRoleIds(List<Long> roleIds) {
+    this.roleIds = roleIds;
   }
 
   public List<Long> getAffairIds() {

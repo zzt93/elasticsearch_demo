@@ -17,7 +17,7 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
 
 
   @Query("{\n"
-      + "    \"match\": {\"tags\": \"?0\"}\n"
+      + "    \"term\": {\"tags\": \"?0\"}\n"
       + "  }")
   Page<UserPO> findByTagsIn(String query, Pageable pageable);
 
@@ -26,19 +26,19 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
       + "    \"bool\": {\n"
       + "      \"should\": [\n"
       + "        {\n"
-      + "          \"prefix\" : { \"username\" : \"?0\" }\n"
+      + "          \"wildcard\" : { \"username\" : \"*?0*\" }\n"
       + "        },\n"
       + "        {\n"
-      + "          \"prefix\" : { \"email\" : \"?0\" }\n"
+      + "          \"term\" : { \"email\" : \"?0\" }\n"
       + "        },\n"
       + "        {\n"
-      + "          \"prefix\" : { \"mobile\" : \"?0\" }\n"
+      + "          \"term\" : { \"mobile\" : \"?0\" }\n"
       + "        },\n"
       + "        {\n"
-      + "          \"prefix\" : { \"superId\" : \"?0\" }\n"
+      + "          \"term\" : { \"superId\" : \"?0\" }\n"
       + "        },\n"
       + "        {\n"
-      + "          \"match\": {\"tags\": \"?0\"}"
+      + "          \"term\": {\"tags\": \"?0\"}"
       + "        }\n"
       + "      ]\n"
       + "    }\n"

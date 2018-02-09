@@ -1,9 +1,5 @@
 package cn.superid.search.entities.time.announcement;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-
 /**
  * Created by zzt on 17/5/27.
  */
@@ -11,47 +7,26 @@ public class AnnouncementVO {
 
   private String id;
   private String title;
+  private String thumbContent;
   private String content;
-  private String[] tagVOS;
-  private String creatorRole;
-  private String affairName;
-
-  private Long affairId;
-
-  private Timestamp modifyTime;
-  private Long creatorRoleId;
-
-  private Timestamp createTime;
 
   public AnnouncementVO() {
   }
 
-  public AnnouncementVO(String id, String title, String content, String[] tagVOS, String creatorRole,
-      String creatorUser, Long affairId) {
+  public AnnouncementVO(String id, String title, String thumbContent, String content) {
     this.id = id;
     this.title = title;
+    this.thumbContent = thumbContent;
     this.content = content;
-    this.tagVOS = tagVOS;
-    this.creatorRole = creatorRole;
-    this.affairId = affairId;
   }
 
-  public AnnouncementVO(String id, String title, String content, String[] tagVOS, String creatorRole,
-       Long creatorRoleId, Long affairId, String affairName,
-      Timestamp modifyTime,
-      Timestamp createTime) {
-    this.id = id;
-    this.title = title;
-    this.content = content;
-    this.tagVOS = tagVOS;
-    this.creatorRole = creatorRole;
-    this.creatorRoleId = creatorRoleId;
-    this.affairId = affairId;
-    this.affairName = affairName;
-    this.modifyTime = modifyTime;
-    this.createTime = createTime;
+  public String getThumbContent() {
+    return thumbContent;
   }
 
+  public void setThumbContent(String thumbContent) {
+    this.thumbContent = thumbContent;
+  }
 
   public String getId() {
     return id;
@@ -69,22 +44,6 @@ public class AnnouncementVO {
     this.title = title;
   }
 
-  public String[] getTagVOS() {
-    return tagVOS;
-  }
-
-  public void setTagVOS(String[] tagVOS) {
-    this.tagVOS = tagVOS;
-  }
-
-  public String getCreatorRole() {
-    return creatorRole;
-  }
-
-  public void setCreatorRole(String creatorRole) {
-    this.creatorRole = creatorRole;
-  }
-
   public String getContent() {
     return content;
   }
@@ -93,64 +52,4 @@ public class AnnouncementVO {
     this.content = content;
   }
 
-  public Long getAffairId() {
-    return affairId;
-  }
-
-  public void setAffairId(Long affairId) {
-    this.affairId = affairId;
-  }
-
-  public String getAffairName() {
-    return affairName;
-  }
-
-  public void setAffairName(String affairName) {
-    this.affairName = affairName;
-  }
-
-  public Timestamp getModifyTime() {
-    return modifyTime;
-  }
-
-  public void setModifyTime(Timestamp modifyTime) {
-    this.modifyTime = modifyTime;
-  }
-
-  public Long getCreatorRoleId() {
-    return creatorRoleId;
-  }
-
-  public void setCreatorRoleId(Long creatorRoleId) {
-    this.creatorRoleId = creatorRoleId;
-  }
-
-  @Override
-  public String toString() {
-    return "AnnouncementVO{" +
-        "id='" + id + '\'' +
-        ", title='" + title + '\'' +
-        ", content='" + content + '\'' +
-        ", tagVOS=" + Arrays.toString(tagVOS) +
-        ", creatorRole='" + creatorRole + '\'' +
-        ", affairName='" + affairName + '\'' +
-        ", modifyTime=" + modifyTime +
-        ", creatorRoleId=" + creatorRoleId +
-        ", affairId=" + affairId +
-        ", createTime=" + createTime +
-        '}';
-  }
-
-  public Timestamp getCreateTime() {
-    return createTime;
-  }
-
-  public void setCreateTime(Timestamp createTime) {
-    this.createTime = createTime;
-  }
-
-  public String indexSuffix() {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM");
-    return simpleDateFormat.format(createTime);
-  }
 }

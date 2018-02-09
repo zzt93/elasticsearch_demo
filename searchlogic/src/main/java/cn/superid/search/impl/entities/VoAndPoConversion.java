@@ -45,9 +45,7 @@ public class VoAndPoConversion {
   }
 
   public static AnnouncementVO toVO(AnnouncementPO po) {
-    return new AnnouncementVO(po.getId(), po.getTitle(), po.getContent(), toVOs(po.getTags()),
-        po.getCreatorRole(), po.getCreatorRoleId(), po.getAffairId(),
-        po.getAffairName(), po.getModifyTime(), null);
+    return new AnnouncementVO(po.getId(), po.getTitle(), po.getThumbContent(), po.getContent());
   }
 
   public static MaterialVO toVO(MaterialPO po) {
@@ -73,18 +71,11 @@ public class VoAndPoConversion {
     return tagVOS;
   }
 
-  public static String[] toVOs(String[] tagPOS) {
-    if (tagPOS == null) {
-      return null;
-    }
-    return tagPOS;
-  }
-
   public static RoleVO toVO(RolePO po) {
     return new RoleVO(po.getId());
   }
 
   public static MessagesVO toVO(MessagesPO messagesPO) {
-    return new MessagesVO(messagesPO.getId(), messagesPO.getContent());
+    return new MessagesVO(messagesPO.getId());
   }
 }

@@ -1,0 +1,38 @@
+{
+  "announcement": {
+    "properties": {
+      "affairId": {
+        "type": "long"
+      },
+      "thumb_content": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "content": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "modifyTime": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss.SSS"
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "state": {
+        "type": "byte"
+      },
+      "plateType": {
+        "type": "byte"
+      },
+      "roles": {
+        "type": "long"
+      }
+    }
+  }
+}
+
