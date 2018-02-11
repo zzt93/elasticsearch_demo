@@ -16,16 +16,17 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
 @Document(indexName = "announcement-#{suffix.toString()}", type = "announcement", createIndex = false, shards = 1, replicas = 0)
 @Mapping(mappingPath = "mapping/announcement.json")
 public class AnnouncementPO {
+  public static final int CLUSTER_SIZE = 100;
 
   @Id
   @JsonIgnore
   private String id;
-  @Field(type = FieldType.text, analyzer = "ik_smart")
+  @Field(type = FieldType.keyword)
   private String title;
   @Field(type = FieldType.text, analyzer = "ik_smart")
   private String thumbContent;
   @Field(type = FieldType.text, analyzer = "ik_smart")
-  private String content;
+  private String[] content;
   @Field(type = FieldType.keyword)
   private String[] tags;
   @Field(type = FieldType.Long)
@@ -52,7 +53,7 @@ public class AnnouncementPO {
       String creatorUser, Long affairId, Timestamp modifyTime) {
     this.id = id;
     this.title = title;
-    this.content = content;
+    this.content = new String[]{content};
     this.tags = tags;
     this.affairId = affairId;
     this.modifyTime = modifyTime;
@@ -107,11 +108,11 @@ public class AnnouncementPO {
     this.tags = tags;
   }
 
-  public String getContent() {
+  public String[] getContent() {
     return content;
   }
 
-  public void setContent(String content) {
+  public void setContent(String[] content) {
     this.content = content;
   }
 

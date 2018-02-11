@@ -4,8 +4,7 @@
     "file": {
       "properties": {
         "name": {
-          "type": "text",
-          "analyzer": "ik_smart"
+          "type": "keyword"
         },
         "type": {
           "type": "byte"

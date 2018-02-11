@@ -4,7 +4,7 @@
     "affair": {
       "properties": {
         "name": {
-          "type": "text",
+          "type": "keyword",
           "analyzer": "ik_smart"
         },
         "parentId": {

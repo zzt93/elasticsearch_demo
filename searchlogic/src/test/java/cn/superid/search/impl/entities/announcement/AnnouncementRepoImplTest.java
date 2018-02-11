@@ -64,7 +64,7 @@ public class AnnouncementRepoImplTest {
 
   @Before
   public void setUp() throws Exception {
-    suffix.setSuffix("2016.09");
+    suffix.setSuffix("" + ALLIANCE / AnnouncementPO.CLUSTER_SIZE);
     MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String modifierUser = "xxx";
@@ -86,7 +86,8 @@ public class AnnouncementRepoImplTest {
 
   @Test
   public void findByTitleOrModifierRoleOrModifierUserOrTagsIn() throws Exception {
-    AnnouncementQuery query = new AnnouncementQuery(Lists.newArrayList(affairId), "java", null,
+    AnnouncementQuery query = new AnnouncementQuery(Lists.newArrayList(affairId), ALLIANCE, "java",
+        null,
         Lists.newArrayList(ROLE_ID1));
     query.setRoleIds(Lists.newArrayList(ROLE_ID1));
     List<AnnouncementPO> java = announcementRepo
@@ -96,8 +97,9 @@ public class AnnouncementRepoImplTest {
 
   @After
   public void tearDown() throws Exception {
-    String indexName = Suffix.indexName(AnnouncementPO.class, ALLIANCE );
-    assertEquals(indexName, "announcement-2016.10*");
+    String indexName = Suffix
+        .indexName(AnnouncementPO.class, ALLIANCE / AnnouncementPO.CLUSTER_SIZE);
+    assertEquals(indexName, "announcement--10");
     boolean b = esTemplate.deleteIndex(indexName);
     assertTrue(b);
   }

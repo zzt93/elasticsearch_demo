@@ -7,7 +7,6 @@ import java.util.List;
  */
 public interface FileCustom {
 
-  void updateFileName(FilePO file);
 
   List<FilePO> findByNameOrUploadRoleName(String info, Long allianceId,
       Long affairId);

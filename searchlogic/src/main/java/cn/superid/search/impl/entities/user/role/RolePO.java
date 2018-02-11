@@ -24,11 +24,11 @@ public class RolePO {
   @JsonIgnore
   private String id;
 
-  @Field(type = FieldType.text, analyzer = "ik_smart")
+  @Field(type = FieldType.keyword)
   private String title;
   @Field(type = FieldType.Long)
   private Long affairId;
-  @Field(type = FieldType.text, analyzer = "ik_smart")
+  @Field(type = FieldType.keyword)
   private String affairName;
   @Field(type = FieldType.keyword)
   private String[] tags;
@@ -38,7 +38,7 @@ public class RolePO {
   private Byte publicType;
   @Field(type = FieldType.Long)
   private Long ownerRoleId;
-  @Field(type = FieldType.text, analyzer = "ik_smart")
+  @Field(type = FieldType.keyword)
   private String ownerRoleTitle;
   public RolePO() {
   }

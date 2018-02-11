@@ -21,8 +21,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class RoleRepoTest {
 
-  public static final long ALLIANCE1 = 123000;
-  public static final long ALLIANCE2 = 234000;
+  public static final long ALLIANCE1 = -123000;
+  public static final long ALLIANCE2 = -234000;
   @Autowired
   private RoleRepo roleRepo;
   @Autowired
@@ -56,17 +56,17 @@ public class RoleRepoTest {
 
   @Test
   public void findByAffairIdAndTitle() throws Exception {
-    suffix.setSuffix("123");
-    List<RolePO> front = roleRepo.findByAffairIdAndTitle(2L, "前端", PageRequest.of(0, 10)).getContent();
+    suffix.setSuffix(""+ ALLIANCE1/RolePO.CLUSTER_SIZE);
+    List<RolePO> front = roleRepo.findByAffairIdAndTitle(2L, "前端开发", PageRequest.of(0, 10)).getContent();
     assertEquals(front.size(), 1);
-    suffix.setSuffix("234");
-    List<RolePO> front2 = roleRepo.findByAffairIdAndTitle(2L, "前端", PageRequest.of(0, 10)).getContent();
+    suffix.setSuffix(""+ ALLIANCE2/RolePO.CLUSTER_SIZE);
+    List<RolePO> front2 = roleRepo.findByAffairIdAndTitle(2L, "前端架构", PageRequest.of(0, 10)).getContent();
     assertEquals(front2.size(), 1);
   }
 
   @Test
   public void findByTitleAndAffairIdNot() throws Exception {
-    List<RolePO> front = roleRepo.findByTitleAndAffairIdNot("前端", 1L, PageRequest.of(0, 5))
+    List<RolePO> front = roleRepo.findByTitleAndAffairIdNot("前端架构", 1L, PageRequest.of(0, 5))
         .getContent();
     assertEquals(front.size(), 1);
   }

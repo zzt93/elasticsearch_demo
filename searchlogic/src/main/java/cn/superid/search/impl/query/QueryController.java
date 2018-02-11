@@ -151,7 +151,6 @@ public class QueryController {
   public PageVO<AffairVO> queryAffair(@RequestBody AffairQuery query) {
     checkPage(query.getPageRequest());
 
-    suffix.setSuffix("*");
     Page<AffairPO> page = affairRepo.findAny(query.getQuery(), query.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }

@@ -21,4 +21,8 @@ public class QueryHelper {
     }
     return result;
   }
+
+  public static String wildcard(String input) {
+    return "*" + input.replaceAll("([*?])", "\\\\$1") + "*";
+  }
 }
