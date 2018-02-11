@@ -39,7 +39,7 @@ public class AnnouncementRepoTest {
   private static final String T2 = "T2";
   private static final String T3 = "T3";
   private static final long ROLE_ID1 = 1L;
-  public static final int ALLIANCE = 1000;
+  public static final int ALLIANCE = -1000;
 
 
   static {
@@ -62,7 +62,7 @@ public class AnnouncementRepoTest {
 
   @Before
   public void save() throws JsonProcessingException {
-    suffix.setSuffix("" + ALLIANCE /100);
+    suffix.setSuffix("" + ALLIANCE / AnnouncementPO.CLUSTER_SIZE);
     MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String role1 = "role1";
@@ -135,7 +135,7 @@ public class AnnouncementRepoTest {
   public void findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair()
       throws Exception {
     List<AnnouncementPO> t1 = announcementRepo
-        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, "T1", null,
+        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, ALLIANCE, "T1", null,
                 Lists.newArrayList(ROLE_ID1)),
             PageRequest.of(0, 10))
         .getContent();
@@ -144,7 +144,7 @@ public class AnnouncementRepoTest {
         .getContent();
     assertEquals(t2.size(), 2);
     List<AnnouncementPO> t21 = announcementRepo
-        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, "T2", null,
+        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, ALLIANCE, "T2", null,
                 Lists.newArrayList(ROLE_ID1)),
             PageRequest.of(0, 10))
         .getContent();
@@ -153,7 +153,7 @@ public class AnnouncementRepoTest {
         .getContent();
     assertEquals(t3.size(), 2);
     List<AnnouncementPO> t31 = announcementRepo
-        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, "T3", null,
+        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, ALLIANCE, "T3", null,
                 Lists.newArrayList(ROLE_ID1)),
             PageRequest.of(0, 10))
         .getContent();
@@ -164,7 +164,7 @@ public class AnnouncementRepoTest {
         .getContent();
     assertEquals(query.size(), 4);
     List<AnnouncementPO> announcement2_role1 = announcementRepo
-        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds,
+        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, ALLIANCE,
                 "announcement2 quick", null, Lists.newArrayList(ROLE_ID1)),
             PageRequest.of(0, 10)).getContent();
     assertEquals(announcement2_role1.size(), 3);
@@ -177,7 +177,7 @@ public class AnnouncementRepoTest {
         .getContent();
     assertEquals(back.size(), 4);
 
-    AnnouncementQuery query = new AnnouncementQuery(affairIds, "后端", null,
+    AnnouncementQuery query = new AnnouncementQuery(affairIds, ALLIANCE, "后端", null,
         Lists.newArrayList(ROLE_ID1));
     List<AnnouncementPO> back2 = announcementRepo
         .findByTitleOrContentOrTags(query, PageRequest.of(0, 10))
@@ -189,7 +189,7 @@ public class AnnouncementRepoTest {
         .getContent();
     assertEquals(dev.size(), 2);
 
-    AnnouncementQuery query2 = new AnnouncementQuery(affairIds, "开发", null,
+    AnnouncementQuery query2 = new AnnouncementQuery(affairIds, ALLIANCE, "开发", null,
         Lists.newArrayList(ROLE_ID1));
     query2.setRoleIds(Lists.newArrayList(ROLE_ID1));
     List<AnnouncementPO> dev2 = announcementRepo
@@ -202,7 +202,7 @@ public class AnnouncementRepoTest {
   @Test
   public void testMultiWord() {
     List<AnnouncementPO> brown_dog = announcementRepo
-        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds,
+        .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, ALLIANCE,
             "BROWN DOG", null, Lists.newArrayList(ROLE_ID1)), PageRequest.of(0, 10))
         .getContent();
     assertEquals(brown_dog.size(), 4);
@@ -210,8 +210,8 @@ public class AnnouncementRepoTest {
 
   @After
   public void tearDown() throws Exception {
-    String indexName = Suffix.indexName(AnnouncementPO.class, ALLIANCE );
-    assertEquals(indexName, "announcement-2016.10*");
+    String indexName = Suffix.indexName(AnnouncementPO.class, ALLIANCE / AnnouncementPO.CLUSTER_SIZE);
+    assertEquals(indexName, "announcement--10");
     boolean b = esTemplate.deleteIndex(indexName);
     assertTrue(b);
   }

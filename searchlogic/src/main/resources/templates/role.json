@@ -7,22 +7,19 @@
           "type": "long"
         },
         "affairName": {
-          "type": "text",
-          "analyzer": "ik_smart"
+          "type": "keyword"
         },
         "ownerRoleId": {
           "type": "long"
         },
         "ownerRoleTitle": {
-          "type": "text",
-          "analyzer": "ik_smart"
+          "type": "keyword"
         },
         "tags": {
           "type": "keyword"
         },
         "title": {
-          "type": "text",
-          "analyzer": "ik_smart"
+          "type": "keyword"
         },
         "type": {
           "type": "byte"

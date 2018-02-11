@@ -3,13 +3,12 @@ package cn.superid.search.impl.entities.user.affair;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
  * Created by zzt on 17/6/29.
  */
-public interface AffairRepo extends ElasticsearchRepository<AffairPO, String> {
+public interface AffairRepo extends ElasticsearchRepository<AffairPO, String>, AffairCustom {
 
   Optional<AffairPO> findById(String id);
 
@@ -19,20 +18,4 @@ public interface AffairRepo extends ElasticsearchRepository<AffairPO, String> {
 
   Page<AffairPO> findByTagsIn(String[] tags, Pageable pageable);
 
-  @Query(" {" +
-      " \"bool\": { " +
-      "     \"should\": [\n" +
-      "       {\n" +
-      "         \"multi_match\": {" +
-      "            \"query\":    \"?0\",\n" +
-      "            \"fields\":   [ \"name\", \"superId\"]\n" +
-      "          }" +
-      "       },\n" +
-      "       {\n" +
-      "          \"match\": {\"tags\": \"?0\"}" +
-      "       } " +
-      "     ]\n" +
-      "  }" +
-      "}")
-  Page<AffairPO> findAny(String info, Pageable pageable);
 }

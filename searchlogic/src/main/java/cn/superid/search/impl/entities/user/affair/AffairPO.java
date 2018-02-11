@@ -25,7 +25,7 @@ public class AffairPO {
   private String id;
   @Field(type = FieldType.keyword, index = false)
   private String parentId;
-  @Field(type = FieldType.text, analyzer = "ik_smart")
+  @Field(type = FieldType.keyword)
   private String name;
   @Field(type = FieldType.keyword)
   private String[] tags;

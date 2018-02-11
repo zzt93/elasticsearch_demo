@@ -1,8 +1,9 @@
 package cn.superid.search.impl.entities.user.warehouse;
 
+import static cn.superid.search.impl.query.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.ScrollQuery;
 import cn.superid.search.entities.user.warehouse.MaterialQuery;
@@ -38,7 +39,7 @@ public class MaterialRepoImpl implements MaterialCustom {
     Assert.notNull(info.getQuery(), "[Lacking query string]");
 
     BoolQueryBuilder bool = boolQuery()
-        .should(matchQuery("name", info.getQuery()));
+        .should(wildcardQuery("name", wildcard(info.getQuery())));
     if (info.getAffairId() != null) {
       bool.filter(termQuery("affairId", info.getAffairId()));
     }

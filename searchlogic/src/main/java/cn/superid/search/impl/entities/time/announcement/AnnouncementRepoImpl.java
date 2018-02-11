@@ -41,7 +41,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
   public Page<AnnouncementPO> findByTitleOrContentOrTags(AnnouncementQuery info,
       Pageable pageable) {
     Preconditions.checkArgument(pageable != null);
-    Preconditions.checkArgument(info.getAllianceId() != 0);
+    Preconditions.checkArgument(info.getAllianceId() != null && info.getAllianceId() != 0);
     Preconditions.checkArgument(info.getQuery() != null);
     Preconditions.checkArgument(info.getAffairIds() != null);
 
@@ -50,14 +50,17 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
             boolQuery()
                 .should(wildcardQuery("title", "*" + info.getQuery() + "*").boost(10))
                 .should(termQuery("tags", info.getQuery()).boost(5))
+                .should(matchQuery("thumbContent", info.getQuery()).boost(2))
                 .should(matchQuery("content", info.getQuery()).boost(1))
-        )
-        .filter(termsQuery("roles", info.getRoleIds()));
+        );
     TermsQueryBuilder affairId = termsQuery("affairId", info.getAffairIds());
     if (info.isExcludeAffair()) {
       bool.mustNot(affairId);
     } else {
       bool.filter(affairId);
+    }
+    if (info.getRoleIds() != null) {
+      bool.filter(termsQuery("roles", info.getRoleIds()));
     }
     if (info.getStartTime() != 0 && info.getEndTime() != 0) {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -73,7 +76,8 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexName(AnnouncementPO.class, info.getAllianceId()))
+        .withIndices(Suffix.indexName(AnnouncementPO.class,
+            info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE))
         .withQuery(bool)
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
@@ -89,7 +93,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
                   }
                   HighlightField content = highlightFields.get("thumbContent");
                   if (content != null) {
-                    announcement.setContent(content.fragments()[0].toString());
+                    announcement.setThumbContent(content.fragments()[0].toString());
                   }
                 }));
   }

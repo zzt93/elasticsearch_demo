@@ -34,12 +34,13 @@ public class AnnouncementQuery extends PagedQuery {
     setPageRequest(pageRequest);
   }
 
-  public AnnouncementQuery(List<Long> affairIds, String query,
+  public AnnouncementQuery(List<Long> affairIds, long alliance, String query,
       PageRequest pageRequest, List<Long> roles) {
     this.affairIds = affairIds;
     setQuery(query);
     this.startTime = 0;
     this.endTime = new Date().getTime();
+    allianceId = alliance;
     setPageRequest(pageRequest);
     setRoleIds(roles);
   }

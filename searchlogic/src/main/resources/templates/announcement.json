@@ -6,7 +6,7 @@
         "affairId": {
           "type": "long"
         },
-        "thumb_content": {
+        "thumbContent": {
           "type": "text",
           "analyzer": "ik_smart"
         },
@@ -22,8 +22,7 @@
           "type": "keyword"
         },
         "title": {
-          "type": "text",
-          "analyzer": "ik_smart"
+          "type": "keyword"
         },
         "state": {
           "type": "byte"

@@ -8,16 +8,14 @@ public class AnnouncementVO {
   private String id;
   private String title;
   private String thumbContent;
-  private String content;
 
   public AnnouncementVO() {
   }
 
-  public AnnouncementVO(String id, String title, String thumbContent, String content) {
+  public AnnouncementVO(String id, String title, String thumbContent) {
     this.id = id;
     this.title = title;
     this.thumbContent = thumbContent;
-    this.content = content;
   }
 
   public String getThumbContent() {
@@ -42,14 +40,6 @@ public class AnnouncementVO {
 
   public void setTitle(String title) {
     this.title = title;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
   }
 
 }
