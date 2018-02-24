@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.affair;
 
 import cn.superid.search.impl.save.MessageReceiverTest;
 import cn.superid.search.impl.save.rolling.Suffix;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AffairRepoTest {
 
+  public static final String SUFFIX = "-1111";
   @Autowired
   private AffairRepo affairRepo;
   @Autowired
@@ -28,7 +30,7 @@ public class AffairRepoTest {
 
   @Before
   public void setUp() throws Exception {
-    suffix.setSuffix("1111");
+    suffix.setSuffix(SUFFIX);
     MessageReceiverTest.createIfNotExist(esTemplate, AffairPO.class);
 
     AffairPO first = new AffairPO("1", "思目创意");
@@ -61,5 +63,10 @@ public class AffairRepoTest {
   public void bugFix313() throws Exception {
     suffix.setSuffix("*");
     System.out.println(affairRepo.findAny("1", PageRequest.of(0, 10)).getContent());
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    esTemplate.deleteIndex(Suffix.indexName(AffairPO.class, SUFFIX));
   }
 }
