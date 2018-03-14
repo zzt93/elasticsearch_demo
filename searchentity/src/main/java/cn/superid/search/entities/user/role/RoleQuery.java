@@ -1,6 +1,7 @@
 package cn.superid.search.entities.user.role;
 
 import cn.superid.search.entities.PagedQuery;
+import java.util.Arrays;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -10,7 +11,10 @@ public class RoleQuery extends PagedQuery {
 
   private String[] tags;
 
-  private final Long allianceId;
+  private Long allianceId;
+
+  public RoleQuery() {
+  }
 
   public RoleQuery(String query, PageRequest pageRequest, Long allianceId) {
     this.allianceId = allianceId;
@@ -35,7 +39,7 @@ public class RoleQuery extends PagedQuery {
   @Override
   public String toString() {
     return "RoleQuery{" +
-        "tags=" + tags +
+        "tags=" + Arrays.toString(tags) +
         ", allianceId=" + allianceId +
         ", pagedQuery=" + super.toString() +
         '}';

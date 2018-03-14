@@ -199,6 +199,15 @@ public class QueryController {
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
   }
 
+  @PostMapping("/role/except_alliance")
+  public PageVO<RoleVO> queryRoleExceptAlliance(@RequestBody RoleQuery query) {
+    checkPage(query.getPageRequest());
+    checkAllianceId(query.getAllianceId());
+    Page<RolePO> roleExcept = roleRepo
+        .findRoleExcept(query.getAllianceId(), query.getQuery(), query.getPageRequest());
+    return new PageVO<>(roleExcept, VoAndPoConversion::toVO);
+  }
+
   @PostMapping("/user")
   public List<UserVO> findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(@RequestBody StringQuery query) {
     return userService.findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(query.getQuery());
@@ -223,10 +232,6 @@ public class QueryController {
   }
 
 
-  @GetMapping("/role/alliance")
-  public Page<RolePO> queryAllianceRole(Long allianceId, @RequestParam String role) {
-    return roleRepo.findRoleExcept(allianceId, role, PageRequest.of(0, PAGE_SIZE));
-  }
 
   @GetMapping("/role/all")
   public Page<RolePO> queryAllRole(@RequestParam String role) {

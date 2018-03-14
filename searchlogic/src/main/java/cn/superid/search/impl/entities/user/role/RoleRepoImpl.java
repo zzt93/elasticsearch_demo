@@ -1,9 +1,11 @@
 package cn.superid.search.impl.entities.user.role;
 
 import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.impl.save.rolling.Suffix;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,8 +37,11 @@ public class RoleRepoImpl implements RoleCustom {
 
   @Override
   public Page<RolePO> findRoleExcept(Long alliance, String query, Pageable pageable) {
+    BoolQueryBuilder bool = new BoolQueryBuilder()
+        .mustNot(termQuery("user_id", 0))
+        .must(wildcardQuery("title", wildcard(query)));
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withQuery(wildcardQuery("title", wildcard(query)))
+        .withQuery(bool)
         .withIndices(Suffix.indexNamePattern(RolePO.class),
             EXCEPT_PREFIX + Suffix.indexName(RolePO.class, alliance/ RolePO.CLUSTER_SIZE))
         .build();
