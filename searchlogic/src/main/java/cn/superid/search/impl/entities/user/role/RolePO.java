@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.role;
 
 import cn.superid.search.entities.user.role.RoleVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Arrays;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -28,6 +29,8 @@ public class RolePO {
   private String title;
   @Field(type = FieldType.Long)
   private Long affairId;
+  @Field(type = FieldType.Long)
+  private Long userId;
   @Field(type = FieldType.keyword)
   private String affairName;
   @Field(type = FieldType.keyword)
@@ -135,13 +138,21 @@ public class RolePO {
     this.ownerRoleTitle = ownerRoleTitle;
   }
 
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
+
   @Override
   public String toString() {
     return "RolePO{" +
         "id='" + id + '\'' +
         ", title='" + title + '\'' +
         ", affairId=" + affairId +
-        ", tags=" + tags +
+        ", tags=" + Arrays.toString(tags) +
         ", type=" + type +
         ", ownerRoleId=" + ownerRoleId +
         '}';
