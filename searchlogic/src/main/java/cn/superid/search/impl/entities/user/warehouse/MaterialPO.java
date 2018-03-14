@@ -35,7 +35,8 @@ public class MaterialPO {
   private Byte type;
   @Field(type = FieldType.Byte)
   private Byte publicType;
-
+  @Field(type = FieldType.Long)
+  private Long allianceId;
 
   public MaterialPO() {
   }
@@ -55,6 +56,14 @@ public class MaterialPO {
     id = entity.getId();
     name = entity.getTitle();
     tags = VoAndPoConversion.toPOs(entity.getTagVOS());
+  }
+
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
   }
 
   public String getId() {

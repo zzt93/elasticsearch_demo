@@ -3,6 +3,7 @@ package cn.superid.search.impl.entities.user.affair;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Arrays;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -35,6 +36,8 @@ public class AffairPO {
   private Byte state;
   @Field(type = FieldType.Byte)
   private Byte publicType;
+  @Field(type = FieldType.Long)
+  private Long allianceId;
 
   public AffairPO() {
   }
@@ -114,13 +117,21 @@ public class AffairPO {
     return this;
   }
 
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
+  }
+
   @Override
   public String toString() {
     return "AffairPO{" +
         "id='" + id + '\'' +
         ", parentId='" + parentId + '\'' +
         ", name='" + name + '\'' +
-        ", tags=" + tags +
+        ", tags=" + Arrays.toString(tags) +
         ", superId='" + superId + '\'' +
         '}';
   }

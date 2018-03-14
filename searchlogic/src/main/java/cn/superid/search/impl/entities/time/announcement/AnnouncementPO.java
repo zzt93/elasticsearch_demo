@@ -31,7 +31,8 @@ public class AnnouncementPO {
   private String[] tags;
   @Field(type = FieldType.Long)
   private Long affairId;
-
+  @Field(type = FieldType.Long)
+  private Long allianceId;
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp modifyTime;
@@ -140,12 +141,20 @@ public class AnnouncementPO {
     this.thumbContent = thumbContent;
   }
 
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
+  }
+
   @Override
   public String toString() {
     return "Announcement{" +
         "id='" + id + '\'' +
         ", title='" + title + '\'' +
-        ", content='" + content + '\'' +
+        ", content='" + Arrays.toString(content) + '\'' +
         ", tags=" + Arrays.toString(tags) +
         ", modifyTime=" + modifyTime +
         ", affairId=" + affairId +

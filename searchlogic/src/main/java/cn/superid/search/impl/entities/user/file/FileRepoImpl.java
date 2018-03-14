@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.file;
 
 import static cn.superid.search.impl.query.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
@@ -55,6 +56,7 @@ public class FileRepoImpl implements FileCustom {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(
             boolQuery()
+                .must(termQuery("affairId", allianceId))
                 .should(wildcardQuery("name", wildcard(info)))
                 .should(termsQuery("uploadRoleId", ids)))
         .withIndices(Suffix.indexName(FilePO.class, affairId / FilePO.CLUSTER_SIZE))

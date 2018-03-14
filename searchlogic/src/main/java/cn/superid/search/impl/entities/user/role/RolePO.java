@@ -43,6 +43,9 @@ public class RolePO {
   private Long ownerRoleId;
   @Field(type = FieldType.keyword)
   private String ownerRoleTitle;
+  @Field(type = FieldType.Long)
+  private Long allianceId;
+
   public RolePO() {
   }
   /**
@@ -72,6 +75,14 @@ public class RolePO {
   public RolePO setPublicType(Byte publicType) {
     this.publicType = publicType;
     return this;
+  }
+
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
   }
 
   public Long getAffairId() {

@@ -18,7 +18,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "file-#{suffix.toString()}", type = "file", refreshInterval = "10s", shards = 1, createIndex = false)
 public class FilePO {
 
-  private static final String SPLIT = "#";
   static final int CLUSTER_SIZE = 500;
   @Id
   @JsonIgnore
@@ -28,29 +27,25 @@ public class FilePO {
   @Field(type = FieldType.keyword)
   private String uploaderRoleId;
   @Field(type = FieldType.Byte)
-  private Byte type;
-  @Field(type = FieldType.Byte)
   private Byte publicType;
+  @Field(type = FieldType.Long)
+  private Long affairId;
 
   public FilePO() {
   }
-
-  public FilePO(FileSearchVO vo) {
-    if (vo.getType() == null) {
-      return;
-    }
-    id = vo.getType().name() + SPLIT + vo.getId();
-    name = vo.getName();
-    uploaderRoleId = vo.getUploadRoleId();
-    type = ((byte) vo.getType().ordinal());
-  }
-
 
   public FilePO(String id, String name, String uploaderRoleId, Byte type) {
     this.id = id;
     this.name = name;
     this.uploaderRoleId = uploaderRoleId;
-    this.type = type;
+  }
+
+  public Long getAffairId() {
+    return affairId;
+  }
+
+  public void setAffairId(Long affairId) {
+    this.affairId = affairId;
   }
 
   public Byte getPublicType() {
@@ -90,11 +85,4 @@ public class FilePO {
     this.uploaderRoleId = uploaderRoleId;
   }
 
-  public Byte getType() {
-    return type;
-  }
-
-  public void setType(Byte type) {
-    this.type = type;
-  }
 }

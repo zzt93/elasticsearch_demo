@@ -39,11 +39,11 @@ public class RoleRepoImpl implements RoleCustom {
   public Page<RolePO> findRoleExcept(Long alliance, String query, Pageable pageable) {
     BoolQueryBuilder bool = new BoolQueryBuilder()
         .mustNot(termQuery("user_id", 0))
+        .mustNot(termQuery("allianceId", alliance))
         .must(wildcardQuery("title", wildcard(query)));
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(bool)
-        .withIndices(Suffix.indexNamePattern(RolePO.class),
-            EXCEPT_PREFIX + Suffix.indexName(RolePO.class, alliance/ RolePO.CLUSTER_SIZE))
+        .withIndices(Suffix.indexNamePattern(RolePO.class))
         .build();
     return template.queryForPage(searchQuery, RolePO.class);
   }

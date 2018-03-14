@@ -9,6 +9,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface MaterialRepo extends ElasticsearchRepository<MaterialPO, String>, MaterialCustom {
 
-  Page<MaterialPO> findByTagsIn(String[] tags, Pageable pageable);
+  Page<MaterialPO> findByAllianceIdAndTagsIn(Long allianceId, String[] tags, Pageable pageable);
 
 }
