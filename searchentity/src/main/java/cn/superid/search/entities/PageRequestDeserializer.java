@@ -25,11 +25,16 @@ public class PageRequestDeserializer implements
       List<Map> orderList = (List<Map>) ((Map) value.get("sort")).get("orders");
       List<Order> orders = new ArrayList<>();
       for (Map map : orderList) {
-        Order order = new Order(Direction.valueOf((String) map.get("direction")),
-            (String) map.get("property"),
-            NullHandling.valueOf((String) map.get("nullHandling")));
-        if (((boolean) map.get("ignoreCase"))) {
-          order.ignoreCase();
+        if (map.get("property") == null) throw new IllegalArgumentException("No sort property specified");
+        Order order = Order.by((String) map.get("property"));
+        if (map.containsKey("direction")) {
+          order = order.with(Direction.valueOf((String) map.get("direction")));
+        }
+        if (map.containsKey("nullHandling")) {
+          order = order.with(NullHandling.valueOf((String) map.get("nullHandling")));
+        }
+        if (map.containsKey("ignoreCase") && ((boolean) map.get("ignoreCase"))) {
+          order = order.ignoreCase();
         }
         orders.add(order);
       }

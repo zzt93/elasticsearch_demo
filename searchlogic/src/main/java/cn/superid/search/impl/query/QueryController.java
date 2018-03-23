@@ -178,7 +178,8 @@ public class QueryController {
   @PostMapping("/affair/name")
   public PageVO<AffairVO> queryAffairName(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
-    Page<AffairPO> page = affairRepo.findByName(wildcard(affairInfo.getQuery()), affairInfo.getPageRequest());
+    Page<AffairPO> page = affairRepo
+        .findByName(wildcard(affairInfo.getQuery()), affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 
@@ -234,7 +235,6 @@ public class QueryController {
   public List<UserVO> queryUserByUsername(@RequestParam String query) {
     return userService.findTop20ByUserNameOrSuperId(query);
   }
-
 
 
   @GetMapping("/role/all")
