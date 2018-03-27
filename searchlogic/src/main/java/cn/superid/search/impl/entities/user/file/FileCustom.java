@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.user.file;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  * @author zzt
@@ -8,7 +8,7 @@ import java.util.List;
 public interface FileCustom {
 
 
-  List<FilePO> findByNameOrUploadRoleName(String info, Long allianceId,
+  Page<FilePO> findByNameOrUploadRoleName(String info, Long allianceId,
       Long affairId);
 
 }

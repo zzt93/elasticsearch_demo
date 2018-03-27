@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities.announcement;
 
+import static cn.superid.search.impl.entities.announcement.AnnouncementRepoTest.ALLIANCE;
 import static org.junit.Assert.assertEquals;
 
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
@@ -69,11 +70,11 @@ public class DateTest {
     String t2 = "t2";
     AnnouncementPO a1 = new AnnouncementPO("11", "announcement1", "content",
         new String[]{t1, t2},
-        new long[]{1L}, role2, affairId, modifyTime);
+        new long[]{1L}, affairId, modifyTime, ALLIANCE);
 
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(a1);
     assertEquals(json,
-        "{\"title\":\"announcement1\",\"thumbContent\":null,\"content\":[\"content\"],\"tags\":[\"t1\",\"t2\"],\"affairId\":9038,\"modifyTime\":\"2016-10-11 02:10:10.100\",\"roles\":[1],\"plateType\":null,\"type\":null}");
+        "{\"title\":\"announcement1\",\"thumbContent\":null,\"content\":[\"content\"],\"tags\":[\"t1\",\"t2\"],\"affairId\":9038,\"allianceId\":-1000,\"modifyTime\":\"2016-10-11 02:10:10.100\",\"roles\":[1],\"plateType\":null,\"type\":null}");
   }
 }

@@ -51,7 +51,7 @@ public class AnnouncementPO {
    */
   public AnnouncementPO(String id, String title, String content, String[] tags,
       long[] roles,
-      String creatorUser, Long affairId, Timestamp modifyTime) {
+      Long affairId, Timestamp modifyTime, long allianceId) {
     this.id = id;
     this.title = title;
     this.content = new String[]{content};
@@ -59,6 +59,7 @@ public class AnnouncementPO {
     this.affairId = affairId;
     this.modifyTime = modifyTime;
     this.roles = roles;
+    this.allianceId = allianceId;
   }
 
   public long[] getRoles() {

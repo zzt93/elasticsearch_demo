@@ -3,7 +3,7 @@ package cn.superid.search.impl.entities.time.chat;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.time.chat.ChatQuery;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
@@ -25,8 +24,6 @@ public class MessagesRepoImpl implements MessagesCustom {
 
   @Autowired
   private ElasticsearchTemplate template;
-  @Autowired
-  private ElasticsearchConverter elasticsearchConverter;
 
   @Override
   public Page<MessagesPO> findByMessage(ChatQuery info, Pageable pageable) {
@@ -41,7 +38,7 @@ public class MessagesRepoImpl implements MessagesCustom {
       bool.filter(rangeQuery("time").gte(info.getStartTime()).lte(info.getEndTime()));
     }
     if (info.getSubType() != null) {
-      bool.filter(termQuery("sub", info.getSubType()));
+      bool.filter(termsQuery("sub", info.getSubType()));
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()

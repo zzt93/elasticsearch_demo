@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -72,16 +73,16 @@ public class AnnouncementRepoTest {
 
     AnnouncementPO a1 = new AnnouncementPO("11", "announcement1", content,
         new String[]{T1, T2},
-        roles, role2, affairId, modifyTime);
+        roles, affairId, modifyTime, ALLIANCE);
 
     String role3 = "role3";
     AnnouncementPO a2 = new AnnouncementPO("12", "announcement2", content,
         new String[]{T1, T3},
-        roles, role3, affairId, modifyTime);
+        roles, affairId, modifyTime, ALLIANCE);
 
     AnnouncementPO a3 = new AnnouncementPO("13", "announcement3", content,
         new String[]{T2, T3},
-        roles, role3, affairId, modifyTime);
+        roles, affairId, modifyTime, ALLIANCE);
 
     announcementRepo.save(a1);
     announcementRepo.save(a2);
@@ -93,33 +94,33 @@ public class AnnouncementRepoTest {
     String role7 = "后端架构";
     announcementRepo
         .save(
-            new AnnouncementPO("14", "后端开发技术", content, new String[]{}, roles, role4,
-                affairId, modifyTime));
+            new AnnouncementPO("14", "后端开发技术", content, new String[]{}, roles,
+                affairId, modifyTime, ALLIANCE));
     announcementRepo
         .save(
-            new AnnouncementPO("15", "前端开发技术", content, new String[]{}, roles, role5,
-                affairId, modifyTime));
+            new AnnouncementPO("15", "前端开发技术", content, new String[]{}, roles,
+                affairId, modifyTime, ALLIANCE));
     announcementRepo
         .save(
-            new AnnouncementPO("16", "前端人员", content, new String[]{}, roles, role6, affairId,
-                modifyTime));
+            new AnnouncementPO("16", "前端人员", content, new String[]{}, roles, affairId,
+                modifyTime, ALLIANCE));
     announcementRepo
         .save(
-            new AnnouncementPO("17", "后端人员", content, new String[]{}, roles, role7, affairId,
-                modifyTime));
+            new AnnouncementPO("17", "后端人员", content, new String[]{}, roles, affairId,
+                modifyTime, ALLIANCE));
 
     announcementRepo.save(
-        new AnnouncementPO("18", content, "Brown fox brown dog", new String[]{}, roles, role1,
-            affairId, modifyTime));
+        new AnnouncementPO("18", content, "Brown fox brown dog", new String[]{}, roles,
+            affairId, modifyTime, ALLIANCE));
     announcementRepo.save(
         new AnnouncementPO("19", content, "The quick brown fox jumps over the lazy dog",
-            new String[]{}, roles, role1, affairId, modifyTime));
+            new String[]{}, roles, affairId, modifyTime, ALLIANCE));
     announcementRepo.save(
         new AnnouncementPO("110", content, "The quick brown fox jumps over the quick dog",
-            new String[]{}, roles, role1, affairId, modifyTime));
+            new String[]{}, roles, affairId, modifyTime, ALLIANCE));
     announcementRepo.save(
-        new AnnouncementPO("111", content, "The quick brown fox", new String[]{}, roles, role1,
-            affairId, modifyTime));
+        new AnnouncementPO("111", content, "The quick brown fox", new String[]{}, roles,
+            affairId, modifyTime, ALLIANCE));
   }
 
   @Test
@@ -134,10 +135,11 @@ public class AnnouncementRepoTest {
   @Test
   public void findByTitleOrContentOrCreatorRoleOrCreatorUserOrAffairNameOrTagsInAffair()
       throws Exception {
-    List<AnnouncementPO> t1 = announcementRepo
+    Page<AnnouncementPO> t11 = announcementRepo
         .findByTitleOrContentOrTags(new AnnouncementQuery(affairIds, ALLIANCE, "T1", null,
                 Lists.newArrayList(ROLE_ID1)),
-            PageRequest.of(0, 10))
+            PageRequest.of(0, 10));
+    List<AnnouncementPO> t1 = t11
         .getContent();
     assertEquals(t1.size(), 2);
     List<AnnouncementPO> t2 = announcementRepo.findByAll("_all", "T2", PageRequest.of(0, 10))

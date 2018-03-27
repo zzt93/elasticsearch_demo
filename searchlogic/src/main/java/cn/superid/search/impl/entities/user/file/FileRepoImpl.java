@@ -11,13 +11,19 @@ import cn.superid.search.impl.entities.user.role.RoleRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
+import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
+import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
-import org.springframework.data.elasticsearch.core.query.UpdateQuery;
-import org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,21 +38,11 @@ public class FileRepoImpl implements FileCustom {
   private ElasticsearchTemplate template;
   @Autowired
   private RoleRepo roleRepo;
-
-  public void updateFileName(FilePO file) {
-    IndexRequest indexRequest = new IndexRequest();
-    indexRequest.source("name", file.getName());
-    UpdateQuery updateQuery = new UpdateQueryBuilder()
-        // class is used to infer `index` and `type`
-        .withClass(FilePO.class)
-        .withId(file.getId())
-        // indexRequest will be used as `doc`
-        .withIndexRequest(indexRequest).build();
-    template.update(updateQuery);
-  }
+  @Autowired
+  private ElasticsearchConverter elasticsearchConverter;
 
   @Override
-  public List<FilePO> findByNameOrUploadRoleName(String info,
+  public Page<FilePO> findByNameOrUploadRoleName(String info,
       Long allianceId, Long affairId) {
     suffix.setSuffix(String.valueOf(allianceId / RolePO.CLUSTER_SIZE));
     // TODO 17/9/26 combine two search
@@ -61,7 +57,25 @@ public class FileRepoImpl implements FileCustom {
                 .should(termsQuery("uploadRoleId", ids)))
         .withIndices(Suffix.indexName(FilePO.class, affairId / FilePO.CLUSTER_SIZE))
         .build();
-    return template.queryForList(searchQuery, FilePO.class);
+    return template.queryForPage(searchQuery, FilePO.class,
+        new DefaultResultMapper(elasticsearchConverter.getMappingContext()){
+          @Override
+          public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz,
+              Pageable pageable) {
+            AggregatedPage<FilePO> res = super.mapResults(response, FilePO.class, pageable);
+            List<FilePO> chunk = res.getContent();
+            SearchHits hits = response.getHits();
+            for (int i = 0; i < hits.getHits().length; i++) {
+              SearchHit at = hits.getAt(i);
+              chunk.get(i).setType(at.getType());
+            }
+            if (chunk.size() > 0) {
+              return new AggregatedPageImpl(chunk);
+            }
+            return null;
+          }
+        });
+
   }
 
 }

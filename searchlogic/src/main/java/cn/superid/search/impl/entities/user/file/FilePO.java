@@ -30,6 +30,8 @@ public class FilePO {
   private Byte publicType;
   @Field(type = FieldType.Long)
   private Long affairId;
+  @Field(type = FieldType.Byte)
+  private Byte type;
 
   public FilePO() {
   }
@@ -38,6 +40,18 @@ public class FilePO {
     this.id = id;
     this.name = name;
     this.uploaderRoleId = uploaderRoleId;
+  }
+
+  public Byte getType() {
+    return type;
+  }
+
+  public void setType(Byte type) {
+    this.type = type;
+  }
+
+  public void setType(String type) {
+    this.type = (byte) FileType.valueOf(type).ordinal();
   }
 
   public Long getAffairId() {
@@ -83,6 +97,10 @@ public class FilePO {
 
   public void setUploaderRoleId(String uploaderRoleId) {
     this.uploaderRoleId = uploaderRoleId;
+  }
+
+  private static enum FileType {
+    plain, folder
   }
 
 }

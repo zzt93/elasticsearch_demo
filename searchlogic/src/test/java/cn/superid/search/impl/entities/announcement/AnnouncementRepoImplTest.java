@@ -72,16 +72,16 @@ public class AnnouncementRepoImplTest {
 
     String t1 = "java开发规范";
     announcementRepo.save(
-        new AnnouncementPO("a", t1, readAll(t1), new String[0], roles, modifierUser,
-            affairId, modifyTime));
+        new AnnouncementPO("a", t1, readAll(t1), new String[0], roles,
+            affairId, modifyTime, ALLIANCE));
     String t2 = "我的第一个JAVA程序";
     announcementRepo.save(
-        new AnnouncementPO("b", t2, readAll(t2), new String[0], roles, modifierUser,
-            affairId, modifyTime));
+        new AnnouncementPO("b", t2, readAll(t2), new String[0], roles,
+            affairId, modifyTime, ALLIANCE));
     String t3 = "Java 基础语法";
     announcementRepo.save(
-        new AnnouncementPO("c", t3, readAll(t3), new String[0], roles, modifierUser,
-            affairId, modifyTime));
+        new AnnouncementPO("c", t3, readAll(t3), new String[0], roles,
+            affairId, modifyTime, ALLIANCE));
   }
 
   @Test

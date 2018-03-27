@@ -52,13 +52,14 @@ public class RolePO {
    * for test
    */
   RolePO(String id, String title, Long affairId, Byte type,
-      String[] t, Long ownerRoleId) {
+      String[] t, Long ownerRoleId, long allianceId) {
     this.id = id;
     this.title = title;
     this.affairId = affairId;
     this.type = type;
     this.tags = t;
     this.ownerRoleId = ownerRoleId;
+    this.allianceId = allianceId;
   }
 
 
