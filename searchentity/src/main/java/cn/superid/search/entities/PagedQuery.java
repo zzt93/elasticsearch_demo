@@ -16,10 +16,17 @@ import org.springframework.data.domain.PageRequest;
 public class PagedQuery extends StringQuery {
 
   /**
-   * Page info, now only used
+   * Page info, json example:
    * <pre>
-   *   int page; // page number, count from 0
-   *   int size; // the size of a single page
+   *   {
+   *     pageNumber: 0, // page number, count from 0
+   *     pageSize: 10, // the size of a single page
+   *     sort: {
+   *       orders: [
+   *        {property: "time", direction: "DESC", nullHandling: "NULLS_LAST", ignoreCase: "false"}
+   *       ]
+   *     }
+   *   }
    * </pre>
    */
   private PageRequest pageRequest;

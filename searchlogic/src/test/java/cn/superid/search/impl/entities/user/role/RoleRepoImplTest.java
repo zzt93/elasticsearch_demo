@@ -50,8 +50,10 @@ public class RoleRepoImplTest {
 
   @Test
   public void findRoleInterAlliance() throws Exception {
-    System.out.println(roleRepo.findRoleInterAlliance("前端zzt", PageRequest.of(0, 10)).getContent());
-    System.out.println(roleRepo.findRoleInterAlliance("zzt架构", PageRequest.of(0, 10)).getContent());
+    Page<RolePO> f = roleRepo.findRoleInterAlliance("前端zzt", PageRequest.of(0, 10));
+    Assert.assertEquals(f.getTotalElements(), 3);
+    Page<RolePO> s = roleRepo.findRoleInterAlliance("后端zzt", PageRequest.of(0, 10));
+    Assert.assertEquals(s.getTotalElements(), 3);
   }
 
 }

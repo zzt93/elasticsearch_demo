@@ -43,19 +43,23 @@ public class RolePO {
   private Long ownerRoleId;
   @Field(type = FieldType.keyword)
   private String ownerRoleTitle;
+  @Field(type = FieldType.Long)
+  private Long allianceId;
+
   public RolePO() {
   }
   /**
    * for test
    */
   RolePO(String id, String title, Long affairId, Byte type,
-      String[] t, Long ownerRoleId) {
+      String[] t, Long ownerRoleId, long allianceId) {
     this.id = id;
     this.title = title;
     this.affairId = affairId;
     this.type = type;
     this.tags = t;
     this.ownerRoleId = ownerRoleId;
+    this.allianceId = allianceId;
   }
 
 
@@ -72,6 +76,14 @@ public class RolePO {
   public RolePO setPublicType(Byte publicType) {
     this.publicType = publicType;
     return this;
+  }
+
+  public Long getAllianceId() {
+    return allianceId;
+  }
+
+  public void setAllianceId(Long allianceId) {
+    this.allianceId = allianceId;
   }
 
   public Long getAffairId() {

@@ -1,5 +1,7 @@
 package cn.superid.search.impl.query;
 
+import static cn.superid.search.impl.query.QueryHelper.wildcard;
+
 import cn.superid.search.entities.PageVO;
 import cn.superid.search.entities.StringQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
@@ -31,6 +33,7 @@ import cn.superid.search.impl.entities.user.user.UserService;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
+import com.google.common.base.Preconditions;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -105,7 +108,7 @@ public class QueryController {
     if (affairId == null || affairId == 0) {
       throw new IllegalArgumentException("Invalid page request");
     }
-    List<FilePO> files = fileRepo
+    Page<FilePO> files = fileRepo
         .findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
     return files.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
   }
@@ -143,7 +146,7 @@ public class QueryController {
 
     suffix.setSuffix(String.valueOf(query.getAllianceId() / MaterialPO.CLUSTER_SIZE));
     Page<MaterialPO> byTagsIn = materialRepo
-        .findByTagsIn(query.getTags(), query.getPageRequest());
+        .findByAllianceIdAndTagsIn(query.getAllianceId(), query.getTags(), query.getPageRequest());
     return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
   }
 
@@ -175,7 +178,8 @@ public class QueryController {
   @PostMapping("/affair/name")
   public PageVO<AffairVO> queryAffairName(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
-    Page<AffairPO> page = affairRepo.findByName(affairInfo.getQuery(), affairInfo.getPageRequest());
+    Page<AffairPO> page = affairRepo
+        .findByName(wildcard(affairInfo.getQuery()), affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 
@@ -183,6 +187,7 @@ public class QueryController {
   public PageVO<RoleVO> queryRole(@RequestBody RoleQuery query) {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
+    Preconditions.checkState(false);
 
     Page<RolePO> byAll = roleRepo.findByAll(query.getQuery());
     return new PageVO<>(byAll, VoAndPoConversion::toVO);
@@ -230,7 +235,6 @@ public class QueryController {
   public List<UserVO> queryUserByUsername(@RequestParam String query) {
     return userService.findTop20ByUserNameOrSuperId(query);
   }
-
 
 
   @GetMapping("/role/all")

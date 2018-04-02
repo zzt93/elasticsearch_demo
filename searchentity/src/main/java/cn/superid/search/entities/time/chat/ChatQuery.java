@@ -16,7 +16,7 @@ public class ChatQuery extends PagedQuery {
   public ChatQuery() {
   }
 
-  public ChatQuery(String query, PageRequest pageRequest, long startTime, long endTime, String chatId, byte subType) {
+  public ChatQuery(String query, PageRequest pageRequest, long startTime, long endTime, String chatId, Byte subType) {
     setQuery(query);
     setPageRequest(pageRequest);
     this.startTime = startTime;
@@ -53,7 +53,7 @@ public class ChatQuery extends PagedQuery {
     this.chatId = chatId;
   }
 
-  public void setSubType(byte subType) {
+  public void setSubType(Byte subType) {
     this.subType = subType;
   }
 }

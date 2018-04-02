@@ -52,7 +52,8 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
                 .should(termQuery("tags", info.getQuery()).boost(5))
                 .should(matchQuery("thumbContent", info.getQuery()).boost(2))
                 .should(matchQuery("content", info.getQuery()).boost(1))
-        );
+        )
+        .must(termQuery("allianceId", info.getAllianceId()));
     TermsQueryBuilder affairId = termsQuery("affairId", info.getAffairIds());
     if (info.isExcludeAffair()) {
       bool.mustNot(affairId);

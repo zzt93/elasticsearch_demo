@@ -43,17 +43,17 @@ public class RoleRepoTest {
     suffix.setSuffix(""+ ALLIANCE1/RolePO.CLUSTER_SIZE);
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 
-    roleRepo.save(new RolePO("1", "前端zzt开发", 1L, type, new String[]{"tag"}, ownerRoleId));
-    roleRepo.save(new RolePO("2", "后端zzt开发", 1L, type, new String[]{"tag"}, ownerRoleId));
-    roleRepo.save(new RolePO("6", "前端zzt开发", 2L, type, new String[]{"tag"}, ownerRoleId));
-    roleRepo.save(new RolePO("7", "后端zzt开发", 2L, type, new String[]{"tag"}, ownerRoleId));
+    roleRepo.save(new RolePO("1", "前端zzt开发", 1L, type, new String[]{"tag"}, ownerRoleId, ALLIANCE1));
+    roleRepo.save(new RolePO("2", "后端zzt开发", 1L, type, new String[]{"tag"}, ownerRoleId, ALLIANCE1));
+    roleRepo.save(new RolePO("6", "前端zzt开发", 2L, type, new String[]{"tag"}, ownerRoleId, ALLIANCE1));
+    roleRepo.save(new RolePO("7", "后端zzt开发", 2L, type, new String[]{"tag"}, ownerRoleId, ALLIANCE1));
 
     suffix.setSuffix(""+ ALLIANCE2/RolePO.CLUSTER_SIZE);
     MessageReceiverTest.createIfNotExist(esTemplate, RolePO.class);
 
-    roleRepo.save(new RolePO("3", "前端zzt架构", 2L, type, new String[]{"tag"}, ownerRoleId));
-    roleRepo.save(new RolePO("4", "后端zzt架构", 2L, type, new String[]{"tag"}, ownerRoleId));
-    roleRepo.save(new RolePO("5", "CTO", 3L, type, new String[]{"tag"}, ownerRoleId));
+    roleRepo.save(new RolePO("3", "前端zzt架构", 2L, type, new String[]{"tag"}, ownerRoleId, ALLIANCE2));
+    roleRepo.save(new RolePO("4", "后端zzt架构", 2L, type, new String[]{"tag"}, ownerRoleId, ALLIANCE2));
+    roleRepo.save(new RolePO("5", "CTO", 3L, type, new String[]{"tag"}, ownerRoleId, ALLIANCE2));
   }
 
   @After

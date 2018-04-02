@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
@@ -25,8 +24,6 @@ public class MessagesRepoImpl implements MessagesCustom {
 
   @Autowired
   private ElasticsearchTemplate template;
-  @Autowired
-  private ElasticsearchConverter elasticsearchConverter;
 
   @Override
   public Page<MessagesPO> findByMessage(ChatQuery info, Pageable pageable) {

@@ -39,6 +39,7 @@ public class MaterialRepoImpl implements MaterialCustom {
     Assert.notNull(info.getQuery(), "[Lacking query string]");
 
     BoolQueryBuilder bool = boolQuery()
+        .must(termQuery("allianceId", info.getAllianceId()))
         .should(wildcardQuery("name", wildcard(info.getQuery())));
     if (info.getAffairId() != null) {
       bool.filter(termQuery("affairId", info.getAffairId()));
