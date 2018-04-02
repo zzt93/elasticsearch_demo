@@ -3,7 +3,7 @@ package cn.superid.search.impl.entities.time.chat;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
-import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.time.chat.ChatQuery;
@@ -38,7 +38,7 @@ public class MessagesRepoImpl implements MessagesCustom {
       bool.filter(rangeQuery("time").gte(info.getStartTime()).lte(info.getEndTime()));
     }
     if (info.getSubType() != null) {
-      bool.filter(termsQuery("sub", info.getSubType()));
+      bool.filter(termQuery("sub", info.getSubType()));
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
