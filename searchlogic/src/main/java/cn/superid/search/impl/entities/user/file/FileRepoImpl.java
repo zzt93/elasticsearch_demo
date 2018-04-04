@@ -52,10 +52,11 @@ public class FileRepoImpl implements FileCustom {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(
             boolQuery()
-                .must(termQuery("affairId", allianceId))
+                .must(termQuery("affairId", affairId))
                 .should(wildcardQuery("name", wildcard(info)))
                 .should(termsQuery("uploadRoleId", ids)))
         .withIndices(Suffix.indexName(FilePO.class, affairId / FilePO.CLUSTER_SIZE))
+        .withTypes(FilePO.types())
         .build();
     return template.queryForPage(searchQuery, FilePO.class,
         new DefaultResultMapper(elasticsearchConverter.getMappingContext()){

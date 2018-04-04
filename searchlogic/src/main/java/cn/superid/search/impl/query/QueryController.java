@@ -34,6 +34,7 @@ import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -110,6 +111,9 @@ public class QueryController {
     }
     Page<FilePO> files = fileRepo
         .findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
+    if (files == null) {
+      return Collections.emptyList();
+    }
     return files.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
   }
 

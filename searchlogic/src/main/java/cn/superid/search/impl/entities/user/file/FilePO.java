@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.file;
 
 import cn.superid.search.entities.user.file.FileSearchVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Arrays;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -101,6 +102,10 @@ public class FilePO {
 
   private static enum FileType {
     plain, folder
+  }
+
+  public static String[] types() {
+    return Arrays.stream(FileType.values()).map(Enum::name).toArray(String[]::new);
   }
 
 }
