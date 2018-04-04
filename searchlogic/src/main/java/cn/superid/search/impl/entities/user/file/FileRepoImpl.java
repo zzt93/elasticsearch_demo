@@ -53,13 +53,15 @@ public class FileRepoImpl implements FileCustom {
         .withQuery(
             boolQuery()
                 .must(termQuery("affairId", affairId))
-                .should(wildcardQuery("name", wildcard(info)))
-                .should(termsQuery("uploadRoleId", ids)))
+                .must(
+                    boolQuery()
+                        .should(wildcardQuery("name", wildcard(info)))
+                        .should(termsQuery("uploadRoleId", ids))))
         .withIndices(Suffix.indexName(FilePO.class, affairId / FilePO.CLUSTER_SIZE))
         .withTypes(FilePO.types())
         .build();
     return template.queryForPage(searchQuery, FilePO.class,
-        new DefaultResultMapper(elasticsearchConverter.getMappingContext()){
+        new DefaultResultMapper(elasticsearchConverter.getMappingContext()) {
           @Override
           public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz,
               Pageable pageable) {
