@@ -1,4 +1,4 @@
-package cn.superid.search.entities.time.task;
+package cn.superid.search.entities.user.task;
 
 import java.sql.Timestamp;
 
@@ -9,6 +9,13 @@ public class TaskVO {
 
   private String id;
   private String title;
+
+  public TaskVO() {
+  }
+
+  public TaskVO(String id) {
+    this.id = id;
+  }
 
   public String getId() {
     return id;
