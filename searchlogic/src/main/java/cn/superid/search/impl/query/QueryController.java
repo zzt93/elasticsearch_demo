@@ -14,6 +14,8 @@ import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.role.RoleQuery;
 import cn.superid.search.entities.user.role.RoleVO;
+import cn.superid.search.entities.user.task.TaskQuery;
+import cn.superid.search.entities.user.task.TaskVO;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.entities.user.warehouse.MaterialQuery;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
@@ -22,13 +24,14 @@ import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
 import cn.superid.search.impl.entities.time.chat.MessagesPO;
 import cn.superid.search.impl.entities.time.chat.MessagesRepo;
-import cn.superid.search.impl.entities.time.task.TaskRepo;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.affair.AffairRepo;
 import cn.superid.search.impl.entities.user.file.FilePO;
 import cn.superid.search.impl.entities.user.file.FileRepo;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
+import cn.superid.search.impl.entities.user.task.TaskPO;
+import cn.superid.search.impl.entities.user.task.TaskRepo;
 import cn.superid.search.impl.entities.user.user.UserService;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
@@ -226,6 +229,13 @@ public class QueryController {
   public PageVO<MessagesVO> queryChat(@RequestBody ChatQuery chatQuery) {
     checkPage(chatQuery.getPageRequest());
     Page<MessagesPO> byMessage = messagesRepo.findByMessage(chatQuery, chatQuery.getPageRequest());
+    return new PageVO<>(byMessage, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/task")
+  public PageVO<TaskVO> queryTask(@RequestBody TaskQuery taskQuery) {
+    checkPage(taskQuery.getPageRequest());
+    Page<TaskPO> byMessage = taskRepo.findByAll(taskQuery);
     return new PageVO<>(byMessage, VoAndPoConversion::toVO);
   }
 
