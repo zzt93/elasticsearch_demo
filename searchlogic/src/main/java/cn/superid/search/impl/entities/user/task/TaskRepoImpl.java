@@ -2,12 +2,12 @@ package cn.superid.search.impl.entities.user.task;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
-import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.user.task.TaskQuery;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
+import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,11 +35,13 @@ public class TaskRepoImpl implements TaskCustom {
     Preconditions.checkNotNull(taskQuery.getUserId(), "No user id provided");
 
     BoolQueryBuilder bool = boolQuery()
-        .must(wildcardQuery("title", "*" + taskQuery.getQuery() + "*"))
-        .must(termsQuery("users", taskQuery.getUserId()));
+        .filter(termQuery("users", taskQuery.getUserId()));
 
-    if (taskQuery.getState() == null) {
-      bool.must(termQuery("state", taskQuery.getState()));
+    if (!StringUtils.isEmpty(taskQuery.getQuery())) {
+      bool.must(wildcardQuery("title", "*" + taskQuery.getQuery() + "*"));
+    }
+    if (taskQuery.getState() != null) {
+      bool.filter(termQuery("state", taskQuery.getState()));
     }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(TaskPO.class))

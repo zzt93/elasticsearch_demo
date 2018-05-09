@@ -25,7 +25,9 @@ public class PageRequestDeserializer implements
       List<Map> orderList = (List<Map>) ((Map) value.get("sort")).get("orders");
       List<Order> orders = new ArrayList<>();
       for (Map map : orderList) {
-        if (map.get("property") == null) throw new IllegalArgumentException("No sort property specified");
+        if (map.get("property") == null) {
+          throw new IllegalArgumentException("No sort property specified");
+        }
         Order order = Order.by((String) map.get("property"));
         if (map.containsKey("direction")) {
           order = order.with(Direction.valueOf((String) map.get("direction")));
@@ -42,8 +44,12 @@ public class PageRequestDeserializer implements
     } else {
       sort = Sort.unsorted();
     }
-    return PageRequest.of(((Integer) value.get("pageNumber")),
-        ((Integer) value.get("pageSize")), sort);
+    if (value.containsKey("pageNumber")) {
+      return PageRequest.of(((Integer) value.get("pageNumber")),
+          ((Integer) value.get("pageSize")), sort);
+    } else {
+      return PageRequest.of((Integer) value.get("page"), (Integer) value.get("size"), sort);
+    }
   }
 
   public JavaType getInputType(TypeFactory typeFactory) {

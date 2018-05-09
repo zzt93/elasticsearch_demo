@@ -1,7 +1,5 @@
 package cn.superid.search.entities.user.task;
 
-import java.sql.Timestamp;
-
 /**
  * Created by zzt on 17/6/21.
  */
@@ -33,15 +31,4 @@ public class TaskVO {
     this.title = title;
   }
 
-  public Timestamp getCreateTime() {
-    return null;
-  }
-
-  public void setCreateTime(Timestamp createTime) {
-
-  }
-
-  public String indexSuffix() {
-    return null;
-  }
 }
