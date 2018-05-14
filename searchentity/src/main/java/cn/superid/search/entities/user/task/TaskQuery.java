@@ -28,4 +28,13 @@ public class TaskQuery extends PagedQuery {
   public void setState(Byte state) {
     this.state = state;
   }
+
+  @Override
+  public String toString() {
+    return "TaskQuery{" +
+        "super=" + super.toString() +
+        "state=" + state +
+        ", userId=" + userId +
+        '}';
+  }
 }

@@ -20,10 +20,14 @@ public class TaskPO {
   private String id;
   @Field(type = FieldType.keyword)
   private String title;
+//  @Field(type = FieldType.keyword)
+//  private String annTitle;
   @Field(type = FieldType.Long)
   private long[] users;
   @Field(type = FieldType.Byte)
   private Byte state;
+  @Field(type = FieldType.Byte)
+  private Byte type;
   @Field(type = FieldType.Long)
   private Long allianceId;
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -32,13 +36,19 @@ public class TaskPO {
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp offTime;
-
   public TaskPO() {
   }
-
   public TaskPO(TaskVO entity) {
     id = entity.getId();
     title = entity.getTitle();
+  }
+
+  public Byte getType() {
+    return type;
+  }
+
+  public void setType(Byte type) {
+    this.type = type;
   }
 
   public String getId() {
