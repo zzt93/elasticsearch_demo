@@ -17,11 +17,12 @@ public class JsonTest {
   @Test
   public void toJson() throws Exception {
     TaskQuery taskQuery = new TaskQuery();
-    taskQuery.setPageRequest(PageRequest.of(0,10, Sort.by(Order.asc("offTime"))));
+    taskQuery.setPageRequest(PageRequest.of(0,10, Sort.by(Order.asc("offTime").nullsLast())));
     taskQuery.setQuery("as");
     taskQuery.setUserId(1L);
     taskQuery.setState((byte) 1);
     String jackson = new ObjectMapper().writeValueAsString(taskQuery);
+    System.out.println(jackson);
     Assert.assertTrue(!jackson.contains("orders"));
     String gson = new Gson().toJson(taskQuery);
     Assert.assertTrue(gson.contains("orders"));
