@@ -8,19 +8,23 @@ import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 import cn.superid.search.impl.DefaultFetchSource;
 import com.google.common.base.Preconditions;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.stereotype.Component;
 
 /**
  * @author zzt
  */
+@Component
 public class UserRepoImpl implements UserCustom {
 
   private final ElasticsearchTemplate template;
 
+  @Autowired
   public UserRepoImpl(ElasticsearchTemplate template) {
     this.template = template;
   }
@@ -35,8 +39,7 @@ public class UserRepoImpl implements UserCustom {
         .should(termQuery("email", query))
         .should(termQuery("mobile", query))
         .should(termQuery("superId", query))
-        .should(termQuery("tags", query))
-        ;
+        .should(termQuery("tags", query));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(bool)
