@@ -9,6 +9,7 @@ public class FileQuery extends StringQuery {
 
   private Long allianceId;
   private Long affairId;
+  private Long fileSetId;
 
   public FileQuery() {
   }
@@ -17,6 +18,14 @@ public class FileQuery extends StringQuery {
     this.affairId = affairId;
     this.allianceId = allianceId;
     setQuery(query);
+  }
+
+  public Long getFileSetId() {
+    return fileSetId;
+  }
+
+  public void setFileSetId(Long fileSetId) {
+    this.fileSetId = fileSetId;
   }
 
   public Long getAffairId() {
@@ -40,6 +49,7 @@ public class FileQuery extends StringQuery {
     return "FileQuery{" +
         "allianceId=" + allianceId +
         ", affairId=" + affairId +
+        ", fileSetId=" + fileSetId +
         ", stringQuery=" + super.toString() +
         '}';
   }

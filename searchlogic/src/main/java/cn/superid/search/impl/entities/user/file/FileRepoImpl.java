@@ -6,6 +6,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
+import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
@@ -22,6 +23,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
+import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Component;
@@ -42,23 +44,24 @@ public class FileRepoImpl implements FileCustom {
   private ElasticsearchConverter elasticsearchConverter;
 
   @Override
-  public Page<FilePO> findByNameOrUploadRoleName(String info,
-      Long allianceId, Long affairId) {
-    suffix.setSuffix(String.valueOf(allianceId / RolePO.CLUSTER_SIZE));
+  public Page<FilePO> findByNameOrUploadRoleName(FileQuery query) {
+    suffix.setSuffix(String.valueOf(query.getAllianceId() / RolePO.CLUSTER_SIZE));
     // TODO 17/9/26 combine two search
-    List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(affairId, info);
+    List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(query.getAffairId(), query.getQuery());
 
     List<String> ids = rolePOS.stream().map(RolePO::getId).collect(Collectors.toList());
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(
             boolQuery()
-                .must(termQuery("affairId", affairId))
+                .must(termQuery("affairId", query.getAffairId()))
+                .must(termQuery("fileSetId", query.getFileSetId()))
                 .must(
                     boolQuery()
-                        .should(wildcardQuery("name", wildcard(info)))
+                        .should(wildcardQuery("name", wildcard(query.getQuery())))
                         .should(termsQuery("uploadRoleId", ids))))
-        .withIndices(Suffix.indexName(FilePO.class, affairId / FilePO.CLUSTER_SIZE))
+        .withIndices(Suffix.indexName(FilePO.class, query.getAffairId() / FilePO.CLUSTER_SIZE))
         .withTypes(FilePO.types())
+        .withSourceFilter(new FetchSourceFilter(new String[]{"_id", "type"}, null))
         .build();
     return template.queryForPage(searchQuery, FilePO.class,
         new DefaultResultMapper(elasticsearchConverter.getMappingContext()) {

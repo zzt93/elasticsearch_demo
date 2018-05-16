@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 // equivalent to extends repo interface
 //@RepositoryDefinition()
-public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
+public interface UserRepo extends ElasticsearchRepository<UserPO, String>, UserCustom {
 
 
   Page<UserPO> findByUsernameOrSuperId(String username, String superId, Pageable pageable);
@@ -21,27 +21,4 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String> {
       + "  }")
   Page<UserPO> findByTagsIn(String query, Pageable pageable);
 
-
-  @Query("{\n"
-      + "    \"bool\": {\n"
-      + "      \"should\": [\n"
-      + "        {\n"
-      + "          \"wildcard\" : { \"username\" : \"*?0*\" }\n"
-      + "        },\n"
-      + "        {\n"
-      + "          \"term\" : { \"email\" : \"?0\" }\n"
-      + "        },\n"
-      + "        {\n"
-      + "          \"term\" : { \"mobile\" : \"?0\" }\n"
-      + "        },\n"
-      + "        {\n"
-      + "          \"term\" : { \"superId\" : \"?0\" }\n"
-      + "        },\n"
-      + "        {\n"
-      + "          \"term\": {\"tags\": \"?0\"}"
-      + "        }\n"
-      + "      ]\n"
-      + "    }\n"
-      + "  }")
-  Page<UserPO> findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(String query, Pageable pageable);
 }

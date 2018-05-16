@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities.time.announcement;
 
+import static cn.superid.search.impl.query.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
@@ -48,7 +49,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     BoolQueryBuilder bool = boolQuery()
         .must(
             boolQuery()
-                .should(wildcardQuery("title", "*" + info.getQuery() + "*").boost(10))
+                .should(wildcardQuery("title", wildcard(info.getQuery())).boost(10))
                 .should(termQuery("tags", info.getQuery()).boost(5))
                 .should(matchQuery("thumbContent", info.getQuery()).boost(2))
                 .should(matchQuery("content", info.getQuery()).boost(1))
