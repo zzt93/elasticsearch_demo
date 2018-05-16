@@ -6,6 +6,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.user.task.TaskQuery;
+import cn.superid.search.impl.DefaultFetchSource;
 import cn.superid.search.impl.query.QueryHelper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
@@ -15,7 +16,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Component;
@@ -54,7 +54,7 @@ public class TaskRepoImpl implements TaskCustom {
         .withIndices(Suffix.indexNamePattern(TaskPO.class))
         .withQuery(bool)
         .withPageable(taskQuery.getPageRequest())
-        .withSourceFilter(new FetchSourceFilter(new String[]{"_id"}, null))
+        .withSourceFilter(DefaultFetchSource.defaultId())
         .build();
     return template.queryForPage(searchQuery, TaskPO.class);
   }

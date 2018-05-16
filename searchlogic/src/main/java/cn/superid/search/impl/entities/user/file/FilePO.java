@@ -31,28 +31,41 @@ public class FilePO {
   private Byte publicType;
   @Field(type = FieldType.Long)
   private Long affairId;
+  @Field(type = FieldType.Long)
+  private Long fileSetId;
   @Field(type = FieldType.Byte)
   private Byte type;
 
   public FilePO() {
   }
-
   public FilePO(String id, String name, String uploaderRoleId, Byte type) {
     this.id = id;
     this.name = name;
     this.uploaderRoleId = uploaderRoleId;
   }
 
+  public static String[] types() {
+    return Arrays.stream(FileType.values()).map(Enum::name).toArray(String[]::new);
+  }
+
+  public Long getFileSetId() {
+    return fileSetId;
+  }
+
+  public void setFileSetId(Long fileSetId) {
+    this.fileSetId = fileSetId;
+  }
+
   public Byte getType() {
     return type;
   }
 
-  public void setType(Byte type) {
-    this.type = type;
-  }
-
   public void setType(String type) {
     this.type = (byte) FileType.valueOf(type).ordinal();
+  }
+
+  public void setType(Byte type) {
+    this.type = type;
   }
 
   public Long getAffairId() {
@@ -100,12 +113,8 @@ public class FilePO {
     this.uploaderRoleId = uploaderRoleId;
   }
 
-  private static enum FileType {
+  private enum FileType {
     plain, folder
-  }
-
-  public static String[] types() {
-    return Arrays.stream(FileType.values()).map(Enum::name).toArray(String[]::new);
   }
 
 }

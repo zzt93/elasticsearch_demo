@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities.user.file;
 
+import cn.superid.search.entities.user.file.FileQuery;
 import org.springframework.data.domain.Page;
 
 /**
@@ -7,8 +8,6 @@ import org.springframework.data.domain.Page;
  */
 public interface FileCustom {
 
-
-  Page<FilePO> findByNameOrUploadRoleName(String info, Long allianceId,
-      Long affairId);
+  Page<FilePO> findByNameOrUploadRoleName(FileQuery query);
 
 }

@@ -112,8 +112,7 @@ public class QueryController {
     if (affairId == null || affairId == 0) {
       throw new IllegalArgumentException("Invalid page request");
     }
-    Page<FilePO> files = fileRepo
-        .findByNameOrUploadRoleName(query.getQuery(), query.getAllianceId(), affairId);
+    Page<FilePO> files = fileRepo.findByNameOrUploadRoleName(query);
     if (files == null) {
       return Collections.emptyList();
     }
