@@ -10,6 +10,7 @@ import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
+import com.google.common.base.Preconditions;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.elasticsearch.action.search.SearchResponse;
@@ -45,6 +46,10 @@ public class FileRepoImpl implements FileCustom {
 
   @Override
   public Page<FilePO> findByNameOrUploadRoleName(FileQuery query) {
+    Preconditions.checkNotNull(query.getAffairId(), "No allianceId provided");
+    Preconditions.checkNotNull(query.getAffairId(), "No affairId provided");
+    Preconditions.checkNotNull(query.getFileSetId(), "No fileSetId provided");
+
     suffix.setSuffix(String.valueOf(query.getAllianceId() / RolePO.CLUSTER_SIZE));
     // TODO 17/9/26 combine two search
     List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(query.getAffairId(), query.getQuery());
@@ -53,12 +58,12 @@ public class FileRepoImpl implements FileCustom {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(
             boolQuery()
-                .must(termQuery("affairId", query.getAffairId()))
-                .must(termQuery("fileSetId", query.getFileSetId()))
-                .must(
+                .filter(termQuery("affairId", query.getAffairId()))
+                .filter(termQuery("fileSetId", query.getFileSetId()))
+                .filter(
                     boolQuery()
                         .should(wildcardQuery("name", wildcard(query.getQuery())))
-                        .should(termsQuery("uploadRoleId", ids))))
+                        .should(termsQuery("uploaderRoleId", ids))))
         .withIndices(Suffix.indexName(FilePO.class, query.getAffairId() / FilePO.CLUSTER_SIZE))
         .withTypes(FilePO.types())
         .withSourceFilter(new FetchSourceFilter(new String[]{"_id", "type"}, null))
