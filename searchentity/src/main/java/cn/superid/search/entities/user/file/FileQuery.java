@@ -14,10 +14,11 @@ public class FileQuery extends StringQuery {
   public FileQuery() {
   }
 
-  public FileQuery(Long allianceId, Long affairId, String query) {
+  public FileQuery(Long allianceId, Long affairId, String query, Long fileSetId) {
     this.affairId = affairId;
     this.allianceId = allianceId;
     setQuery(query);
+    this.fileSetId = fileSetId;
   }
 
   public Long getFileSetId() {
