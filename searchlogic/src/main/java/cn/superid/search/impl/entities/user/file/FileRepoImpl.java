@@ -46,13 +46,13 @@ public class FileRepoImpl implements FileCustom {
 
   @Override
   public Page<FilePO> findByNameOrUploadRoleName(FileQuery query) {
-    Preconditions.checkNotNull(query.getAffairId(), "No allianceId provided");
+    Preconditions.checkNotNull(query.getAllianceId(), "No allianceId provided");
     Preconditions.checkNotNull(query.getAffairId(), "No affairId provided");
     Preconditions.checkNotNull(query.getFileSetId(), "No fileSetId provided");
 
-    suffix.setSuffix(String.valueOf(query.getAllianceId() / RolePO.CLUSTER_SIZE));
     // TODO 17/9/26 combine two search
-    List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(query.getAffairId(), query.getQuery());
+    List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(query.getAllianceId(),
+        query.getAffairId(), query.getQuery());
 
     List<String> ids = rolePOS.stream().map(RolePO::getId).collect(Collectors.toList());
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
