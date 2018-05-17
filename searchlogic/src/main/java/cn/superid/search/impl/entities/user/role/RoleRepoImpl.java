@@ -1,10 +1,12 @@
 package cn.superid.search.impl.entities.user.role;
 
 import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.impl.save.rolling.Suffix;
+import java.util.List;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +18,8 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.stereotype.Component;
 
 /**
- * Created by zzt on 17/6/27.
- * <p>
- * The name of this class have to match the core repository interface or won't add customized
+ * Created by zzt on 17/6/27. <p> The name of this class have to match the core repository interface
+ * or won't add customized
  *
  * @see RoleRepo
  * @see RoleRepoImpl
@@ -55,6 +56,19 @@ public class RoleRepoImpl implements RoleCustom {
         .withIndices(Suffix.indexNamePattern(RolePO.class))
         .build();
     return template.queryForPage(searchQuery, RolePO.class);
+  }
+
+  @Override
+  public List<RolePO> findByAffairIdAndTitle(Long allianceId, Long affairId, String title) {
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withQuery(
+            boolQuery()
+                .filter(termQuery("affairId", affairId))
+                .filter(wildcardQuery("title", wildcard(title)))
+        )
+        .withIndices(Suffix.indexName(RolePO.class, allianceId / RolePO.CLUSTER_SIZE))
+        .build();
+    return template.queryForList(searchQuery, RolePO.class);
   }
 
   @Override
