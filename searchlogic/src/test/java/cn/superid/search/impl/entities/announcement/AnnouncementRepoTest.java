@@ -44,7 +44,7 @@ public class AnnouncementRepoTest {
 
 
   static {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss.SSS");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS");
     Date parsedDate = null;
     try {
       parsedDate = dateFormat.parse("2016.10.11 10:10:10.100");
