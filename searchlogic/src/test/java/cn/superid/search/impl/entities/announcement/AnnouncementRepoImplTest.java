@@ -40,7 +40,7 @@ public class AnnouncementRepoImplTest {
   private static final long ROLE_ID1 = 1L;
 
   static {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss.SSS");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS");
     Date parsedDate = null;
     try {
       parsedDate = dateFormat.parse("2016.09.11 10:10:10.100");
