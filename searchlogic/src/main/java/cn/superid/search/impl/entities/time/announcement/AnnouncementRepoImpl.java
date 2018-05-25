@@ -64,12 +64,10 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     if (info.getRoleIds() != null) {
       bool.filter(termsQuery("roles", info.getRoleIds()));
     }
-    if (info.getStartTime() != 0 && info.getEndTime() != 0) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-      bool.filter(rangeQuery("modifyTime")
-          .gte(dateFormat.format(new Date(info.getStartTime())))
-          .lte(dateFormat.format(new Date(info.getEndTime()))));
-    }
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    bool.filter(rangeQuery("modifyTime")
+        .gt(dateFormat.format(new Date(info.getStartTime())))
+        .lt(dateFormat.format(new Date(info.getEndTime()))));
     if (info.getPlateType() != null) {
       bool.filter(termQuery("plateType", info.getPlateType()));
     }
