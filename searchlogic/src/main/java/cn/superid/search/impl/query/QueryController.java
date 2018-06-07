@@ -6,6 +6,8 @@ import cn.superid.search.entities.PageVO;
 import cn.superid.search.entities.StringQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
+import cn.superid.search.entities.time.audit.AuditQuery;
+import cn.superid.search.entities.time.audit.AuditVO;
 import cn.superid.search.entities.time.chat.ChatQuery;
 import cn.superid.search.entities.time.chat.MessagesVO;
 import cn.superid.search.entities.user.affair.AffairQuery;
@@ -22,6 +24,8 @@ import cn.superid.search.entities.user.warehouse.MaterialVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementRepo;
+import cn.superid.search.impl.entities.time.audit.AuditPO;
+import cn.superid.search.impl.entities.time.audit.AuditRepo;
 import cn.superid.search.impl.entities.time.chat.MessagesPO;
 import cn.superid.search.impl.entities.time.chat.MessagesRepo;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
@@ -72,6 +76,7 @@ public class QueryController {
   private final TaskRepo taskRepo;
   private final AffairRepo affairRepo;
   private final MaterialRepo materialRepo;
+  private final AuditRepo auditRepo;
   private final Suffix suffix;
   private final ElasticsearchConverter elasticsearchConverter;
 
@@ -79,7 +84,8 @@ public class QueryController {
   public QueryController(UserService userService, MessagesRepo messagesRepo, FileRepo fileRepo,
       RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
-      MaterialRepo materialRepo, Suffix suffix, ElasticsearchConverter elasticsearchConverter) {
+      MaterialRepo materialRepo, AuditRepo auditRepo,
+      Suffix suffix, ElasticsearchConverter elasticsearchConverter) {
     this.userService = userService;
     this.messagesRepo = messagesRepo;
     this.fileRepo = fileRepo;
@@ -88,6 +94,7 @@ public class QueryController {
     this.taskRepo = taskRepo;
     this.affairRepo = affairRepo;
     this.materialRepo = materialRepo;
+    this.auditRepo = auditRepo;
     this.suffix = suffix;
     this.elasticsearchConverter = elasticsearchConverter;
   }
@@ -238,6 +245,12 @@ public class QueryController {
     return new PageVO<>(byMessage, VoAndPoConversion::toVO);
   }
 
+  @PostMapping("/audit")
+  public PageVO<AuditVO> queryAudit(@RequestBody AuditQuery auditQuery) {
+    checkPage(auditQuery.getPageRequest());
+    Page<AuditPO> byQuery = auditRepo.findByQuery(auditQuery);
+    return new PageVO<>(byQuery, VoAndPoConversion::toVO);
+  }
 
   @GetMapping("/user/tags")
   public List<UserVO> queryUserByTag(@RequestParam String query) {
