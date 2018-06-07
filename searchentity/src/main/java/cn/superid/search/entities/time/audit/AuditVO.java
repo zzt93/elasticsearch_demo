@@ -5,7 +5,10 @@ package cn.superid.search.entities.time.audit;
  */
 public class AuditVO {
 
-  private final Long id;
+  private Long id;
+
+  public AuditVO() {
+  }
 
   public AuditVO(Long id) {
     this.id = id;

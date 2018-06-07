@@ -31,7 +31,7 @@ public class AuditRepoImpl implements AuditCustom {
   public Page<AuditPO> findByQuery(AuditQuery info) {
     PageRequest pageRequest = info.getPageRequest();
     Preconditions.checkArgument(pageRequest != null);
-    pageRequest = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageNumber(),
+    pageRequest = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize(),
         Sort.by(Order.desc("sendTime")));
     Preconditions.checkArgument(info.getQuery() != null);
     Preconditions.checkArgument(info.getRoles() != null && !info.getRoles().isEmpty());
