@@ -7,6 +7,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.time.chat.ChatQuery;
+import cn.superid.search.impl.query.QueryHelper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -32,7 +33,7 @@ public class MessagesRepoImpl implements MessagesCustom {
     BoolQueryBuilder bool = boolQuery()
         .filter(matchQuery("chatId", info.getChatId()));
     if (info.getQuery() != null) {
-      bool.must(wildcardQuery("content", "*" + info.getQuery() + "*"));
+      bool.must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
     }
     if (info.getStartTime() != 0 && info.getEndTime() != 0) {
       bool.filter(rangeQuery("time").gte(info.getStartTime()).lte(info.getEndTime()));
