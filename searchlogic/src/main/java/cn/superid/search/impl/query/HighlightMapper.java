@@ -10,7 +10,6 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
-import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 
 /**
@@ -42,7 +41,7 @@ public class HighlightMapper<R> extends DefaultResultMapper {
       function.accept(at.getHighlightFields(), (R) t);
     }
     if (chunk.size() > 0) {
-      return new AggregatedPageImpl<>(chunk);
+      return res;
     }
     return null;
   }

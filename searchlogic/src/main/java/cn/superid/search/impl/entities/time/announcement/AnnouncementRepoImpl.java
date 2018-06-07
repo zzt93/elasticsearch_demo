@@ -46,6 +46,13 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     Preconditions.checkArgument(info.getQuery() != null);
     Preconditions.checkArgument(info.getAffairIds() != null);
 
+    String indexName = Suffix.indexName(AnnouncementPO.class,
+        info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE);
+    // TODO 18/6/7 other repo also need
+    if (!template.indexExists(indexName)) {
+      return null;
+    }
+
     BoolQueryBuilder bool = boolQuery()
         .must(
             boolQuery()
@@ -64,12 +71,10 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     if (info.getRoleIds() != null) {
       bool.filter(termsQuery("roles", info.getRoleIds()));
     }
-    if (info.getStartTime() != 0 && info.getEndTime() != 0) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-      bool.filter(rangeQuery("modifyTime")
-          .gte(dateFormat.format(new Date(info.getStartTime())))
-          .lte(dateFormat.format(new Date(info.getEndTime()))));
-    }
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    bool.filter(rangeQuery("modifyTime")
+        .gt(dateFormat.format(new Date(info.getStartTime())))
+        .lt(dateFormat.format(new Date(info.getEndTime()))));
     if (info.getPlateType() != null) {
       bool.filter(termQuery("plateType", info.getPlateType()));
     }
@@ -78,8 +83,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexName(AnnouncementPO.class,
-            info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE))
+        .withIndices(indexName)
         .withQuery(bool)
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
