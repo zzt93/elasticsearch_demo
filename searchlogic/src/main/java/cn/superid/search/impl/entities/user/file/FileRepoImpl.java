@@ -36,8 +36,6 @@ import org.springframework.stereotype.Component;
 public class FileRepoImpl implements FileCustom {
 
   @Autowired
-  private Suffix suffix;
-  @Autowired
   private ElasticsearchTemplate template;
   @Autowired
   private RoleRepo roleRepo;

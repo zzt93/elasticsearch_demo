@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities;
 
 import cn.superid.search.entities.RollingIndex;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
+import cn.superid.search.entities.time.audit.AuditVO;
 import cn.superid.search.entities.time.chat.MessagesVO;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileSearchVO;
@@ -10,6 +11,7 @@ import cn.superid.search.entities.user.task.TaskVO;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
+import cn.superid.search.impl.entities.time.audit.AuditPO;
 import cn.superid.search.impl.entities.time.chat.MessagesPO;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.file.FilePO;
@@ -48,6 +50,10 @@ public class VoAndPoConversion {
 
   public static AnnouncementVO toVO(AnnouncementPO po) {
     return new AnnouncementVO(po.getId(), po.getTitle(), po.getThumbContent());
+  }
+
+  public static AuditVO toVO(AuditPO po) {
+    return new AuditVO(Long.parseLong(po.getId()));
   }
 
   public static MaterialVO toVO(MaterialPO po) {
