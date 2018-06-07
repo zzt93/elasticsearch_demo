@@ -46,6 +46,13 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     Preconditions.checkArgument(info.getQuery() != null);
     Preconditions.checkArgument(info.getAffairIds() != null);
 
+    String indexName = Suffix.indexName(AnnouncementPO.class,
+        info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE);
+    // TODO 18/6/7 other repo also need
+    if (!template.indexExists(indexName)) {
+      return null;
+    }
+
     BoolQueryBuilder bool = boolQuery()
         .must(
             boolQuery()
@@ -78,8 +85,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexName(AnnouncementPO.class,
-            info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE))
+        .withIndices(indexName)
         .withQuery(bool)
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
