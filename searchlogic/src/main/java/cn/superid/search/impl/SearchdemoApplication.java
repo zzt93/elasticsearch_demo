@@ -39,7 +39,6 @@ public class SearchdemoApplication implements CommandLineRunner {
 //    }
   @Override
   public void run(String... args) throws Exception {
-//    System.out.println(template.getMapping("chat", "chat"));
   }
 
 
