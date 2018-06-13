@@ -53,14 +53,18 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
       return null;
     }
 
+
+    BoolQueryBuilder should = boolQuery()
+        .should(wildcardQuery("title", wildcard(info.getQuery())).boost(10))
+        .should(termQuery("tags", info.getQuery()).boost(5))
+        .should(matchQuery("thumbContent", info.getQuery()).boost(2))
+        .should(matchQuery("content", info.getQuery()).boost(1));;
+    try {
+      int number = Integer.parseInt(info.getQuery());
+      should.should(termQuery("number", number)).boost(40);
+    } catch (NumberFormatException ignored) {}
     BoolQueryBuilder bool = boolQuery()
-        .must(
-            boolQuery()
-                .should(wildcardQuery("title", wildcard(info.getQuery())).boost(10))
-                .should(termQuery("tags", info.getQuery()).boost(5))
-                .should(matchQuery("thumbContent", info.getQuery()).boost(2))
-                .should(matchQuery("content", info.getQuery()).boost(1))
-        )
+        .must(should)
         .must(termQuery("allianceId", info.getAllianceId()));
     TermsQueryBuilder affairId = termsQuery("affairId", info.getAffairIds());
     if (info.isExcludeAffair()) {

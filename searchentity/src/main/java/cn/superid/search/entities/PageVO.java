@@ -34,6 +34,7 @@ public class PageVO<T> {
     this.totalPages = page.getTotalPages();
     this.pageSize = page.getSize();
   }
+
   public <R> PageVO(Page<R> page, Function<R, T> mapper, String scrollId) {
     if (page == null) {
       return;
@@ -90,4 +91,6 @@ public class PageVO<T> {
   public String getScrollId() {
     return scrollId;
   }
+
+
 }
