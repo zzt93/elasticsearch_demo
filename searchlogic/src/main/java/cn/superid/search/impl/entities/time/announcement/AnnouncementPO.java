@@ -42,6 +42,8 @@ public class AnnouncementPO {
   private Byte plateType;
   @Field(type = FieldType.Byte)
   private Byte type;
+  @Field(type = FieldType.Integer)
+  private Integer number;
 
   public AnnouncementPO() {
   }
@@ -150,16 +152,29 @@ public class AnnouncementPO {
     this.allianceId = allianceId;
   }
 
-  @Override
-  public String toString() {
-    return "Announcement{" +
-        "id='" + id + '\'' +
-        ", title='" + title + '\'' +
-        ", content='" + Arrays.toString(content) + '\'' +
-        ", tags=" + Arrays.toString(tags) +
-        ", modifyTime=" + modifyTime +
-        ", affairId=" + affairId +
-        '}';
+  public Integer getNumber() {
+    return number;
   }
 
+  public void setNumber(Integer number) {
+    this.number = number;
+  }
+
+  @Override
+  public String toString() {
+    return "AnnouncementPO{" +
+        "id='" + id + '\'' +
+        ", title='" + title + '\'' +
+        ", thumbContent='" + thumbContent + '\'' +
+        ", content=" + Arrays.toString(content) +
+        ", tags=" + Arrays.toString(tags) +
+        ", affairId=" + affairId +
+        ", allianceId=" + allianceId +
+        ", modifyTime=" + modifyTime +
+        ", roles=" + Arrays.toString(roles) +
+        ", plateType=" + plateType +
+        ", type=" + type +
+        ", number=" + number +
+        '}';
+  }
 }

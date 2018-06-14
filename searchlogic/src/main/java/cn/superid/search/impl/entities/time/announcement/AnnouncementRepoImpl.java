@@ -46,14 +46,25 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     Preconditions.checkArgument(info.getQuery() != null);
     Preconditions.checkArgument(info.getAffairIds() != null);
 
+    String indexName = Suffix.indexName(AnnouncementPO.class,
+        info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE);
+    // TODO 18/6/7 other repo also need
+    if (!template.indexExists(indexName)) {
+      return null;
+    }
+
+
+    BoolQueryBuilder should = boolQuery()
+        .should(wildcardQuery("title", wildcard(info.getQuery())).boost(10))
+        .should(termQuery("tags", info.getQuery()).boost(5))
+        .should(matchQuery("thumbContent", info.getQuery()).boost(2))
+        .should(matchQuery("content", info.getQuery()).boost(1));;
+    try {
+      int number = Integer.parseInt(info.getQuery());
+      should.should(termQuery("number", number)).boost(40);
+    } catch (NumberFormatException ignored) {}
     BoolQueryBuilder bool = boolQuery()
-        .must(
-            boolQuery()
-                .should(wildcardQuery("title", wildcard(info.getQuery())).boost(10))
-                .should(termQuery("tags", info.getQuery()).boost(5))
-                .should(matchQuery("thumbContent", info.getQuery()).boost(2))
-                .should(matchQuery("content", info.getQuery()).boost(1))
-        )
+        .must(should)
         .must(termQuery("allianceId", info.getAllianceId()));
     TermsQueryBuilder affairId = termsQuery("affairId", info.getAffairIds());
     if (info.isExcludeAffair()) {
@@ -76,8 +87,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexName(AnnouncementPO.class,
-            info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE))
+        .withIndices(indexName)
         .withQuery(bool)
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
