@@ -18,12 +18,21 @@ public class PageVO<T> {
   private Long totalElements;
   private Integer totalPages;
   private Integer pageSize;
+  private boolean hasMore;
+
+  public PageVO(List<T> content, Long totalElements, Integer totalPages, Integer pageSize) {
+    this.content = content;
+    this.totalElements = totalElements;
+    this.totalPages = totalPages;
+    hasMore = content.size() == pageSize;
+  }
 
   public PageVO() {
     totalElements = 0L;
     totalPages = 0;
     content = Collections.emptyList();
   }
+
 
   public <R> PageVO(Page<R> page, Function<R, T> mapper) {
     if (page == null) {
@@ -33,6 +42,7 @@ public class PageVO<T> {
     this.totalElements = page.getTotalElements();
     this.totalPages = page.getTotalPages();
     this.pageSize = page.getSize();
+    hasMore = content.size() == pageSize;
   }
 
   public <R> PageVO(Page<R> page, Function<R, T> mapper, String scrollId) {
@@ -44,6 +54,7 @@ public class PageVO<T> {
     this.totalPages = page.getTotalPages();
     this.pageSize = page.getSize();
     this.scrollId = scrollId;
+    hasMore = content.size() == pageSize;
   }
 
   /**
@@ -92,5 +103,11 @@ public class PageVO<T> {
     return scrollId;
   }
 
+  public boolean isHasMore() {
+    return hasMore;
+  }
 
+  public void setHasMore(boolean hasMore) {
+    this.hasMore = hasMore;
+  }
 }
