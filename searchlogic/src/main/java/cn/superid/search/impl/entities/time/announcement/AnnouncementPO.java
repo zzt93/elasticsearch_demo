@@ -44,6 +44,8 @@ public class AnnouncementPO {
   private Byte type;
   @Field(type = FieldType.Integer)
   private Integer number;
+  @Field(type = FieldType.Integer)
+  private Integer plateSubType;
 
   public AnnouncementPO() {
   }
@@ -158,6 +160,14 @@ public class AnnouncementPO {
 
   public void setNumber(Integer number) {
     this.number = number;
+  }
+
+  public Integer getPlateSubType() {
+    return plateSubType;
+  }
+
+  public void setPlateSubType(Integer plateSubType) {
+    this.plateSubType = plateSubType;
   }
 
   @Override

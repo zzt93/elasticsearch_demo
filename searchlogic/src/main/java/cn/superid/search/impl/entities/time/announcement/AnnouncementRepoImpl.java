@@ -46,41 +46,46 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     Preconditions.checkArgument(info.getQuery() != null);
     Preconditions.checkArgument(info.getAffairIds() != null);
 
-    String indexName = Suffix.indexName(AnnouncementPO.class,
-        info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE);
-    // TODO 18/6/7 other repo also need
-    if (!template.indexExists(indexName)) {
-      return null;
-    }
-
-
     BoolQueryBuilder should = boolQuery()
         .should(wildcardQuery("title", wildcard(info.getQuery())).boost(10))
         .should(termQuery("tags", info.getQuery()).boost(5))
         .should(matchQuery("thumbContent", info.getQuery()).boost(2))
         .should(matchQuery("content", info.getQuery()).boost(1));
+
     try {
       int number = Integer.parseInt(info.getQuery());
       should.should(termQuery("number", number).boost(40));
     } catch (NumberFormatException ignored) {}
-    BoolQueryBuilder bool = boolQuery()
-        .must(should)
-        .filter(termQuery("allianceId", info.getAllianceId()));
-    TermsQueryBuilder affairId = termsQuery("affairId", info.getAffairIds());
-    if (info.isExcludeAffair()) {
-      bool.mustNot(affairId);
-    } else {
-      bool.filter(affairId);
-    }
-    if (info.getRoleIds() != null) {
-      bool.filter(termsQuery("roles", info.getRoleIds()));
-    }
+    BoolQueryBuilder bool = boolQuery().must(should);
+
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     bool.filter(rangeQuery("modifyTime")
         .gt(dateFormat.format(new Date(info.getStartTime())))
         .lt(dateFormat.format(new Date(info.getEndTime()))));
+
+    TermsQueryBuilder affairId = termsQuery("affairId", info.getAffairIds());
+    String indexName;
+    if (info.isExcludeAffair()) {
+      indexName = Suffix.indexNamePattern(AnnouncementPO.class);
+      bool.mustNot(affairId);
+    } else {
+      indexName = Suffix.indexName(AnnouncementPO.class,
+          info.getAllianceId() / AnnouncementPO.CLUSTER_SIZE);
+      // TODO 18/6/7 other repo also need
+      if (!template.indexExists(indexName)) {
+        return null;
+      }
+      bool.filter(affairId)
+          .filter(termQuery("allianceId", info.getAllianceId()));
+    }
+    if (info.getRoleIds() != null) {
+      bool.filter(termsQuery("roles", info.getRoleIds()));
+    }
     if (info.getPlateType() != null) {
       bool.filter(termQuery("plateType", info.getPlateType()));
+    }
+    if (info.getPlateSubType() != null) {
+      bool.filter(termQuery("plateSubType", info.getPlateSubType()));
     }
     if (info.getState() != null) {
       bool.filter(termQuery("state", info.getState()));
