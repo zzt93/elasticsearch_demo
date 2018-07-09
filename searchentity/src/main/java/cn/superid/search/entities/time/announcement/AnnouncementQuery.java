@@ -21,6 +21,7 @@ public class AnnouncementQuery extends PagedQuery {
   private long endTime;
   private Byte state;
   private Byte plateType;
+  private Integer plateSubType;
 
   public AnnouncementQuery() {
   }
@@ -75,6 +76,14 @@ public class AnnouncementQuery extends PagedQuery {
 
   public void setPlateType(Byte plateType) {
     this.plateType = plateType;
+  }
+
+  public Integer getPlateSubType() {
+    return plateSubType;
+  }
+
+  public void setPlateSubType(Integer plateSubType) {
+    this.plateSubType = plateSubType;
   }
 
   public List<Long> getRoleIds() {
