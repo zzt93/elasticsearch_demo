@@ -1,6 +1,7 @@
 package cn.superid.search.entities.user.task;
 
 import cn.superid.search.entities.PagedQuery;
+import java.util.List;
 
 /**
  * @author zzt
@@ -8,14 +9,14 @@ import cn.superid.search.entities.PagedQuery;
 public class TaskQuery extends PagedQuery {
 
   private Byte state;
-  private Long userId;
+  private List<Long> roles;
 
-  public Long getUserId() {
-    return userId;
+  public List<Long> getRoles() {
+    return roles;
   }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
+  public void setRoles(List<Long> roles) {
+    this.roles = roles;
   }
 
   public TaskQuery() {
@@ -34,7 +35,7 @@ public class TaskQuery extends PagedQuery {
     return "TaskQuery{" +
         "super=" + super.toString() +
         "state=" + state +
-        ", userId=" + userId +
+        ", roles=" + roles +
         '}';
   }
 }

@@ -20,27 +20,47 @@ public class TaskPO {
   private String id;
   @Field(type = FieldType.keyword)
   private String title;
-//  @Field(type = FieldType.keyword)
-//  private String annTitle;
+  @Field(type = FieldType.keyword)
+  private String annTitle;
   @Field(type = FieldType.Long)
-  private long[] users;
+  private long[] roles;
   @Field(type = FieldType.Byte)
   private Byte state;
   @Field(type = FieldType.Byte)
   private Byte type;
   @Field(type = FieldType.Long)
   private Long allianceId;
+  @Field(type = FieldType.Long)
+  private Long annId;
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp modifyTime;
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp offTime;
+
   public TaskPO() {
   }
+
   public TaskPO(TaskVO entity) {
     id = entity.getId();
     title = entity.getTitle();
+  }
+
+  public Long getAnnId() {
+    return annId;
+  }
+
+  public void setAnnId(Long annId) {
+    this.annId = annId;
+  }
+
+  public String getAnnTitle() {
+    return annTitle;
+  }
+
+  public void setAnnTitle(String annTitle) {
+    this.annTitle = annTitle;
   }
 
   public Byte getType() {
@@ -67,12 +87,12 @@ public class TaskPO {
     this.title = title;
   }
 
-  public long[] getUsers() {
-    return users;
+  public long[] getRoles() {
+    return roles;
   }
 
-  public void setUsers(long[] users) {
-    this.users = users;
+  public void setRoles(long[] roles) {
+    this.roles = roles;
   }
 
   public Byte getState() {
