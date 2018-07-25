@@ -19,7 +19,7 @@ public class AnnouncementQuery extends PagedQuery {
   private List<Long> roleIds;
   private long startTime;
   private long endTime;
-  private Byte state;
+  private List<Byte> states;
   private Byte plateType;
   private Integer plateSubType;
 
@@ -62,12 +62,12 @@ public class AnnouncementQuery extends PagedQuery {
     this.excludeAffair = excludeAffair;
   }
 
-  public Byte getState() {
-    return state;
+  public List<Byte> getStates() {
+    return states;
   }
 
-  public void setState(Byte state) {
-    this.state = state;
+  public void setStates(List<Byte> states) {
+    this.states = states;
   }
 
   public Byte getPlateType() {

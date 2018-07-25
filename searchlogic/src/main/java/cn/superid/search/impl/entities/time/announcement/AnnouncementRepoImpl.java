@@ -87,8 +87,8 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     if (info.getPlateSubType() != null) {
       bool.filter(termQuery("plateSubType", info.getPlateSubType()));
     }
-    if (info.getState() != null) {
-      bool.filter(termQuery("state", info.getState()));
+    if (info.getStates() != null) {
+      bool.filter(termsQuery("state", info.getStates()));
     }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
