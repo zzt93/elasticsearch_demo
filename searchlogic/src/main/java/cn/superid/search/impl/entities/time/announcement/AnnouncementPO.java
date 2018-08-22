@@ -33,6 +33,8 @@ public class AnnouncementPO {
   private Long affairId;
   @Field(type = FieldType.Long)
   private Long allianceId;
+  @Field(type = FieldType.Long)
+  private Long targetId;
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp modifyTime;
@@ -48,6 +50,14 @@ public class AnnouncementPO {
   private Integer plateSubType;
 
   public AnnouncementPO() {
+  }
+
+  public Long getTargetId() {
+    return targetId;
+  }
+
+  public void setTargetId(Long targetId) {
+    this.targetId = targetId;
   }
 
   /**

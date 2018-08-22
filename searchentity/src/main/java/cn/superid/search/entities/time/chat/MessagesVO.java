@@ -6,7 +6,10 @@ package cn.superid.search.entities.time.chat;
  */
 public class MessagesVO {
 
-  private final String id;
+  private String id;
+
+  public MessagesVO() {
+  }
 
   public MessagesVO(String id) {
     this.id = id;
