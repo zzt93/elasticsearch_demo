@@ -90,6 +90,9 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     if (info.getStates() != null) {
       bool.filter(termsQuery("state", info.getStates()));
     }
+    if (info.getTargetId() != null) {
+      bool.filter(termQuery("targetId", info.getTargetId()));
+    }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(indexName)

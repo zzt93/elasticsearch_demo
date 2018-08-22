@@ -28,7 +28,7 @@ spring:
         prefer-agent-address: false
         register-health-check: true
         tags: master
-      host: ${CONSUL_ADDRESS:192.168.1.100}
+      host: ${CONSUL_ADDRESS:192.168.1.204}
       port: ${CONSUL_PORT:8501}
       retry:
         initial-interval: 1000

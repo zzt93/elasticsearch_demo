@@ -15,6 +15,7 @@ public class AnnouncementQuery extends PagedQuery {
 
   private Long allianceId;
   private List<Long> affairIds;
+  private Long targetId;
   private boolean excludeAffair = false;
   private List<Long> roleIds;
   private long startTime;
@@ -22,10 +23,8 @@ public class AnnouncementQuery extends PagedQuery {
   private List<Byte> states;
   private Byte plateType;
   private Integer plateSubType;
-
   public AnnouncementQuery() {
   }
-
   public AnnouncementQuery(List<Long> affairIds, String query,
       PageRequest pageRequest, long startTime, long endTime) {
     this.affairIds = affairIds;
@@ -44,6 +43,14 @@ public class AnnouncementQuery extends PagedQuery {
     allianceId = alliance;
     setPageRequest(pageRequest);
     setRoleIds(roles);
+  }
+
+  public Long getTargetId() {
+    return targetId;
+  }
+
+  public void setTargetId(Long targetId) {
+    this.targetId = targetId;
   }
 
   public Long getAllianceId() {
