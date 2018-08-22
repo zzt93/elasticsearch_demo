@@ -36,7 +36,6 @@ public class TaskRepoImpl implements TaskCustom {
   public Page<TaskPO> findByAll(TaskQuery taskQuery) {
     Preconditions.checkNotNull(taskQuery.getQuery(), "No query string");
     Preconditions.checkNotNull(taskQuery.getRoles(), "No role id provided");
-    Preconditions.checkNotNull(taskQuery.getAffairId(), "No affair id provided");
 
     BoolQueryBuilder bool = boolQuery()
         .filter(termsQuery("roles", taskQuery.getRoles()))
@@ -49,11 +48,17 @@ public class TaskRepoImpl implements TaskCustom {
               .should(wildcardQuery("fromTitle", QueryHelper.wildcard(taskQuery.getQuery())))
           );
     }
-    if (taskQuery.getState() != null) {
-      bool.filter(termQuery("state", taskQuery.getState()));
+    if (taskQuery.getStates() != null) {
+      bool.filter(termsQuery("state", taskQuery.getStates()));
     }
     if (taskQuery.getTypes() != null) {
       bool.filter(termsQuery("type", taskQuery.getTypes()));
+    }
+    if (taskQuery.getTargetId() != null) {
+      bool.filter(termQuery("targetId", taskQuery.getTargetId()));
+    }
+    if (taskQuery.getAffairId() != null) {
+      bool.filter(termQuery("affairId", taskQuery.getAffairId()));
     }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(TaskPO.class))
