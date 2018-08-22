@@ -10,7 +10,6 @@ import cn.superid.search.impl.DefaultFetchSource;
 import cn.superid.search.impl.query.QueryHelper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
-import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,7 @@ public class TaskRepoImpl implements TaskCustom {
   public Page<TaskPO> findByAll(TaskQuery taskQuery) {
     Preconditions.checkNotNull(taskQuery.getQuery(), "No query string");
     Preconditions.checkNotNull(taskQuery.getRoles(), "No role id provided");
+    Preconditions.checkNotNull(taskQuery.getAffairId(), "No affair id provided");
 
     BoolQueryBuilder bool = boolQuery()
         .filter(termsQuery("roles", taskQuery.getRoles()))
@@ -46,13 +46,14 @@ public class TaskRepoImpl implements TaskCustom {
       bool.must(
           boolQuery()
               .should(wildcardQuery("title", QueryHelper.wildcard(taskQuery.getQuery())))
-              .should(wildcardQuery("annTitle", QueryHelper.wildcard(taskQuery.getQuery())))
+              .should(wildcardQuery("fromTitle", QueryHelper.wildcard(taskQuery.getQuery())))
           );
     }
     if (taskQuery.getState() != null) {
       bool.filter(termQuery("state", taskQuery.getState()));
-    } else {
-      bool.filter(termsQuery("state", Arrays.asList(0, 1, 2)));
+    }
+    if (taskQuery.getTypes() != null) {
+      bool.filter(termsQuery("type", taskQuery.getTypes()));
     }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(TaskPO.class))
