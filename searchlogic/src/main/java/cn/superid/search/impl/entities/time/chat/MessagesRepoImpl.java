@@ -1,7 +1,6 @@
 package cn.superid.search.impl.entities.time.chat;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
@@ -31,7 +30,8 @@ public class MessagesRepoImpl implements MessagesCustom {
     Preconditions.checkArgument(pageable != null);
 
     BoolQueryBuilder bool = boolQuery()
-        .filter(matchQuery("chatId", info.getChatId()));
+        .filter(termQuery("chatId", info.getChatId()))
+        .mustNot(termQuery("state", 1));
     if (info.getQuery() != null) {
       bool.must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
     }
