@@ -11,8 +11,11 @@ public class TaskQuery extends PagedQuery {
   private Long affairId;
   private Long targetId;
   private List<Byte> types;
-  private Byte state;
+  private List<Byte> states;
   private List<Long> roles;
+
+  public TaskQuery() {
+  }
 
   public List<Byte> getTypes() {
     return types;
@@ -46,23 +49,11 @@ public class TaskQuery extends PagedQuery {
     this.roles = roles;
   }
 
-  public TaskQuery() {
+  public List<Byte> getStates() {
+    return states;
   }
 
-  public Byte getState() {
-    return state;
-  }
-
-  public void setState(Byte state) {
-    this.state = state;
-  }
-
-  @Override
-  public String toString() {
-    return "TaskQuery{" +
-        "super=" + super.toString() +
-        "state=" + state +
-        ", roles=" + roles +
-        '}';
+  public void setStates(List<Byte> states) {
+    this.states = states;
   }
 }
