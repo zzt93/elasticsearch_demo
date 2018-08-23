@@ -1,6 +1,5 @@
 package cn.superid.search.impl.entities.time.chat;
 
-import cn.superid.search.impl.entities.time.TimeBasedIndex;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -10,8 +9,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/5.
  */
-@Document(indexName = "messages-#{suffix.toString()}", type = "messages", refreshInterval = "10s", createIndex = false, shards = 1)
-public class MessagesPO implements TimeBasedIndex {
+@Document(indexName = "messages", type = "messages", refreshInterval = "10s", createIndex = false, shards = 1)
+public class MessagesPO  {
 
   @Id
   @JsonIgnore
@@ -24,6 +23,8 @@ public class MessagesPO implements TimeBasedIndex {
   private String chatId;
   @Field(type = FieldType.Byte)
   private byte sub;
+  @Field(type = FieldType.Byte)
+  private byte state;
 
   public MessagesPO() {
   }
@@ -76,6 +77,14 @@ public class MessagesPO implements TimeBasedIndex {
     this.sub = sub;
   }
 
+  public byte getState() {
+    return state;
+  }
+
+  public void setState(byte state) {
+    this.state = state;
+  }
+
   @Override
   public String toString() {
     return "MessagesPO{" +
@@ -85,11 +94,6 @@ public class MessagesPO implements TimeBasedIndex {
         ", chatId=" + chatId +
         ", sub=" + sub +
         '}';
-  }
-
-  @Override
-  public String indexSuffix() {
-    return null;
   }
 
   public int timeFormatLen() {
