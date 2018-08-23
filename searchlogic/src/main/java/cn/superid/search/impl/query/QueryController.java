@@ -261,7 +261,9 @@ public class QueryController {
 
   @PostMapping("/target")
   public List<TargetVO> queryTarget(@RequestBody TargetQuery targetQuery) {
-    List<TargetPO> byQuery = targetRepo.findByNameAndAffairIdIn(targetQuery.getQuery(), targetQuery.getAffairs());
+    List<Long> affairs = targetQuery.getAffairs();
+    Preconditions.checkArgument(affairs!=null, "No affair provided");
+    List<TargetPO> byQuery = targetRepo.findByNameAndAffairIdIn(targetQuery);
     return byQuery.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
   }
 
