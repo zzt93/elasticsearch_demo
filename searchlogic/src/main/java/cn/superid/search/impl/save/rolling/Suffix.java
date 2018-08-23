@@ -14,6 +14,7 @@ import org.springframework.util.ReflectionUtils;
 public class Suffix {
 
   private static final Logger logger = LoggerFactory.getLogger(Suffix.class);
+  private static final String WILDCARD = "*";
   private ThreadLocal<String> suffixes;
 
   public Suffix(String init) {
@@ -22,7 +23,7 @@ public class Suffix {
 
   public static String indexNamePattern(Class<?> clazz) {
     clazzCheck(clazz);
-    return clazz.getAnnotation(Document.class).indexName().split("#")[0] + "*";
+    return clazz.getAnnotation(Document.class).indexName().split("#")[0] + WILDCARD;
   }
 
   public static String timeBasedPattern(Class<? extends TimeBasedIndex> clazz, long start,
@@ -67,6 +68,10 @@ public class Suffix {
 
   public void setSuffix(String suffix) {
     suffixes.set(suffix);
+  }
+
+  public void allIndex() {
+    suffixes.set(WILDCARD);
   }
 
   @Override
