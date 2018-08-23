@@ -8,15 +8,24 @@ import org.springframework.data.domain.PageRequest;
  */
 public class ChatQuery extends PagedQuery {
 
-  private long startTime;
-  private long endTime;
+  private Long startTime;
+  private Long endTime;
   private String chatId;
   private Byte subType;
 
   public ChatQuery() {
   }
 
-  public ChatQuery(String query, PageRequest pageRequest, long startTime, long endTime, String chatId, Byte subType) {
+  public ChatQuery(String query, PageRequest pageRequest,
+      String chatId, Byte subType) {
+    setQuery(query);
+    setPageRequest(pageRequest);
+    this.chatId = chatId;
+    this.subType = subType;
+  }
+
+  public ChatQuery(String query, PageRequest pageRequest, Long startTime, Long endTime,
+      String chatId, Byte subType) {
     setQuery(query);
     setPageRequest(pageRequest);
     this.startTime = startTime;
@@ -25,32 +34,32 @@ public class ChatQuery extends PagedQuery {
     this.subType = subType;
   }
 
-  public long getStartTime() {
+  public Long getStartTime() {
     return startTime;
   }
 
-  public long getEndTime() {
+  public void setStartTime(Long startTime) {
+    this.startTime = startTime;
+  }
+
+  public Long getEndTime() {
     return endTime;
+  }
+
+  public void setEndTime(Long endTime) {
+    this.endTime = endTime;
   }
 
   public String getChatId() {
     return chatId;
   }
 
-  public Byte getSubType() {
-    return subType;
-  }
-
-  public void setStartTime(long startTime) {
-    this.startTime = startTime;
-  }
-
-  public void setEndTime(long endTime) {
-    this.endTime = endTime;
-  }
-
   public void setChatId(String chatId) {
     this.chatId = chatId;
+  }
+
+  public Byte getSubType() {
+    return subType;
   }
 
   public void setSubType(Byte subType) {
