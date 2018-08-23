@@ -7,7 +7,6 @@ import cn.superid.search.entities.time.chat.MessagesVO;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.role.RoleVO;
-import cn.superid.search.entities.user.target.TargetVO;
 import cn.superid.search.entities.user.task.TaskVO;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
@@ -17,7 +16,6 @@ import cn.superid.search.impl.entities.time.chat.MessagesPO;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.file.FilePO;
 import cn.superid.search.impl.entities.user.role.RolePO;
-import cn.superid.search.impl.entities.user.target.TargetPO;
 import cn.superid.search.impl.entities.user.task.TaskPO;
 import cn.superid.search.impl.entities.user.user.UserPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
@@ -56,10 +54,6 @@ public class VoAndPoConversion {
 
   public static AuditVO toVO(AuditPO po) {
     return new AuditVO(Long.parseLong(po.getId()));
-  }
-
-  public static TargetVO toVO(TargetPO po) {
-    return new TargetVO(po.getId());
   }
 
   public static MaterialVO toVO(MaterialPO po) {
