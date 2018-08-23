@@ -43,7 +43,8 @@ public class MessagesRepoImpl implements MessagesCustom {
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(Suffix.indexName(MessagesPO.class, ""))
+        .withIndices(
+            Suffix.timeBasedPattern(MessagesPO.class, info.getStartTime(), info.getEndTime()))
         .withQuery(bool)
         .withPageable(pageable).build();
     return template.queryForPage(searchQuery, MessagesPO.class);

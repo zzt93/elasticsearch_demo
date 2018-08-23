@@ -21,7 +21,7 @@ public class TaskPO {
   @Field(type = FieldType.keyword)
   private String title;
   @Field(type = FieldType.keyword)
-  private String fromTitle;
+  private String annTitle;
   @Field(type = FieldType.Long)
   private long[] roles;
   @Field(type = FieldType.Byte)
@@ -55,12 +55,12 @@ public class TaskPO {
     this.annId = annId;
   }
 
-  public String getFromTitle() {
-    return fromTitle;
+  public String getAnnTitle() {
+    return annTitle;
   }
 
-  public void setFromTitle(String fromTitle) {
-    this.fromTitle = fromTitle;
+  public void setAnnTitle(String annTitle) {
+    this.annTitle = annTitle;
   }
 
   public Byte getType() {
