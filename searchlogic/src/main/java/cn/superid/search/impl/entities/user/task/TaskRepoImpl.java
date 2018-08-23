@@ -45,7 +45,7 @@ public class TaskRepoImpl implements TaskCustom {
       bool.must(
           boolQuery()
               .should(wildcardQuery("title", QueryHelper.wildcard(taskQuery.getQuery())))
-              .should(wildcardQuery("fromTitle", QueryHelper.wildcard(taskQuery.getQuery())))
+              .should(wildcardQuery("fromName", QueryHelper.wildcard(taskQuery.getQuery())))
           );
     }
     if (taskQuery.getStates() != null) {
