@@ -35,18 +35,18 @@ public class TaskRepoImpl implements TaskCustom {
   @Override
   public Page<TaskPO> findByAll(TaskQuery taskQuery) {
     Preconditions.checkNotNull(taskQuery.getQuery(), "No query string");
-    Preconditions.checkNotNull(taskQuery.getRoles(), "No role id provided");
 
-    BoolQueryBuilder bool = boolQuery()
-        .filter(termsQuery("roles", taskQuery.getRoles()))
-        .filter(termQuery("type", 0));
+    BoolQueryBuilder bool = boolQuery();
 
     if (!StringUtils.isEmpty(taskQuery.getQuery())) {
       bool.must(
           boolQuery()
               .should(wildcardQuery("title", QueryHelper.wildcard(taskQuery.getQuery())))
               .should(wildcardQuery("fromName", QueryHelper.wildcard(taskQuery.getQuery())))
-          );
+      );
+    }
+    if (taskQuery.getRoles() != null) {
+      bool.filter(termsQuery("roles", taskQuery.getRoles()));
     }
     if (taskQuery.getStates() != null) {
       bool.filter(termsQuery("state", taskQuery.getStates()));
