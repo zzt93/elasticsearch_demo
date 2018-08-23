@@ -16,8 +16,6 @@ import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.role.RoleQuery;
 import cn.superid.search.entities.user.role.RoleVO;
-import cn.superid.search.entities.user.target.TargetQuery;
-import cn.superid.search.entities.user.target.TargetVO;
 import cn.superid.search.entities.user.task.TaskQuery;
 import cn.superid.search.entities.user.task.TaskVO;
 import cn.superid.search.entities.user.user.UserVO;
@@ -36,8 +34,6 @@ import cn.superid.search.impl.entities.user.file.FilePO;
 import cn.superid.search.impl.entities.user.file.FileRepo;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
-import cn.superid.search.impl.entities.user.target.TargetPO;
-import cn.superid.search.impl.entities.user.target.TargetRepo;
 import cn.superid.search.impl.entities.user.task.TaskPO;
 import cn.superid.search.impl.entities.user.task.TaskRepo;
 import cn.superid.search.impl.entities.user.user.UserService;
@@ -61,6 +57,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+//import cn.superid.search.entities.user.target.TargetQuery;
+//import cn.superid.search.entities.user.target.TargetVO;
+//import cn.superid.search.impl.entities.user.target.TargetPO;
+//import cn.superid.search.impl.entities.user.target.TargetRepo;
+
 /**
  * The controller for query entities
  *
@@ -79,7 +80,7 @@ public class QueryController {
   private final AnnouncementRepo announcementRepo;
   private final TaskRepo taskRepo;
   private final AffairRepo affairRepo;
-  private final TargetRepo targetRepo;
+//  private final TargetRepo targetRepo;
   private final MaterialRepo materialRepo;
   private final AuditRepo auditRepo;
   private final Suffix suffix;
@@ -89,7 +90,8 @@ public class QueryController {
   public QueryController(UserService userService, MessagesRepo messagesRepo, FileRepo fileRepo,
       RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
-      TargetRepo targetRepo, MaterialRepo materialRepo,
+//      TargetRepo targetRepo,
+      MaterialRepo materialRepo,
       AuditRepo auditRepo,
       Suffix suffix, ElasticsearchConverter elasticsearchConverter) {
     this.userService = userService;
@@ -99,7 +101,7 @@ public class QueryController {
     this.announcementRepo = announcementRepo;
     this.taskRepo = taskRepo;
     this.affairRepo = affairRepo;
-    this.targetRepo = targetRepo;
+//    this.targetRepo = targetRepo;
     this.materialRepo = materialRepo;
     this.auditRepo = auditRepo;
     this.suffix = suffix;
@@ -259,11 +261,11 @@ public class QueryController {
     return new PageVO<>(byQuery, VoAndPoConversion::toVO);
   }
 
-  @PostMapping("/target")
-  public List<TargetVO> queryTarget(@RequestBody TargetQuery targetQuery) {
-    List<TargetPO> byQuery = targetRepo.findByNameAndAffairIdIn(targetQuery.getQuery(), targetQuery.getAffairs());
-    return byQuery.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
-  }
+//  @PostMapping("/target")
+//  public List<TargetVO> queryTarget(@RequestBody TargetQuery targetQuery) {
+//    List<TargetPO> byQuery = targetRepo.findByNameAndAffairIdIn(targetQuery.getQuery(), targetQuery.getAffairs());
+//    return byQuery.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
+//  }
 
   @GetMapping("/user/tags")
   public List<UserVO> queryUserByTag(@RequestParam String query) {
