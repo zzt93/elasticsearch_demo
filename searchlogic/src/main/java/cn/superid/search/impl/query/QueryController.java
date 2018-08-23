@@ -80,7 +80,6 @@ public class QueryController {
   private final AnnouncementRepo announcementRepo;
   private final TaskRepo taskRepo;
   private final AffairRepo affairRepo;
-//  private final TargetRepo targetRepo;
   private final MaterialRepo materialRepo;
   private final AuditRepo auditRepo;
   private final Suffix suffix;
@@ -90,9 +89,7 @@ public class QueryController {
   public QueryController(UserService userService, MessagesRepo messagesRepo, FileRepo fileRepo,
       RoleRepo roleRepo,
       AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
-//      TargetRepo targetRepo,
-      MaterialRepo materialRepo,
-      AuditRepo auditRepo,
+      MaterialRepo materialRepo, AuditRepo auditRepo,
       Suffix suffix, ElasticsearchConverter elasticsearchConverter) {
     this.userService = userService;
     this.messagesRepo = messagesRepo;
@@ -101,7 +98,6 @@ public class QueryController {
     this.announcementRepo = announcementRepo;
     this.taskRepo = taskRepo;
     this.affairRepo = affairRepo;
-//    this.targetRepo = targetRepo;
     this.materialRepo = materialRepo;
     this.auditRepo = auditRepo;
     this.suffix = suffix;
@@ -260,12 +256,6 @@ public class QueryController {
     Page<AuditPO> byQuery = auditRepo.findByQuery(auditQuery);
     return new PageVO<>(byQuery, VoAndPoConversion::toVO);
   }
-
-//  @PostMapping("/target")
-//  public List<TargetVO> queryTarget(@RequestBody TargetQuery targetQuery) {
-//    List<TargetPO> byQuery = targetRepo.findByNameAndAffairIdIn(targetQuery.getQuery(), targetQuery.getAffairs());
-//    return byQuery.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
-//  }
 
   @GetMapping("/user/tags")
   public List<UserVO> queryUserByTag(@RequestParam String query) {

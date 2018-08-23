@@ -59,10 +59,6 @@ public class VoAndPoConversion {
     return new AuditVO(Long.parseLong(po.getId()));
   }
 
-//  public static TargetVO toVO(TargetPO po) {
-//    return new TargetVO(po.getId());
-//  }
-
   public static MaterialVO toVO(MaterialPO po) {
     return new MaterialVO(po.getId());
   }
