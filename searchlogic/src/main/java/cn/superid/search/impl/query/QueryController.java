@@ -57,6 +57,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+//import cn.superid.search.entities.user.target.TargetQuery;
+//import cn.superid.search.entities.user.target.TargetVO;
+//import cn.superid.search.impl.entities.user.target.TargetPO;
+//import cn.superid.search.impl.entities.user.target.TargetRepo;
+
 /**
  * The controller for query entities
  *
