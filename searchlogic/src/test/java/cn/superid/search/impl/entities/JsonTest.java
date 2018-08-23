@@ -21,7 +21,7 @@ public class JsonTest {
     taskQuery.setPageRequest(PageRequest.of(0,10, Sort.by(Order.asc("offTime").nullsLast())));
     taskQuery.setQuery("as");
     taskQuery.setRoles(Lists.newArrayList(1L));
-    taskQuery.setState((byte) 1);
+    taskQuery.setStates(Lists.newArrayList((byte) 1));
     String jackson = new ObjectMapper().writeValueAsString(taskQuery);
     System.out.println(jackson);
     Assert.assertTrue(!jackson.contains("orders"));
