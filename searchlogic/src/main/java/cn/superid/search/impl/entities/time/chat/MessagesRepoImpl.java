@@ -35,7 +35,7 @@ public class MessagesRepoImpl implements MessagesCustom {
     if (info.getQuery() != null) {
       bool.must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
     }
-    if (info.getStartTime() != 0 && info.getEndTime() != 0) {
+    if (info.getStartTime() != null && info.getEndTime() != null) {
       bool.filter(rangeQuery("time").gte(info.getStartTime()).lte(info.getEndTime()));
     }
     if (info.getSubType() != null) {
