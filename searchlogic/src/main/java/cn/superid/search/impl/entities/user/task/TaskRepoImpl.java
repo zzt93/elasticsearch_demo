@@ -10,7 +10,6 @@ import cn.superid.search.impl.DefaultFetchSource;
 import cn.superid.search.impl.query.QueryHelper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
-import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,23 +35,30 @@ public class TaskRepoImpl implements TaskCustom {
   @Override
   public Page<TaskPO> findByAll(TaskQuery taskQuery) {
     Preconditions.checkNotNull(taskQuery.getQuery(), "No query string");
-    Preconditions.checkNotNull(taskQuery.getRoles(), "No role id provided");
 
-    BoolQueryBuilder bool = boolQuery()
-        .filter(termsQuery("roles", taskQuery.getRoles()))
-        .filter(termQuery("type", 0));
+    BoolQueryBuilder bool = boolQuery();
 
     if (!StringUtils.isEmpty(taskQuery.getQuery())) {
       bool.must(
           boolQuery()
               .should(wildcardQuery("title", QueryHelper.wildcard(taskQuery.getQuery())))
-              .should(wildcardQuery("annTitle", QueryHelper.wildcard(taskQuery.getQuery())))
-          );
+              .should(wildcardQuery("fromName", QueryHelper.wildcard(taskQuery.getQuery())))
+      );
     }
-    if (taskQuery.getState() != null) {
-      bool.filter(termQuery("state", taskQuery.getState()));
-    } else {
-      bool.filter(termsQuery("state", Arrays.asList(0, 1, 2)));
+    if (taskQuery.getRoles() != null) {
+      bool.filter(termsQuery("roles", taskQuery.getRoles()));
+    }
+    if (taskQuery.getStates() != null) {
+      bool.filter(termsQuery("state", taskQuery.getStates()));
+    }
+    if (taskQuery.getTypes() != null) {
+      bool.filter(termsQuery("type", taskQuery.getTypes()));
+    }
+    if (taskQuery.getTargetId() != null) {
+      bool.filter(termQuery("targetId", taskQuery.getTargetId()));
+    }
+    if (taskQuery.getAffairId() != null) {
+      bool.filter(termQuery("affairId", taskQuery.getAffairId()));
     }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(TaskPO.class))
