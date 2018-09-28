@@ -8,6 +8,7 @@ import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.time.audit.AuditQuery;
 import cn.superid.search.entities.time.audit.AuditVO;
+import cn.superid.search.entities.time.chat.ChatIdsQuery;
 import cn.superid.search.entities.time.chat.ChatQuery;
 import cn.superid.search.entities.time.chat.MessagesVO;
 import cn.superid.search.entities.user.affair.AffairQuery;
@@ -47,6 +48,7 @@ import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -243,6 +245,11 @@ public class QueryController {
     checkPage(chatQuery.getPageRequest());
     Page<MessagesPO> byMessage = messagesRepo.findByMessage(chatQuery, chatQuery.getPageRequest());
     return new PageVO<>(byMessage, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/chat/list")
+  public Map<String, PageVO<MessagesVO>> queryChat(@RequestBody ChatIdsQuery chatQuery) {
+    return messagesRepo.findByMessage(chatQuery);
   }
 
   @PostMapping("/task")

@@ -67,4 +67,14 @@ public class ChatIdsQuery extends PagedQuery {
   public void setSubType(Byte subType) {
     this.subType = subType;
   }
+
+  @Override
+  public String toString() {
+    return "ChatIdsQuery{" +
+        "startTime=" + startTime +
+        ", endTime=" + endTime +
+        ", chatIds=" + chatIds +
+        ", subType=" + subType +
+        '}';
+  }
 }
