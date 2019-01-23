@@ -117,6 +117,7 @@ public class MessagesRepoImpl implements MessagesCustom {
           .withIndices(Suffix.indexName(MessagesPO.class, ""))
           .withTypes("messages")
           .withSourceFilter(DefaultFetchSource.defaultId())
+          .withPageable(info.getPageRequest())
           .withQuery(bool).build();
       request.add(prepareSearch(client, searchQuery));
     }
