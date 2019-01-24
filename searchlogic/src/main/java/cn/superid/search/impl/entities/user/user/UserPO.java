@@ -30,7 +30,7 @@ public class UserPO {
   private String[] tags;
   @Field(type = FieldType.Byte)
   private Integer publicType;
-  @Field(type = FieldType.Byte)
+  @Field(type = FieldType.Short)
   private Short infoPublic;
 
   public UserPO() {
