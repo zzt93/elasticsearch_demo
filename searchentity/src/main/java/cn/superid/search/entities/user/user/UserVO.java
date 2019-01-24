@@ -9,6 +9,7 @@ public class UserVO implements UserBasedIndex {
 
   private String id;
   private String username;
+  private String mobile;
 
   public UserVO() {
   }
@@ -31,6 +32,15 @@ public class UserVO implements UserBasedIndex {
 
   public void setUsername(String username) {
     this.username = username;
+  }
+
+  public String getMobile() {
+    return mobile;
+  }
+
+  public UserVO setMobile(String mobile) {
+    this.mobile = mobile;
+    return this;
   }
 
   public String indexSuffix() {

@@ -43,4 +43,9 @@ public class UserService {
         .map(VoAndPoConversion::toVO)
         .collect(Collectors.toList());
   }
+
+  public UserVO findByMobile(String query) {
+    UserPO byMobile = userRepo.findByMobile(query);
+    return new UserVO(byMobile.getId()).setMobile(byMobile.getMobile());
+  }
 }
