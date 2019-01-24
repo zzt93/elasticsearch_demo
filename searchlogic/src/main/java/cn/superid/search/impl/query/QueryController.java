@@ -13,6 +13,7 @@ import cn.superid.search.entities.time.chat.ChatQuery;
 import cn.superid.search.entities.time.chat.MessagesVO;
 import cn.superid.search.entities.user.affair.AffairQuery;
 import cn.superid.search.entities.user.affair.AffairVO;
+import cn.superid.search.entities.user.affair.MenkorVO;
 import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.role.RoleQuery;
@@ -49,10 +50,12 @@ import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
@@ -87,6 +90,10 @@ public class QueryController {
   private final Suffix suffix;
   private final ElasticsearchConverter elasticsearchConverter;
 
+  @Value("mobile")
+  private String mobileRegex;
+  private Pattern mobile;
+
   @Autowired
   public QueryController(UserService userService, MessagesRepo messagesRepo, FileRepo fileRepo,
       RoleRepo roleRepo,
@@ -106,6 +113,8 @@ public class QueryController {
     this.auditRepo = auditRepo;
     this.suffix = suffix;
     this.elasticsearchConverter = elasticsearchConverter;
+
+    mobile = Pattern.compile(mobileRegex);
   }
 
   private static void checkPage(PageRequest pageRequest) {
@@ -173,11 +182,15 @@ public class QueryController {
   }
 
   @PostMapping("/affair")
-  public PageVO<AffairVO> queryAffair(@RequestBody AffairQuery query) {
+  public MenkorVO queryAffair(@RequestBody AffairQuery query) {
     checkPage(query.getPageRequest());
 
+    UserVO byMobile = null;
+    if (query.getPageRequest().getPageNumber() == 0 && mobile.matcher(query.getQuery()).find()) {
+      byMobile = userService.findByMobile(query.getQuery());
+    }
     Page<AffairPO> page = affairRepo.findAny(query.getQuery(), query.getPageRequest());
-    return new PageVO<>(page, VoAndPoConversion::toVO);
+    return new MenkorVO(new PageVO<>(page, VoAndPoConversion::toVO), byMobile);
   }
 
   @PostMapping("/affair/tags")

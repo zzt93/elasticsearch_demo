@@ -30,6 +30,8 @@ public class UserPO {
   private String[] tags;
   @Field(type = FieldType.Byte)
   private Integer publicType;
+  @Field(type = FieldType.Byte)
+  private Short infoPublic;
 
   public UserPO() {
   }
@@ -98,6 +100,14 @@ public class UserPO {
 
   public String getMobile() {
     return mobile;
+  }
+
+  public Short getInfoPublic() {
+    return infoPublic;
+  }
+
+  public void setInfoPublic(Short infoPublic) {
+    this.infoPublic = infoPublic;
   }
 
   public void setMobile(String mobile) {
