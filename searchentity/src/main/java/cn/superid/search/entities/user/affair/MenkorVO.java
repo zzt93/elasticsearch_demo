@@ -11,6 +11,9 @@ public class MenkorVO {
   private PageVO<AffairVO> affairVOPageVO;
   private UserVO userVO;
 
+  public MenkorVO() {
+  }
+
   public MenkorVO(
       PageVO<AffairVO> affairVOPageVO, UserVO userVO) {
     this.affairVOPageVO = affairVOPageVO;
