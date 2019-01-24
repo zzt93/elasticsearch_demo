@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +91,7 @@ public class QueryController {
   private final Suffix suffix;
   private final ElasticsearchConverter elasticsearchConverter;
 
-  @Value("mobile")
+  @Value("${mobile}")
   private String mobileRegex;
   private Pattern mobile;
 
@@ -113,7 +114,10 @@ public class QueryController {
     this.auditRepo = auditRepo;
     this.suffix = suffix;
     this.elasticsearchConverter = elasticsearchConverter;
+  }
 
+  @PostConstruct
+  public void initPattern() {
     mobile = Pattern.compile(mobileRegex);
   }
 
