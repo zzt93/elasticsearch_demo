@@ -46,6 +46,9 @@ public class UserService {
 
   public UserVO findByMobile(String query) {
     UserPO byMobile = userRepo.findByMobile(query);
+    if (byMobile == null) {
+      return null;
+    }
     return new UserVO(byMobile.getId()).setMobile(byMobile.getMobile());
   }
 }
