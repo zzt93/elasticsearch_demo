@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities.user.user;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
@@ -8,8 +9,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 /**
  * Created by zzt on 17/6/5.
  */
-// equivalent to extends repo interface
-//@RepositoryDefinition()
 public interface UserRepo extends ElasticsearchRepository<UserPO, String>, UserCustom {
 
 
@@ -21,6 +20,6 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String>, UserC
       + "  }")
   Page<UserPO> findByTagsIn(String query, Pageable pageable);
 
-  UserPO findByMobile(String query);
+  List<UserPO> findByMobile(String query);
 
 }
