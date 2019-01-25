@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.user;
 
 import cn.superid.search.entities.user.user.UserVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Arrays;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -112,5 +113,19 @@ public class UserPO {
 
   public void setMobile(String mobile) {
     this.mobile = mobile;
+  }
+
+  @Override
+  public String toString() {
+    return "UserPO{" +
+        "id='" + id + '\'' +
+        ", username='" + username + '\'' +
+        ", email='" + email + '\'' +
+        ", mobile='" + mobile + '\'' +
+        ", superId='" + superId + '\'' +
+        ", tags=" + Arrays.toString(tags) +
+        ", publicType=" + publicType +
+        ", infoPublic=" + infoPublic +
+        '}';
   }
 }

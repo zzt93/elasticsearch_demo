@@ -4,6 +4,8 @@ import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   static final PageRequest TOP20 = PageRequest.of(0, 20);
-
+  private static final Logger logger = LoggerFactory.getLogger(UserService.class);
   private final UserRepo userRepo;
 
   @Autowired
@@ -45,10 +47,14 @@ public class UserService {
   }
 
   public UserVO findByMobile(String query) {
-    UserPO byMobile = userRepo.findByMobile(query);
-    if (byMobile == null) {
+    List<UserPO> byMobile = userRepo.findByMobile(query);
+    if (byMobile == null || byMobile.isEmpty()) {
       return null;
     }
-    return new UserVO(byMobile.getId()).setMobile(byMobile.getMobile());
+    if (byMobile.size() > 1) {
+      logger.error("Dup mobile for {}", byMobile);
+    }
+    UserPO user = byMobile.get(0);
+    return new UserVO(user.getId()).setMobile(user.getMobile());
   }
 }
