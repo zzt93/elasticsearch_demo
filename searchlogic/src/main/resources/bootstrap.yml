@@ -48,7 +48,7 @@ ribbon.NFLoadBalancerRuleClassName: cn.superid.common.label.LabelAndWeightMetada
 ---
 spring:
   profiles:
-    active: ${ACTIVE_PROFILE:integration}
+    active: ${ACTIVE_PROFILE:dev}
 
 
 health:
