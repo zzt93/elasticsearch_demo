@@ -264,9 +264,9 @@ public class QueryController {
     return new PageVO<>(byMessage, VoAndPoConversion::toVO);
   }
 
-  @PostMapping("/chat/list")
-  public Map<String, PageVO<MessagesVO>> queryChat(@RequestBody ChatIdsQuery chatQuery) {
-    return messagesRepo.findByMessage(chatQuery);
+  @PostMapping("/chat/count")
+  public Map<String, Long> countMessage(@RequestBody ChatIdsQuery chatQuery) {
+    return messagesRepo.countMessage(chatQuery);
   }
 
   @PostMapping("/task")
