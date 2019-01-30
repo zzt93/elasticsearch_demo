@@ -25,9 +25,13 @@ public class AffairRepoImpl implements AffairCustom {
   @Override
   public Page<AffairPO> findAny(String info, Pageable pageable) {
     BoolQueryBuilder bool = boolQuery()
-        .should(termQuery("superId", info))
-        .should(wildcardQuery("name", wildcard(info)))
-        .should(termQuery("tags", info));
+        .must(termQuery("state", 0))
+        .must(
+            boolQuery()
+                .should(termQuery("superId", info))
+                .should(wildcardQuery("name", wildcard(info)))
+                .should(termQuery("tags", info))
+        );
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AffairPO.class))
         .withQuery(bool)
