@@ -44,7 +44,7 @@ public class MessagesRepoImpl implements MessagesCustom {
   @Override
   public Page<MessagesPO> findByMessage(ChatQuery info, Pageable pageable) {
     Preconditions.checkArgument(pageable != null);
-    Preconditions.checkArgument((info.getSubType() == null) != (info.getSubTypes() == null), "Invalid subType or subTypes");
+    Preconditions.checkArgument((info.getSubType() == null) || (info.getSubTypes() == null), "Invalid subType or subTypes");
 
     BoolQueryBuilder bool = boolQuery()
         .filter(termQuery("chatId", info.getChatId()))
