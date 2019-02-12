@@ -44,6 +44,7 @@ public class MessagesRepoImpl implements MessagesCustom {
   @Override
   public Page<MessagesPO> findByMessage(ChatQuery info, Pageable pageable) {
     Preconditions.checkArgument(pageable != null);
+    Preconditions.checkArgument((info.getSubType() == null) != (info.getSubTypes() == null), "Invalid subType or subTypes");
 
     BoolQueryBuilder bool = boolQuery()
         .filter(termQuery("chatId", info.getChatId()))
@@ -56,6 +57,9 @@ public class MessagesRepoImpl implements MessagesCustom {
     }
     if (info.getSubType() != null) {
       bool.filter(termQuery("sub", info.getSubType()));
+    }
+    if (info.getSubTypes() != null) {
+      bool.filter(termsQuery("sub", info.getSubTypes()));
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()

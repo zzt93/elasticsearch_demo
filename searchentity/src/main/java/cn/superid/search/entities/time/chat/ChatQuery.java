@@ -1,6 +1,7 @@
 package cn.superid.search.entities.time.chat;
 
 import cn.superid.search.entities.PagedQuery;
+import java.util.List;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -12,6 +13,7 @@ public class ChatQuery extends PagedQuery {
   private Long endTime;
   private String chatId;
   private Byte subType;
+  private List<Byte> subTypes;
 
   public ChatQuery() {
   }
@@ -64,5 +66,13 @@ public class ChatQuery extends PagedQuery {
 
   public void setSubType(Byte subType) {
     this.subType = subType;
+  }
+
+  public List<Byte> getSubTypes() {
+    return subTypes;
+  }
+
+  public void setSubTypes(List<Byte> subTypes) {
+    this.subTypes = subTypes;
   }
 }
