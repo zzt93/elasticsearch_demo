@@ -14,25 +14,25 @@ import org.springframework.data.domain.PageRequest;
 public class ProcessQuery extends PagedQuery {
 
   private List<Long> affairIds;
-  private boolean excludeAffair = false;
   private List<Long> roleIds;
   private long startTime;
   private long endTime;
   private List<Byte> states;
   private List<Integer> templates;
+  private int queryType;
 
   public ProcessQuery() {
   }
 
-  public ProcessQuery(List<Long> affairIds, boolean excludeAffair, List<Long> roleIds, long startTime, long endTime,
-      List<Byte> states, List<Integer> templates) {
+  public ProcessQuery(List<Long> affairIds, List<Long> roleIds, long startTime, long endTime,
+      List<Byte> states, List<Integer> templates, int queryType) {
     this.affairIds = affairIds;
-    this.excludeAffair = excludeAffair;
     this.roleIds = roleIds;
     this.startTime = startTime;
     this.endTime = endTime;
     this.states = states;
     this.templates = templates;
+    this.queryType = queryType;
   }
 
   public List<Long> getAffairIds() {
@@ -41,14 +41,6 @@ public class ProcessQuery extends PagedQuery {
 
   public void setAffairIds(List<Long> affairIds) {
     this.affairIds = affairIds;
-  }
-
-  public boolean isExcludeAffair() {
-    return excludeAffair;
-  }
-
-  public void setExcludeAffair(boolean excludeAffair) {
-    this.excludeAffair = excludeAffair;
   }
 
   public List<Long> getRoleIds() {
@@ -91,16 +83,24 @@ public class ProcessQuery extends PagedQuery {
     this.templates = templates;
   }
 
+  public int getQueryType() {
+    return queryType;
+  }
+
+  public void setQueryType(int queryType) {
+    this.queryType = queryType;
+  }
+
   @Override
   public String toString() {
     return "ProcessQuery{" +
         "affairIds=" + affairIds +
-        ", excludeAffair=" + excludeAffair +
         ", roleIds=" + roleIds +
         ", startTime=" + startTime +
         ", endTime=" + endTime +
         ", states=" + states +
         ", templates=" + templates +
+        ", queryType=" + queryType +
         '}';
   }
 }

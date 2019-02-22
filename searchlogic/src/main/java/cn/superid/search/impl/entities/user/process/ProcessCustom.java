@@ -8,8 +8,6 @@ import org.springframework.data.domain.Pageable;
  * @author zzt
  */
 public interface ProcessCustom {
-  Page<ProcessPO> findInner(ProcessQuery query, Pageable pageable);
-  Page<ProcessPO> findOuter(ProcessQuery query, Pageable pageable);
-  Page<ProcessPO> findCreated(ProcessQuery query, Pageable pageable);
+  Page<ProcessPO> find(ProcessQuery query, Pageable pageable);
 
 }

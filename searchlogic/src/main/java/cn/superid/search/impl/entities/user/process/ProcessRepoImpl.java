@@ -20,19 +20,7 @@ public class ProcessRepoImpl implements ProcessCustom {
   private ElasticsearchConverter elasticsearchConverter;
 
   @Override
-  public Page<ProcessPO> findInner(ProcessQuery query, Pageable pageable) {
-    // TODO: 2019-02-22
-    return null;
-  }
-
-  @Override
-  public Page<ProcessPO> findOuter(ProcessQuery query, Pageable pageable) {
-    // TODO: 2019-02-22
-    return null;
-  }
-
-  @Override
-  public Page<ProcessPO> findCreated(ProcessQuery query, Pageable pageable) {
+  public Page<ProcessPO> find(ProcessQuery query, Pageable pageable) {
     // TODO: 2019-02-22
     return null;
   }

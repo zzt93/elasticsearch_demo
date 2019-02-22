@@ -16,6 +16,8 @@ import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.affair.MenkorVO;
 import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
+import cn.superid.search.entities.user.process.ProcessQuery;
+import cn.superid.search.entities.user.process.ProcessVO;
 import cn.superid.search.entities.user.role.RoleQuery;
 import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.entities.user.target.TargetQuery;
@@ -36,6 +38,8 @@ import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.affair.AffairRepo;
 import cn.superid.search.impl.entities.user.file.FilePO;
 import cn.superid.search.impl.entities.user.file.FileRepo;
+import cn.superid.search.impl.entities.user.process.ProcessPO;
+import cn.superid.search.impl.entities.user.process.ProcessRepo;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
 import cn.superid.search.impl.entities.user.target.TargetPO;
@@ -83,6 +87,7 @@ public class QueryController {
   private final FileRepo fileRepo;
   private final RoleRepo roleRepo;
   private final AnnouncementRepo announcementRepo;
+  private final ProcessRepo processRepo;
   private final TaskRepo taskRepo;
   private final AffairRepo affairRepo;
   private final TargetRepo targetRepo;
@@ -98,7 +103,8 @@ public class QueryController {
   @Autowired
   public QueryController(UserService userService, MessagesRepo messagesRepo, FileRepo fileRepo,
       RoleRepo roleRepo,
-      AnnouncementRepo announcementRepo, TaskRepo taskRepo, AffairRepo affairRepo,
+      AnnouncementRepo announcementRepo, ProcessRepo processRepo, TaskRepo taskRepo,
+      AffairRepo affairRepo,
       TargetRepo targetRepo, MaterialRepo materialRepo,
       AuditRepo auditRepo,
       Suffix suffix, ElasticsearchConverter elasticsearchConverter) {
@@ -107,6 +113,7 @@ public class QueryController {
     this.fileRepo = fileRepo;
     this.roleRepo = roleRepo;
     this.announcementRepo = announcementRepo;
+    this.processRepo = processRepo;
     this.taskRepo = taskRepo;
     this.affairRepo = affairRepo;
     this.targetRepo = targetRepo;
@@ -305,5 +312,14 @@ public class QueryController {
   @GetMapping("/role/all")
   public Page<RolePO> queryAllRole(@RequestParam String role) {
     return roleRepo.findRoleInterAlliance(role, PageRequest.of(0, PAGE_SIZE));
+  }
+
+  @PostMapping("/process")
+  public PageVO<ProcessVO> queryProcessInner(@RequestBody ProcessQuery query) {
+    PageRequest pageRequest = query.getPageRequest();
+    checkPage(pageRequest);
+    Page<ProcessPO> res = processRepo
+        .find(query, pageRequest);
+    return new PageVO<>(res, VoAndPoConversion::toVO);
   }
 }
