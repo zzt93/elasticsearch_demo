@@ -1,6 +1,8 @@
 package cn.superid.search.impl.entities.user.process;
 
+
 import cn.superid.search.entities.user.process.ProcessQuery;
+import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,15 @@ public class ProcessRepoImpl implements ProcessCustom {
 
   @Override
   public Page<ProcessPO> find(ProcessQuery query, Pageable pageable) {
+    Preconditions.checkArgument(pageable != null);
+    switch (query.getQueryType()){
+      case TYPE_INNER:
+        break;
+      case TYPE_OUTER:
+        break;
+      case TYPE_CREATED:
+        break;
+    }
     // TODO: 2019-02-22
     return null;
   }

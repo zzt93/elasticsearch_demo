@@ -19,13 +19,16 @@ public class ProcessQuery extends PagedQuery {
   private long endTime;
   private List<Byte> states;
   private List<Integer> templates;
-  private int queryType;
+  private QueryType queryType;
+  public enum QueryType{
+    TYPE_INNER,TYPE_OUTER,TYPE_CREATED;
+  }
 
   public ProcessQuery() {
   }
 
   public ProcessQuery(List<Long> affairIds, List<Long> roleIds, long startTime, long endTime,
-      List<Byte> states, List<Integer> templates, int queryType) {
+      List<Byte> states, List<Integer> templates, QueryType queryType) {
     this.affairIds = affairIds;
     this.roleIds = roleIds;
     this.startTime = startTime;
@@ -83,11 +86,11 @@ public class ProcessQuery extends PagedQuery {
     this.templates = templates;
   }
 
-  public int getQueryType() {
+  public QueryType getQueryType() {
     return queryType;
   }
 
-  public void setQueryType(int queryType) {
+  public void setQueryType(QueryType queryType) {
     this.queryType = queryType;
   }
 
