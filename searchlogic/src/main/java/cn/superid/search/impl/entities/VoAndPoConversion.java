@@ -6,6 +6,7 @@ import cn.superid.search.entities.time.audit.AuditVO;
 import cn.superid.search.entities.time.chat.MessagesVO;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.file.FileSearchVO;
+import cn.superid.search.entities.user.process.ProcessVO;
 import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.entities.user.target.TargetVO;
 import cn.superid.search.entities.user.task.TaskVO;
@@ -16,6 +17,7 @@ import cn.superid.search.impl.entities.time.audit.AuditPO;
 import cn.superid.search.impl.entities.time.chat.MessagesPO;
 import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.file.FilePO;
+import cn.superid.search.impl.entities.user.process.ProcessPO;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.target.TargetPO;
 import cn.superid.search.impl.entities.user.task.TaskPO;
@@ -95,5 +97,9 @@ public class VoAndPoConversion {
 
   public static TaskVO toVO(TaskPO taskPO) {
     return new TaskVO(taskPO.getId());
+  }
+
+  public static ProcessVO toVO(ProcessPO processPO) {
+    return new ProcessVO(processPO.getId());
   }
 }
