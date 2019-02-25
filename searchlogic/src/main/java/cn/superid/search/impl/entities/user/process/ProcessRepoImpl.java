@@ -14,6 +14,7 @@ import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -46,19 +47,19 @@ public class ProcessRepoImpl implements ProcessCustom {
         .gt(dateFormat.format(new Date(query.getStartTime())))
         .lt(dateFormat.format(new Date(query.getEndTime()))));
     //affairId
-    String indexName;
+    List<Long> affairIds = query.getAffairIds();
+    String[] indexName = Suffix
+        .indexName(ProcessPO.class, affairIds, id -> id / ProcessPO.CLUSTER_SIZE);
     if (query.getQueryType() == QueryType.TYPE_INNER) {
-      bool.filter(termsQuery("roleBelongedAffairId", query.getAffairIds()));
-      indexName = Suffix.indexNamePattern(ProcessPO.class);
-    } else if (query.getQueryType() == QueryType.TYPE_OUTER){
-      bool.mustNot(termsQuery("roleBelongedAffairId", query.getAffairIds()));
-      indexName = Suffix.indexNamePattern(ProcessPO.class);
+      bool.filter(termsQuery("roleBelongedAffairId", affairIds));
+    } else if (query.getQueryType() == QueryType.TYPE_OUTER) {
+      bool.mustNot(termsQuery("roleBelongedAffairId", affairIds));
+      indexName = new String[]{Suffix.indexNamePattern(ProcessPO.class)};
     } else {
-      bool.filter(termsQuery("affairId", query.getAffairIds()));
-      indexName = Suffix.indexNamePattern(ProcessPO.class);
+      bool.filter(termsQuery("affairId", affairIds));
     }
     //role
-    if (query.getRoleIds() != null){
+    if (query.getRoleIds() != null) {
       bool.filter(termsQuery("roles", query.getRoleIds()));
     }
     //templateId

@@ -3,6 +3,8 @@ package cn.superid.search.impl.save.rolling;
 
 import cn.superid.search.impl.entities.time.TimeBasedIndex;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -64,6 +66,13 @@ public class Suffix {
   public static String indexName(Class<?> clazz, Object var) {
     clazzCheck(clazz);
     return clazz.getAnnotation(Document.class).indexName().split("#")[0] + var.toString();
+  }
+
+  public static String[] indexName(Class<?> clazz, List<Long> vars, Function<Long, Object> suffix) {
+    clazzCheck(clazz);
+    return vars.stream()
+        .map(id -> Suffix.indexName(clazz, suffix.apply(id))).distinct()
+        .toArray(String[]::new);
   }
 
   public void setSuffix(String suffix) {
