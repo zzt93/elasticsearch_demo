@@ -36,11 +36,14 @@ public class ProcessRepoImpl implements ProcessCustom {
   @Override
   public Page<ProcessPO> find(ProcessQuery query, Pageable pageable) {
     Preconditions.checkArgument(pageable != null);
+    BoolQueryBuilder bool = boolQuery();
     //keyword
-    BoolQueryBuilder should = boolQuery()
-        .should(wildcardQuery("name", wildcard(query.getQuery())).boost(10))
-        .should(termQuery("tag", query.getQuery()).boost(5));
-    BoolQueryBuilder bool = boolQuery().must(should);
+    if (query.getQuery() != null) {
+      BoolQueryBuilder should = boolQuery()
+          .should(wildcardQuery("name", wildcard(query.getQuery())).boost(10))
+          .should(termQuery("tag", query.getQuery()).boost(5));
+      bool = bool.must(should);
+    }
     //time range
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     bool.filter(rangeQuery("time")
