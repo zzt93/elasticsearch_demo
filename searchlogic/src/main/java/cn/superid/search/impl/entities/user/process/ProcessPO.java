@@ -13,8 +13,8 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
 /**
  * Created by zzt on 17/5/27.
  */
-@Document(indexName = "PROCESS-#{suffix.toString()}", type = "PROCESS", createIndex = false, shards = 1, replicas = 0)
-@Mapping(mappingPath = "mapping/PROCESS.json")
+@Document(indexName = "process-#{suffix.toString()}", type = "process", createIndex = false, shards = 1, replicas = 0)
+@Mapping(mappingPath = "mapping/process.json")
 public class ProcessPO {
   public static final int CLUSTER_SIZE = 100000000;
 
