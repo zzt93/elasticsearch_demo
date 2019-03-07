@@ -62,9 +62,16 @@ public class ProcessRepoImpl implements ProcessCustom {
       bool.filter(termsQuery("affairId", affairIds));
     }
     //role
-    if (query.getRoleIds() != null) {
-      bool.filter(termsQuery("roles", query.getRoleIds()));
+    if (query.getQueryType() == QueryType.TYPE_INNER) {
+      if (query.getRoleIds() != null) {
+        bool.filter(termsQuery("roleId", query.getRoleIds()));
+      }
+    } else if (query.getQueryType() == QueryType.TYPE_OUTER) {
+      if (query.getRoleIds() != null) {
+        bool.filter(termsQuery("roles", query.getRoleIds()));
+      }
     }
+
     //templateId
     if (query.getTemplates() != null) {
       bool.filter(termsQuery("templateId", query.getTemplates()));
