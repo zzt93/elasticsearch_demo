@@ -10,6 +10,7 @@ import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 
 import cn.superid.common.rest.constant.workflow.ApplySource;
+import cn.superid.search.entities.user.process.ProcessCountVO;
 import cn.superid.search.entities.user.process.ProcessQuery;
 import cn.superid.search.entities.user.process.ProcessQuery.QueryType;
 import cn.superid.search.impl.save.rolling.Suffix;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.TermsQueryBuilder;
@@ -61,101 +63,34 @@ public class ProcessRepoImpl implements ProcessCustom {
   }
 
   @Override
-  public Map<Long, Long> count(ProcessQuery query) {
+  public ProcessCountVO count(ProcessQuery query) {
     BoolQueryBuilder bool = getQuery(query);
-    NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+    NativeSearchQuery countQuery = new NativeSearchQueryBuilder()
         .withIndices(getIndices(query))
-        .withTypes("messages")
+        .withTypes("process*")
         .addAggregation(terms("status").field("id"))
         .withQuery(bool).build();
 
-    Aggregations aggregations = template.query(searchQuery, SearchResponse::getAggregations);
+    Aggregations aggregations = template.query(countQuery, SearchResponse::getAggregations);
     StringTerms ids = (StringTerms) aggregations.asMap().get("status");
     Map<Long, Long> res = new HashMap<>();
     for (Bucket bucket : ids.getBuckets()) {
       res.put(bucket.getKeyAsNumber().longValue(), bucket.getDocCount());
     }
-    return res;
-  }
 
-//  private BoolQueryBuilder getQuery(ProcessQuery query, Pageable pageable) {
-//    Preconditions.checkArgument(pageable != null);
-//    BoolQueryBuilder bool = boolQuery();
-//    //keyword
-//    if (query.getQuery() != null) {
-//      bool = bool.must(wildcardQuery("name", wildcard(query.getQuery())).boost(10));
-//    }
-//    //time range
-//    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-//    bool.filter(rangeQuery("time")
-//        .gt(dateFormat.format(new Date(query.getStartTime())))
-//        .lt(dateFormat.format(new Date(query.getEndTime()))));
-//    //affairId
-//    List<Long> affairIds = query.getAffairIds();
-//    if (query.getQueryType() == QueryType.TYPE_INNER) {
-//      bool.filter(termsQuery("processBelongedAffairId", affairIds));
-//    } else if (query.getQueryType() == QueryType.TYPE_OUTER) {
-//      bool.mustNot(termsQuery("processBelongedAffairId", affairIds));
-//    } else if (query.getQueryType() == QueryType.TYPE_CREATED){
-//      bool.filter(termsQuery("affairId", affairIds));
-//    }
-//
-//    //templateId
-//    if (query.getTemplates() != null) {
-//      bool.filter(termsQuery("templateId", query.getTemplates()));
-//    }
-//    //status
-//    if (query.getStates() != null) {
-//      bool.filter(termsQuery("status", query.getStates()));
-//    }
-//
-//    //target
-//    if (query.getTargetIds() != null){
-//      bool.must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-//          .must(termQuery("sourceId", query.getTargetIds()));
-//    }
-//    //ann
-//    if (query.getAnnIds() != null){
-//      bool.must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-//          .must(termQuery("sourceId", query.getAnnIds()));
-//    }
-//
-//    //admin
-//    BoolQueryBuilder admin = boolQuery();
-//    if (query.getQueryType() != QueryType.TYPE_CREATED){
-//      if (query.getAdminServiceIds() != null){
-//        admin.should(termQuery("serviceId", query.getAdminServiceIds()));
-//      }
-//      if (query.getAdminTargetIds() != null){
-//        admin.should(boolQuery()
-//            .must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-//            .must(termQuery("sourceId", query.getAdminTargetIds())));
-//      }
-//      if (query.getAdminAnnIds() != null){
-//        admin.should(boolQuery()
-//            .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-//            .must(termQuery("sourceId", query.getAdminAnnIds())));
-//      }
-//      bool.filter(admin);
-//    }else {
-//      //creator can get list of provided service
-//      bool.must(termQuery("serviceId", query.getAdminServiceIds()));
-//    }
-//
-//    //role
-//    if (query.getQueryType() == QueryType.TYPE_INNER || query.getQueryType() == QueryType.TYPE_OUTER) {
-//      //launcher is roleId
-//      if (query.getRoleIds() != null) {
-//        bool.filter(termsQuery("roleId", query.getRoleIds()));
-//      }
-//    } else if (query.getQueryType() == QueryType.TYPE_ACT) {
-//      //actor in roles
-//      if (query.getRoleIds() != null) {
-//        bool.filter(termsQuery("roles", query.getRoleIds()));
-//      }
-//    }
-//    return bool;
-//  }
+    bool.filter(termQuery("status", 0L));
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices(getIndices(query))
+        .withQuery(bool)
+        .build();
+
+    List<Long> list = template.queryForIds(searchQuery).stream().map(Long::valueOf).collect(Collectors.toList());
+
+    ProcessCountVO vo = new ProcessCountVO();
+    vo.setCountMap(res);
+    vo.setOngingList(list);
+    return vo;
+  }
 
   private BoolQueryBuilder getQuery(ProcessQuery query){
     BoolQueryBuilder bool = boolQuery();
@@ -183,6 +118,9 @@ public class ProcessRepoImpl implements ProcessCustom {
       bool.filter(termsQuery("status", query.getStates()));
     }
 
+    if (query.getProcessIds() != null){
+      bool.filter(termsQuery("id", query.getProcessIds()));
+    }
 
     if (sourceType == ApplySource.AFFAIR.ordinal()){
       //affair search
@@ -198,14 +136,14 @@ public class ProcessRepoImpl implements ProcessCustom {
           if (query.getAdminTargetIds() != null) {
             inner.should(
                 boolQuery()
-                    .must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-                    .must(termQuery("sourceId", query.getAdminTargetIds())));
+                    .filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
+                    .filter(termQuery("sourceId", query.getAdminTargetIds())));
           }
           if (query.getAdminAnnIds() != null){
             inner.should(
                 boolQuery()
-                    .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-                    .must(termQuery("sourceId", query.getAdminAnnIds())));
+                    .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
+                    .filter(termQuery("sourceId", query.getAdminAnnIds())));
           }
           bool.filter(inner);
           break;
@@ -220,14 +158,14 @@ public class ProcessRepoImpl implements ProcessCustom {
           if (query.getAdminTargetIds() != null) {
             outer.should(
                 boolQuery()
-                    .must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-                    .must(termQuery("sourceId", query.getAdminTargetIds())));
+                    .filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
+                    .filter(termQuery("sourceId", query.getAdminTargetIds())));
           }
           if (query.getAdminAnnIds() != null){
             outer.should(
                 boolQuery()
-                    .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-                    .must(termQuery("sourceId", query.getAdminAnnIds())));
+                    .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
+                    .filter(termQuery("sourceId", query.getAdminAnnIds())));
           }
           bool.filter(outer);
           break;
@@ -241,14 +179,14 @@ public class ProcessRepoImpl implements ProcessCustom {
           if (query.getAdminTargetIds() != null) {
             act.should(
                 boolQuery()
-                    .must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-                    .must(termQuery("sourceId", query.getAdminTargetIds())));
+                    .filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
+                    .filter(termQuery("sourceId", query.getAdminTargetIds())));
           }
           if (query.getAdminAnnIds() != null){
             act.should(
                 boolQuery()
-                    .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-                    .must(termQuery("sourceId", query.getAdminAnnIds())));
+                    .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
+                    .filter(termQuery("sourceId", query.getAdminAnnIds())));
           }
           bool.filter(act);
           break;
@@ -257,7 +195,7 @@ public class ProcessRepoImpl implements ProcessCustom {
           bool.filter(termsQuery("affairId", affairIds));
           //creator can get list of provided service
           if (query.getAdminServiceIds() != null) {
-            bool.must(termQuery("serviceId", query.getAdminServiceIds()));
+            bool.filter(termQuery("serviceId", query.getAdminServiceIds()));
           }
           break;
       }
@@ -268,17 +206,17 @@ public class ProcessRepoImpl implements ProcessCustom {
       //position
       BoolQueryBuilder position = boolQuery().should((
           boolQuery()
-              .must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-              .must(getTq("sourceId", query.getTargetIds()))));
+              .filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
+              .filter(getTq("sourceId", query.getTargetIds()))));
       position.should((
           boolQuery()
-              .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-              .must(getTq("sourceId", query.getAnnIds()))));
+              .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
+              .filter(getTq("sourceId", query.getAnnIds()))));
       bool.filter(position);
       //normal role
-      BoolQueryBuilder normal = boolQuery().must(boolQuery().should(getTq("roleId", query.getRoleIds())).should(getTq("roles", query.getRoleIds())));
+      BoolQueryBuilder normal = boolQuery().filter(boolQuery().should(getTq("roleId", query.getRoleIds())).should(getTq("roles", query.getRoleIds())));
       //service admin
-      BoolQueryBuilder admin = boolQuery().must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())));
+      BoolQueryBuilder admin = boolQuery().filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())));
       bool.filter(
           boolQuery()
               .should(normal)
@@ -289,8 +227,8 @@ public class ProcessRepoImpl implements ProcessCustom {
       bool.filter(termsQuery("processBelongedAffairId", affairIds));
       BoolQueryBuilder position = boolQuery().should((
           boolQuery()
-              .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-              .must(getTq("sourceId", query.getAnnIds()))));
+              .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
+              .filter(getTq("sourceId", query.getAnnIds()))));
 
       bool.filter(position);
 
@@ -300,8 +238,8 @@ public class ProcessRepoImpl implements ProcessCustom {
       //admin ann
       BoolQueryBuilder admin = boolQuery().should(
           boolQuery()
-              .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-              .must(getTq("sourceId", query.getAdminAnnIds())));
+              .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
+              .filter(getTq("sourceId", query.getAdminAnnIds())));
       bool.filter(
           boolQuery()
               .should(normal)
