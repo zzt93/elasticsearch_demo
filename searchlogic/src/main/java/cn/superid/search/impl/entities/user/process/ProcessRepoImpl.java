@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms.Bucket;
@@ -182,7 +183,9 @@ public class ProcessRepoImpl implements ProcessCustom {
       bool.filter(termsQuery("status", query.getStates()));
     }
 
+
     if (sourceType == ApplySource.AFFAIR.ordinal()){
+      //affair search
       switch (queryType) {
         case TYPE_INNER:
           //affair
@@ -259,86 +262,46 @@ public class ProcessRepoImpl implements ProcessCustom {
           break;
       }
     } else if (sourceType == ApplySource.AIM.ordinal()){
+      //target search
       //affair
       bool.filter(termsQuery("processBelongedAffairId", affairIds));
-      BoolQueryBuilder admin = boolQuery();
-      BoolQueryBuilder normal = boolQuery();
-      BoolQueryBuilder position = boolQuery();
-      List<Long> roleIds = query.getRoleIds();
-      //role
-      if (roleIds == null){
-        roleIds = new ArrayList<>();
-      }
-      normal.must(
-          boolQuery()
-              .should(termsQuery("roleId", roleIds))
-              .should(termsQuery("roles", roleIds)));
-      List<Long> targetIds = query.getTargetIds();
-      if (targetIds == null){
-        targetIds = new ArrayList<>();
-      }
-      position.should((
+      //position
+      BoolQueryBuilder position = boolQuery().should((
           boolQuery()
               .must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-              .must(termQuery("sourceId", targetIds))));
-      List<Long> annIds = query.getAnnIds();
-      if (annIds == null){
-        annIds = new ArrayList<>();
-      }
+              .must(getTq("sourceId", query.getTargetIds()))));
       position.should((
           boolQuery()
               .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-              .must(termQuery("sourceId", annIds))));
-      normal.must(position);
-      //admin target
-      if (query.getAdminTargetIds() != null) {
-        admin.should(
-            boolQuery()
-                .must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-                .must(termQuery("sourceId", query.getAdminTargetIds())));
-      }
-      //admin ann
-      if (query.getAdminAnnIds() != null){
-        admin.should(
-            boolQuery()
-                .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-                .must(termQuery("sourceId", query.getAdminAnnIds())));
-      }
+              .must(getTq("sourceId", query.getAnnIds()))));
+      bool.filter(position);
+      //normal role
+      BoolQueryBuilder normal = boolQuery().must(boolQuery().should(getTq("roleId", query.getRoleIds())).should(getTq("roles", query.getRoleIds())));
+      //service admin
+      BoolQueryBuilder admin = boolQuery().must(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())));
       bool.filter(
           boolQuery()
               .should(normal)
               .should(admin));
     }else if (sourceType == ApplySource.ANN.ordinal()){
+      //ann search
       //affair
       bool.filter(termsQuery("processBelongedAffairId", affairIds));
-      BoolQueryBuilder admin = boolQuery();
-      BoolQueryBuilder normal = boolQuery();
-      BoolQueryBuilder position = boolQuery();
-      List<Long> roleIds = query.getRoleIds();
-      //role
-      if (roleIds == null){
-        roleIds = new ArrayList<>();
-      }
-      normal.must(
-          boolQuery()
-              .should(termsQuery("roleId", roleIds))
-              .should(termsQuery("roles", roleIds)));
-      List<Long> annIds = query.getAnnIds();
-      if (annIds == null){
-        annIds = new ArrayList<>();
-      }
-      position.should((
+      BoolQueryBuilder position = boolQuery().should((
           boolQuery()
               .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-              .must(termQuery("sourceId", annIds))));
-      normal.must(position);
+              .must(getTq("sourceId", query.getAnnIds()))));
+
+      bool.filter(position);
+
+      BoolQueryBuilder normal =
+          boolQuery()
+              .filter(getTq("roleId", query.getRoleIds()));
       //admin ann
-      if (query.getAdminAnnIds() != null){
-        admin.should(
-            boolQuery()
-                .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-                .must(termQuery("sourceId", query.getAdminAnnIds())));
-      }
+      BoolQueryBuilder admin = boolQuery().should(
+          boolQuery()
+              .must(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
+              .must(getTq("sourceId", query.getAdminAnnIds())));
       bool.filter(
           boolQuery()
               .should(normal)
@@ -348,7 +311,14 @@ public class ProcessRepoImpl implements ProcessCustom {
     return bool;
   }
 
-  private String[] getIndices(ProcessQuery query){
+  private static String[] getIndices(ProcessQuery query){
     return new String[]{Suffix.indexNamePattern(ProcessPO.class)};
+  }
+
+  private static TermsQueryBuilder getTq(String field, List<Long> list){
+    if (list == null){
+      list = new ArrayList<>();
+    }
+    return termsQuery(field,list);
   }
 }
