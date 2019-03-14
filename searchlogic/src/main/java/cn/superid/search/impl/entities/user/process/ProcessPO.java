@@ -44,12 +44,19 @@ public class ProcessPO {
   private String[] tag;
   @Field(type = FieldType.Long)
   private long[] roles;
+  @Field(type = FieldType.Long)
+  private Long processBelongedAffairId;
+  @Field(type = FieldType.Long)
+  private Long sourceId;
+  @Field(type = FieldType.Long)
+  private Long serviceId;
 
   public ProcessPO() {
   }
 
   public ProcessPO(String id, Long templateId, Byte status, Long roleId, Timestamp time, Long affairId, Byte sourceType,
-      String sourceName, Long roleBelongedAffairId, String name, String[] tag, long[] roles) {
+      String sourceName, Long roleBelongedAffairId, String name, String[] tag, long[] roles,
+      Long processBelongedAffairId, Long sourceId, Long serviceId) {
     this.id = id;
     this.templateId = templateId;
     this.status = status;
@@ -62,6 +69,9 @@ public class ProcessPO {
     this.name = name;
     this.tag = tag;
     this.roles = roles;
+    this.processBelongedAffairId = processBelongedAffairId;
+    this.sourceId = sourceId;
+    this.serviceId = serviceId;
   }
 
   public static int getClusterSize() {
@@ -180,5 +190,29 @@ public class ProcessPO {
         ", tag=" + Arrays.toString(tag) +
         ", roles=" + Arrays.toString(roles) +
         '}';
+  }
+
+  public Long getProcessBelongedAffairId() {
+    return processBelongedAffairId;
+  }
+
+  public void setProcessBelongedAffairId(Long processBelongedAffairId) {
+    this.processBelongedAffairId = processBelongedAffairId;
+  }
+
+  public Long getSourceId() {
+    return sourceId;
+  }
+
+  public void setSourceId(Long sourceId) {
+    this.sourceId = sourceId;
+  }
+
+  public Long getServiceId() {
+    return serviceId;
+  }
+
+  public void setServiceId(Long serviceId) {
+    this.serviceId = serviceId;
   }
 }

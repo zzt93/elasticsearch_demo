@@ -315,11 +315,16 @@ public class QueryController {
   }
 
   @PostMapping("/process")
-  public PageVO<ProcessVO> queryProcessInner(@RequestBody ProcessQuery query) {
+  public PageVO<ProcessVO> queryProcess(@RequestBody ProcessQuery query) {
     PageRequest pageRequest = query.getPageRequest();
     checkPage(pageRequest);
     Page<ProcessPO> res = processRepo
         .find(query, pageRequest);
     return new PageVO<>(res, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/process/count")
+  public Map<Long, Long> countProcess(@RequestBody ProcessQuery query) {
+    return processRepo.count(query);
   }
 }
