@@ -45,6 +45,7 @@ public class ProcessQuery extends PagedQuery {
   private List<Integer> templates;
   private QueryType queryType;
   private Integer sourceType;
+  private List<Long> processIds;
 
   public List<Long> getTargetIds() {
     return targetIds;
@@ -94,6 +95,14 @@ public class ProcessQuery extends PagedQuery {
     this.sourceType = sourceType;
   }
 
+  public List<Long> getProcessIds() {
+    return processIds;
+  }
+
+  public void setProcessIds(List<Long> processIds) {
+    this.processIds = processIds;
+  }
+
   public enum QueryType{
     TYPE_INNER,TYPE_OUTER,TYPE_ACT,TYPE_CREATED;
   }
@@ -105,7 +114,8 @@ public class ProcessQuery extends PagedQuery {
       List<Long> adminTargetIds, List<Long> adminAnnIds, List<Long> adminServiceIds, List<Long> roleIds,
       long startTime,
       long endTime,
-      List<Byte> states, List<Integer> templates, QueryType queryType, Integer sourceType) {
+      List<Byte> states, List<Integer> templates, QueryType queryType, Integer sourceType,
+      List<Long> processIds) {
     this.affairIds = affairIds;
     this.targetIds = targetIds;
     this.annIds = annIds;
@@ -119,6 +129,7 @@ public class ProcessQuery extends PagedQuery {
     this.templates = templates;
     this.queryType = queryType;
     this.sourceType = sourceType;
+    this.processIds = processIds;
   }
 
   public List<Long> getAffairIds() {
