@@ -315,7 +315,7 @@ public class QueryController {
   }
 
   @PostMapping("/process")
-  public PageVO<ProcessVO> queryProcess(@RequestBody ProcessQuery query) {
+  public PageVO<ProcessVO> queryProcessInner(@RequestBody ProcessQuery query) {
     PageRequest pageRequest = query.getPageRequest();
     checkPage(pageRequest);
     Page<ProcessPO> res = processRepo
