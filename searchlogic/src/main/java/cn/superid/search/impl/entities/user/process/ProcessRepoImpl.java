@@ -13,6 +13,7 @@ import cn.superid.common.rest.constant.workflow.ApplySource;
 import cn.superid.search.entities.user.process.ProcessCountVO;
 import cn.superid.search.entities.user.process.ProcessQuery;
 import cn.superid.search.entities.user.process.ProcessQuery.QueryType;
+import cn.superid.search.impl.DefaultFetchSource;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.text.SimpleDateFormat;
@@ -56,6 +57,7 @@ public class ProcessRepoImpl implements ProcessCustom {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(getIndices(query))
         .withQuery(bool)
+        .withSourceFilter(DefaultFetchSource.defaultId())
         .withPageable(pageable)
         .build();
     return template
@@ -68,11 +70,11 @@ public class ProcessRepoImpl implements ProcessCustom {
     NativeSearchQuery countQuery = new NativeSearchQueryBuilder()
         .withIndices(getIndices(query))
         .withTypes("process*")
-        .addAggregation(terms("status").field("id"))
+        .addAggregation(terms("ids").field("status"))
         .withQuery(bool).build();
 
     Aggregations aggregations = template.query(countQuery, SearchResponse::getAggregations);
-    StringTerms ids = (StringTerms) aggregations.asMap().get("status");
+    StringTerms ids = (StringTerms) aggregations.asMap().get("ids");
     Map<Long, Long> res = new HashMap<>();
     for (Bucket bucket : ids.getBuckets()) {
       res.put(bucket.getKeyAsNumber().longValue(), bucket.getDocCount());
@@ -82,6 +84,7 @@ public class ProcessRepoImpl implements ProcessCustom {
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(getIndices(query))
         .withQuery(bool)
+        .withSourceFilter(DefaultFetchSource.defaultId())
         .build();
 
     List<Long> list = template.queryForIds(searchQuery).stream().map(Long::valueOf).collect(Collectors.toList());
