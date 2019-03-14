@@ -192,12 +192,19 @@ public class ProcessQuery extends PagedQuery {
   public String toString() {
     return "ProcessQuery{" +
         "affairIds=" + affairIds +
+        ", targetIds=" + targetIds +
+        ", annIds=" + annIds +
+        ", adminTargetIds=" + adminTargetIds +
+        ", adminAnnIds=" + adminAnnIds +
+        ", adminServiceIds=" + adminServiceIds +
         ", roleIds=" + roleIds +
         ", startTime=" + startTime +
         ", endTime=" + endTime +
         ", states=" + states +
         ", templates=" + templates +
         ", queryType=" + queryType +
+        ", sourceType=" + sourceType +
+        ", processIds=" + processIds +
         '}';
   }
 }
