@@ -27,8 +27,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.aggregations.Aggregations;
-import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
-import org.elasticsearch.search.aggregations.bucket.terms.StringTerms.Bucket;
+import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.LongTerms.Bucket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -74,7 +74,7 @@ public class ProcessRepoImpl implements ProcessCustom {
         .withQuery(bool).build();
 
     Aggregations aggregations = template.query(countQuery, SearchResponse::getAggregations);
-    StringTerms ids = (StringTerms) aggregations.asMap().get("ids");
+    LongTerms ids = (LongTerms) aggregations.asMap().get("ids");
     Map<Long, Long> res = new HashMap<>();
     for (Bucket bucket : ids.getBuckets()) {
       res.put(bucket.getKeyAsNumber().longValue(), bucket.getDocCount());
