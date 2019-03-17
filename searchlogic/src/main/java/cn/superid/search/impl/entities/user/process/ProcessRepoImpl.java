@@ -69,7 +69,7 @@ public class ProcessRepoImpl implements ProcessCustom {
     BoolQueryBuilder bool = getQuery(query);
     NativeSearchQuery countQuery = new NativeSearchQueryBuilder()
         .withIndices(getIndices(query))
-        .withTypes("process*")
+        .withTypes("process")
         .addAggregation(terms("ids").field("status"))
         .withQuery(bool).build();
 
