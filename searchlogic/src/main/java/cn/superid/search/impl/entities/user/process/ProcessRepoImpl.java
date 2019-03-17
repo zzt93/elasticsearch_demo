@@ -122,7 +122,7 @@ public class ProcessRepoImpl implements ProcessCustom {
     }
 
     if (query.getProcessIds() != null){
-      bool.filter(termsQuery("id", query.getProcessIds()));
+      bool.filter(termsQuery("_id", query.getProcessIds()));
     }
 
     if (sourceType == ApplySource.AFFAIR.ordinal()){
