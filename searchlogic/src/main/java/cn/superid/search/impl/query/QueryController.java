@@ -16,6 +16,7 @@ import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.entities.user.affair.MenkorVO;
 import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
+import cn.superid.search.entities.user.process.ProcessCountVO;
 import cn.superid.search.entities.user.process.ProcessQuery;
 import cn.superid.search.entities.user.process.ProcessVO;
 import cn.superid.search.entities.user.role.RoleQuery;
@@ -321,5 +322,10 @@ public class QueryController {
     Page<ProcessPO> res = processRepo
         .find(query, pageRequest);
     return new PageVO<>(res, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/process/count")
+  public ProcessCountVO countProcess(@RequestBody ProcessQuery query) {
+    return processRepo.count(query);
   }
 }
