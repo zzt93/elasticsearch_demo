@@ -217,7 +217,10 @@ public class ProcessRepoImpl implements ProcessCustom {
               .filter(getTq("sourceId", query.getAnnIds()))));
       bool.filter(position);
       //normal role
-      BoolQueryBuilder normal = boolQuery().filter(boolQuery().should(getTq("roleId", query.getRoleIds())).should(getTq("roles", query.getRoleIds())));
+      BoolQueryBuilder normal = boolQuery();
+      if (query.getRoleIds() !=null){
+        normal.filter(boolQuery().should(termsQuery("roleId", query.getRoleIds())).should(termsQuery("roles", query.getRoleIds())));
+      }
       //service admin
       BoolQueryBuilder admin = boolQuery().filter(getTq("serviceId", query.getAdminServiceIds()));
       bool.filter(
@@ -235,9 +238,10 @@ public class ProcessRepoImpl implements ProcessCustom {
 
       bool.filter(position);
 
-      BoolQueryBuilder normal =
-          boolQuery()
-              .filter(getTq("roleId", query.getRoleIds()));
+      BoolQueryBuilder normal = boolQuery();
+      if (query.getRoleIds() !=null){
+        normal.filter(boolQuery().should(termsQuery("roleId", query.getRoleIds())).should(termsQuery("roles", query.getRoleIds())));
+      }
       //admin ann
       BoolQueryBuilder admin = boolQuery().should(
           boolQuery()
