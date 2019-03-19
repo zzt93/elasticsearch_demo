@@ -219,7 +219,7 @@ public class ProcessRepoImpl implements ProcessCustom {
       //normal role
       BoolQueryBuilder normal = boolQuery().filter(boolQuery().should(getTq("roleId", query.getRoleIds())).should(getTq("roles", query.getRoleIds())));
       //service admin
-      BoolQueryBuilder admin = boolQuery().filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())));
+      BoolQueryBuilder admin = boolQuery().filter(getTq("serviceId", query.getAdminServiceIds()));
       bool.filter(
           boolQuery()
               .should(normal)
