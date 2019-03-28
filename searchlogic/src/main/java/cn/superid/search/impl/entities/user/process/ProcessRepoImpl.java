@@ -153,6 +153,7 @@ public class ProcessRepoImpl implements ProcessCustom {
         case TYPE_OUTER:
           //affair
           bool.mustNot(termsQuery("processBelongedAffairId", affairIds));
+          bool.must(termsQuery("roleBelongedAffairId", affairIds));
           BoolQueryBuilder outer = boolQuery();
           //launcher is roleId
           if (query.getRoleIds() != null) {
