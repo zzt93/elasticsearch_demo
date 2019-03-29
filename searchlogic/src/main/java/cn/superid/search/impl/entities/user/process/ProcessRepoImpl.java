@@ -137,16 +137,10 @@ public class ProcessRepoImpl implements ProcessCustom {
             inner.should(termsQuery("roleId", query.getRoleIds()));
           }
           if (query.getAdminTargetIds() != null) {
-            inner.should(
-                boolQuery()
-                    .filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-                    .filter(termQuery("sourceId", query.getAdminTargetIds())));
+            inner.should(getTargetSourceTq(query.getAdminTargetIds()));
           }
           if (query.getAdminAnnIds() != null){
-            inner.should(
-                boolQuery()
-                    .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-                    .filter(termQuery("sourceId", query.getAdminAnnIds())));
+            inner.should(getAnnSourceTq(query.getAdminAnnIds()));
           }
           bool.filter(inner);
           break;
@@ -160,16 +154,10 @@ public class ProcessRepoImpl implements ProcessCustom {
             outer.should(termsQuery("roleId", query.getRoleIds()));
           }
           if (query.getAdminTargetIds() != null) {
-            outer.should(
-                boolQuery()
-                    .filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-                    .filter(termQuery("sourceId", query.getAdminTargetIds())));
+            outer.should(getTargetSourceTq(query.getAdminTargetIds()));
           }
           if (query.getAdminAnnIds() != null){
-            outer.should(
-                boolQuery()
-                    .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-                    .filter(termQuery("sourceId", query.getAdminAnnIds())));
+            outer.should(getAnnSourceTq(query.getAdminAnnIds()));
           }
           bool.filter(outer);
           break;
@@ -181,16 +169,10 @@ public class ProcessRepoImpl implements ProcessCustom {
             act.should(termsQuery("roles", query.getRoleIds()));
           }
           if (query.getAdminTargetIds() != null) {
-            act.should(
-                boolQuery()
-                    .filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-                    .filter(termQuery("sourceId", query.getAdminTargetIds())));
+            act.should(getTargetSourceTq(query.getAdminTargetIds()));
           }
           if (query.getAdminAnnIds() != null){
-            act.should(
-                boolQuery()
-                    .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-                    .filter(termQuery("sourceId", query.getAdminAnnIds())));
+            act.should(getAnnSourceTq(query.getAdminAnnIds()));
           }
           bool.filter(act);
           break;
@@ -199,7 +181,7 @@ public class ProcessRepoImpl implements ProcessCustom {
           bool.filter(termsQuery("affairId", affairIds));
           //creator can get list of provided service
           if (query.getAdminServiceIds() != null) {
-            bool.filter(termQuery("serviceId", query.getAdminServiceIds()));
+            bool.filter(termsQuery("serviceId", query.getAdminServiceIds()));
           }
           break;
       }
@@ -208,14 +190,8 @@ public class ProcessRepoImpl implements ProcessCustom {
       //affair
       bool.filter(termsQuery("processBelongedAffairId", affairIds));
       //position
-      BoolQueryBuilder position = boolQuery().should((
-          boolQuery()
-              .filter(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
-              .filter(getTq("sourceId", query.getTargetIds()))));
-      position.should((
-          boolQuery()
-              .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-              .filter(getTq("sourceId", query.getAnnIds()))));
+      BoolQueryBuilder position = boolQuery().should(getTargetSourceTq(query.getTargetIds()));
+      position.should(getAnnSourceTq(query.getAnnIds()));
       bool.filter(position);
       //normal role
       BoolQueryBuilder normal = boolQuery();
@@ -232,10 +208,7 @@ public class ProcessRepoImpl implements ProcessCustom {
       //ann search
       //affair
       bool.filter(termsQuery("processBelongedAffairId", affairIds));
-      BoolQueryBuilder position = boolQuery().should((
-          boolQuery()
-              .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-              .filter(getTq("sourceId", query.getAnnIds()))));
+      BoolQueryBuilder position = boolQuery().should(getAnnSourceTq(query.getAnnIds()));
 
       bool.filter(position);
 
@@ -244,10 +217,7 @@ public class ProcessRepoImpl implements ProcessCustom {
         normal.filter(boolQuery().should(termsQuery("roleId", query.getRoleIds())).should(termsQuery("roles", query.getRoleIds())));
       }
       //admin ann
-      BoolQueryBuilder admin = boolQuery().should(
-          boolQuery()
-              .filter(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
-              .filter(getTq("sourceId", query.getAdminAnnIds())));
+      BoolQueryBuilder admin = boolQuery().should(getAnnSourceTq(query.getAdminAnnIds()));
       bool.filter(
           boolQuery()
               .should(normal)
@@ -266,5 +236,21 @@ public class ProcessRepoImpl implements ProcessCustom {
       list = new ArrayList<>();
     }
     return termsQuery(field,list);
+  }
+
+  private static BoolQueryBuilder getAnnSourceTq(List<Long> ids){
+    return boolQuery()
+        .filter(boolQuery()
+            .should(termQuery("sourceType", String.valueOf(ApplySource.ANN.ordinal())))
+            .should(termQuery("sourceType", String.valueOf(ApplySource.FOOD.ordinal()))))
+        .filter(getTq("sourceId", ids));
+  }
+
+  private static BoolQueryBuilder getTargetSourceTq(List<Long> ids){
+    return boolQuery()
+        .filter(boolQuery()
+            .should(termQuery("sourceType", String.valueOf(ApplySource.AIM.ordinal())))
+            .should(termQuery("sourceType", String.valueOf(ApplySource.MENKOR.ordinal()))))
+        .filter(getTq("sourceId", ids));
   }
 }
