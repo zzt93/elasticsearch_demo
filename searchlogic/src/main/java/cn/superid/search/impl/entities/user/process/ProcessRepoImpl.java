@@ -31,6 +31,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.LongTerms.Bucket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
@@ -85,6 +86,7 @@ public class ProcessRepoImpl implements ProcessCustom {
         .withIndices(getIndices(query))
         .withQuery(bool)
         .withSourceFilter(DefaultFetchSource.defaultId())
+        .withPageable(PageRequest.of(0, res.getOrDefault(0L ,0L).intValue()))
         .build();
 
     List<Long> list = template.queryForIds(searchQuery).stream().map(Long::valueOf).collect(Collectors.toList());
