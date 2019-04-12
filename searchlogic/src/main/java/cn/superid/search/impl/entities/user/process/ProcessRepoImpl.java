@@ -82,14 +82,20 @@ public class ProcessRepoImpl implements ProcessCustom {
     }
 
     bool.filter(termQuery("status", 0L));
-    SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(getIndices(query))
-        .withQuery(bool)
-        .withSourceFilter(DefaultFetchSource.defaultId())
-        .withPageable(PageRequest.of(0, res.getOrDefault(0L ,0L).intValue()))
-        .build();
+    List<Long> list;
+    int size = res.getOrDefault(0L, 0L).intValue();
+    if (size == 0){
+      list = new ArrayList<>();
+    }else {
+      SearchQuery searchQuery = new NativeSearchQueryBuilder()
+          .withIndices(getIndices(query))
+          .withQuery(bool)
+          .withSourceFilter(DefaultFetchSource.defaultId())
+          .withPageable(PageRequest.of(0, size))
+          .build();
+      list = template.queryForIds(searchQuery).stream().map(Long::valueOf).collect(Collectors.toList());
+    }
 
-    List<Long> list = template.queryForIds(searchQuery).stream().map(Long::valueOf).collect(Collectors.toList());
 
     ProcessCountVO vo = new ProcessCountVO();
     vo.setCountMap(res);
