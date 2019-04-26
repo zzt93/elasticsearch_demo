@@ -21,6 +21,10 @@ public class ProcessQuery extends PagedQuery {
    */
   private List<Long> annIds;
   /**
+   * 所查询的服务Ids
+   */
+  private List<Long> serviceIds;
+  /**
    * 作为管理员的targetIds
    */
   private List<Long> adminTargetIds;
@@ -103,6 +107,14 @@ public class ProcessQuery extends PagedQuery {
     this.processIds = processIds;
   }
 
+  public List<Long> getServiceIds() {
+    return serviceIds;
+  }
+
+  public void setServiceIds(List<Long> serviceIds) {
+    this.serviceIds = serviceIds;
+  }
+
   public enum QueryType{
     TYPE_INNER,TYPE_OUTER,TYPE_ACT,TYPE_CREATED;
   }
@@ -110,15 +122,14 @@ public class ProcessQuery extends PagedQuery {
   public ProcessQuery() {
   }
 
-  public ProcessQuery(List<Long> affairIds, List<Long> targetIds, List<Long> annIds,
-      List<Long> adminTargetIds, List<Long> adminAnnIds, List<Long> adminServiceIds, List<Long> roleIds,
-      long startTime,
-      long endTime,
-      List<Byte> states, List<Integer> templates, QueryType queryType, Integer sourceType,
-      List<Long> processIds) {
+  public ProcessQuery(List<Long> affairIds, List<Long> targetIds, List<Long> annIds, List<Long> serviceIds,
+      List<Long> adminTargetIds, List<Long> adminAnnIds, List<Long> adminServiceIds, List<Long> roleIds, long startTime,
+      long endTime, List<Byte> states, List<Integer> templates,
+      QueryType queryType, Integer sourceType, List<Long> processIds) {
     this.affairIds = affairIds;
     this.targetIds = targetIds;
     this.annIds = annIds;
+    this.serviceIds = serviceIds;
     this.adminTargetIds = adminTargetIds;
     this.adminAnnIds = adminAnnIds;
     this.adminServiceIds = adminServiceIds;
@@ -194,6 +205,7 @@ public class ProcessQuery extends PagedQuery {
         "affairIds=" + affairIds +
         ", targetIds=" + targetIds +
         ", annIds=" + annIds +
+        ", serviceIds=" + serviceIds +
         ", adminTargetIds=" + adminTargetIds +
         ", adminAnnIds=" + adminAnnIds +
         ", adminServiceIds=" + adminServiceIds +

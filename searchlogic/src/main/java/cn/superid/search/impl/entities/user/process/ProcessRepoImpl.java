@@ -124,6 +124,10 @@ public class ProcessRepoImpl implements ProcessCustom {
     if (query.getTemplates() != null) {
       bool.filter(termsQuery("templateId", query.getTemplates()));
     }
+    //serviceId
+    if (query.getServiceIds() != null) {
+      bool.filter(termsQuery("serviceId", query.getServiceIds()));
+    }
     BoolQueryBuilder stateOrIds = boolQuery();
     //status or pids
     if (query.getStates() != null) {
