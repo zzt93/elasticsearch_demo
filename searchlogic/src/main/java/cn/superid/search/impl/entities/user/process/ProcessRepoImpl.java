@@ -218,6 +218,10 @@ public class ProcessRepoImpl implements ProcessCustom {
           boolQuery()
               .should(normal)
               .should(admin));
+      //filter by initiator
+      if (query.getStarterRoleIds() !=null) {
+        bool.filter(boolQuery().should(termsQuery("roleId", query.getStarterRoleIds())));
+      }
     }else if (sourceType == ApplySource.ANN.ordinal()){
       //ann search
       //affair
