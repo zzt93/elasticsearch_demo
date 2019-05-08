@@ -240,6 +240,9 @@ public class ProcessRepoImpl implements ProcessCustom {
           boolQuery()
               .should(normal)
               .should(admin));
+      if (query.getStarterRoleIds() !=null) {
+        bool.filter(boolQuery().should(termsQuery("roleId", query.getStarterRoleIds())));
+      }
     }
 
     return bool;
