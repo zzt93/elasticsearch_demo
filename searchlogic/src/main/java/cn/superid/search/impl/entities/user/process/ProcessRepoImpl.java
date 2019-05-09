@@ -139,6 +139,10 @@ public class ProcessRepoImpl implements ProcessCustom {
 
     bool.filter(stateOrIds);
 
+    //filter by initiator
+    if (query.getStarterRoleIds() !=null) {
+      bool.filter(boolQuery().should(termsQuery("roleId", query.getStarterRoleIds())));
+    }
     if (sourceType == ApplySource.AFFAIR.ordinal()){
       //affair search
       switch (queryType) {
@@ -218,10 +222,6 @@ public class ProcessRepoImpl implements ProcessCustom {
           boolQuery()
               .should(normal)
               .should(admin));
-      //filter by initiator
-      if (query.getStarterRoleIds() !=null) {
-        bool.filter(boolQuery().should(termsQuery("roleId", query.getStarterRoleIds())));
-      }
     }else if (sourceType == ApplySource.ANN.ordinal()){
       //ann search
       //affair
@@ -240,9 +240,7 @@ public class ProcessRepoImpl implements ProcessCustom {
           boolQuery()
               .should(normal)
               .should(admin));
-      if (query.getStarterRoleIds() !=null) {
-        bool.filter(boolQuery().should(termsQuery("roleId", query.getStarterRoleIds())));
-      }
+
     }
 
     return bool;
