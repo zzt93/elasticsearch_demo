@@ -1,11 +1,11 @@
 package cn.superid.search.entities.user.file;
 
-import cn.superid.search.entities.StringQuery;
+import cn.superid.search.entities.PagedQuery;
 
 /**
  * @author zzt
  */
-public class FileQuery extends StringQuery {
+public class FileQuery extends PagedQuery {
 
   private Long allianceId;
   private Long affairId;
