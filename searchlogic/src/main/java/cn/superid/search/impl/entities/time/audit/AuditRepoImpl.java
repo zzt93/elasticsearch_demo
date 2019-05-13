@@ -31,7 +31,7 @@ public class AuditRepoImpl implements AuditCustom {
     PageRequest pageRequest = info.getPageRequest();
     Preconditions.checkArgument(pageRequest != null);
     pageRequest = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize(),
-        Sort.by(Order.desc("_score"), Order.desc("sendTime")));
+        Sort.by(Order.desc("sendTime")));
     Preconditions.checkArgument(info.getQuery() != null);
 
     BoolQueryBuilder bool = boolQuery()
