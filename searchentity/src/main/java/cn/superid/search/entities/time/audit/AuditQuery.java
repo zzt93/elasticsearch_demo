@@ -13,14 +13,14 @@ import org.springframework.data.domain.PageRequest;
 @Data
 public class AuditQuery extends PagedQuery {
 
-  private long sender;
-  private long receiver;
+  private Long sender;
+  private Long receiver;
   private List<Byte> states;
 
   public AuditQuery() {
   }
 
-  public AuditQuery(String query, PageRequest pageRequest, List<Byte> states, long sender, long receiver) {
+  public AuditQuery(String query, PageRequest pageRequest, List<Byte> states, Long sender, Long receiver) {
     setQuery(query);
     setPageRequest(pageRequest);
     this.states = states;

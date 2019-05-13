@@ -35,13 +35,18 @@ public class AuditRepoImpl implements AuditCustom {
     Preconditions.checkArgument(info.getQuery() != null);
 
     BoolQueryBuilder bool = boolQuery()
-        .must(
-            boolQuery()
-                .should(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())))
-        )
-        .filter(termsQuery("receiverRoleId", info.getReceiver()))
-        .filter(termsQuery("senderRoleId", info.getReceiver())
-        );
+        .must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
+    if (info.getSender() != null && info.getReceiver() != null) {
+      bool.must(
+          boolQuery()
+              .should(termsQuery("senderRoleId", info.getReceiver()))
+              .should(termsQuery("receiverRoleId", info.getReceiver()))
+      );
+    } else if (info.getSender() != null) {
+      bool.must(termsQuery("senderRoleId", info.getReceiver()));
+    } else if (info.getReceiver() != null) {
+      bool.must(termsQuery("receiverRoleId", info.getReceiver()));
+    }
     if (info.getStates() != null) {
       bool.filter(termsQuery("handleState", info.getStates()));
     }
