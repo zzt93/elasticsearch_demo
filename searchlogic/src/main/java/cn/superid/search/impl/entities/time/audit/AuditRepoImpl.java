@@ -1,7 +1,6 @@
 package cn.superid.search.impl.entities.time.audit;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
@@ -32,20 +31,19 @@ public class AuditRepoImpl implements AuditCustom {
     PageRequest pageRequest = info.getPageRequest();
     Preconditions.checkArgument(pageRequest != null);
     pageRequest = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize(),
-        Sort.by(Order.desc("sendTime")));
+        Sort.by(Order.desc("_score"), Order.desc("sendTime")));
     Preconditions.checkArgument(info.getQuery() != null);
-    Preconditions.checkArgument(info.getRoles() != null && !info.getRoles().isEmpty());
 
     BoolQueryBuilder bool = boolQuery()
         .must(
             boolQuery()
                 .should(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())))
-                .should(wildcardQuery("affairName", QueryHelper.wildcard(info.getQuery())))
-                .should(wildcardQuery("username", QueryHelper.wildcard(info.getQuery())))
-                .should(wildcardQuery("senderTitle", QueryHelper.wildcard(info.getQuery())))
-        ).filter(termsQuery("receiverRoleId", info.getRoles()));
-    if (info.getState() != null) {
-      bool.filter(termQuery("handleState", info.getState()));
+        )
+        .filter(termsQuery("receiverRoleId", info.getReceiver()))
+        .filter(termsQuery("senderRoleId", info.getReceiver())
+        );
+    if (info.getStates() != null) {
+      bool.filter(termsQuery("handleState", info.getStates()));
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
