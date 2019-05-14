@@ -40,11 +40,11 @@ public class AuditRepoImpl implements AuditCustom {
     if (info.getSender() != null && info.getReceiver() != null) {
       bool.must(
           boolQuery()
-              .should(termQuery("senderRoleId", info.getReceiver()))
+              .should(termQuery("senderRoleId", info.getSender()))
               .should(termQuery("receiverRoleId", info.getReceiver()))
       );
     } else if (info.getSender() != null) {
-      bool.must(termQuery("senderRoleId", info.getReceiver()));
+      bool.must(termQuery("senderRoleId", info.getSender()));
     } else if (info.getReceiver() != null) {
       bool.must(termQuery("receiverRoleId", info.getReceiver()));
     }
