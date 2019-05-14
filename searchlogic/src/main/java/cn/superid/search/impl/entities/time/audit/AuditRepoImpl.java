@@ -1,6 +1,7 @@
 package cn.superid.search.impl.entities.time.audit;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
@@ -39,13 +40,13 @@ public class AuditRepoImpl implements AuditCustom {
     if (info.getSender() != null && info.getReceiver() != null) {
       bool.must(
           boolQuery()
-              .should(termsQuery("senderRoleId", info.getReceiver()))
-              .should(termsQuery("receiverRoleId", info.getReceiver()))
+              .should(termQuery("senderRoleId", info.getReceiver()))
+              .should(termQuery("receiverRoleId", info.getReceiver()))
       );
     } else if (info.getSender() != null) {
-      bool.must(termsQuery("senderRoleId", info.getReceiver()));
+      bool.must(termQuery("senderRoleId", info.getReceiver()));
     } else if (info.getReceiver() != null) {
-      bool.must(termsQuery("receiverRoleId", info.getReceiver()));
+      bool.must(termQuery("receiverRoleId", info.getReceiver()));
     }
     if (info.getStates() != null) {
       bool.filter(termsQuery("handleState", info.getStates()));
