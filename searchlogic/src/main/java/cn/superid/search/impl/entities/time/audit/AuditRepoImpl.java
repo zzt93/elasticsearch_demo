@@ -1,6 +1,7 @@
 package cn.superid.search.impl.entities.time.audit;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
@@ -50,6 +51,11 @@ public class AuditRepoImpl implements AuditCustom {
     }
     if (info.getStates() != null) {
       bool.filter(termsQuery("handleState", info.getStates()));
+    }
+    if (info.getFrom() != null) {
+      bool.filter(rangeQuery("sendTime")
+          .gt(info.getFrom())
+          .lt(info.getTo()));
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()

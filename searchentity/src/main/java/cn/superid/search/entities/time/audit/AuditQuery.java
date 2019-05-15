@@ -15,17 +15,21 @@ public class AuditQuery extends PagedQuery {
 
   private Long sender;
   private Long receiver;
+  private Long from;
+  private Long to;
   private List<Byte> states;
 
   public AuditQuery() {
   }
 
-  public AuditQuery(String query, PageRequest pageRequest, List<Byte> states, Long sender, Long receiver) {
+  public AuditQuery(String query, PageRequest pageRequest, List<Byte> states, Long sender, Long receiver, Long from, Long to) {
     setQuery(query);
     setPageRequest(pageRequest);
     this.states = states;
     this.sender = sender;
     this.receiver = receiver;
+    this.from = from;
+    this.to = to;
   }
 
 }
