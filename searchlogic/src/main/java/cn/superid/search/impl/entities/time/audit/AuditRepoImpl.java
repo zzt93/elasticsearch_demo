@@ -14,8 +14,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -32,8 +30,6 @@ public class AuditRepoImpl implements AuditCustom {
   public Page<AuditPO> findByQuery(AuditQuery info) {
     PageRequest pageRequest = info.getPageRequest();
     Preconditions.checkArgument(pageRequest != null);
-    pageRequest = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize(),
-        Sort.by(Order.desc("sendTime")));
     Preconditions.checkArgument(info.getQuery() != null);
 
     BoolQueryBuilder bool = boolQuery()
