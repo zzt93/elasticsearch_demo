@@ -1,6 +1,7 @@
 package cn.superid.search.impl.entities.time.audit;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
@@ -13,8 +14,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -31,21 +30,28 @@ public class AuditRepoImpl implements AuditCustom {
   public Page<AuditPO> findByQuery(AuditQuery info) {
     PageRequest pageRequest = info.getPageRequest();
     Preconditions.checkArgument(pageRequest != null);
-    pageRequest = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize(),
-        Sort.by(Order.desc("sendTime")));
     Preconditions.checkArgument(info.getQuery() != null);
-    Preconditions.checkArgument(info.getRoles() != null && !info.getRoles().isEmpty());
 
     BoolQueryBuilder bool = boolQuery()
-        .must(
-            boolQuery()
-                .should(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())))
-                .should(wildcardQuery("affairName", QueryHelper.wildcard(info.getQuery())))
-                .should(wildcardQuery("username", QueryHelper.wildcard(info.getQuery())))
-                .should(wildcardQuery("senderTitle", QueryHelper.wildcard(info.getQuery())))
-        ).filter(termsQuery("receiverRoleId", info.getRoles()));
-    if (info.getState() != null) {
-      bool.filter(termQuery("handleState", info.getState()));
+        .must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
+    if (info.getSender() != null && info.getReceiver() != null) {
+      bool.must(
+          boolQuery()
+              .should(termQuery("senderRoleId", info.getSender()))
+              .should(termQuery("receiverRoleId", info.getReceiver()))
+      );
+    } else if (info.getSender() != null) {
+      bool.must(termQuery("senderRoleId", info.getSender()));
+    } else if (info.getReceiver() != null) {
+      bool.must(termQuery("receiverRoleId", info.getReceiver()));
+    }
+    if (info.getStates() != null) {
+      bool.filter(termsQuery("handleState", info.getStates()));
+    }
+    if (info.getFrom() != null) {
+      bool.filter(rangeQuery("sendTime")
+          .gt(info.getFrom())
+          .lt(info.getTo()));
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()

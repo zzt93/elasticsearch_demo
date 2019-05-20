@@ -2,39 +2,34 @@ package cn.superid.search.entities.time.audit;
 
 import cn.superid.search.entities.PagedQuery;
 import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.PageRequest;
 
 /**
  * @author zzt
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class AuditQuery extends PagedQuery {
 
-  private List<Long> roles;
-  private Byte state;
+  private Long sender;
+  private Long receiver;
+  private Long from;
+  private Long to;
+  private List<Byte> states;
 
   public AuditQuery() {
   }
 
-  public AuditQuery(String query, PageRequest pageRequest, List<Long> roles, Byte state) {
+  public AuditQuery(String query, PageRequest pageRequest, List<Byte> states, Long sender, Long receiver, Long from, Long to) {
     setQuery(query);
     setPageRequest(pageRequest);
-    this.roles = roles;
-    this.state = state;
+    this.states = states;
+    this.sender = sender;
+    this.receiver = receiver;
+    this.from = from;
+    this.to = to;
   }
 
-  public List<Long> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(List<Long> roles) {
-    this.roles = roles;
-  }
-
-  public Byte getState() {
-    return state;
-  }
-
-  public void setState(Byte state) {
-    this.state = state;
-  }
 }
