@@ -114,6 +114,10 @@ public class ProcessRepoImpl implements ProcessCustom {
     if (query.getQuery() != null) {
       bool = bool.must(wildcardQuery("name", wildcard(query.getQuery())).boost(10));
     }
+
+    if (query.getSerial() != null) {
+      bool = bool.must(wildcardQuery("serial", wildcard(query.getSerial())).boost(100));
+    }
     //time range
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     bool.filter(

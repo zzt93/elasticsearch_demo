@@ -57,6 +57,7 @@ public class ProcessQuery extends PagedQuery {
   private QueryType queryType;
   private Integer sourceType;
   private List<Long> processIds;
+  private String serial;
 
   public List<Long> getTargetIds() {
     return targetIds;
@@ -138,9 +139,9 @@ public class ProcessQuery extends PagedQuery {
   }
 
   public ProcessQuery(List<Long> affairIds, List<Long> targetIds, List<Long> annIds, List<Long> serviceIds,
-      List<Long> adminTargetIds, List<Long> adminAnnIds, List<Long> adminServiceIds, List<Long> roleIds, List<Long> starterRoleIds, long startTime,
-      long endTime, List<Byte> states, List<Integer> templates,
-      QueryType queryType, Integer sourceType, List<Long> processIds) {
+      List<Long> adminTargetIds, List<Long> adminAnnIds, List<Long> adminServiceIds, List<Long> roleIds,
+      List<Long> starterRoleIds, long startTime, long endTime, List<Byte> states, List<Integer> templates,
+      QueryType queryType, Integer sourceType, List<Long> processIds, String serial) {
     this.affairIds = affairIds;
     this.targetIds = targetIds;
     this.annIds = annIds;
@@ -157,6 +158,7 @@ public class ProcessQuery extends PagedQuery {
     this.queryType = queryType;
     this.sourceType = sourceType;
     this.processIds = processIds;
+    this.serial = serial;
   }
 
   public List<Long> getAffairIds() {
@@ -215,6 +217,14 @@ public class ProcessQuery extends PagedQuery {
     this.queryType = queryType;
   }
 
+  public String getSerial() {
+    return serial;
+  }
+
+  public void setSerial(String serial) {
+    this.serial = serial;
+  }
+
   @Override
   public String toString() {
     return "ProcessQuery{" +
@@ -234,6 +244,7 @@ public class ProcessQuery extends PagedQuery {
         ", queryType=" + queryType +
         ", sourceType=" + sourceType +
         ", processIds=" + processIds +
+        ", serial='" + serial + '\'' +
         '}';
   }
 }
