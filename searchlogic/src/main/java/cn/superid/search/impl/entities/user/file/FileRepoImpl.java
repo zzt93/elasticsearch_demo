@@ -47,6 +47,7 @@ public class FileRepoImpl implements FileCustom {
     Preconditions.checkNotNull(query.getAllianceId(), "No allianceId provided");
     Preconditions.checkNotNull(query.getAffairId(), "No affairId provided");
     Preconditions.checkNotNull(query.getFileSetId(), "No fileSetId provided");
+    Preconditions.checkNotNull(query.getPageRequest(), "No pageRequest provided");
 
     // TODO 17/9/26 combine two search
     List<RolePO> rolePOS = roleRepo.findByAffairIdAndTitle(query.getAllianceId(),
@@ -64,6 +65,7 @@ public class FileRepoImpl implements FileCustom {
                         .should(termsQuery("uploaderRoleId", ids))))
         .withIndices(Suffix.indexName(FilePO.class, query.getAffairId() / FilePO.CLUSTER_SIZE))
         .withTypes(FilePO.types())
+        .withPageable(query.getPageRequest())
         .withSourceFilter(new FetchSourceFilter(new String[]{"_id", "type"}, null))
         .build();
     return template.queryForPage(searchQuery, FilePO.class,
