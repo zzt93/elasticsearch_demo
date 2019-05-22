@@ -50,13 +50,15 @@ public class ProcessPO {
   private Long sourceId;
   @Field(type = FieldType.Long)
   private Long serviceId;
+  @Field(type = FieldType.keyword)
+  private String serial;
 
   public ProcessPO() {
   }
 
   public ProcessPO(String id, Long templateId, Byte status, Long roleId, Timestamp time, Long affairId, Byte sourceType,
       String sourceName, Long roleBelongedAffairId, String name, String[] tag, long[] roles,
-      Long processBelongedAffairId, Long sourceId, Long serviceId) {
+      Long processBelongedAffairId, Long sourceId, Long serviceId, String serial) {
     this.id = id;
     this.templateId = templateId;
     this.status = status;
@@ -72,6 +74,7 @@ public class ProcessPO {
     this.processBelongedAffairId = processBelongedAffairId;
     this.sourceId = sourceId;
     this.serviceId = serviceId;
+    this.serial = serial;
   }
 
   public static int getClusterSize() {
@@ -189,6 +192,10 @@ public class ProcessPO {
         ", name='" + name + '\'' +
         ", tag=" + Arrays.toString(tag) +
         ", roles=" + Arrays.toString(roles) +
+        ", processBelongedAffairId=" + processBelongedAffairId +
+        ", sourceId=" + sourceId +
+        ", serviceId=" + serviceId +
+        ", serial='" + serial + '\'' +
         '}';
   }
 
@@ -214,5 +221,13 @@ public class ProcessPO {
 
   public void setServiceId(Long serviceId) {
     this.serviceId = serviceId;
+  }
+
+  public String getSerial() {
+    return serial;
+  }
+
+  public void setSerial(String serial) {
+    this.serial = serial;
   }
 }
