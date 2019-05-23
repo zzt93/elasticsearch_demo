@@ -7,6 +7,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.user.file.FileQuery;
+import cn.superid.search.impl.DefaultFetchSource;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
@@ -24,7 +25,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
-import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Component;
@@ -63,10 +63,10 @@ public class FileRepoImpl implements FileCustom {
                     boolQuery()
                         .should(wildcardQuery("name", wildcard(query.getQuery())))
                         .should(termsQuery("uploaderRoleId", ids))))
-        .withIndices(Suffix.indexName(FilePO.class, query.getAffairId() / FilePO.CLUSTER_SIZE))
+        .withIndices(Suffix.indexName(FilePO.class, query.getAffairId() / FilePO.CLUSTER_SIZE), "folder-" + query.getAffairId()/FilePO.CLUSTER_SIZE)
         .withTypes(FilePO.types())
         .withPageable(query.getPageRequest())
-        .withSourceFilter(new FetchSourceFilter(new String[]{"_id", "type"}, null))
+        .withSourceFilter(DefaultFetchSource.defaultId())
         .build();
     return template.queryForPage(searchQuery, FilePO.class,
         new DefaultResultMapper(elasticsearchConverter.getMappingContext()) {

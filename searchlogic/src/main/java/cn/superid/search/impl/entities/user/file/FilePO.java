@@ -1,7 +1,9 @@
 package cn.superid.search.impl.entities.user.file;
 
 import cn.superid.search.entities.user.file.FileSearchVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -33,7 +35,10 @@ public class FilePO {
   private Long affairId;
   @Field(type = FieldType.Long)
   private Long fileSetId;
-  @Field(type = FieldType.Byte)
+  @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.S")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.S")
+  private Timestamp modifyTime;
+
   private Byte type;
 
   public FilePO() {
@@ -62,10 +67,6 @@ public class FilePO {
 
   public void setType(String type) {
     this.type = (byte) FileType.valueOf(type).ordinal();
-  }
-
-  public void setType(Byte type) {
-    this.type = type;
   }
 
   public Long getAffairId() {
@@ -114,7 +115,7 @@ public class FilePO {
   }
 
   private enum FileType {
-    plain, folder
+    file, folder
   }
 
 }
