@@ -110,7 +110,16 @@ public class ProcessRepoImpl implements ProcessCustom {
     List<Long> affairIds = query.getAffairIds();
 
     //common query
-    //keyword
+    //global keyword
+    String keyword = query.getKeyword();
+    if (keyword != null){
+      BoolQueryBuilder filter = boolQuery()
+          .filter(boolQuery()
+              .should(wildcardQuery("name", wildcard(keyword)))
+              .should(wildcardQuery("sourceType", wildcard(keyword))));
+      bool.must(filter.boost(10));
+    }
+    //name query
     if (query.getQuery() != null) {
       bool = bool.must(wildcardQuery("name", wildcard(query.getQuery())).boost(10));
     }
