@@ -58,6 +58,7 @@ public class ProcessQuery extends PagedQuery {
   private Integer sourceType;
   private List<Long> processIds;
   private String serial;
+  private String keyword;
 
   public List<Long> getTargetIds() {
     return targetIds;
@@ -69,6 +70,14 @@ public class ProcessQuery extends PagedQuery {
 
   public List<Long> getAnnIds() {
     return annIds;
+  }
+
+  public String getKeyword() {
+    return keyword;
+  }
+
+  public void setKeyword(String keyword) {
+    this.keyword = keyword;
   }
 
   public void setAnnIds(List<Long> annIds) {
@@ -141,7 +150,7 @@ public class ProcessQuery extends PagedQuery {
   public ProcessQuery(List<Long> affairIds, List<Long> targetIds, List<Long> annIds, List<Long> serviceIds,
       List<Long> adminTargetIds, List<Long> adminAnnIds, List<Long> adminServiceIds, List<Long> roleIds,
       List<Long> starterRoleIds, long startTime, long endTime, List<Byte> states, List<Integer> templates,
-      QueryType queryType, Integer sourceType, List<Long> processIds, String serial) {
+      QueryType queryType, Integer sourceType, List<Long> processIds, String serial, String keyword) {
     this.affairIds = affairIds;
     this.targetIds = targetIds;
     this.annIds = annIds;
@@ -159,6 +168,7 @@ public class ProcessQuery extends PagedQuery {
     this.sourceType = sourceType;
     this.processIds = processIds;
     this.serial = serial;
+    this.keyword = keyword;
   }
 
   public List<Long> getAffairIds() {
@@ -245,6 +255,7 @@ public class ProcessQuery extends PagedQuery {
         ", sourceType=" + sourceType +
         ", processIds=" + processIds +
         ", serial='" + serial + '\'' +
+        ", keyword='" + keyword + '\'' +
         '}';
   }
 }
