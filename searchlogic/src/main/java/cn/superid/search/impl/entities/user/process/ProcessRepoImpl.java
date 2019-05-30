@@ -116,7 +116,7 @@ public class ProcessRepoImpl implements ProcessCustom {
       BoolQueryBuilder filter = boolQuery()
           .filter(boolQuery()
               .should(wildcardQuery("name", wildcard(keyword)))
-              .should(wildcardQuery("sourceType", wildcard(keyword))));
+              .should(wildcardQuery("serial", wildcard(keyword))));
       bool = bool.must(filter.boost(10));
     }
     //name query
