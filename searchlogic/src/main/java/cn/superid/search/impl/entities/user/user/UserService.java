@@ -4,9 +4,11 @@ import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +16,28 @@ import org.springframework.stereotype.Service;
  * @author zzt
  */
 @Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserService {
 
   static final PageRequest TOP20 = PageRequest.of(0, 20);
   private static final Logger logger = LoggerFactory.getLogger(UserService.class);
   private final UserRepo userRepo;
-
-  @Autowired
-  public UserService(UserRepo userRepo) {
-    this.userRepo = userRepo;
-  }
+  private final UserAllianceRepo userAllianceRepo;
 
   public List<UserVO> findTop20ByUserNameOrSuperId(String query) {
     return userRepo.findByUsernameOrSuperId(query, query, TOP20).getContent()
+        .stream()
+        .map(VoAndPoConversion::toVO)
+        .collect(Collectors.toList());
+  }
+
+  public Page<AllianceUserPO> findTop20ByUserNameAndAlliance(String query, long allianceId,
+      PageRequest pageRequest) {
+    return userAllianceRepo.findByUsernameAndAllianceId(query, allianceId, pageRequest);
+  }
+
+  public List<UserVO> findTop20ByUserNameOutAlliance(String query, long allianceId) {
+    return userAllianceRepo.findByUsernameAndAllianceIdNot(query, allianceId, TOP20).getContent()
         .stream()
         .map(VoAndPoConversion::toVO)
         .collect(Collectors.toList());

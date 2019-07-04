@@ -6,6 +6,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.impl.save.rolling.Suffix;
+import java.util.List;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,5 +39,22 @@ public class AffairRepoImpl implements AffairCustom {
         .withPageable(pageable)
         .build();
     return template.queryForPage(searchQuery, AffairPO.class);
+  }
+
+  @Override
+  public List<AffairPO> findAlliance(String info, Pageable pageable) {
+    BoolQueryBuilder bool = boolQuery()
+        .must(termQuery("state", 0))
+        .must(termQuery("parentId", 0))
+        .must(
+            boolQuery()
+                .should(wildcardQuery("name", wildcard(info)))
+        );
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices(Suffix.indexNamePattern(AffairPO.class))
+        .withQuery(bool)
+        .withPageable(pageable)
+        .build();
+    return template.queryForPage(searchQuery, AffairPO.class).getContent();
   }
 }

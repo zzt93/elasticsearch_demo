@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
  */
 public class AffairQuery extends PagedQuery {
   private String[] tags;
+  private long allianceId;
 
   public AffairQuery() {
   }
@@ -29,6 +30,15 @@ public class AffairQuery extends PagedQuery {
     return "AffairQuery{"
         + super.toString()
         + "}";
+  }
+
+  public long getAllianceId() {
+    return allianceId;
+  }
+
+  public AffairQuery setAllianceId(long allianceId) {
+    this.allianceId = allianceId;
+    return this;
   }
 
   public String[] getTags() {
