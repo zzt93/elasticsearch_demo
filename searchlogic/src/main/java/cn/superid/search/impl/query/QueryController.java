@@ -50,7 +50,7 @@ import cn.superid.search.impl.entities.user.target.TargetPO;
 import cn.superid.search.impl.entities.user.target.TargetRepo;
 import cn.superid.search.impl.entities.user.task.TaskPO;
 import cn.superid.search.impl.entities.user.task.TaskRepo;
-import cn.superid.search.impl.entities.user.user.AllianceUserPO;
+import cn.superid.search.impl.entities.user.user.UserPO;
 import cn.superid.search.impl.entities.user.user.UserService;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
@@ -215,17 +215,18 @@ public class QueryController {
     checkPage(query.getPageRequest());
 
     Page<AffairPO> page = affairRepo.findAny(query.getQuery(), query.getPageRequest());
-    Page<AllianceUserPO> users = userService
-        .findTop20ByUserNameAndAlliance(query.getQuery(), query.getAllianceId(), query.getPageRequest());
+    Page<UserPO> users = userService.findByUserName(query.getQuery(), query.getPageRequest());
     return new InAllianceVO(new PageVO<>(page, VoAndPoConversion::toVO), new PageVO<>(users, VoAndPoConversion::toVO));
   }
 
   @PostMapping("/menkor")
   public OutAllianceVO queryOutAlliance(@RequestBody AffairQuery query) {
-    List<UserVO> byMobile = userService.findTop20ByUserNameOutAlliance(query.getQuery(), query.getAllianceId());
+    checkPage(query.getPageRequest());
+
+    List<UserPO> users = userService.findByUserName(query.getQuery(), query.getPageRequest()).getContent();
     List<AllianceVO> affairs = affairRepo.findAlliance(query.getQuery(), TOP20)
         .stream().map(VoAndPoConversion::toAlliance).collect(Collectors.toList());
-    return new OutAllianceVO(affairs, byMobile);
+    return new OutAllianceVO(affairs, users.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList()));
   }
 
   @PostMapping("/affair/tags")

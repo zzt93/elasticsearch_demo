@@ -22,7 +22,6 @@ public class UserService {
   static final PageRequest TOP20 = PageRequest.of(0, 20);
   private static final Logger logger = LoggerFactory.getLogger(UserService.class);
   private final UserRepo userRepo;
-  private final UserAllianceRepo userAllianceRepo;
 
   public List<UserVO> findTop20ByUserNameOrSuperId(String query) {
     return userRepo.findByUsernameOrSuperId(query, query, TOP20).getContent()
@@ -31,17 +30,10 @@ public class UserService {
         .collect(Collectors.toList());
   }
 
-  public Page<AllianceUserPO> findTop20ByUserNameAndAlliance(String query, long allianceId,
-      PageRequest pageRequest) {
-    return userAllianceRepo.findByUsernameAndAllianceId(query, allianceId, pageRequest);
+  public Page<UserPO> findByUserName(String query, PageRequest pageRequest) {
+    return userRepo.findByUsername(query, pageRequest);
   }
 
-  public List<UserVO> findTop20ByUserNameOutAlliance(String query, long allianceId) {
-    return userAllianceRepo.findByUsernameAndAllianceIdNot(query, allianceId, TOP20).getContent()
-        .stream()
-        .map(VoAndPoConversion::toVO)
-        .collect(Collectors.toList());
-  }
 
   public List<UserVO> findTop20ByTags(String query) {
     return userRepo.findByTagsIn(query, TOP20).getContent()
