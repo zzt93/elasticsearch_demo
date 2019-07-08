@@ -214,7 +214,7 @@ public class QueryController {
   public InAllianceVO queryInAlliance(@RequestBody AffairQuery query) {
     checkPage(query.getPageRequest());
 
-    Page<AffairPO> page = affairRepo.findAny(query.getQuery(), query.getPageRequest());
+    Page<AffairPO> page = affairRepo.findByNameAndAllianceId(query.getQuery(), query.getAllianceId(), query.getPageRequest());
     Page<UserPO> users = userService.findByUserName(query.getQuery(), query.getPageRequest());
     return new InAllianceVO(new PageVO<>(page, VoAndPoConversion::toVO), new PageVO<>(users, VoAndPoConversion::toVO));
   }
