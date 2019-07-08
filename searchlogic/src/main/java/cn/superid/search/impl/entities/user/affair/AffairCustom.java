@@ -11,6 +11,6 @@ public interface AffairCustom {
 
   Page<AffairPO> findAny(String info, Pageable pageable);
 
-  List<AffairPO> findAlliance(String query, Pageable pageable);
+  List<AffairPO> findAlliance(String query, Long allianceId, Pageable pageable);
 
 }
