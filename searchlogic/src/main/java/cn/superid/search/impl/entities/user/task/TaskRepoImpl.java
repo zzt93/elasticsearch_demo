@@ -42,9 +42,9 @@ public class TaskRepoImpl implements TaskCustom {
         || (taskQuery.getNormalTask() == null && taskQuery.getWorkflowTask() == null)){
       //do nothing
     }else if (taskQuery.getNormalTask()){
-      bool.filter(termQuery("worFlowId", 0));
+      bool.filter(termQuery("workFlowId", 0));
     }else if (taskQuery.getWorkflowTask()){
-      bool.mustNot(termQuery("worFlowId", 0));
+      bool.mustNot(termQuery("workFlowId", 0));
     }else{
       return null;
     }
