@@ -13,6 +13,8 @@ public class TaskQuery extends PagedQuery {
   private List<Byte> types;
   private List<Byte> states;
   private List<Long> roles;
+  private Boolean workflowTask;
+  private Boolean normalTask;
 
   public TaskQuery() {
   }
@@ -55,5 +57,21 @@ public class TaskQuery extends PagedQuery {
 
   public void setStates(List<Byte> states) {
     this.states = states;
+  }
+
+  public Boolean getWorkflowTask() {
+    return workflowTask;
+  }
+
+  public void setWorkflowTask(Boolean workflowTask) {
+    this.workflowTask = workflowTask;
+  }
+
+  public Boolean getNormalTask() {
+    return normalTask;
+  }
+
+  public void setNormalTask(Boolean normalTask) {
+    this.normalTask = normalTask;
   }
 }
