@@ -38,6 +38,8 @@ public class TaskPO {
   @Field(type = FieldType.Date, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
   private Timestamp offTime;
+  @Field(type = FieldType.Long)
+  private Long workFlowId;
 
   public TaskPO() {
   }
@@ -125,5 +127,13 @@ public class TaskPO {
 
   public void setOffTime(Timestamp offTime) {
     this.offTime = offTime;
+  }
+
+  public Long getWorkFlowId() {
+    return workFlowId;
+  }
+
+  public void setWorkFlowId(Long workFlowId) {
+    this.workFlowId = workFlowId;
   }
 }

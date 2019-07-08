@@ -1,7 +1,5 @@
 package cn.superid.search.entities.user.affair;
 
-import cn.superid.search.entities.PageVO;
-import cn.superid.search.entities.user.user.UserVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenkorVO {
+public class AllianceVO {
 
-  private PageVO<AffairVO> affairVOPageVO;
-  private UserVO userVO;
-
+  private Long id;
 
 }

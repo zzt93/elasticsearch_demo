@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenkorVO {
+public class InAllianceVO {
 
   private PageVO<AffairVO> affairVOPageVO;
-  private UserVO userVO;
-
+  private PageVO<UserVO> userVO;
 
 }

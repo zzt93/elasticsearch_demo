@@ -5,6 +5,7 @@ import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.time.audit.AuditVO;
 import cn.superid.search.entities.time.chat.MessagesVO;
 import cn.superid.search.entities.user.affair.AffairVO;
+import cn.superid.search.entities.user.affair.AllianceVO;
 import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.process.ProcessVO;
 import cn.superid.search.entities.user.role.RoleVO;
@@ -72,6 +73,10 @@ public class VoAndPoConversion {
     return new AffairVO(po.getParentId(), po.getId(), po.getState());
   }
 
+  public static AllianceVO toAlliance(AffairPO affairPO) {
+    return new AllianceVO(affairPO.getAllianceId());
+  }
+
 
   public static FileSearchVO toVO(FilePO filePO) {
     return new FileSearchVO(filePO.voId(), filePO.getType());
@@ -81,7 +86,6 @@ public class VoAndPoConversion {
   public static UserVO toVO(UserPO userPO) {
     return new UserVO(userPO.getId());
   }
-
 
   public static String[] toPOs(String[] tagVOS) {
     return tagVOS;

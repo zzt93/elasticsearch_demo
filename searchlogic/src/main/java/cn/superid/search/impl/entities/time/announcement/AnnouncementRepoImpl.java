@@ -14,6 +14,7 @@ import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import lombok.RequiredArgsConstructor;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -31,12 +32,12 @@ import org.springframework.stereotype.Component;
  * @author zzt
  */
 @Component
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class AnnouncementRepoImpl implements AnnouncementCustom {
 
-  @Autowired
-  private ElasticsearchTemplate template;
-  @Autowired
-  private ElasticsearchConverter elasticsearchConverter;
+  private static final int TITLE_BOOST = 10000;
+  private final ElasticsearchTemplate template;
+  private final ElasticsearchConverter elasticsearchConverter;
 
   @Override
   public Page<AnnouncementPO> findByTitleOrContentOrTags(AnnouncementQuery info,
@@ -47,14 +48,12 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     Preconditions.checkArgument(info.getAffairIds() != null);
 
     BoolQueryBuilder should = boolQuery()
-        .should(wildcardQuery("title", wildcard(info.getQuery())).boost(10))
-        .should(termQuery("tags", info.getQuery()).boost(5))
-        .should(matchQuery("thumbContent", info.getQuery()).boost(2))
+        .should(wildcardQuery("title", wildcard(info.getQuery())).boost(TITLE_BOOST))
         .should(matchQuery("content", info.getQuery()).boost(1));
 
     try {
       int number = Integer.parseInt(info.getQuery());
-      should.should(termQuery("number", number).boost(40));
+      should.should(termQuery("number", number).boost(100 * TITLE_BOOST));
     } catch (NumberFormatException ignored) {}
     BoolQueryBuilder bool = boolQuery().must(should);
 
@@ -99,7 +98,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         .withQuery(bool)
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
-            new HighlightBuilder.Field("thumbContent"))
+            new HighlightBuilder.Field("content"))
         .build();
     return template
         .queryForPage(searchQuery, AnnouncementPO.class,
@@ -109,7 +108,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
                   if (title != null) {
                     announcement.setTitle(title.fragments()[0].toString());
                   }
-                  HighlightField content = highlightFields.get("thumbContent");
+                  HighlightField content = highlightFields.get("content");
                   if (content != null) {
                     announcement.setThumbContent(content.fragments()[0].toString());
                   }
