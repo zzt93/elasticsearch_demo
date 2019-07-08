@@ -38,6 +38,17 @@ public class TaskRepoImpl implements TaskCustom {
 
     BoolQueryBuilder bool = boolQuery();
 
+    if ((taskQuery.getNormalTask() && taskQuery.getWorkflowTask())
+        || (taskQuery.getNormalTask() == null && taskQuery.getWorkflowTask() == null)){
+      //do nothing
+    }else if (taskQuery.getNormalTask()){
+      bool.filter(termQuery("workFlowId", 0));
+    }else if (taskQuery.getWorkflowTask()){
+      bool.mustNot(termQuery("workFlowId", 0));
+    }else{
+      return null;
+    }
+
     if (!StringUtils.isEmpty(taskQuery.getQuery())) {
       bool.must(
           boolQuery()
