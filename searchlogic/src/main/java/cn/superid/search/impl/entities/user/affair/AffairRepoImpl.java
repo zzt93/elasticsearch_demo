@@ -42,10 +42,11 @@ public class AffairRepoImpl implements AffairCustom {
   }
 
   @Override
-  public List<AffairPO> findAlliance(String info, Pageable pageable) {
+  public List<AffairPO> findAlliance(String info, Long allianceId, Pageable pageable) {
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("state", 0))
         .must(termQuery("parentId", 0))
+        .mustNot(termQuery("allianceId", allianceId))
         .must(
             boolQuery()
                 .should(wildcardQuery("name", wildcard(info)))
