@@ -143,7 +143,7 @@ public class QueryController {
   }
 
   private static void checkAllianceId(Long id) {
-    if (id == null) {
+    if (id == null || id == 0) {
       throw new IllegalArgumentException("Invalid query, no allianceId");
     }
   }
