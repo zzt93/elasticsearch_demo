@@ -226,7 +226,7 @@ public class QueryController {
     checkAllianceId(query.getAllianceId());
 
     List<UserPO> users = userService.findByUserName(query.getQuery(), query.getPageRequest()).getContent();
-    List<AllianceVO> affairs = affairRepo.findAlliance(query.getQuery(), query.getAllianceId(), TOP20)
+    List<AllianceVO> affairs = affairRepo.findAlliance(query.getQuery(), query.getAllianceId(), query.getPageRequest())
         .stream().map(VoAndPoConversion::toAlliance).collect(Collectors.toList());
     return new OutAllianceVO(affairs, users.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList()));
   }
