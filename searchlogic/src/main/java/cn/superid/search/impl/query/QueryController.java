@@ -216,7 +216,6 @@ public class QueryController {
     checkAllianceId(query.getAllianceId());
 
     Page<UserPO> users = userService.findByUserName(query.getQuery(), query.getPageRequest());
-    suffix.setSuffix(String.valueOf(query.getAllianceId() / AffairPO.CLUSTER_SIZE));
     Page<AffairPO> page = affairRepo.findByNameAndAllianceId(query.getQuery(), query.getAllianceId(), query.getPageRequest());
     return new InAllianceVO(new PageVO<>(page, VoAndPoConversion::toVO), new PageVO<>(users, VoAndPoConversion::toVO));
   }
@@ -227,7 +226,6 @@ public class QueryController {
     checkAllianceId(query.getAllianceId());
 
     List<UserPO> users = userService.findByUserName(query.getQuery(), query.getPageRequest()).getContent();
-    suffix.setSuffix("*");
     List<AllianceVO> affairs = affairRepo.findAlliance(query.getQuery(), query.getAllianceId(), TOP20)
         .stream().map(VoAndPoConversion::toAlliance).collect(Collectors.toList());
     return new OutAllianceVO(affairs, users.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList()));
