@@ -58,4 +58,21 @@ public class AffairRepoImpl implements AffairCustom {
         .build();
     return template.queryForPage(searchQuery, AffairPO.class).getContent();
   }
+
+  @Override
+  public Page<AffairPO> findByNameAndAllianceId(String name, Long allianceId, Pageable pageable) {
+    BoolQueryBuilder bool = boolQuery()
+        .must(termQuery("state", 0))
+        .must(termQuery("allianceId", allianceId))
+        .must(
+            boolQuery()
+                .should(wildcardQuery("name", wildcard(name)))
+        );
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices(Suffix.indexName(AffairPO.class, allianceId / AffairPO.CLUSTER_SIZE))
+        .withQuery(bool)
+        .withPageable(pageable)
+        .build();
+    return template.queryForPage(searchQuery, AffairPO.class);
+  }
 }
