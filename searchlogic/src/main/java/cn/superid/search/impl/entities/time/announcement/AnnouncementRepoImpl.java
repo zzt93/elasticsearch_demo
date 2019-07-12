@@ -44,15 +44,16 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
       Pageable pageable) {
     Preconditions.checkArgument(pageable != null);
     Preconditions.checkArgument(info.getAllianceId() != null && info.getAllianceId() != 0);
-    Preconditions.checkArgument(info.getQuery() != null);
+    String query = info.getQuery();
+    Preconditions.checkArgument(query != null);
     Preconditions.checkArgument(info.getAffairIds() != null);
 
     BoolQueryBuilder should = boolQuery()
-        .should(wildcardQuery("title", wildcard(info.getQuery())).boost(TITLE_BOOST))
-        .should(matchQuery("content", info.getQuery()).boost(1));
+        .should(wildcardQuery("title", wildcard(query)).boost(TITLE_BOOST))
+        .should(matchQuery("content", query).boost(1));
 
     try {
-      int number = Integer.parseInt(info.getQuery());
+      int number = Integer.parseInt(query);
       should.should(termQuery("number", number).boost(100 * TITLE_BOOST));
     } catch (NumberFormatException ignored) {}
     BoolQueryBuilder bool = boolQuery().must(should);
@@ -106,7 +107,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
                 (highlightFields, announcement) -> {
                   HighlightField title = highlightFields.get("title");
                   if (title != null) {
-                    announcement.setTitle(title.fragments()[0].toString());
+                    announcement.setTitle(announcement.getTitle().replaceAll(query, "<em>" + query + "</em>"));
                   }
                   HighlightField content = highlightFields.get("content");
                   if (content != null) {
