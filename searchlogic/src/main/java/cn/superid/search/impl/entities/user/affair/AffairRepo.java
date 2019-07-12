@@ -12,10 +12,10 @@ public interface AffairRepo extends ElasticsearchRepository<AffairPO, String>, A
 
   Optional<AffairPO> findById(String id);
 
-  Page<AffairPO> findByName(String name, Pageable pageable);
+  Page<AffairPO> findByNameAndPublicType(String name, Byte publicType, Pageable pageable);
 
-  Page<AffairPO> findBySuperId(String superId, Pageable pageable);
+  Page<AffairPO> findBySuperIdAndPublicType(String superId, Byte publicType, Pageable pageable);
 
-  Page<AffairPO> findByTagsIn(String[] tags, Pageable pageable);
+  Page<AffairPO> findByTagsInAndPublicType(String[] tags, Byte publicType, Pageable pageable);
 
 }
