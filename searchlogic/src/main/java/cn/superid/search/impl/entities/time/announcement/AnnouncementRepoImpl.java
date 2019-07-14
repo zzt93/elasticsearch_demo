@@ -99,7 +99,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         .withQuery(bool)
         .withPageable(pageable)
         .withHighlightFields(new HighlightBuilder.Field("title"),
-            new HighlightBuilder.Field("content"))
+            new HighlightBuilder.Field("content").fragmentSize(50))
         .build();
     return template
         .queryForPage(searchQuery, AnnouncementPO.class,
