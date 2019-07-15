@@ -73,7 +73,7 @@
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-elasticsearch</artifactId>
-      <version>3.0.0.RC2.fix-SNAPSHOT</version>
+      <version>3.0.0.RELEASE-fix</version>
     </dependency>
 
     <dependency>

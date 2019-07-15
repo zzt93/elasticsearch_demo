@@ -2,6 +2,7 @@ package cn.superid.search.impl.query;
 
 import static cn.superid.search.impl.query.QueryHelper.wildcard;
 
+import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.entities.PageVO;
 import cn.superid.search.entities.StringQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
@@ -235,7 +236,7 @@ public class QueryController {
   public PageVO<AffairVO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
     Page<AffairPO> page = affairRepo
-        .findByTagsIn(affairInfo.getTags(),
+        .findByTagsInAndPublicType(affairInfo.getTags(), (byte) PublicType.ALL,
             affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }
@@ -244,7 +245,7 @@ public class QueryController {
   public PageVO<AffairVO> queryAffairSuperId(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
     Page<AffairPO> page = affairRepo
-        .findBySuperId(affairInfo.getQuery(), affairInfo.getPageRequest());
+        .findBySuperIdAndPublicType(affairInfo.getQuery(), (byte) PublicType.ALL, affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 
@@ -252,7 +253,7 @@ public class QueryController {
   public PageVO<AffairVO> queryAffairName(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
     Page<AffairPO> page = affairRepo
-        .findByName(wildcard(affairInfo.getQuery()), affairInfo.getPageRequest());
+        .findByNameAndPublicType(wildcard(affairInfo.getQuery()), (byte) PublicType.ALL, affairInfo.getPageRequest());
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 
