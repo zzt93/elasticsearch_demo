@@ -48,11 +48,13 @@ public class AffairRepoImpl implements AffairCustom {
         .must(termQuery("state", 0))
 //        .must(termQuery("publicType", PublicType.ALL))
         .must(termQuery("parentId", 0))
-        .mustNot(termQuery("allianceId", allianceId))
         .must(
             boolQuery()
                 .should(wildcardQuery("name", wildcard(info)))
         );
+    if (allianceId != null) {
+      bool.mustNot(termQuery("allianceId", allianceId));
+    }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AffairPO.class))
         .withQuery(bool)
