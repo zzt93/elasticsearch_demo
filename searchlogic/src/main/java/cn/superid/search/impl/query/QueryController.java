@@ -1,13 +1,12 @@
 package cn.superid.search.impl.query;
 
-import static cn.superid.search.impl.query.QueryHelper.wildcard;
-
 import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.entities.PageVO;
 import cn.superid.search.entities.StringQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.time.audit.AuditQuery;
+import cn.superid.search.entities.time.audit.AuditUserQuery;
 import cn.superid.search.entities.time.audit.AuditVO;
 import cn.superid.search.entities.time.chat.ChatIdsQuery;
 import cn.superid.search.entities.time.chat.ChatQuery;
@@ -232,6 +231,13 @@ public class QueryController {
     return new OutAllianceVO(affairs, users.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList()));
   }
 
+  @PostMapping("/alliance/name")
+  public OutAllianceVO queryAlliance(@RequestBody AffairQuery query) {
+    List<AllianceVO> affairs = affairRepo.findAlliance(query.getQuery(), null, query.getPageRequest())
+        .stream().map(VoAndPoConversion::toAlliance).collect(Collectors.toList());
+    return new OutAllianceVO(affairs, null);
+  }
+
   @PostMapping("/affair/tags")
   public PageVO<AffairVO> queryAffairTags(@RequestBody AffairQuery affairInfo) {
     suffix.setSuffix("*");
@@ -241,21 +247,21 @@ public class QueryController {
     return new PageVO<>(page, VoAndPoConversion::toVO);
   }
 
-  @PostMapping("/affair/superId")
-  public PageVO<AffairVO> queryAffairSuperId(@RequestBody AffairQuery affairInfo) {
-    suffix.setSuffix("*");
-    Page<AffairPO> page = affairRepo
-        .findBySuperIdAndPublicType(affairInfo.getQuery(), (byte) PublicType.ALL, affairInfo.getPageRequest());
-    return new PageVO<>(page, VoAndPoConversion::toVO);
-  }
+//  @PostMapping("/affair/superId")
+//  public PageVO<AffairVO> queryAffairSuperId(@RequestBody AffairQuery affairInfo) {
+//    suffix.setSuffix("*");
+//    Page<AffairPO> page = affairRepo
+//        .findBySuperIdAndPublicType(affairInfo.getQuery(), (byte) PublicType.ALL, affairInfo.getPageRequest());
+//    return new PageVO<>(page, VoAndPoConversion::toVO);
+//  }
 
-  @PostMapping("/affair/name")
-  public PageVO<AffairVO> queryAffairName(@RequestBody AffairQuery affairInfo) {
-    suffix.setSuffix("*");
-    Page<AffairPO> page = affairRepo
-        .findByNameAndPublicType(wildcard(affairInfo.getQuery()), (byte) PublicType.ALL, affairInfo.getPageRequest());
-    return new PageVO<>(page, VoAndPoConversion::toVO);
-  }
+//  @PostMapping("/affair/name")
+//  public PageVO<AffairVO> queryAffairName(@RequestBody AffairQuery affairInfo) {
+//    suffix.setSuffix("*");
+//    Page<AffairPO> page = affairRepo
+//        .findByNameAndPublicType(wildcard(affairInfo.getQuery()), (byte) PublicType.ALL, affairInfo.getPageRequest());
+//    return new PageVO<>(page, VoAndPoConversion::toVO);
+//  }
 
   @PostMapping("/role")
   public PageVO<RoleVO> queryRole(@RequestBody RoleQuery query) {
@@ -315,6 +321,13 @@ public class QueryController {
   public PageVO<AuditVO> queryAudit(@RequestBody AuditQuery auditQuery) {
     checkPage(auditQuery.getPageRequest());
     Page<AuditPO> byQuery = auditRepo.findByQuery(auditQuery);
+    return new PageVO<>(byQuery, VoAndPoConversion::toVO);
+  }
+
+  @PostMapping("/audit/user")
+  public PageVO<AuditVO> queryUserAudit(@RequestBody AuditUserQuery auditQuery) {
+    checkPage(auditQuery.getPageRequest());
+    Page<AuditPO> byQuery = auditRepo.findByUserQuery(auditQuery);
     return new PageVO<>(byQuery, VoAndPoConversion::toVO);
   }
 

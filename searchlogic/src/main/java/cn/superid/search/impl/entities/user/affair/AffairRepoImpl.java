@@ -5,7 +5,6 @@ import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
-import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.impl.save.rolling.Suffix;
 import java.util.List;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -28,7 +27,7 @@ public class AffairRepoImpl implements AffairCustom {
   public Page<AffairPO> findAny(String info, Pageable pageable) {
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("state", 0))
-        .must(termQuery("publicType", PublicType.ALL))
+//        .must(termQuery("publicType", PublicType.ALL))
         .must(
             boolQuery()
                 .should(termQuery("superId", info))
@@ -47,13 +46,15 @@ public class AffairRepoImpl implements AffairCustom {
   public List<AffairPO> findAlliance(String info, Long allianceId, Pageable pageable) {
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("state", 0))
-        .must(termQuery("publicType", PublicType.ALL))
+//        .must(termQuery("publicType", PublicType.ALL))
         .must(termQuery("parentId", 0))
-        .mustNot(termQuery("allianceId", allianceId))
         .must(
             boolQuery()
                 .should(wildcardQuery("name", wildcard(info)))
         );
+    if (allianceId != null) {
+      bool.mustNot(termQuery("allianceId", allianceId));
+    }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AffairPO.class))
         .withQuery(bool)
@@ -66,7 +67,7 @@ public class AffairRepoImpl implements AffairCustom {
   public Page<AffairPO> findByNameAndAllianceId(String name, Long allianceId, Pageable pageable) {
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("state", 0))
-        .must(termQuery("publicType", PublicType.ALL))
+//        .must(termQuery("publicType", PublicType.ALL))
         .must(termQuery("allianceId", allianceId))
         .must(
             boolQuery()
