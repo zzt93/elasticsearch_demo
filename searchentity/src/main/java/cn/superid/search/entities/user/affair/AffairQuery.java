@@ -1,12 +1,16 @@
 package cn.superid.search.entities.user.affair;
 
 import cn.superid.search.entities.PagedQuery;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.PageRequest;
 
 /**
  * @author zzt
  * @see PagedQuery
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class AffairQuery extends PagedQuery {
   private String[] tags;
   private long allianceId;
@@ -25,13 +29,6 @@ public class AffairQuery extends PagedQuery {
     this.tags = tags;
   }
 
-  @Override
-  public String toString() {
-    return "AffairQuery{"
-        + super.toString()
-        + "}";
-  }
-
   public long getAllianceId() {
     return allianceId;
   }
@@ -41,7 +38,4 @@ public class AffairQuery extends PagedQuery {
     return this;
   }
 
-  public String[] getTags() {
-    return tags;
-  }
 }
