@@ -235,9 +235,6 @@ public class QueryController {
 
   @PostMapping("/alliance/info")
   public OutAllianceVO queryAlliance(@RequestBody AffairQuery query) {
-    checkPage(query.getPageRequest());
-    checkAllianceId(query.getAllianceId());
-
     List<AllianceVO> affairs = affairRepo.findAlliance(query.getQuery(), query.getAllianceId(), query.getPageRequest())
         .stream().map(VoAndPoConversion::toAlliance).collect(Collectors.toList());
     return new OutAllianceVO(affairs, null);

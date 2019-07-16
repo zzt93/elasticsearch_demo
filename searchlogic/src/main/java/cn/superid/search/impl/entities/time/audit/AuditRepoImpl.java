@@ -74,12 +74,11 @@ public class AuditRepoImpl implements AuditCustom {
         .must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
     bool.must(
         boolQuery()
-            .should(termQuery("senderRoleId", info.getRoles()))
-            .should(termQuery("receiverRoleId", info.getRoles()))
+            .should(termsQuery("senderRoleId", info.getRoles()))
+            .should(termsQuery("receiverRoleId", info.getRoles()))
     );
 
-    bool.filter(termsQuery("handleState", 0));
-
+    bool.filter(termsQuery("handleState", info.getStates()));
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(
