@@ -7,6 +7,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.time.audit.AuditQuery;
+import cn.superid.search.entities.time.audit.AuditUserQuery;
 import cn.superid.search.impl.query.QueryHelper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
@@ -61,4 +62,31 @@ public class AuditRepoImpl implements AuditCustom {
         .withPageable(pageRequest).build();
     return template.queryForPage(searchQuery, AuditPO.class);
   }
+
+  @Override
+  public Page<AuditPO> findByUserQuery(AuditUserQuery info) {
+    PageRequest pageRequest = info.getPageRequest();
+    Preconditions.checkArgument(pageRequest != null);
+    Preconditions.checkArgument(info.getQuery() != null);
+    Preconditions.checkArgument(info.getRoles() != null);
+
+    BoolQueryBuilder bool = boolQuery()
+        .must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
+    bool.must(
+        boolQuery()
+            .should(termQuery("senderRoleId", info.getRoles()))
+            .should(termQuery("receiverRoleId", info.getRoles()))
+    );
+
+    bool.filter(termsQuery("handleState", 0));
+
+
+    NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices(
+            Suffix.indexNamePattern(AuditPO.class))
+        .withQuery(bool)
+        .withPageable(pageRequest).build();
+    return template.queryForPage(searchQuery, AuditPO.class);
+  }
+
 }
