@@ -74,7 +74,6 @@ public class AuditRepoImpl implements AuditCustom {
         .must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
     bool.must(
         boolQuery()
-            .should(termsQuery("senderRoleId", info.getRoles()))
             .should(termsQuery("receiverRoleId", info.getRoles()))
     );
 
