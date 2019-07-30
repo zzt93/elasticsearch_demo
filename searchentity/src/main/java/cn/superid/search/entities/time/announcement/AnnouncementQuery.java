@@ -3,6 +3,7 @@ package cn.superid.search.entities.time.announcement;
 import cn.superid.search.entities.PagedQuery;
 import java.util.Date;
 import java.util.List;
+import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -21,8 +22,11 @@ public class AnnouncementQuery extends PagedQuery {
   private long startTime;
   private long endTime;
   private List<Byte> states;
+  @Deprecated
   private Byte plateType;
+  @Deprecated
   private Integer plateSubType;
+  private List<AnnType> types;
   public AnnouncementQuery() {
   }
   public AnnouncementQuery(List<Long> affairIds, String query,
@@ -125,13 +129,57 @@ public class AnnouncementQuery extends PagedQuery {
     this.endTime = endTime;
   }
 
+  public List<AnnType> getTypes() {
+    return types;
+  }
+
+  public void setTypes(List<AnnType> types) {
+    this.types = types;
+  }
+
   @Override
   public String toString() {
     return "AnnouncementQuery{" +
-        "affairIds=" + affairIds +
+        "allianceId=" + allianceId +
+        ", affairIds=" + affairIds +
+        ", targetId=" + targetId +
+        ", excludeAffair=" + excludeAffair +
+        ", roleIds=" + roleIds +
         ", startTime=" + startTime +
         ", endTime=" + endTime +
-        ", pagedQuery=" + super.toString() +
+        ", states=" + states +
+        ", plateType=" + plateType +
+        ", plateSubType=" + plateSubType +
+        ", types=" + types +
         '}';
+  }
+
+  public class AnnType {
+    private Integer plateType;
+    private Integer plateSubType;
+
+    public AnnType() {
+    }
+
+    public AnnType(Integer plateType, Integer plateSubType) {
+      this.plateType = plateType;
+      this.plateSubType = plateSubType;
+    }
+
+    public Integer getPlateType() {
+      return plateType;
+    }
+
+    public void setPlateType(Integer plateType) {
+      this.plateType = plateType;
+    }
+
+    public Integer getPlateSubType() {
+      return plateSubType;
+    }
+
+    public void setPlateSubType(Integer plateSubType) {
+      this.plateSubType = plateSubType;
+    }
   }
 }
