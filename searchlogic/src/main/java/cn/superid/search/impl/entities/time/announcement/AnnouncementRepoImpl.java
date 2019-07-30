@@ -81,11 +81,25 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     if (info.getRoleIds() != null) {
       bool.filter(termsQuery("roles", info.getRoleIds()));
     }
-    if (info.getPlateType() != null) {
-      bool.filter(termQuery("plateType", info.getPlateType()));
-    }
-    if (info.getPlateSubType() != null) {
-      bool.filter(termQuery("plateSubType", info.getPlateSubType()));
+    // TODO: 2019-07-30 接口兼容
+    if (info.getTypes() == null || info.getTypes().size() == 0) {
+      if (info.getPlateType() != null) {
+        bool.filter(termQuery("plateType", info.getPlateType()));
+      }
+      if (info.getPlateSubType() != null) {
+        bool.filter(termQuery("plateSubType", info.getPlateSubType()));
+      }
+    }else {
+      BoolQueryBuilder types = boolQuery();
+      info.getTypes().forEach(i -> {
+        if (i.getPlateType() != null && i.getPlateSubType() != null){
+          BoolQueryBuilder type = boolQuery();
+          type.filter(termQuery("plateType", i.getPlateType()));
+          type.filter(termQuery("plateSubType", i.getPlateSubType()));
+          types.should(type);
+        }
+      });
+      bool.filter(types);
     }
     if (info.getStates() != null) {
       bool.filter(termsQuery("state", info.getStates()));
