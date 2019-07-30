@@ -154,7 +154,7 @@ public class AnnouncementQuery extends PagedQuery {
         '}';
   }
 
-  public class AnnType {
+  public static class AnnType {
     private Integer plateType;
     private Integer plateSubType;
 
