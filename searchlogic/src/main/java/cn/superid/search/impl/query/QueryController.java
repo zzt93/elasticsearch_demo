@@ -167,7 +167,7 @@ public class QueryController {
     checkPage(pageRequest);
     Page<AnnouncementPO> res = announcementRepo
         .findByTitleOrContentOrTags(query, pageRequest);
-    return new PageVO<>(res, VoAndPoConversion::toVO);
+    return new PageVO<>(res, VoAndPoConversion::toVO, query.getPageRequest());
   }
 
   @PostMapping("/material")
@@ -195,7 +195,7 @@ public class QueryController {
     suffix.setSuffix(String.valueOf(query.getAllianceId() / MaterialPO.CLUSTER_SIZE));
     Page<MaterialPO> byTagsIn = materialRepo
         .findByAllianceIdAndTagsIn(query.getAllianceId(), query.getTags(), query.getPageRequest());
-    return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
+    return new PageVO<>(byTagsIn, VoAndPoConversion::toVO, query.getPageRequest());
   }
 
   @PostMapping("/affair")
@@ -207,7 +207,7 @@ public class QueryController {
       byMobile = userService.findByMobile(query.getQuery());
     }
     Page<AffairPO> page = affairRepo.findAny(query.getQuery(), query.getPageRequest());
-    return new MenkorVO(new PageVO<>(page, VoAndPoConversion::toVO), byMobile);
+    return new MenkorVO(new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest()), byMobile);
   }
 
   @PostMapping("/alliance")
@@ -217,7 +217,8 @@ public class QueryController {
 
     Page<UserPO> users = userService.findByUserName(query.getQuery(), query.getPageRequest());
     Page<AffairPO> page = affairRepo.findByNameAndAllianceId(query.getQuery(), query.getAllianceId(), query.getPageRequest());
-    return new InAllianceVO(new PageVO<>(page, VoAndPoConversion::toVO), new PageVO<>(users, VoAndPoConversion::toVO));
+    return new InAllianceVO(new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest()), new PageVO<>(users, VoAndPoConversion::toVO,
+        query.getPageRequest()));
   }
 
   @PostMapping("/menkor")
@@ -244,7 +245,7 @@ public class QueryController {
     checkAllianceId(query.getAllianceId());
 
     Page<AffairPO> page = affairRepo.findByNameAndAllianceId(query.getQuery(), query.getAllianceId(), query.getPageRequest());
-    return new InAllianceVO(new PageVO<>(page, VoAndPoConversion::toVO), null);
+    return new InAllianceVO(new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest()), null);
   }
 
   @PostMapping("/affair/tags")
@@ -253,7 +254,7 @@ public class QueryController {
     Page<AffairPO> page = affairRepo
         .findByTagsInAndPublicType(affairInfo.getTags(), (byte) PublicType.ALL,
             affairInfo.getPageRequest());
-    return new PageVO<>(page, VoAndPoConversion::toVO);
+    return new PageVO<>(page, VoAndPoConversion::toVO, affairInfo.getPageRequest());
   }
 
 //  @PostMapping("/affair/superId")
@@ -279,7 +280,7 @@ public class QueryController {
     Preconditions.checkState(false);
 
     Page<RolePO> byAll = roleRepo.findByAll(query.getQuery());
-    return new PageVO<>(byAll, VoAndPoConversion::toVO);
+    return new PageVO<>(byAll, VoAndPoConversion::toVO, query.getPageRequest());
   }
 
   @PostMapping("/role/tags")
@@ -290,7 +291,7 @@ public class QueryController {
     suffix.setSuffix(String.valueOf(query.getAllianceId() / RolePO.CLUSTER_SIZE));
     String[] tagPOS = query.getTags();
     Page<RolePO> byTagsIn = roleRepo.findByTagsIn(tagPOS, query.getPageRequest());
-    return new PageVO<>(byTagsIn, VoAndPoConversion::toVO);
+    return new PageVO<>(byTagsIn, VoAndPoConversion::toVO, query.getPageRequest());
   }
 
   @PostMapping("/role/except_alliance")
@@ -299,7 +300,7 @@ public class QueryController {
     checkAllianceId(query.getAllianceId());
     Page<RolePO> roleExcept = roleRepo
         .findRoleExcept(query.getAllianceId(), query.getQuery(), query.getPageRequest());
-    return new PageVO<>(roleExcept, VoAndPoConversion::toVO);
+    return new PageVO<>(roleExcept, VoAndPoConversion::toVO, query.getPageRequest());
   }
 
   @PostMapping("/user")
@@ -311,7 +312,7 @@ public class QueryController {
   public PageVO<MessagesVO> queryChat(@RequestBody ChatQuery chatQuery) {
     checkPage(chatQuery.getPageRequest());
     Page<MessagesPO> byMessage = messagesRepo.findByMessage(chatQuery, chatQuery.getPageRequest());
-    return new PageVO<>(byMessage, VoAndPoConversion::toVO);
+    return new PageVO<>(byMessage, VoAndPoConversion::toVO, chatQuery.getPageRequest());
   }
 
   @PostMapping("/chat/count")
@@ -323,21 +324,21 @@ public class QueryController {
   public PageVO<TaskVO> queryTask(@RequestBody TaskQuery taskQuery) {
     checkPage(taskQuery.getPageRequest());
     Page<TaskPO> byMessage = taskRepo.findByAll(taskQuery);
-    return new PageVO<>(byMessage, VoAndPoConversion::toVO);
+    return new PageVO<>(byMessage, VoAndPoConversion::toVO, taskQuery.getPageRequest());
   }
 
   @PostMapping("/audit")
   public PageVO<AuditVO> queryAudit(@RequestBody AuditQuery auditQuery) {
     checkPage(auditQuery.getPageRequest());
     Page<AuditPO> byQuery = auditRepo.findByQuery(auditQuery);
-    return new PageVO<>(byQuery, VoAndPoConversion::toVO);
+    return new PageVO<>(byQuery, VoAndPoConversion::toVO, auditQuery.getPageRequest());
   }
 
   @PostMapping("/audit/user")
   public PageVO<AuditVO> queryUserAudit(@RequestBody AuditUserQuery auditQuery) {
     checkPage(auditQuery.getPageRequest());
     Page<AuditPO> byQuery = auditRepo.findByUserQuery(auditQuery);
-    return new PageVO<>(byQuery, VoAndPoConversion::toVO);
+    return new PageVO<>(byQuery, VoAndPoConversion::toVO, auditQuery.getPageRequest());
   }
 
   @PostMapping("/target")
@@ -370,7 +371,7 @@ public class QueryController {
     checkPage(pageRequest);
     Page<ProcessPO> res = processRepo
         .find(query, pageRequest);
-    return new PageVO<>(res, VoAndPoConversion::toVO);
+    return new PageVO<>(res, VoAndPoConversion::toVO, query.getPageRequest());
   }
 
   @PostMapping("/process/count")

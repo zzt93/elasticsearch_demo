@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * This class is used to hold the searched result
@@ -34,14 +35,15 @@ public class PageVO<T> {
   }
 
 
-  public <R> PageVO(Page<R> page, Function<R, T> mapper) {
+  public <R> PageVO(Page<R> page, Function<R, T> mapper,
+      PageRequest pageRequest) {
     if (page == null) {
       return;
     }
     this.content = page.getContent().stream().map(mapper).collect(Collectors.toList());
     this.totalElements = page.getTotalElements();
     this.totalPages = page.getTotalPages();
-    this.pageSize = page.getSize();
+    this.pageSize = pageRequest.getPageSize();
     hasMore = content.size() == pageSize;
   }
 
