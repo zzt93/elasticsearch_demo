@@ -42,8 +42,8 @@ public class PageVO<T> {
     }
     this.content = page.getContent().stream().map(mapper).collect(Collectors.toList());
     this.totalElements = page.getTotalElements();
-    this.totalPages = page.getTotalPages();
     this.pageSize = pageRequest.getPageSize();
+    this.totalPages = Math.toIntExact((totalElements + pageSize - 1) / pageSize);
     hasMore = content.size() == pageSize;
   }
 
