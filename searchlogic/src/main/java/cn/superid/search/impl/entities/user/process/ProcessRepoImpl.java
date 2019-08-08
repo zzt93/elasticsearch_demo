@@ -106,10 +106,12 @@ public class ProcessRepoImpl implements ProcessCustom {
   private BoolQueryBuilder getQuery(ProcessQuery query){
     BoolQueryBuilder bool = boolQuery();
     QueryType queryType = query.getQueryType();
-    Integer sourceType = query.getSourceType() == null ? ApplySource.AFFAIR.ordinal() : query.getSourceType();
+    int sourceType = query.getSourceType() == null ? ApplySource.AFFAIR.ordinal() : query.getSourceType();
     List<Long> affairIds = query.getAffairIds();
 
     //common query
+    //global filter sourceType = 5
+    bool = bool.mustNot(termQuery("sourceType", ApplySource.SERVICE.ordinal()));
     //global keyword
     String keyword = query.getKeyword();
     if (keyword != null){
