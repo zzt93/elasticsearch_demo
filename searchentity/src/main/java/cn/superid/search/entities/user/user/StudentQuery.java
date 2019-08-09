@@ -1,16 +1,20 @@
 package cn.superid.search.entities.user.user;
 
-import cn.superid.search.entities.PagedQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author zzt
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class StudentQuery extends PagedQuery {
+public class StudentQuery extends PersonalQuery {
 
-  private long userId;
+  public StudentQuery() {
+  }
 
+  public StudentQuery(long userId, long roleId, PageRequest pageRequest) {
+    super(userId, roleId, pageRequest);
+  }
 }
