@@ -21,6 +21,13 @@ public class PageVO<T> {
   private Integer pageSize;
   private boolean hasMore;
 
+  public PageVO(List<T> content, Long totalElements, Integer totalPages, Integer pageSize) {
+    this.content = content;
+    this.totalElements = totalElements;
+    this.totalPages = totalPages;
+    hasMore = content.size() == pageSize;
+  }
+
   public PageVO() {
     totalElements = 0L;
     totalPages = 0;
