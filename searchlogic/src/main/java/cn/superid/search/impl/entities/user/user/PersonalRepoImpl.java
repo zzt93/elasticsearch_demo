@@ -45,6 +45,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .must(moreLikeThisQuery(new String[]{"tags"}, new String[]{}, likeItems));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices("user")
         .withQuery(like)
         .withPageable(query.getPageRequest())
         .withSourceFilter(DefaultFetchSource.fields("_id", "personalAffairId", "tags"))
@@ -65,6 +66,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .must(moreLikeThisQuery(new String[]{"unionId"}, new String[]{}, likeItems));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices("user")
         .withQuery(like)
         .withPageable(query.getPageRequest())
         .withSourceFilter(DefaultFetchSource.fields("_id", "personalAffairId", "unionId"))

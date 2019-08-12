@@ -40,9 +40,9 @@ public class AffairRecommendRepoImpl implements AffairRecommendCustom {
 
     final BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
-        .should(termQuery("mold", AffairMoldType.NORMAL))
-        .should(termQuery("mold", AffairMoldType.SPACE))
-        .should(termQuery("mold", AffairMoldType.PERSONAL))
+        .should(termQuery("mold", AffairMoldType.NORMAL.getMold()))
+        .should(termQuery("mold", AffairMoldType.SPACE.getMold()))
+        .should(termQuery("mold", AffairMoldType.PERSONAL.getMold()))
         ;
     final FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders
         .functionScoreQuery(boolQuery,
@@ -50,6 +50,7 @@ public class AffairRecommendRepoImpl implements AffairRecommendCustom {
         .boostMode(CombineFunction.REPLACE);
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices("affair-*")
         .withQuery(functionScoreQueryBuilder)
         .withSourceFilter(DefaultFetchSource.fields("_id", "mold"))
         .addAggregation(filter("has-mold", boolQuery)
