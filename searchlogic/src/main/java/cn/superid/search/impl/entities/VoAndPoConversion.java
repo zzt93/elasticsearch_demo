@@ -11,6 +11,8 @@ import cn.superid.search.entities.user.process.ProcessVO;
 import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.entities.user.target.TargetVO;
 import cn.superid.search.entities.user.task.TaskVO;
+import cn.superid.search.entities.user.user.InterestVO;
+import cn.superid.search.entities.user.user.StudentVO;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
@@ -85,6 +87,14 @@ public class VoAndPoConversion {
 
   public static UserVO toVO(UserPO userPO) {
     return new UserVO(userPO.getId());
+  }
+
+  public static StudentVO toStudentVO(UserPO userPO) {
+    return new StudentVO(Long.parseLong(userPO.getId()), userPO.getPersonalAffairId(), userPO.getUnionId());
+  }
+
+  public static InterestVO toInterestVO(UserPO userPO) {
+    return new InterestVO(Long.parseLong(userPO.getId()), userPO.getPersonalAffairId(), userPO.getTags());
   }
 
   public static String[] toPOs(String[] tagVOS) {

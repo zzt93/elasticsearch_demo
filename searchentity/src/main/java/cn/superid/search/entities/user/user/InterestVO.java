@@ -1,6 +1,5 @@
 package cn.superid.search.entities.user.user;
 
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +10,10 @@ import lombok.EqualsAndHashCode;
 @Data
 public class InterestVO extends PersonalAffairVO {
 
-  private List<String> tags;
+  private String[] tags;
 
+  public InterestVO(long affairId, long userId, String[] tags) {
+    super(affairId, userId);
+    this.tags = tags;
+  }
 }

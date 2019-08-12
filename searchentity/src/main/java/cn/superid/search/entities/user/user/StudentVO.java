@@ -1,6 +1,5 @@
 package cn.superid.search.entities.user.user;
 
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +10,10 @@ import lombok.EqualsAndHashCode;
 @Data
 public class StudentVO extends PersonalAffairVO {
 
-  private List<String> sids;
+  private String[] sids;
 
+  public StudentVO(long affairId, long userId, String[] sids) {
+    super(affairId, userId);
+    this.sids = sids;
+  }
 }
