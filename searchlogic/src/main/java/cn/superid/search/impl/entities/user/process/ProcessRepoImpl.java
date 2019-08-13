@@ -111,7 +111,12 @@ public class ProcessRepoImpl implements ProcessCustom {
 
     //common query
     //global filter sourceType = 5
-    bool = bool.mustNot(termQuery("sourceType", ApplySource.SERVICE.ordinal()));
+    if (!query.isNeedChild()){
+      bool = bool.mustNot(termQuery("sourceType", ApplySource.SERVICE.ordinal()));
+    }
+    if (!query.isNeedParent()){
+      bool = bool.must(termQuery("sourceType", ApplySource.SERVICE.ordinal()));
+    }
     //global keyword
     String keyword = query.getKeyword();
     if (keyword != null){
