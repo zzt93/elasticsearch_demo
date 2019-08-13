@@ -42,7 +42,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     Item[] likeItems = new Item[]{new Item("user", "user", "" + userId)};
     QueryBuilder like = QueryBuilders.boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
-        .must(moreLikeThisQuery(new String[]{"tags"}, new String[]{}, likeItems));
+        .must(moreLikeThisQuery(new String[]{"tags"}, new String[]{}, likeItems).minDocFreq(1).minTermFreq(1));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices("user")
@@ -63,7 +63,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     Item[] likeItems = new Item[]{new Item("user", "user", "" + userId)};
     QueryBuilder like = QueryBuilders.boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
-        .must(moreLikeThisQuery(new String[]{"unionId"}, new String[]{}, likeItems));
+        .must(moreLikeThisQuery(new String[]{"unionId"}, new String[]{}, likeItems).minDocFreq(1).minTermFreq(1));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices("user")
