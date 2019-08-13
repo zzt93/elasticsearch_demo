@@ -14,7 +14,7 @@ public class InterestVO extends PersonalAffairVO {
 
   private String[] tags;
 
-  public InterestVO(long affairId, long userId, String[] tags) {
+  public InterestVO(long userId, long affairId, String[] tags) {
     super(affairId, userId);
     this.tags = tags;
   }

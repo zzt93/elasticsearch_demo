@@ -14,7 +14,7 @@ public class StudentVO extends PersonalAffairVO {
 
   private String[] sids;
 
-  public StudentVO(long affairId, long userId, String[] sids) {
+  public StudentVO(long userId, long affairId, String[] sids) {
     super(affairId, userId);
     this.sids = sids;
   }
