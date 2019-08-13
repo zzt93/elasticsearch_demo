@@ -59,14 +59,6 @@ public class ProcessQuery extends PagedQuery {
   private List<Long> processIds;
   private String serial;
   private String keyword;
-  /**
-   * 是否需要查询子流程
-   */
-  private boolean needChild = false;
-  /**
-   * 是否需要查询父流程
-   */
-  private boolean needParent = true;
 
   public List<Long> getTargetIds() {
     return targetIds;
@@ -146,22 +138,6 @@ public class ProcessQuery extends PagedQuery {
 
   public void setStarterRoleIds(List<Long> starterRoleIds) {
     this.starterRoleIds = starterRoleIds;
-  }
-
-  public boolean isNeedChild() {
-    return needChild;
-  }
-
-  public void setNeedChild(boolean needChild) {
-    this.needChild = needChild;
-  }
-
-  public boolean isNeedParent() {
-    return needParent;
-  }
-
-  public void setNeedParent(boolean needParent) {
-    this.needParent = needParent;
   }
 
   public enum QueryType{
