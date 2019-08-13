@@ -29,6 +29,7 @@ import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
 /**
  * @author zzt
@@ -72,7 +73,9 @@ public class VoAndPoConversion {
   }
 
   public static AffairVO toVO(AffairPO po) {
-    return new AffairVO(po.getParentId(), po.getId(), po.getState());
+    AffairVO res = new AffairVO();
+    BeanUtils.copyProperties(po, res);
+    return res;
   }
 
   public static AllianceVO toAlliance(AffairPO affairPO) {

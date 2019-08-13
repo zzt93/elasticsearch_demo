@@ -3,7 +3,7 @@ package cn.superid.search.impl.entities.user.affair;
 import cn.superid.search.entities.user.affair.AffairVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Arrays;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -16,6 +16,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  *
  * @see AffairVO#indexSuffix()
  */
+@Data
 @Document(indexName = "affair-#{suffix.toString()}", type = "affair", refreshInterval = "1s", createIndex = false, shards = 1, replicas = 0)
 public class AffairPO {
 
@@ -35,6 +36,8 @@ public class AffairPO {
   private Byte state;
   @Field(type = FieldType.Byte)
   private Byte publicType;
+  @Field(type = FieldType.Byte)
+  private Byte mold;
   @Field(type = FieldType.Long)
   private Long allianceId;
 
@@ -59,79 +62,9 @@ public class AffairPO {
     tags = new String[]{"test1", "test2"};
   }
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
+  public AffairPO(String id, Long mold) {
     this.id = id;
+    this.mold = mold.byteValue();
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String[] getTags() {
-    return tags;
-  }
-
-  public void setTags(String[] tags) {
-    this.tags = tags;
-  }
-
-  public String getSuperId() {
-    return superId;
-  }
-
-  public void setSuperId(String superId) {
-    this.superId = superId;
-  }
-
-  public String getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(String parentId) {
-    this.parentId = parentId;
-  }
-
-  public Byte getState() {
-    return state;
-  }
-
-  public void setState(Byte state) {
-    this.state = state;
-  }
-
-  public Byte getPublicType() {
-    return publicType;
-  }
-
-  public AffairPO setPublicType(Byte publicType) {
-    this.publicType = publicType;
-    return this;
-  }
-
-  public Long getAllianceId() {
-    return allianceId;
-  }
-
-  public void setAllianceId(Long allianceId) {
-    this.allianceId = allianceId;
-  }
-
-  @Override
-  public String toString() {
-    return "AffairPO{" +
-        "id='" + id + '\'' +
-        ", parentId='" + parentId + '\'' +
-        ", name='" + name + '\'' +
-        ", tags=" + Arrays.toString(tags) +
-        ", superId='" + superId + '\'' +
-        '}';
-  }
 }
