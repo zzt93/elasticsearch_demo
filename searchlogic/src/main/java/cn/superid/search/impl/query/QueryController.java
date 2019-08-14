@@ -210,6 +210,14 @@ public class QueryController {
     return new MenkorVO(new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest()), byMobile);
   }
 
+  @PostMapping("/affair/new")
+  public PageVO<AffairVO> queryAffairNew(@RequestBody AffairQuery query) {
+    checkPage(query.getPageRequest());
+
+    Page<AffairPO> page = affairRepo.findAny(query);
+    return new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest());
+  }
+
   @PostMapping("/alliance")
   public InAllianceVO queryInAlliance(@RequestBody AffairQuery query) {
     checkPage(query.getPageRequest());

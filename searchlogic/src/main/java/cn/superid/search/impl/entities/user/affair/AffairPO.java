@@ -21,6 +21,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class AffairPO {
 
   public static final long CLUSTER_SIZE = 100000000;
+  public static final String MOLD = "mold";
   @Id
   @JsonIgnore
   private String id;
