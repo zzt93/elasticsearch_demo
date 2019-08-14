@@ -206,15 +206,21 @@ public class QueryController {
     if (query.getPageRequest().getPageNumber() == 0 && mobile.matcher(query.getQuery()).find()) {
       byMobile = userService.findByMobile(query.getQuery());
     }
-    Page<AffairPO> page = affairRepo.findAny(query.getQuery(), query.getPageRequest());
+    Page<AffairPO> page = affairRepo.findAny(query.getQuery(), null, query.getPageRequest());
     return new MenkorVO(new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest()), byMobile);
   }
 
   @PostMapping("/affair/new")
   public PageVO<AffairVO> queryAffairNew(@RequestBody AffairQuery query) {
     checkPage(query.getPageRequest());
+    Preconditions.checkArgument(query.getMolds() != null, "Invalid mold");
 
-    Page<AffairPO> page = affairRepo.findAny(query);
+    Page<AffairPO> page;
+    if (query.getMolds().size() == 1) {
+      page = affairRepo.findAny(query.getQuery(), query.getMolds().get(0), query.getPageRequest());
+    } else {
+      page = affairRepo.findAny(query);
+    }
     return new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest());
   }
 

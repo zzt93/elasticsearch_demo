@@ -43,7 +43,7 @@ public class AffairRepoImpl implements AffairCustom {
   private ElasticsearchTemplate template;
 
   @Override
-  public Page<AffairPO> findAny(String info, Pageable pageable) {
+  public Page<AffairPO> findAny(String info, Byte mold, Pageable pageable) {
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("state", 0))
         .must(termQuery("publicType", PublicType.ALL))
@@ -53,6 +53,9 @@ public class AffairRepoImpl implements AffairCustom {
                 .should(wildcardQuery("name", wildcard(info)))
                 .should(termQuery("tags", info))
         );
+    if (mold != null) {
+      bool.must(termQuery("mold", mold));
+    }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AffairPO.class))
         .withQuery(bool)
@@ -84,15 +87,15 @@ public class AffairRepoImpl implements AffairCustom {
   private static final PageRequest EMPTY = PageRequest.of(0, 1);
 
   static Page<AffairPO> getAffairByMold(ElasticsearchTemplate template, PageRequest pageable,
-      QueryBuilder query, QueryBuilder bool) {
+      QueryBuilder query, QueryBuilder aggFilter) {
     String aggName = "has-mold";
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AffairPO.class))
         .withQuery(query)
         .withPageable(EMPTY)
-        .addAggregation(filter(aggName, bool)
+        .addAggregation(filter(aggName, aggFilter)
             .subAggregation(terms("molds").field(MOLD)
-                .subAggregation(topHits("top").size(pageable.getPageSize()))))
+                .subAggregation(topHits("top").from((int) pageable.getOffset()).size(pageable.getPageSize()))))
         .build();
     SearchResponse response = template.query(searchQuery, t->t);
     Aggregations aggregations = response.getAggregations();

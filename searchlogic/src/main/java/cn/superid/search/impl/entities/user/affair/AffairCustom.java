@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface AffairCustom {
 
-  Page<AffairPO> findAny(String info, Pageable pageable);
+  Page<AffairPO> findAny(String info, Byte mold, Pageable pageable);
 
   Page<AffairPO> findAny(AffairQuery affairQuery);
 
