@@ -1,6 +1,7 @@
 package cn.superid.search.entities.user.affair;
 
 import cn.superid.search.entities.PagedQuery;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 public class AffairQuery extends PagedQuery {
   private String[] tags;
   private long allianceId;
+  private List<Byte> molds;
 
   public AffairQuery() {
   }
