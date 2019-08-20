@@ -3,20 +3,32 @@ package cn.superid.search.impl.entities.user.user;
 import static org.elasticsearch.index.query.QueryBuilders.moreLikeThisQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
+import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
+import static org.elasticsearch.search.aggregations.AggregationBuilders.topHits;
 
 import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.entities.user.user.InterestQuery;
 import cn.superid.search.entities.user.user.StudentQuery;
 import cn.superid.search.impl.DefaultFetchSource;
+import cn.superid.search.impl.query.QueryHelper;
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.MoreLikeThisQueryBuilder.Item;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.LongTerms.Bucket;
+import org.elasticsearch.search.aggregations.metrics.tophits.InternalTopHits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Component;
@@ -28,8 +40,7 @@ import org.springframework.stereotype.Component;
 public class PersonalRepoImpl implements PersonalRecommendCustom {
 
   private final ElasticsearchTemplate template;
-  private static final Item[] EMPTY = new Item[]{};
-  private static final String[] unlike = new String[]{"大学", "中学", "小学"};
+  private static final Gson gson = new Gson();
 
   @Autowired
   public PersonalRepoImpl(ElasticsearchTemplate template) {
@@ -61,10 +72,10 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
   @Override
   public Page<UserPO> similarStudent(StudentQuery query) {
     Preconditions.checkNotNull(query);
-    Preconditions.checkNotNull(query.getPageRequest());
+    PageRequest pageable = query.getPageRequest();
+    Preconditions.checkNotNull(pageable);
 
     QueryBuilder bool = QueryBuilders.boolQuery()
-        .must(termQuery("publicType", PublicType.ALL))
         .must(termQuery("userId", query.getUserId()));
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices("personal_info")
@@ -73,23 +84,37 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .build();
     List<PersonalInfo> infos = template.queryForList(searchQuery, PersonalInfo.class);
     List<Short> types = new ArrayList<>();
-    StringBuilder likeTexts = new StringBuilder();
+    List<String> contents = new ArrayList<>();
+    List<String> likeTexts = new ArrayList<>();
     for (PersonalInfo info : infos) {
       types.add(info.getType());
-      likeTexts.append(info.getContent()).append(" ").append(info.getDescription());
+      contents.add(info.getContent());
+      likeTexts.add(info.getDescription());
     }
 
     QueryBuilder like = QueryBuilders.boolQuery()
-        .must(termQuery("publicType", PublicType.ALL))
-        .must(termsQuery("type", types))
-        .must(moreLikeThisQuery(new String[]{"content", "description"}, new String[]{likeTexts.toString()}, EMPTY)
-            .unlike(unlike).minDocFreq(1).minTermFreq(1));
+//        .must(termQuery("publicType", PublicType.ALL))
+//        .must(termsQuery("type", types))
+        .must(termsQuery("content", contents))
+        .should(termsQuery("description", likeTexts));
     SearchQuery moreLike = new NativeSearchQueryBuilder()
         .withIndices("personal_info")
         .withQuery(like)
-        .withPageable(query.getPageRequest())
+        .withPageable(QueryHelper.EMPTY)
         .withSourceFilter(DefaultFetchSource.fields("_id", "affairId", "type", "content", "description"))
+        .addAggregation(terms("uniq_affairId").field("affairId")
+            .subAggregation(topHits("top").from(0).size(1)))
         .build();
-    return template.queryForPage(moreLike, UserPO.class);
+    SearchResponse response = template.query(moreLike, t->t);
+    Aggregations aggregations = response.getAggregations();
+    LongTerms ids = aggregations.get("uniq_affairId");
+    List<UserPO> res = new ArrayList<>();
+    for (Bucket bucket : ids.getBuckets()) {
+      for (SearchHit hit : ((InternalTopHits) bucket.getAggregations().get("top")).getHits()) {
+        PersonalInfo personalInfo = gson.fromJson(hit.getSourceAsString(), PersonalInfo.class);
+        res.add(new UserPO(personalInfo.getAffairId(), personalInfo));
+      }
+    }
+    return new AggregatedPageImpl<>(res, pageable, response.getHits().getTotalHits());
   }
 }

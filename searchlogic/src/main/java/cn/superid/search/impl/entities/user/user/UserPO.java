@@ -2,6 +2,8 @@ package cn.superid.search.impl.entities.user.user;
 
 import cn.superid.search.entities.user.user.UserVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -32,14 +34,21 @@ public class UserPO {
   private String superId;
   @Field(type = FieldType.keyword)
   private String[] tags;
-  @Field(type = FieldType.keyword)
-  private String[] unionId;
+
   @Field(type = FieldType.Byte)
   private Integer publicType;
   @Field(type = FieldType.Short)
   private Short infoPublic;
 
+  private List<PersonalInfo> personalInfos = new ArrayList<>();
+
   public UserPO() {
+  }
+
+  public UserPO(long personalAffairId, PersonalInfo personalInfo) {
+    this.personalAffairId = personalAffairId;
+    this.id = "" + personalInfo.getUserId();
+    this.personalInfos.add(personalInfo);
   }
 
   UserPO(String id, String username, String superId,
@@ -68,4 +77,11 @@ public class UserPO {
     return superId;
   }
 
+  public String getSchoolDes() {
+    if (!personalInfos.isEmpty()) {
+      PersonalInfo personalInfo = personalInfos.get(0);
+      return personalInfo.getContent() + personalInfo.getDescription();
+    }
+    return null;
+  }
 }

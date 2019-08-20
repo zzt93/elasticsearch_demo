@@ -93,7 +93,7 @@ public class VoAndPoConversion {
   }
 
   public static StudentVO toStudentVO(UserPO userPO) {
-    return new StudentVO(Long.parseLong(userPO.getId()), userPO.getPersonalAffairId(), userPO.getUnionId());
+    return new StudentVO(Long.parseLong(userPO.getId()), userPO.getPersonalAffairId(), userPO.getSchoolDes());
   }
 
   public static InterestVO toInterestVO(UserPO userPO) {

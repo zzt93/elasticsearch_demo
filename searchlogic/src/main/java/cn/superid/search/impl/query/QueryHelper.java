@@ -2,6 +2,7 @@ package cn.superid.search.impl.query;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author zzt
@@ -9,6 +10,7 @@ import java.util.regex.Pattern;
 public class QueryHelper {
 
 
+  public static final PageRequest EMPTY = PageRequest.of(0, 1);
   private static final Pattern PARAMETER_PLACEHOLDER = Pattern.compile("\\?(\\d+)");
 
   public static String replacePlaceholders(String input, String... var) {

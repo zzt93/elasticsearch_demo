@@ -12,6 +12,7 @@ import static org.elasticsearch.search.aggregations.AggregationBuilders.topHits;
 
 import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.entities.user.affair.AffairQuery;
+import cn.superid.search.impl.query.QueryHelper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
@@ -84,15 +85,13 @@ public class AffairRepoImpl implements AffairCustom {
     return getAffairByMold(template, pageable, bool, bool);
   }
 
-  private static final PageRequest EMPTY = PageRequest.of(0, 1);
-
   static Page<AffairPO> getAffairByMold(ElasticsearchTemplate template, PageRequest pageable,
       QueryBuilder query, QueryBuilder aggFilter) {
     String aggName = "has-mold";
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AffairPO.class))
         .withQuery(query)
-        .withPageable(EMPTY)
+        .withPageable(QueryHelper.EMPTY)
         .addAggregation(filter(aggName, aggFilter)
             .subAggregation(terms("molds").field(MOLD)
                 .subAggregation(topHits("top").from((int) pageable.getOffset()).size(pageable.getPageSize()))))

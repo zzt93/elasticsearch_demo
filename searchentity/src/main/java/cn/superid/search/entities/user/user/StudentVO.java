@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StudentVO extends PersonalAffairVO {
 
-  private String[] sids;
+  private String schoolDes;
 
-  public StudentVO(long userId, long affairId, String[] sids) {
+  public StudentVO(long userId, long affairId, String schoolDes) {
     super(affairId, userId);
-    this.sids = sids;
+    this.schoolDes = schoolDes;
   }
 }
