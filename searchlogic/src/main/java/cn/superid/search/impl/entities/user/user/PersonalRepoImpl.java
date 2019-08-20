@@ -110,13 +110,15 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .withPageable(QueryHelper.EMPTY)
         .withSourceFilter(DefaultFetchSource.defaultId())
         .addAggregation(terms("uniq_affairId").field("affairId")
+            .size((int) (pageable.getOffset() + pageable.getPageSize()))
             .subAggregation(topHits("top").from(0).size(1)))
         .build();
     SearchResponse response = template.query(moreLike, t -> t);
     Aggregations aggregations = response.getAggregations();
     LongTerms uniqAffairId = aggregations.get("uniq_affairId");
     List<UserPO> res = new ArrayList<>();
-    for (Bucket bucket : uniqAffairId.getBuckets()) {
+    for (int i = (int) pageable.getOffset(); i < uniqAffairId.getBuckets().size(); i++) {
+      Bucket bucket = uniqAffairId.getBuckets().get(i);
       for (SearchHit hit : ((InternalTopHits) bucket.getAggregations().get("top")).getHits()) {
         PersonalInfo personalInfo = gson.fromJson(hit.getSourceAsString(), PersonalInfo.class);
         res.add(new UserPO(personalInfo.getAffairId(), personalInfo));
