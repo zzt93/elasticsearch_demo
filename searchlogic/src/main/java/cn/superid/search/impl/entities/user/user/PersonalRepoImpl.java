@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities.user.user;
 
+import static org.elasticsearch.index.query.QueryBuilders.existsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.idsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.moreLikeThisQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
@@ -59,6 +60,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     Item[] likeItems = new Item[]{new Item("user", "user", "" + userId)};
     QueryBuilder like = QueryBuilders.boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
+        .must(existsQuery("tags"))
         .must(moreLikeThisQuery(new String[]{"tags"}, new String[]{}, likeItems).minDocFreq(1)
             .minTermFreq(1));
 
