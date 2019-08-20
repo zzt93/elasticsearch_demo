@@ -5,6 +5,7 @@ import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
+import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.impl.DefaultFetchSource;
 import com.google.common.base.Preconditions;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -34,6 +35,7 @@ public class UserRepoImpl implements UserCustom {
     Preconditions.checkNotNull(query);
 
     BoolQueryBuilder bool = boolQuery()
+        .must(termQuery("publicType", PublicType.ALL))
         .should(wildcardQuery("username", wildcard(query)))
         .should(termQuery("username.pinyin", query))
         .should(termQuery("email", query))
