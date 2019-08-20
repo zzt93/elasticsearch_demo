@@ -11,6 +11,8 @@ import cn.superid.search.entities.user.process.ProcessVO;
 import cn.superid.search.entities.user.role.RoleVO;
 import cn.superid.search.entities.user.target.TargetVO;
 import cn.superid.search.entities.user.task.TaskVO;
+import cn.superid.search.entities.user.user.InterestVO;
+import cn.superid.search.entities.user.user.StudentVO;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
@@ -27,6 +29,7 @@ import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
 /**
  * @author zzt
@@ -70,7 +73,9 @@ public class VoAndPoConversion {
   }
 
   public static AffairVO toVO(AffairPO po) {
-    return new AffairVO(po.getParentId(), po.getId(), po.getState());
+    AffairVO res = new AffairVO();
+    BeanUtils.copyProperties(po, res);
+    return res;
   }
 
   public static AllianceVO toAlliance(AffairPO affairPO) {
@@ -85,6 +90,14 @@ public class VoAndPoConversion {
 
   public static UserVO toVO(UserPO userPO) {
     return new UserVO(userPO.getId());
+  }
+
+  public static StudentVO toStudentVO(UserPO userPO) {
+    return new StudentVO(Long.parseLong(userPO.getId()), userPO.getPersonalAffairId(), userPO.getSchoolDes());
+  }
+
+  public static InterestVO toInterestVO(UserPO userPO) {
+    return new InterestVO(Long.parseLong(userPO.getId()), userPO.getPersonalAffairId(), userPO.getTags());
   }
 
   public static String[] toPOs(String[] tagVOS) {

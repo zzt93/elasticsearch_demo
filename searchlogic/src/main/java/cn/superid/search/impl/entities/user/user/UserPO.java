@@ -2,7 +2,9 @@ package cn.superid.search.impl.entities.user.user;
 
 import cn.superid.search.entities.user.user.UserVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -11,12 +13,15 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by zzt on 17/6/5.
  */
+@Data
 @Document(indexName = "user", type = "user", refreshInterval = "1s", shards = 10)
 public class UserPO {
 
   @Id
   @JsonIgnore
   private String id;
+  @Field(type = FieldType.Long)
+  private Long personalAffairId;
 
   @Field(type = FieldType.keyword)
   private String username;
@@ -29,12 +34,21 @@ public class UserPO {
   private String superId;
   @Field(type = FieldType.keyword)
   private String[] tags;
+
   @Field(type = FieldType.Byte)
   private Integer publicType;
   @Field(type = FieldType.Short)
   private Short infoPublic;
 
+  private List<PersonalInfo> personalInfos = new ArrayList<>();
+
   public UserPO() {
+  }
+
+  public UserPO(long personalAffairId, PersonalInfo personalInfo) {
+    this.personalAffairId = personalAffairId;
+    this.id = "" + personalInfo.getUserId();
+    this.personalInfos.add(personalInfo);
   }
 
   UserPO(String id, String username, String superId,
@@ -63,69 +77,11 @@ public class UserPO {
     return superId;
   }
 
-  public void setSuperId(String superId) {
-    this.superId = superId;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String[] getTags() {
-    return tags;
-  }
-
-  public void setTags(String[] tags) {
-    this.tags = tags;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getMobile() {
-    return mobile;
-  }
-
-  public Short getInfoPublic() {
-    return infoPublic;
-  }
-
-  public void setInfoPublic(Short infoPublic) {
-    this.infoPublic = infoPublic;
-  }
-
-  public void setMobile(String mobile) {
-    this.mobile = mobile;
-  }
-
-  @Override
-  public String toString() {
-    return "UserPO{" +
-        "id='" + id + '\'' +
-        ", username='" + username + '\'' +
-        ", email='" + email + '\'' +
-        ", mobile='" + mobile + '\'' +
-        ", superId='" + superId + '\'' +
-        ", tags=" + Arrays.toString(tags) +
-        ", publicType=" + publicType +
-        ", infoPublic=" + infoPublic +
-        '}';
+  public String getSchoolDes() {
+    if (!personalInfos.isEmpty()) {
+      PersonalInfo personalInfo = personalInfos.get(0);
+      return personalInfo.getContent() + personalInfo.getDescription();
+    }
+    return null;
   }
 }

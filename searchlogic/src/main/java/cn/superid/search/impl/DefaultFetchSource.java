@@ -11,4 +11,8 @@ public class DefaultFetchSource {
     return new FetchSourceFilter(new String[]{"_id"}, null);
   }
 
+  public static FetchSourceFilter fields(String... fields) {
+    return new FetchSourceFilter(fields, null);
+  }
+
 }
