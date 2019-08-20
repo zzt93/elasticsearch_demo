@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities.user.user;
 
+import static org.elasticsearch.index.query.QueryBuilders.idsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.moreLikeThisQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
@@ -39,8 +40,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonalRepoImpl implements PersonalRecommendCustom {
 
-  private final ElasticsearchTemplate template;
   private static final Gson gson = new Gson();
+  private final ElasticsearchTemplate template;
 
   @Autowired
   public PersonalRepoImpl(ElasticsearchTemplate template) {
@@ -58,7 +59,8 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     Item[] likeItems = new Item[]{new Item("user", "user", "" + userId)};
     QueryBuilder like = QueryBuilders.boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
-        .must(moreLikeThisQuery(new String[]{"tags"}, new String[]{}, likeItems).minDocFreq(1).minTermFreq(1));
+        .must(moreLikeThisQuery(new String[]{"tags"}, new String[]{}, likeItems).minDocFreq(1)
+            .minTermFreq(1));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices("user")
@@ -83,16 +85,21 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .withSourceFilter(DefaultFetchSource.fields("_id", "type", "content", "description"))
         .build();
     List<PersonalInfo> infos = template.queryForList(searchQuery, PersonalInfo.class);
-    List<Short> types = new ArrayList<>();
-    List<String> contents = new ArrayList<>();
-    List<String> likeTexts = new ArrayList<>();
-    for (PersonalInfo info : infos) {
+    int size = infos.size();
+    List<Short> types = new ArrayList<>(size);
+    String[] ids = new String[size];
+    List<String> contents = new ArrayList<>(size);
+    List<String> likeTexts = new ArrayList<>(size);
+    for (int i = 0; i < infos.size(); i++) {
+      PersonalInfo info = infos.get(i);
+      ids[i] = info.getId();
       types.add(info.getType());
       contents.add(info.getContent());
       likeTexts.add(info.getDescription());
     }
 
     QueryBuilder like = QueryBuilders.boolQuery()
+        .mustNot(idsQuery(ids))
         .must(termQuery("publicType", PublicType.ALL))
 //        .must(termsQuery("type", types))
         .must(termsQuery("content", contents))
@@ -101,15 +108,15 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .withIndices("personal_info")
         .withQuery(like)
         .withPageable(QueryHelper.EMPTY)
-        .withSourceFilter(DefaultFetchSource.fields("_id", "affairId", "type", "content", "description"))
+        .withSourceFilter(DefaultFetchSource.defaultId())
         .addAggregation(terms("uniq_affairId").field("affairId")
             .subAggregation(topHits("top").from(0).size(1)))
         .build();
-    SearchResponse response = template.query(moreLike, t->t);
+    SearchResponse response = template.query(moreLike, t -> t);
     Aggregations aggregations = response.getAggregations();
-    LongTerms ids = aggregations.get("uniq_affairId");
+    LongTerms uniqAffairId = aggregations.get("uniq_affairId");
     List<UserPO> res = new ArrayList<>();
-    for (Bucket bucket : ids.getBuckets()) {
+    for (Bucket bucket : uniqAffairId.getBuckets()) {
       for (SearchHit hit : ((InternalTopHits) bucket.getAggregations().get("top")).getHits()) {
         PersonalInfo personalInfo = gson.fromJson(hit.getSourceAsString(), PersonalInfo.class);
         res.add(new UserPO(personalInfo.getAffairId(), personalInfo));
