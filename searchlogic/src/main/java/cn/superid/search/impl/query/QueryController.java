@@ -206,7 +206,7 @@ public class QueryController {
     if (query.getPageRequest().getPageNumber() == 0 && mobile.matcher(query.getQuery()).find()) {
       byMobile = userService.findByMobile(query.getQuery());
     }
-    Page<AffairPO> page = affairRepo.findAny(query.getQuery(), null, query.getPageRequest());
+    Page<AffairPO> page = affairRepo.findAny(query.getQuery(), null, null, query.getPageRequest());
     return new MenkorVO(new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest()), byMobile);
   }
 
@@ -217,7 +217,7 @@ public class QueryController {
 
     Page<AffairPO> page;
     if (query.getMolds().size() == 1) {
-      page = affairRepo.findAny(query.getQuery(), query.getMolds().get(0), query.getPageRequest());
+      page = affairRepo.findAny(query.getQuery(), query.getMolds().get(0), query.getExcludeMolds(), query.getPageRequest());
     } else {
       page = affairRepo.findAny(query);
     }

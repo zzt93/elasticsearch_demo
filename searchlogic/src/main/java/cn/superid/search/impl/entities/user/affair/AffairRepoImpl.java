@@ -44,7 +44,7 @@ public class AffairRepoImpl implements AffairCustom {
   private ElasticsearchTemplate template;
 
   @Override
-  public Page<AffairPO> findAny(String info, Byte mold, Pageable pageable) {
+  public Page<AffairPO> findAny(String info, Byte mold, List<Byte> notMold, Pageable pageable) {
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("state", 0))
         .must(termQuery("publicType", PublicType.ALL))
@@ -56,6 +56,9 @@ public class AffairRepoImpl implements AffairCustom {
         );
     if (mold != null) {
       bool.must(termQuery("mold", mold));
+    }
+    if (notMold != null) {
+      bool.mustNot(termQuery("mold", notMold));
     }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AffairPO.class))
