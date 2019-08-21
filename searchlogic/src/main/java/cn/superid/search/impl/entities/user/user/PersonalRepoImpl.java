@@ -61,6 +61,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     QueryBuilder like = QueryBuilders.boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
         .must(existsQuery("tags"))
+        .mustNot(termQuery("tags", ""))
         .must(moreLikeThisQuery(new String[]{"tags"}, new String[]{}, likeItems).minDocFreq(1)
             .minTermFreq(1));
 
