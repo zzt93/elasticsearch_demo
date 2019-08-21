@@ -102,7 +102,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     }
 
     QueryBuilder like = QueryBuilders.boolQuery()
-        .mustNot(idsQuery(ids))
+        .mustNot(idsQuery("personal_info").addIds(ids))
         .must(termQuery("publicType", PublicType.ALL))
 //        .must(termsQuery("type", types))
         .must(termsQuery("content", contents))
