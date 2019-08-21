@@ -18,6 +18,7 @@ public class AffairQuery extends PagedQuery {
   private String[] tags;
   private long allianceId;
   private List<Byte> molds;
+  private List<Byte> excludeMolds;
 
   public AffairQuery(String query, PageRequest pageRequest) {
     setQuery(query);

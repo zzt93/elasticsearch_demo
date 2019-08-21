@@ -37,6 +37,11 @@ public class PageVO<T> {
     totalElements = 0L;
     totalPages = 0;
     content = Collections.emptyList();
+    hasMore = false;
+  }
+
+  public static PageVO empty() {
+    return new PageVO();
   }
 
 
