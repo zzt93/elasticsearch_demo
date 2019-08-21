@@ -58,7 +58,7 @@ public class AffairRepoImpl implements AffairCustom {
       bool.must(termQuery("mold", mold));
     }
     if (notMold != null) {
-      bool.mustNot(termQuery("mold", notMold));
+      bool.mustNot(termsQuery("mold", notMold));
     }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(Suffix.indexNamePattern(AffairPO.class))
