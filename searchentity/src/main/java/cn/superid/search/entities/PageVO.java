@@ -40,8 +40,8 @@ public class PageVO<T> {
     hasMore = false;
   }
 
-  public static PageVO empty() {
-    return new PageVO();
+  public static <T> PageVO<T> empty() {
+    return new PageVO<>();
   }
 
 
