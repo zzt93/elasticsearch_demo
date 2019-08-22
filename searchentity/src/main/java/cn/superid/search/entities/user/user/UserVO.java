@@ -1,13 +1,17 @@
 package cn.superid.search.entities.user.user;
 
 import cn.superid.search.entities.user.UserBasedIndex;
+import cn.superid.search.entities.user.affair.AffairVO;
+import lombok.Data;
 
 /**
  * Created by zzt on 17/6/5.
  */
+@Data
 public class UserVO implements UserBasedIndex {
 
   private String id;
+  private long personalAffairId;
   private String username;
   private String mobile;
 
@@ -18,24 +22,9 @@ public class UserVO implements UserBasedIndex {
     this.id = id;
   }
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
+  public UserVO(String id, Long personalAffairId) {
     this.id = id;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getMobile() {
-    return mobile;
+    this.personalAffairId = personalAffairId;
   }
 
   public UserVO setMobile(String mobile) {
@@ -45,5 +34,12 @@ public class UserVO implements UserBasedIndex {
 
   public String indexSuffix() {
     return "";
+  }
+
+  public AffairVO toAffairVO(int mold) {
+    AffairVO res = new AffairVO();
+    res.setId(getPersonalAffairId() + "");
+    res.setMold(((byte) mold));
+    return res;
   }
 }

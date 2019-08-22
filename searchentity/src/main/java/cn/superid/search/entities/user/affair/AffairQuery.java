@@ -2,9 +2,11 @@ package cn.superid.search.entities.user.affair;
 
 import cn.superid.search.entities.PagedQuery;
 import java.util.List;
+import java.util.regex.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ToString(callSuper = true)
 @NoArgsConstructor
 public class AffairQuery extends PagedQuery {
   private String[] tags;
@@ -36,4 +39,7 @@ public class AffairQuery extends PagedQuery {
     return this;
   }
 
+  public boolean isMobile(Pattern mobile) {
+    return getPageRequest().getPageNumber() == 0 && mobile.matcher(getQuery()).find();
+  }
 }

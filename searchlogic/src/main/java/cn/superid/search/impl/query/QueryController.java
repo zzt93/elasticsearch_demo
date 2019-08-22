@@ -1,6 +1,7 @@
 package cn.superid.search.impl.query;
 
 import cn.superid.common.rest.type.PublicType;
+import cn.superid.common.rest.type.affair.AffairMoldType;
 import cn.superid.search.entities.PageVO;
 import cn.superid.search.entities.StringQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
@@ -56,6 +57,7 @@ import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialRepo;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -202,26 +204,49 @@ public class QueryController {
   public MenkorVO queryAffair(@RequestBody AffairQuery query) {
     checkPage(query.getPageRequest());
 
-    UserVO byMobile = null;
-    if (query.getPageRequest().getPageNumber() == 0 && mobile.matcher(query.getQuery()).find()) {
-      byMobile = userService.findByMobile(query.getQuery());
-    }
+    UserVO byMobile = getUserVO(query);
     Page<AffairPO> page = affairRepo.findAny(query.getQuery(), null, null, query.getPageRequest());
     return new MenkorVO(new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest()), byMobile);
+  }
+
+  private UserVO getUserVO(AffairQuery query) {
+    UserVO byMobile = null;
+    if (query.isMobile(mobile)) {
+      byMobile = userService.findByMobile(query.getQuery());
+    }
+    return byMobile;
   }
 
   @PostMapping("/affair/new")
   public PageVO<AffairVO> queryAffairNew(@RequestBody AffairQuery query) {
     checkPage(query.getPageRequest());
-    Preconditions.checkArgument(query.getMolds() != null, "Invalid mold");
+    List<Byte> molds = query.getMolds();
+    Preconditions.checkArgument(molds != null, "Invalid mold");
 
     Page<AffairPO> page;
-    if (query.getMolds().size() == 1) {
-      page = affairRepo.findAny(query.getQuery(), query.getMolds().get(0), query.getExcludeMolds(), query.getPageRequest());
+    if (molds.size() == 1) {
+      Byte mold = molds.get(0);
+      if (mold == AffairMoldType.PERSONAL.getMold()) {
+        PageVO<AffairVO> byMobile = returnIfMobile(query);
+        if (byMobile != null) return byMobile;
+      }
+      page = affairRepo.findAny(query.getQuery(), mold, query.getExcludeMolds(), query.getPageRequest());
     } else {
+      PageVO<AffairVO> byMobile = returnIfMobile(query);
+      if (byMobile != null) return byMobile;
       page = affairRepo.findAny(query);
     }
     return new PageVO<>(page, VoAndPoConversion::toVO, query.getPageRequest());
+  }
+
+  private PageVO<AffairVO> returnIfMobile(AffairQuery query) {
+    UserVO byMobile = getUserVO(query);
+    if (byMobile != null) {
+      return new PageVO<>(Lists.newArrayList(byMobile.toAffairVO(AffairMoldType.PERSONAL.getMold())), 1L, Integer.MAX_VALUE);
+    } else if (query.isMobile(mobile)) {
+      return PageVO.empty();
+    }
+    return null;
   }
 
   @PostMapping("/alliance")
