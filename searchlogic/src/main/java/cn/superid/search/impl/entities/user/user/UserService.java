@@ -58,6 +58,6 @@ public class UserService {
       logger.error("Dup mobile for {}", byMobile);
     }
     UserPO user = byMobile.get(0);
-    return new UserVO(user.getId()).setMobile(user.getMobile());
+    return new UserVO(user.getId(), user.getPersonalAffairId()).setMobile(user.getMobile());
   }
 }
