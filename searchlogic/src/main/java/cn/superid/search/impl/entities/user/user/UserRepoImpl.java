@@ -36,12 +36,14 @@ public class UserRepoImpl implements UserCustom {
 
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
-        .should(wildcardQuery("username", wildcard(query)))
-        .should(termQuery("username.pinyin", query))
-        .should(termQuery("email", query))
-        .should(termQuery("mobile", query))
-        .should(termQuery("superId", query))
-        .should(termQuery("tags", query));
+        .must(
+            boolQuery()
+                .should(wildcardQuery("username", wildcard(query)))
+                .should(termQuery("username.pinyin", query))
+                .should(termQuery("email", query))
+                .should(termQuery("mobile", query))
+                .should(termQuery("superId", query))
+                .should(termQuery("tags", query)));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(bool)
