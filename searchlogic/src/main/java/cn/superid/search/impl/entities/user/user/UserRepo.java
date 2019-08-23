@@ -1,6 +1,5 @@
 package cn.superid.search.impl.entities.user.user;
 
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
@@ -19,8 +18,6 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String>, UserC
       + "    \"term\": {\"tags\": \"?0\"}\n"
       + "  }")
   Page<UserPO> findByTagsIn(String query, Pageable pageable);
-
-  List<UserPO> findByMobileAndPublicType(String query, Byte publicType);
 
   Page<UserPO> findByUsername(String query, Pageable pageable);
 

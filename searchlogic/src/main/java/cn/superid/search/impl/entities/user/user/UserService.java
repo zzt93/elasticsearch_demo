@@ -1,6 +1,5 @@
 package cn.superid.search.impl.entities.user.user;
 
-import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
 import java.util.List;
@@ -51,7 +50,7 @@ public class UserService {
   }
 
   public UserVO findByMobile(String query) {
-    List<UserPO> byMobile = userRepo.findByMobileAndPublicType(query, (byte) PublicType.ALL);
+    List<UserPO> byMobile = userRepo.findByMobileAndPublicType(query);
     if (byMobile == null || byMobile.isEmpty()) {
       return null;
     }
