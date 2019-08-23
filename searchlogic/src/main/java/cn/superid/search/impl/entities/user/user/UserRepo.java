@@ -20,7 +20,7 @@ public interface UserRepo extends ElasticsearchRepository<UserPO, String>, UserC
       + "  }")
   Page<UserPO> findByTagsIn(String query, Pageable pageable);
 
-  List<UserPO> findByMobile(String query);
+  List<UserPO> findByMobileAndPublicType(String query, Byte publicType);
 
   Page<UserPO> findByUsername(String query, Pageable pageable);
 
