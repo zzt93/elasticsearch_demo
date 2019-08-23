@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
  *
  * @author zzt
  */
+@Data
 public class PageVO<T> {
 
   private String scrollId;
@@ -69,52 +71,6 @@ public class PageVO<T> {
     hasMore = content.size() == pageSize;
   }
 
-  /**
-   * Returns the number of total pages.
-   *
-   * @return the number of total pages
-   */
-  public Integer getTotalPages() {
-    return totalPages;
-  }
-
-  public void setTotalPages(Integer totalPages) {
-    this.totalPages = totalPages;
-  }
-
-  /**
-   * Returns the total amount of elements.
-   *
-   * @return the total amount of elements
-   */
-  public Long getTotalElements() {
-    return totalElements;
-  }
-
-  public void setTotalElements(Long totalElements) {
-    this.totalElements = totalElements;
-  }
-
-  public Integer getPageSize() {
-    return pageSize;
-  }
-
-  public void setPageSize(Integer pageSize) {
-    this.pageSize = pageSize;
-  }
-
-  public List<T> getContent() {
-    return content;
-  }
-
-  public void setContent(List<T> content) {
-    this.content = content;
-  }
-
-  public String getScrollId() {
-    return scrollId;
-  }
-
   public boolean isHasMore() {
     return hasMore;
   }
@@ -122,4 +78,5 @@ public class PageVO<T> {
   public void setHasMore(boolean hasMore) {
     this.hasMore = hasMore;
   }
+
 }
