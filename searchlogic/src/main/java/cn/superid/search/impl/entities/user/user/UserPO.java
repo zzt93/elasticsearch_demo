@@ -80,7 +80,7 @@ public class UserPO {
   public String getSchoolDes() {
     if (!personalInfos.isEmpty()) {
       PersonalInfo personalInfo = personalInfos.get(0);
-      return personalInfo.getContent() + personalInfo.getDescription();
+      return personalInfo.getStudentDes();
     }
     return null;
   }
