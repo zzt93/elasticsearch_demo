@@ -15,6 +15,7 @@ import cn.superid.search.impl.DefaultFetchSource;
 import cn.superid.search.impl.query.QueryHelper;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import org.elasticsearch.action.search.SearchResponse;
@@ -41,7 +42,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonalRepoImpl implements PersonalRecommendCustom {
 
-  private static final Gson gson = new Gson();
+  private static final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss.S").create();
   private final ElasticsearchTemplate template;
 
   @Autowired
