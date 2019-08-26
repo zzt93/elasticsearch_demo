@@ -35,6 +35,7 @@ public class AffairRecommendRepoImpl implements AffairRecommendCustom {
 
     final BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
+        .must(termQuery("state", 0))
         .must(
             QueryBuilders.boolQuery()
                 .should(termQuery(AffairPO.MOLD, AffairMoldType.NORMAL.getMold()))
