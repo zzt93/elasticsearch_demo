@@ -38,8 +38,6 @@ public class AffairRecommendRepoImpl implements AffairRecommendCustom {
         .must(termQuery("state", 0))
         .must(
             QueryBuilders.boolQuery()
-                .should(termQuery(AffairPO.MOLD, AffairMoldType.NORMAL.getMold()))
-                .should(termQuery(AffairPO.MOLD, AffairMoldType.SPACE.getMold()))
                 .should(termQuery(AffairPO.MOLD, AffairMoldType.PERSONAL.getMold()))
         );
     final FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders
