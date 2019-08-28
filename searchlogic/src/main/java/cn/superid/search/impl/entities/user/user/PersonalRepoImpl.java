@@ -8,7 +8,9 @@ import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 import static org.elasticsearch.search.aggregations.AggregationBuilders.topHits;
 
+import cn.superid.common.rest.constant.affair.AuthStatus;
 import cn.superid.common.rest.type.PublicType;
+import cn.superid.search.entities.user.user.GuessQuery;
 import cn.superid.search.entities.user.user.InterestQuery;
 import cn.superid.search.entities.user.user.StudentQuery;
 import cn.superid.search.impl.DefaultFetchSource;
@@ -19,9 +21,13 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.lucene.search.function.CombineFunction;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MoreLikeThisQueryBuilder.Item;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
@@ -130,4 +136,27 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     }
     return new AggregatedPageImpl<>(res, pageable, response.getHits().getTotalHits());
   }
+
+  @Override
+  public Page<UserPO> random(GuessQuery query) {
+    Preconditions.checkNotNull(query);
+    PageRequest pageRequest = query.getPageRequest();
+    Preconditions.checkNotNull(pageRequest);
+
+    final BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
+        .must(termQuery("publicType", PublicType.ALL))
+        .must(termQuery("authStatus", AuthStatus.REVIEW_PASS.getType()));
+    final FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders
+        .functionScoreQuery(boolQuery,
+            ScoreFunctionBuilders.randomFunction(System.currentTimeMillis()))
+        .boostMode(CombineFunction.REPLACE);
+
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices("user")
+        .withQuery(functionScoreQueryBuilder)
+        .withPageable(pageRequest)
+        .build();
+    return template.queryForPage(searchQuery, UserPO.class);
+  }
+
 }

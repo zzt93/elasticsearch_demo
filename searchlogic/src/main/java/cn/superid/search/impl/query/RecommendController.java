@@ -8,7 +8,6 @@ import cn.superid.search.entities.user.user.InterestVO;
 import cn.superid.search.entities.user.user.StudentQuery;
 import cn.superid.search.entities.user.user.StudentVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
-import cn.superid.search.impl.entities.user.affair.AffairPO;
 import cn.superid.search.impl.entities.user.affair.AffairRecommendCustom;
 import cn.superid.search.impl.entities.user.user.PersonalRecommendCustom;
 import cn.superid.search.impl.entities.user.user.UserPO;
@@ -55,8 +54,8 @@ public class RecommendController {
   public PageVO<AffairVO> recommend(@RequestBody GuessQuery query) {
     checkPage(query.getPageRequest());
     checkUserId(query.getUserId());
-    Page<AffairPO> recommend = affairRepo.recommend(query);
-    return new PageVO<>(recommend, VoAndPoConversion::toVO, query.getPageRequest());
+    Page<UserPO> recommend = personalRecommendCustom.random(query);
+    return new PageVO<>(recommend, VoAndPoConversion::toAffairVO, query.getPageRequest());
   }
 
   @PostMapping({"/user/student"})
