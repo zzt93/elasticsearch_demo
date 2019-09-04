@@ -49,6 +49,7 @@ import org.springframework.stereotype.Component;
 public class PersonalRepoImpl implements PersonalRecommendCustom {
 
   private static final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss.S").create();
+  private static final int _100ms = 100;
   private final ElasticsearchTemplate template;
 
   @Autowired
@@ -140,6 +141,9 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
   @Override
   public Page<UserPO> random(GuessQuery query) {
     Preconditions.checkNotNull(query);
+    if (query.getScrollId() != null) {
+      return template.continueScroll(query.getScrollId(), _100ms, UserPO.class);
+    }
     PageRequest pageRequest = query.getPageRequest();
     Preconditions.checkNotNull(pageRequest);
 
@@ -156,7 +160,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .withQuery(functionScoreQueryBuilder)
         .withPageable(pageRequest)
         .build();
-    return template.queryForPage(searchQuery, UserPO.class);
+    return template.startScroll(_100ms, searchQuery, UserPO.class);
   }
 
 }
