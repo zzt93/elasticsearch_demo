@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ScrolledPage;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +56,8 @@ public class RecommendController {
     checkPage(query.getPageRequest());
     checkUserId(query.getUserId());
     Page<UserPO> recommend = personalRecommendCustom.random(query);
-    return new PageVO<>(recommend, VoAndPoConversion::toAffairVO, query.getPageRequest());
+    return new PageVO<>(recommend, VoAndPoConversion::toAffairVO, query.getPageRequest(),
+        ((ScrolledPage<UserPO>) recommend).getScrollId());
   }
 
   @PostMapping({"/user/student"})

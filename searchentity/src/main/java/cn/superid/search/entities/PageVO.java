@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.ScrolledPage;
 
 /**
  * This class is used to hold the searched result
@@ -52,11 +51,16 @@ public class PageVO<T> {
 
   public <R> PageVO(Page<R> page, Function<R, T> mapper,
       PageRequest pageRequest) {
+    this(page, mapper, pageRequest, null);
+  }
+
+  public <R> PageVO(Page<R> page, Function<R, T> mapper,
+      PageRequest pageRequest, String scrollId) {
     if (page == null) {
       return;
     }
-    if (page instanceof ScrolledPage) {
-      scrollId = ((ScrolledPage<R>) page).getScrollId();
+    if (scrollId != null) {
+      this.scrollId = scrollId;
     }
     this.content = page.getContent().stream().map(mapper).collect(Collectors.toList());
     this.totalElements = page.getTotalElements();
