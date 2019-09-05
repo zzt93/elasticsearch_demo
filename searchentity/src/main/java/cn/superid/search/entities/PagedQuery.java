@@ -1,6 +1,8 @@
 package cn.superid.search.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -13,8 +15,11 @@ import org.springframework.data.domain.PageRequest;
  * </ul>
  * @author zzt
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class PagedQuery extends StringQuery {
 
+  private String scrollId;
   /**
    * Page info, json example:
    * <pre>

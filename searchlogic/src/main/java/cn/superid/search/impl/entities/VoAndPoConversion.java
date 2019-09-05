@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities;
 
+import cn.superid.common.rest.type.affair.AffairMoldType;
 import cn.superid.search.entities.RollingIndex;
 import cn.superid.search.entities.time.announcement.AnnouncementVO;
 import cn.superid.search.entities.time.audit.AuditVO;
@@ -90,6 +91,13 @@ public class VoAndPoConversion {
 
   public static UserVO toVO(UserPO userPO) {
     return new UserVO(userPO.getId());
+  }
+
+  public static AffairVO toAffairVO(UserPO userPO) {
+    AffairVO affairVO = new AffairVO();
+    affairVO.setId(userPO.getPersonalAffairId() + "");
+    affairVO.setMold((byte) AffairMoldType.PERSONAL.getMold());
+    return affairVO;
   }
 
   public static StudentVO toStudentVO(UserPO userPO) {

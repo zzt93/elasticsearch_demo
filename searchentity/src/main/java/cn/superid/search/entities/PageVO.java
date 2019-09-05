@@ -27,11 +27,13 @@ public class PageVO<T> {
     this.content = content;
     this.totalElements = totalElements;
     this.totalPages = totalPages;
+    this.pageSize = pageSize;
     hasMore = content.size() == pageSize;
   }
   public PageVO(List<T> content, Long totalElements, Integer pageSize) {
     this.content = content;
     this.totalElements = totalElements;
+    this.pageSize = pageSize;
     hasMore = content.size() == pageSize;
   }
 
@@ -49,8 +51,16 @@ public class PageVO<T> {
 
   public <R> PageVO(Page<R> page, Function<R, T> mapper,
       PageRequest pageRequest) {
+    this(page, mapper, pageRequest, null);
+  }
+
+  public <R> PageVO(Page<R> page, Function<R, T> mapper,
+      PageRequest pageRequest, String scrollId) {
     if (page == null) {
       return;
+    }
+    if (scrollId != null) {
+      this.scrollId = scrollId;
     }
     this.content = page.getContent().stream().map(mapper).collect(Collectors.toList());
     this.totalElements = page.getTotalElements();
