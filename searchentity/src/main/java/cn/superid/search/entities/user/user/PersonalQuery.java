@@ -1,6 +1,7 @@
 package cn.superid.search.entities.user.user;
 
 import cn.superid.search.entities.PagedQuery;
+import java.util.Collections;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +25,11 @@ public class PersonalQuery extends PagedQuery {
   public PersonalQuery(long userId, long roleId, List<Long> excludes, PageRequest pageRequest) {
     this.userId = userId;
     this.roleId = roleId;
-    this.excludes = excludes;
+    if (excludes != null) {
+      this.excludes = excludes;
+    } else {
+      this.excludes = Collections.emptyList();
+    }
     setPageRequest(pageRequest);
   }
 
