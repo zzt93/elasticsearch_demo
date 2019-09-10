@@ -103,6 +103,31 @@ public class ProcessRepoImpl implements ProcessCustom {
     return vo;
   }
 
+  @Override
+  public Page<ProcessPO> findMyProcess(ProcessQuery query, Pageable pageable) {
+    Preconditions.checkArgument(pageable != null);
+    BoolQueryBuilder bool = boolQuery();
+    switch (query.getQueryType()){
+      case TYPE_CREATED:
+        bool.should(termsQuery("roleId", query.getRoleIds()));
+        break;
+      case TYPE_ACT:
+        bool.should(termsQuery("roles", query.getRoleIds()));
+        break;
+    }
+    if (query.getTemplates() != null && query.getTemplates().size() > 0){
+      bool.filter(termsQuery("templateId", query.getTemplates()));
+    }
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices(getIndices(query))
+        .withQuery(bool)
+        .withSourceFilter(DefaultFetchSource.defaultId())
+        .withPageable(pageable)
+        .build();
+    return template
+        .queryForPage(searchQuery, ProcessPO.class);
+  }
+
   private BoolQueryBuilder getQuery(ProcessQuery query){
     BoolQueryBuilder bool = boolQuery();
     QueryType queryType = query.getQueryType();
