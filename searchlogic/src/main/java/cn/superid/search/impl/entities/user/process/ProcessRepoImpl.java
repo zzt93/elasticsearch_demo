@@ -118,6 +118,9 @@ public class ProcessRepoImpl implements ProcessCustom {
     if (query.getTemplates() != null && query.getTemplates().size() > 0){
       bool.filter(termsQuery("templateId", query.getTemplates()));
     }
+    if (query.getStates() != null) {
+      bool.filter(termsQuery("status", query.getStates()));
+    }
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(getIndices(query))
         .withQuery(bool)
