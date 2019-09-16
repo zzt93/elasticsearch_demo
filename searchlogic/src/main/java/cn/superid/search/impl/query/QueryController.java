@@ -419,7 +419,7 @@ public class QueryController {
     PageRequest pageRequest = query.getPageRequest();
     checkPage(pageRequest);
     Preconditions.checkArgument(query.getRoleIds() != null && query.getRoleIds().size() > 0, "No roles provided");
-    Preconditions.checkArgument(query.getQueryType() != null && query.getQueryType() == QueryType.TYPE_CREATED && query.getQueryType() == QueryType.TYPE_ACT, "No appropriate queryType provided");
+    Preconditions.checkArgument(query.getQueryType() != null && (query.getQueryType() == QueryType.TYPE_CREATED || query.getQueryType() == QueryType.TYPE_ACT), "No appropriate queryType provided");
     Page<ProcessPO> res = processRepo
         .findMyProcess(query, pageRequest);
     return new PageVO<>(res, VoAndPoConversion::toVO, query.getPageRequest());
