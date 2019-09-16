@@ -107,12 +107,17 @@ public class ProcessRepoImpl implements ProcessCustom {
   public Page<ProcessPO> findMyProcess(ProcessQuery query, Pageable pageable) {
     Preconditions.checkArgument(pageable != null);
     BoolQueryBuilder bool = boolQuery();
+    //global keyword
+    String keyword = query.getKeyword();
+    if (keyword != null){
+      bool.filter(wildcardQuery("name", wildcard(keyword)));
+    }
     switch (query.getQueryType()){
       case TYPE_CREATED:
-        bool.should(termsQuery("roleId", query.getRoleIds()));
+        bool.filter(termsQuery("roleId", query.getRoleIds()));
         break;
       case TYPE_ACT:
-        bool.should(termsQuery("roles", query.getRoleIds()));
+        bool.filter(termsQuery("roles", query.getRoleIds()));
         break;
     }
     if (query.getTemplates() != null && query.getTemplates().size() > 0){
