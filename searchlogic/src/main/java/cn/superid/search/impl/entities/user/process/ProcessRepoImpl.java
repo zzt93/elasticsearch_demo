@@ -119,6 +119,11 @@ public class ProcessRepoImpl implements ProcessCustom {
       case TYPE_ACT:
         bool.filter(termsQuery("roles", query.getRoleIds()));
         break;
+      case TYPE_ALL:
+        bool.filter(boolQuery()
+                .should(termsQuery("roleId", query.getRoleIds()))
+                .should(termsQuery("roles", query.getRoleIds())));
+        break;
     }
     if (query.getTemplates() != null && query.getTemplates().size() > 0){
       bool.filter(termsQuery("templateId", query.getTemplates()));
