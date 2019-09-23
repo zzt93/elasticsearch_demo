@@ -165,7 +165,7 @@ public class ProcessQuery extends PagedQuery {
   }
 
   public enum QueryType{
-    TYPE_INNER,TYPE_OUTER,TYPE_ACT,TYPE_CREATED;
+    TYPE_INNER,TYPE_OUTER,TYPE_ACT,TYPE_CREATED,TYPE_ALL;
   }
 
   public ProcessQuery() {

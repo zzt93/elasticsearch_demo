@@ -22,6 +22,7 @@ import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.entities.user.file.FileSearchVO;
 import cn.superid.search.entities.user.process.ProcessCountVO;
 import cn.superid.search.entities.user.process.ProcessQuery;
+import cn.superid.search.entities.user.process.ProcessQuery.QueryType;
 import cn.superid.search.entities.user.process.ProcessVO;
 import cn.superid.search.entities.user.role.RoleQuery;
 import cn.superid.search.entities.user.role.RoleVO;
@@ -410,6 +411,17 @@ public class QueryController {
     checkPage(pageRequest);
     Page<ProcessPO> res = processRepo
         .find(query, pageRequest);
+    return new PageVO<>(res, VoAndPoConversion::toVO, query.getPageRequest());
+  }
+
+  @PostMapping("/my_process")
+  public PageVO<ProcessVO> queryMyProcess(@RequestBody ProcessQuery query) {
+    PageRequest pageRequest = query.getPageRequest();
+    checkPage(pageRequest);
+    Preconditions.checkArgument(query.getRoleIds() != null && query.getRoleIds().size() > 0, "No roles provided");
+    Preconditions.checkArgument(query.getQueryType() != null && (query.getQueryType() == QueryType.TYPE_CREATED || query.getQueryType() == QueryType.TYPE_ACT || query.getQueryType() == QueryType.TYPE_ALL), "No appropriate queryType provided");
+    Page<ProcessPO> res = processRepo
+        .findMyProcess(query, pageRequest);
     return new PageVO<>(res, VoAndPoConversion::toVO, query.getPageRequest());
   }
 
