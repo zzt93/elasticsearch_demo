@@ -112,6 +112,16 @@ public class ProcessRepoImpl implements ProcessCustom {
     if (keyword != null){
       bool.filter(wildcardQuery("name", wildcard(keyword)));
     }
+    String serial = query.getSerial();
+    if (serial != null){
+      bool.filter(wildcardQuery("serial", wildcard(serial)));
+    }
+    //time range
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    bool.filter(
+        rangeQuery("time")
+            .gt(dateFormat.format(new Date(query.getStartTime())))
+            .lt(dateFormat.format(new Date(query.getEndTime()))));
     switch (query.getQueryType()){
       case TYPE_CREATED:
         bool.filter(termsQuery("roleId", query.getRoleIds()));
