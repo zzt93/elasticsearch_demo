@@ -109,6 +109,7 @@ public class ProcessRepoImpl implements ProcessCustom {
     BoolQueryBuilder bool = boolQuery();
     //global keyword
     String keyword = query.getKeyword();
+    bool = bool.mustNot(termQuery("sourceType", ApplySource.SERVICE.ordinal()));
     if (keyword != null){
       bool.filter(wildcardQuery("name", wildcard(keyword)));
     }
