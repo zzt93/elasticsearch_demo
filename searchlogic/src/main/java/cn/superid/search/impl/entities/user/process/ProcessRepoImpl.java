@@ -103,6 +103,55 @@ public class ProcessRepoImpl implements ProcessCustom {
     return vo;
   }
 
+  @Override
+  public Page<ProcessPO> findMyProcess(ProcessQuery query, Pageable pageable) {
+    Preconditions.checkArgument(pageable != null);
+    BoolQueryBuilder bool = boolQuery();
+    //global keyword
+    String keyword = query.getKeyword();
+    bool = bool.mustNot(termQuery("sourceType", ApplySource.SERVICE.ordinal()));
+    if (keyword != null){
+      bool.filter(wildcardQuery("name", wildcard(keyword)));
+    }
+    String serial = query.getSerial();
+    if (serial != null){
+      bool.filter(wildcardQuery("serial", wildcard(serial)));
+    }
+    //time range
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    bool.filter(
+        rangeQuery("time")
+            .gt(dateFormat.format(new Date(query.getStartTime())))
+            .lt(dateFormat.format(new Date(query.getEndTime()))));
+    switch (query.getQueryType()){
+      case TYPE_CREATED:
+        bool.filter(termsQuery("roleId", query.getRoleIds()));
+        break;
+      case TYPE_ACT:
+        bool.filter(termsQuery("roles", query.getRoleIds()));
+        break;
+      case TYPE_ALL:
+        bool.filter(boolQuery()
+                .should(termsQuery("roleId", query.getRoleIds()))
+                .should(termsQuery("roles", query.getRoleIds())));
+        break;
+    }
+    if (query.getTemplates() != null && query.getTemplates().size() > 0){
+      bool.filter(termsQuery("templateId", query.getTemplates()));
+    }
+    if (query.getStates() != null) {
+      bool.filter(termsQuery("status", query.getStates()));
+    }
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices(getIndices(query))
+        .withQuery(bool)
+        .withSourceFilter(DefaultFetchSource.defaultId())
+        .withPageable(pageable)
+        .build();
+    return template
+        .queryForPage(searchQuery, ProcessPO.class);
+  }
+
   private BoolQueryBuilder getQuery(ProcessQuery query){
     BoolQueryBuilder bool = boolQuery();
     QueryType queryType = query.getQueryType();
