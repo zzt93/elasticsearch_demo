@@ -3,6 +3,7 @@ package cn.superid.search.impl.query;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -44,5 +45,11 @@ public class HighlightMapper<R> extends DefaultResultMapper {
       return res;
     }
     return null;
+  }
+
+  public static void setHighlight(HighlightField field, Consumer<HighlightField> consumer) {
+    if (field != null) {
+      consumer.accept(field);
+    }
   }
 }
