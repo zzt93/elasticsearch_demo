@@ -69,7 +69,7 @@ public class UserRepoImpl implements UserCustom {
     return template.queryForPage(searchQuery, UserPO.class, new HighlightMapper<UserPO>(elasticsearchConverter,
         (highlightFields, user) -> {
           setHighlight(highlightFields.get("email"), h -> user.setEmail(h.fragments()[0].toString()));
-          setHighlight(highlightFields.get("username"), h -> user.setUsername(h.fragments()[0].toString()));
+          setHighlight(highlightFields.get("username"), h -> user.setUsername(HighlightMapper.keywordHighlight(query, h.fragments()[0].toString())));
           setHighlight(highlightFields.get("username.pinyin"), h -> user.setUsername(h.fragments()[0].toString()));
           setHighlight(highlightFields.get("mobile"), h -> user.setMobile(h.fragments()[0].toString()));
           setHighlight(highlightFields.get("superId"), h -> user.setSuperId(h.fragments()[0].toString()));
