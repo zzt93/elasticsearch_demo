@@ -20,6 +20,8 @@ import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverte
  */
 public class HighlightMapper<R> extends DefaultResultMapper {
 
+  private static final String EM = "<em>";
+  private static final String END_EM = "</em>";
   private BiConsumer<Map<String, HighlightField>, R> function;
 
 
@@ -27,6 +29,10 @@ public class HighlightMapper<R> extends DefaultResultMapper {
       BiConsumer<Map<String, HighlightField>, R> s) {
     super(elasticsearchConverter.getMappingContext());
     function = s;
+  }
+
+  public static String keywordHighlight(String query, String field) {
+    return field.substring(EM.length(), field.length() - END_EM.length()).replaceAll(query, "<em>" + query + "</em>");
   }
 
   @SuppressWarnings({"Because the DefaultResultMapper's interface"})

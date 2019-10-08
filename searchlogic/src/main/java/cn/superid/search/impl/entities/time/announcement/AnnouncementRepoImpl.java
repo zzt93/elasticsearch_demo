@@ -9,6 +9,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
+import cn.superid.search.impl.DefaultFetchSource;
 import cn.superid.search.impl.query.HighlightMapper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
@@ -112,6 +113,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         .withIndices(indexName)
         .withQuery(bool)
         .withPageable(pageable)
+        .withSourceFilter(DefaultFetchSource.defaultId())
         .withHighlightFields(new HighlightBuilder.Field("title"),
             new HighlightBuilder.Field("content").fragmentSize(50))
         .build();
@@ -121,7 +123,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
                 (highlightFields, announcement) -> {
                   HighlightField title = highlightFields.get("title");
                   if (title != null) {
-                    announcement.setTitle(announcement.getTitle().replaceAll(query, "<em>" + query + "</em>"));
+                    announcement.setTitle(HighlightMapper.keywordHighlight(query, title.fragments()[0].toString()));
                   }
                   HighlightField content = highlightFields.get("content");
                   if (content != null) {
