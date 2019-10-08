@@ -134,7 +134,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     Aggregations aggregations = response.getAggregations();
     LongTerms uniqAffairId = aggregations.get("uniq_affairId");
     List<UserPO> res = new ArrayList<>();
-    for (int i = (int) pageable.getOffset(); i < uniqAffairId.getBuckets().size(); i++) {
+    for (int i = (int) pageable.getOffset(); i < Math.min(pageable.getOffset() + pageable.getPageSize(), uniqAffairId.getBuckets().size()); i++) {
       Bucket bucket = uniqAffairId.getBuckets().get(i);
       for (SearchHit hit : ((InternalTopHits) bucket.getAggregations().get("top")).getHits()) {
         PersonalInfo personalInfo = gson.fromJson(hit.getSourceAsString(), PersonalInfo.class);
