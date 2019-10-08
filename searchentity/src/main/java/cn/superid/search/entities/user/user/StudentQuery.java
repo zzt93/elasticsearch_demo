@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 @Data
 public class StudentQuery extends PersonalQuery {
 
+  private int limit;
+
   public StudentQuery() {
   }
 

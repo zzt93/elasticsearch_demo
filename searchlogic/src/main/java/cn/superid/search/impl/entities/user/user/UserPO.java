@@ -25,6 +25,7 @@ public class UserPO {
 
   @Field(type = FieldType.keyword)
   private String username;
+  private String usernamePinyin;
   @Field(type = FieldType.keyword)
   private String email;
   @Field(type = FieldType.keyword)

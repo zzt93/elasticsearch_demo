@@ -123,8 +123,11 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .withQuery(like)
         .withPageable(QueryHelper.EMPTY)
         .withSourceFilter(DefaultFetchSource.defaultId())
+        // TODO https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-composite-aggregation.html
+        // is not available for ES 5.6
+        // and terms query is not accurate as https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-terms-aggregation.html#search-aggregations-bucket-terms-aggregation-approximate-counts
         .addAggregation(terms("uniq_affairId").field("affairId")
-            .size((int) (pageable.getOffset() + pageable.getPageSize()))
+            .size(query.getLimit())
             .subAggregation(topHits("top").from(0).size(1)))
         .build();
     SearchResponse response = template.query(moreLike, t -> t);

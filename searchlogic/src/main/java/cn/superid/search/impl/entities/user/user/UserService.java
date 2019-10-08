@@ -2,6 +2,7 @@ package cn.superid.search.impl.entities.user.user;
 
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.impl.entities.VoAndPoConversion;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,11 @@ public class UserService {
   }
 
   public List<UserVO> findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(String query) {
-    return userRepo.findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(query, TOP20).getContent()
+    Page<UserPO> res = userRepo.findByUserNameOrEmailOrMobOrSuperIdOrTagsIn(query, TOP20);
+    if (res == null) {
+      return Collections.emptyList();
+    }
+    return res.getContent()
         .stream()
         .map(VoAndPoConversion::toVO)
         .collect(Collectors.toList());

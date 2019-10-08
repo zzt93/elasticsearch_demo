@@ -11,9 +11,13 @@ import lombok.Data;
 public class UserVO implements UserBasedIndex {
 
   private String id;
-  private long personalAffairId;
+  private Long personalAffairId;
   private String username;
+  private String usernamePinyin;
   private String mobile;
+  private String email;
+  private String superId;
+  private String tags;
 
   public UserVO() {
   }

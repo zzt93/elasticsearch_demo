@@ -90,7 +90,9 @@ public class VoAndPoConversion {
 
 
   public static UserVO toVO(UserPO userPO) {
-    return new UserVO(userPO.getId());
+    UserVO res = new UserVO(userPO.getId());
+    BeanUtils.copyProperties(userPO, res);
+    return res;
   }
 
   public static AffairVO toAffairVO(UserPO userPO) {
