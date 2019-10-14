@@ -3,7 +3,6 @@ package cn.superid.search.impl.entities.user.user;
 import static cn.superid.search.impl.query.HighlightMapper.setHighlight;
 import static cn.superid.search.impl.query.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-import static org.elasticsearch.index.query.QueryBuilders.scriptQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
@@ -14,7 +13,6 @@ import com.google.common.base.Preconditions;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.script.Script;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,7 +47,7 @@ public class UserRepoImpl implements UserCustom {
                 .should(
                     boolQuery()
                         .must(termQuery("mobile", query))
-                        .must(scriptQuery(new Script(" (doc['infoPublic'].value & 4) != 0")))
+//                        .must(scriptQuery(new Script(" (doc['infoPublic'].value & 4) != 0")))
                         )
                 .should(termQuery("superId", query))
                 .should(termQuery("tags", query)));
@@ -81,7 +79,7 @@ public class UserRepoImpl implements UserCustom {
   public List<UserPO> findByMobileAndPublicType(String query) {
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("publicType", PublicType.ALL))
-        .must(scriptQuery(new Script(" (doc['infoPublic'].value & 4) != 0")))
+//        .must(scriptQuery(new Script(" (doc['infoPublic'].value & 4) != 0")))
         .must(
             boolQuery()
                 .should(termQuery("mobile", query)));
