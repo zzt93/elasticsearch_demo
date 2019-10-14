@@ -115,7 +115,7 @@ public class AffairRepoImpl implements AffairCustom {
   public List<AffairPO> findAlliance(String info, Long allianceId, Pageable pageable) {
     BoolQueryBuilder bool = boolQuery()
         .must(termQuery("state", 0))
-        .must(termQuery("publicType", PublicType.ALL))
+//        .must(termQuery("publicType", PublicType.ALL))
         .must(termQuery("parentId", 0))
         .must(
             boolQuery()
