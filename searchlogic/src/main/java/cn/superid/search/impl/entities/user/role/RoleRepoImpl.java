@@ -2,9 +2,13 @@ package cn.superid.search.impl.entities.user.role;
 
 import static cn.superid.search.impl.query.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.existsQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
+import cn.superid.search.entities.EsField;
+import cn.superid.search.entities.user.role.RoleQuery;
 import cn.superid.search.impl.save.rolling.Suffix;
 import java.util.List;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -49,14 +53,6 @@ public class RoleRepoImpl implements RoleCustom {
     return template.queryForPage(searchQuery, RolePO.class);
   }
 
-  @Override
-  public Page<RolePO> findRoleInterAlliance(String query, Pageable pageable) {
-    SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withQuery(wildcardQuery("title", wildcard(query)))
-        .withIndices(Suffix.indexNamePattern(RolePO.class))
-        .build();
-    return template.queryForPage(searchQuery, RolePO.class);
-  }
 
   @Override
   public List<RolePO> findByAffairIdAndTitle(Long allianceId, Long affairId, String title) {
@@ -72,7 +68,42 @@ public class RoleRepoImpl implements RoleCustom {
   }
 
   @Override
-  public Page<RolePO> findByAll(String query) {
-    return null;
+  public Page<RolePO> findByAll(RoleQuery query) {
+    BoolQueryBuilder queryBuilder = boolQuery();
+
+    if (query.getAffairId() != null) {
+      boolQuery().filter(termQuery("affairId", query.getAffairId()));
+    }
+    if (query.getAllianceId() != null) {
+      boolQuery().filter(termQuery("allianceId", query.getAffairId()));
+    }
+
+    addEsField(query, queryBuilder);
+
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withQuery(queryBuilder)
+        .withIndices(Suffix.indexNamePattern(RolePO.class))
+        .build();
+    return template.queryForPage(searchQuery, RolePO.class);
+  }
+
+  private void addEsField(RoleQuery query, BoolQueryBuilder queryBuilder) {
+    EsField inTagsField = query.getInTagsField();
+    if (inTagsField == null) {
+      return;
+    }
+    queryBuilder.filter(existsQuery(inTagsField.getName()));
+    String name = inTagsField.getName("inTags");
+    switch (inTagsField.getSearchType()) {
+      case EXACT:
+        queryBuilder.must(termQuery(name, inTagsField.getValue()));
+        break;
+      case CONTAINS:
+        queryBuilder.must(wildcardQuery(name, wildcard(inTagsField.getValue().toString())));
+        break;
+      case WORD_SEGMENTATION:
+        queryBuilder.must(matchQuery(name, inTagsField.getValue().toString()));
+        break;
+    }
   }
 }

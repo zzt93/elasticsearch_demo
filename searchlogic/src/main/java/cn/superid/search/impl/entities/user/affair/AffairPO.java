@@ -1,7 +1,6 @@
 package cn.superid.search.impl.entities.user.affair;
 
 import cn.superid.search.entities.user.affair.AffairVO;
-import cn.superid.search.impl.entities.VoAndPoConversion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -26,7 +25,7 @@ public class AffairPO {
   @JsonIgnore
   private String id;
   @Field(type = FieldType.keyword, index = false)
-  private String parentId;
+  private long parentId;
   @Field(type = FieldType.keyword)
   private String name;
   @Field(type = FieldType.keyword)
@@ -43,15 +42,6 @@ public class AffairPO {
   private Long allianceId;
 
   public AffairPO() {
-  }
-
-  public AffairPO(AffairVO node) {
-    id = node.getId();
-    name = node.getName();
-    parentId = node.getParentId();
-    tags = VoAndPoConversion.toPOs(node.getTagVOS());
-    superId = node.getSuperId();
-    state = node.getState();
   }
 
   /**

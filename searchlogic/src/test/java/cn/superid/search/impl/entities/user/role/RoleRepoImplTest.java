@@ -48,12 +48,5 @@ public class RoleRepoImplTest {
     Assert.assertEquals(s.getTotalElements(), 2);
   }
 
-  @Test
-  public void findRoleInterAlliance() throws Exception {
-    Page<RolePO> f = roleRepo.findRoleInterAlliance("前端zzt", PageRequest.of(0, 10));
-    Assert.assertEquals(f.getTotalElements(), 3);
-    Page<RolePO> s = roleRepo.findRoleInterAlliance("后端zzt", PageRequest.of(0, 10));
-    Assert.assertEquals(s.getTotalElements(), 3);
-  }
 
 }

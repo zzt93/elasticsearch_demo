@@ -1,17 +1,22 @@
 package cn.superid.search.entities.user.role;
 
+import cn.superid.search.entities.EsField;
 import cn.superid.search.entities.PagedQuery;
-import java.util.Arrays;
+import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 
 /**
  * @author zzt
  */
+@Data
 public class RoleQuery extends PagedQuery {
 
   private String[] tags;
 
+  private Long affairId;
   private Long allianceId;
+
+  private EsField inTagsField;
 
   public RoleQuery() {
   }
@@ -28,20 +33,4 @@ public class RoleQuery extends PagedQuery {
     setPageRequest(pageRequest);
   }
 
-  public Long getAllianceId() {
-    return allianceId;
-  }
-
-  public String[] getTags() {
-    return tags;
-  }
-
-  @Override
-  public String toString() {
-    return "RoleQuery{" +
-        "tags=" + Arrays.toString(tags) +
-        ", allianceId=" + allianceId +
-        ", pagedQuery=" + super.toString() +
-        '}';
-  }
 }

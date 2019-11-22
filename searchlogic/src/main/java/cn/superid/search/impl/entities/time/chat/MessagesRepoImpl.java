@@ -90,7 +90,7 @@ public class MessagesRepoImpl implements MessagesCustom {
         .withIndices(Suffix.indexName(MessagesPO.class, ""))
         .withTypes("messages")
 //        .withPageable(info.getPageRequest())
-        .addAggregation(terms("ids").field("chatId"))
+        .addAggregation(terms("ids").field("chatId").size(20))
         .withQuery(bool).build();
 
     Aggregations aggregations = template.query(searchQuery, SearchResponse::getAggregations);

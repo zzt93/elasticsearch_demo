@@ -72,11 +72,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -317,9 +315,8 @@ public class QueryController {
   public PageVO<RoleVO> queryRole(@RequestBody RoleQuery query) {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
-    Preconditions.checkState(false);
 
-    Page<RolePO> byAll = roleRepo.findByAll(query.getQuery());
+    Page<RolePO> byAll = roleRepo.findByAll(query);
     return new PageVO<>(byAll, VoAndPoConversion::toVO, query.getPageRequest());
   }
 
@@ -387,22 +384,6 @@ public class QueryController {
     Preconditions.checkArgument(affairs!=null, "No affair provided");
     List<TargetPO> byQuery = targetRepo.findByNameAndAffairIdIn(targetQuery);
     return byQuery.stream().map(VoAndPoConversion::toVO).collect(Collectors.toList());
-  }
-
-  @GetMapping("/user/tags")
-  public List<UserVO> queryUserByTag(@RequestParam String query) {
-    return userService.findTop20ByTags(query);
-  }
-
-  @GetMapping("/user/username")
-  public List<UserVO> queryUserByUsername(@RequestParam String query) {
-    return userService.findTop20ByUserNameOrSuperId(query);
-  }
-
-
-  @GetMapping("/role/all")
-  public Page<RolePO> queryAllRole(@RequestParam String role) {
-    return roleRepo.findRoleInterAlliance(role, PageRequest.of(0, PAGE_SIZE));
   }
 
   @PostMapping("/process")
