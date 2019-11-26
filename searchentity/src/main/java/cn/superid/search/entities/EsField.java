@@ -1,5 +1,6 @@
 package cn.superid.search.entities;
 
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -15,6 +16,7 @@ public class EsField {
   private SearchType searchType;
   private String name;
   private Object value;
+  private List<Object> terms;
 
   public String getName(String prefix) {
     if (searchType == SearchType.EXACT) {

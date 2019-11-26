@@ -5,6 +5,7 @@ import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.existsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.EsField;
@@ -96,7 +97,11 @@ public class RoleRepoImpl implements RoleCustom {
     String name = inTagsField.getName("inTags");
     switch (inTagsField.getSearchType()) {
       case EXACT:
-        queryBuilder.must(termQuery(name, inTagsField.getValue()));
+        if (inTagsField.getValue() != null) {
+          queryBuilder.must(termQuery(name, inTagsField.getValue()));
+        } else {
+          queryBuilder.must(termsQuery(name, inTagsField.getTerms()));
+        }
         break;
       case CONTAINS:
         queryBuilder.must(wildcardQuery(name, wildcard(inTagsField.getValue().toString())));
