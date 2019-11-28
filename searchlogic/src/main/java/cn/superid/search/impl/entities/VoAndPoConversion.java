@@ -16,6 +16,7 @@ import cn.superid.search.entities.user.user.InterestVO;
 import cn.superid.search.entities.user.user.StudentVO;
 import cn.superid.search.entities.user.user.UserVO;
 import cn.superid.search.entities.user.warehouse.MaterialVO;
+import cn.superid.search.entities.wiki.WikiVO;
 import cn.superid.search.impl.entities.time.announcement.AnnouncementPO;
 import cn.superid.search.impl.entities.time.audit.AuditPO;
 import cn.superid.search.impl.entities.time.chat.MessagesPO;
@@ -27,6 +28,7 @@ import cn.superid.search.impl.entities.user.target.TargetPO;
 import cn.superid.search.impl.entities.user.task.TaskPO;
 import cn.superid.search.impl.entities.user.user.UserPO;
 import cn.superid.search.impl.entities.user.warehouse.MaterialPO;
+import cn.superid.search.impl.entities.wiki.Wiki;
 import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,5 +130,11 @@ public class VoAndPoConversion {
 
   public static ProcessVO toVO(ProcessPO processPO) {
     return new ProcessVO(processPO.getId());
+  }
+
+  public static WikiVO toVO(Wiki wiki) {
+    WikiVO wikiVO = new WikiVO();
+    BeanUtils.copyProperties(wiki, wikiVO);
+    return wikiVO;
   }
 }
