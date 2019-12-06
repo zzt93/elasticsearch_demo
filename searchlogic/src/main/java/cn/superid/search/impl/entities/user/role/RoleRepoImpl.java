@@ -1,5 +1,6 @@
 package cn.superid.search.impl.entities.user.role;
 
+import static cn.superid.search.impl.query.QueryHelper.prefix;
 import static cn.superid.search.impl.query.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.existsQuery;
@@ -103,7 +104,12 @@ public class RoleRepoImpl implements RoleCustom {
           queryBuilder.must(termsQuery(name, inTagsField.getTerms()));
         }
         break;
+      case PREFIX:
+      case PREFIX_IGNORE_CASE:
+        queryBuilder.must(wildcardQuery(name, prefix(inTagsField.getValue().toString())));
+        break;
       case CONTAINS:
+      case CONTAINS_IGNORE_CASE:
         queryBuilder.must(wildcardQuery(name, wildcard(inTagsField.getValue().toString())));
         break;
       case WORD_SEGMENTATION:

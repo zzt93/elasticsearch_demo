@@ -27,4 +27,8 @@ public class QueryHelper {
   public static String wildcard(String input) {
     return "*" + input.replaceAll("([*?])", "\\\\$1") + "*";
   }
+
+  public static String prefix(String input) {
+    return input.replaceAll("([*?])", "\\\\$1") + "*";
+  }
 }
