@@ -48,7 +48,8 @@ public class MessagesRepoImpl implements MessagesCustom {
 
     BoolQueryBuilder bool = boolQuery()
         .filter(termQuery("chatId", info.getChatId()))
-        .mustNot(termQuery("state", 1));
+        .mustNot(termQuery("state", 1))
+        .mustNot(termQuery("content", ""));
     if (info.getQuery() != null) {
       bool.must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
     }
@@ -75,7 +76,8 @@ public class MessagesRepoImpl implements MessagesCustom {
 
     BoolQueryBuilder bool = boolQuery()
         .filter(termsQuery("chatId", info.getChatIds()))
-        .mustNot(termQuery("state", 1));
+        .mustNot(termQuery("state", 1))
+        .mustNot(termQuery("content", ""));
     if (info.getQuery() != null) {
       bool.must(wildcardQuery("content", QueryHelper.wildcard(info.getQuery())));
     }
