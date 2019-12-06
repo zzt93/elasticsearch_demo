@@ -93,8 +93,8 @@ public class RoleRepoImpl implements RoleCustom {
     if (inTagsField == null) {
       return;
     }
-    queryBuilder.filter(existsQuery(inTagsField.getName()));
     String name = inTagsField.getName("inTags");
+    queryBuilder.filter(existsQuery(name));
     switch (inTagsField.getSearchType()) {
       case EXACT:
         if (inTagsField.getValue() != null) {

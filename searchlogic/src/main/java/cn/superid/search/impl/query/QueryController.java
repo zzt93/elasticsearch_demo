@@ -260,7 +260,7 @@ public class QueryController {
   }
 
   @PostMapping("/menkor")
-  public OutAllianceVO queryOutAlliance(@RequestBody AffairQuery query) {
+  public OutAllianceVO queryAllianceExceptSelf(@RequestBody AffairQuery query) {
     checkPage(query.getPageRequest());
     checkAllianceId(query.getAllianceId());
 
