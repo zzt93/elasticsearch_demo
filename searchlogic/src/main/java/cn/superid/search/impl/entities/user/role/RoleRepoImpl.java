@@ -74,17 +74,21 @@ public class RoleRepoImpl implements RoleCustom {
     BoolQueryBuilder queryBuilder = boolQuery();
 
     if (query.getAffairId() != null) {
-      boolQuery().filter(termQuery("affairId", query.getAffairId()));
+      queryBuilder.filter(termQuery("affairId", query.getAffairId()));
     }
+    String index;
     if (query.getAllianceId() != null) {
-      boolQuery().filter(termQuery("allianceId", query.getAffairId()));
+      queryBuilder.filter(termQuery("allianceId", query.getAllianceId()));
+      index = Suffix.indexName(RolePO.class, query.getAllianceId() / RolePO.CLUSTER_SIZE);
+    } else {
+      index = Suffix.indexNamePattern(RolePO.class);
     }
 
     addEsField(query, queryBuilder);
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(queryBuilder)
-        .withIndices(Suffix.indexNamePattern(RolePO.class))
+        .withIndices(index)
         .build();
     return template.queryForPage(searchQuery, RolePO.class);
   }
