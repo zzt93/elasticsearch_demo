@@ -76,7 +76,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
             .minTermFreq(1));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices("user")
+        .withIndices(UserPO.USER)
         .withQuery(like)
         .withPageable(query.getPageRequest())
         .withSourceFilter(DefaultFetchSource.fields("_id", "personalAffairId", "tags"))
@@ -93,7 +93,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
     QueryBuilder bool = QueryBuilders.boolQuery()
         .must(termQuery("userId", query.getUserId()));
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices("personal_info")
+        .withIndices(PersonalInfo.PERSONAL_INFO)
         .withQuery(bool)
         .withSourceFilter(DefaultFetchSource.fields("_id", "type", "content", "description"))
         .build();
@@ -119,7 +119,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .must(termsQuery("content", contents))
         .should(termsQuery("description", likeTexts));
     SearchQuery moreLike = new NativeSearchQueryBuilder()
-        .withIndices("personal_info")
+        .withIndices(PersonalInfo.PERSONAL_INFO)
         .withQuery(like)
         .withPageable(QueryHelper.EMPTY)
         .withSourceFilter(DefaultFetchSource.defaultId())
@@ -167,7 +167,7 @@ public class PersonalRepoImpl implements PersonalRecommendCustom {
         .boostMode(CombineFunction.REPLACE);
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices("user")
+        .withIndices(UserPO.USER)
         .withQuery(functionScoreQueryBuilder)
         .withPageable(pageRequest)
         .build();

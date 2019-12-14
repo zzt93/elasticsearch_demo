@@ -10,9 +10,10 @@ import org.springframework.data.elasticsearch.annotations.Document;
  * @author zzt
  */
 @Data
-@Document(indexName = "personal_info", type = "personal_info", refreshInterval = "1s", createIndex = false, shards = 1, replicas = 0)
+@Document(indexName = PersonalInfo.PERSONAL_INFO, type = "personal_info", refreshInterval = "1s", createIndex = false, shards = 1, replicas = 0)
 public class PersonalInfo {
 
+  public static final String PERSONAL_INFO = "personal_info";
   private String id;
   private long affairId;
   private long userId;

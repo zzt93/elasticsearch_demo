@@ -14,9 +14,10 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * Created by zzt on 17/6/5.
  */
 @Data
-@Document(indexName = "user", type = "user", refreshInterval = "1s", shards = 10)
+@Document(indexName = UserPO.USER, type = "user", refreshInterval = "1s", shards = 10)
 public class UserPO {
 
+  public static final String USER = "user";
   @Id
   @JsonIgnore
   private String id;

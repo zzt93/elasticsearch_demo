@@ -3,19 +3,25 @@ package cn.superid.search.impl.entities.time.announcement;
 import static cn.superid.search.impl.query.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.nestedQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
+import cn.superid.search.entities.time.announcement.AnnouncementQuery.AnnType;
+import cn.superid.search.entities.time.announcement.MyAnnQuery;
 import cn.superid.search.impl.DefaultFetchSource;
 import cn.superid.search.impl.query.HighlightMapper;
 import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.util.TimeUtil;
 import com.google.common.base.Preconditions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -56,7 +62,8 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     try {
       int number = Integer.parseInt(query);
       should.should(termQuery("number", number).boost(100 * TITLE_BOOST));
-    } catch (NumberFormatException ignored) {}
+    } catch (NumberFormatException ignored) {
+    }
     BoolQueryBuilder bool = boolQuery().must(should);
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -90,16 +97,8 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
       if (info.getPlateSubType() != null) {
         bool.filter(termQuery("plateSubType", info.getPlateSubType()));
       }
-    }else {
-      BoolQueryBuilder types = boolQuery();
-      info.getTypes().forEach(i -> {
-        if (i.getPlateType() != null && i.getPlateSubType() != null){
-          BoolQueryBuilder type = boolQuery();
-          type.filter(termQuery("plateType", i.getPlateType()));
-          type.filter(termQuery("plateSubType", i.getPlateSubType()));
-          types.should(type);
-        }
-      });
+    } else {
+      BoolQueryBuilder types = annTypeFilter(info.getTypes());
       bool.filter(types);
     }
     if (info.getStates() != null) {
@@ -123,7 +122,8 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
                 (highlightFields, announcement) -> {
                   HighlightField title = highlightFields.get("title");
                   if (title != null) {
-                    announcement.setTitle(HighlightMapper.keywordHighlight(query, title.fragments()[0].toString()));
+                    announcement.setTitle(
+                        HighlightMapper.keywordHighlight(query, title.fragments()[0].toString()));
                   }
                   HighlightField content = highlightFields.get("content");
                   if (content != null) {
@@ -131,4 +131,65 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
                   }
                 }));
   }
+
+  @Override
+  public Page<AnnouncementPO> myAnn(MyAnnQuery info, Pageable pageable) {
+    String query = info.getQuery();
+
+    BoolQueryBuilder bool = boolQuery();
+
+    if (query != null) {
+      BoolQueryBuilder should = boolQuery();
+      try {
+        int number = Integer.parseInt(query);
+        should.should(termQuery("number", number).boost(100 * TITLE_BOOST));
+      } catch (NumberFormatException ignored) {
+        should.should(wildcardQuery("title", wildcard(query)).boost(TITLE_BOOST));
+      }
+      bool.should(should);
+    }
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    if (info.getCreate() != null) {
+      bool.filter(TimeUtil.timeRange(info.getCreate().setTimeFieldName("createTime"), dateFormat));
+    }
+    if (info.getModify() != null) {
+      bool.filter(TimeUtil.timeRange(info.getModify().setTimeFieldName("modifyTime"), dateFormat));
+    }
+    if (info.getStates() != null) {
+      bool.filter(termsQuery("state", info.getStates()));
+    }
+
+    BoolQueryBuilder roles = boolQuery().filter(termsQuery("roles.role_id", info.getRoles()));
+    if (info.getRoleTypes() != null) {
+      roles.filter(termsQuery("roles.type", info.getRoleTypes()));
+    }
+    bool
+        .filter(
+            nestedQuery("roles", roles, ScoreMode.Avg))
+        .filter(annTypeFilter(info.getTypes()));
+
+    SearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withIndices(Suffix.indexNamePattern(AnnouncementPO.class))
+        .withQuery(bool)
+        .withPageable(pageable)
+        .withSourceFilter(DefaultFetchSource.defaultId())
+        .build();
+    return template.queryForPage(searchQuery, AnnouncementPO.class);
+  }
+
+  private BoolQueryBuilder annTypeFilter(List<AnnType> types) {
+    BoolQueryBuilder filter = boolQuery();
+    types.forEach(i -> {
+      if (i.getPlateType() != null && i.getPlateSubType() != null) {
+        BoolQueryBuilder type = boolQuery();
+        type.filter(termQuery("plateType", i.getPlateType()));
+        type.filter(termQuery("plateSubType", i.getPlateSubType()));
+        filter.should(type);
+      }
+    });
+    return filter;
+  }
+
+
 }

@@ -3,7 +3,6 @@ package cn.superid.search.entities.time.announcement;
 import cn.superid.search.entities.PagedQuery;
 import java.util.Date;
 import java.util.List;
-import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -27,6 +26,7 @@ public class AnnouncementQuery extends PagedQuery {
   @Deprecated
   private Integer plateSubType;
   private List<AnnType> types;
+
   public AnnouncementQuery() {
   }
   public AnnouncementQuery(List<Long> affairIds, String query,

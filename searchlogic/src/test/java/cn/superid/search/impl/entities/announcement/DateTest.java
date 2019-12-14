@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import org.junit.Test;
 
 /**
@@ -70,7 +71,7 @@ public class DateTest {
     String t2 = "t2";
     AnnouncementPO a1 = new AnnouncementPO("11", "announcement1", "content",
         new String[]{t1, t2},
-        new long[]{1L}, affairId, modifyTime, ALLIANCE);
+        new Map[]{MapUtil.map("id", 1L)}, affairId, modifyTime, ALLIANCE);
 
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(a1);

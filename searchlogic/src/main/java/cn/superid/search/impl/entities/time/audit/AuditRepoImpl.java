@@ -56,8 +56,7 @@ public class AuditRepoImpl implements AuditCustom {
     }
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(
-            Suffix.indexNamePattern(AuditPO.class))
+        .withIndices(Suffix.indexNamePattern(AuditPO.class))
         .withQuery(bool)
         .withPageable(pageRequest).build();
     return template.queryForPage(searchQuery, AuditPO.class);
@@ -80,8 +79,7 @@ public class AuditRepoImpl implements AuditCustom {
     bool.filter(termsQuery("handleState", info.getStates()));
 
     NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withIndices(
-            Suffix.indexNamePattern(AuditPO.class))
+        .withIndices(Suffix.indexNamePattern(AuditPO.class))
         .withQuery(bool)
         .withPageable(pageRequest).build();
     return template.queryForPage(searchQuery, AuditPO.class);

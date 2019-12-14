@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,7 +69,7 @@ public class AnnouncementRepoImplTest {
     MessageReceiverTest.createIfNotExist(esTemplate, AnnouncementPO.class);
 
     String modifierUser = "xxx";
-    long[] roles = new long[]{ROLE_ID1, 2L};
+    Map[] roles = new Map[]{MapUtil.map("id", ROLE_ID1), MapUtil.map("id", 2L)};
 
     String t1 = "java开发规范";
     announcementRepo.save(
