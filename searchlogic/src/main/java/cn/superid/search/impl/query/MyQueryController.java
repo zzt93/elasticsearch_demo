@@ -97,7 +97,7 @@ public class MyQueryController {
     }
   }
 
-  @PostMapping("/announcement")
+  @PostMapping("/ann")
   public PageVO<AnnouncementVO> queryAnnouncement(@RequestBody MyAnnQuery query) {
     PageRequest pageRequest = query.getPageRequest();
     checkPage(pageRequest);

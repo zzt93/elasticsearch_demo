@@ -87,17 +87,10 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
           .filter(termQuery("allianceId", info.getAllianceId()));
     }
     if (info.getRoleIds() != null) {
-      bool.filter(termsQuery("roles", info.getRoleIds()));
+      BoolQueryBuilder roles = boolQuery().filter(termsQuery("roles.role_id", info.getRoleIds()));
+      bool.filter(nestedQuery("roles", roles, ScoreMode.Avg));
     }
-    // TODO: 2019-07-30 接口兼容
-    if (info.getTypes() == null || info.getTypes().size() == 0) {
-      if (info.getPlateType() != null) {
-        bool.filter(termQuery("plateType", info.getPlateType()));
-      }
-      if (info.getPlateSubType() != null) {
-        bool.filter(termQuery("plateSubType", info.getPlateSubType()));
-      }
-    } else {
+    if (info.getTypes() != null && info.getTypes().size() != 0) {
       BoolQueryBuilder types = annTypeFilter(info.getTypes());
       bool.filter(types);
     }
@@ -165,8 +158,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
       roles.filter(termsQuery("roles.type", info.getRoleTypes()));
     }
     bool
-        .filter(
-            nestedQuery("roles", roles, ScoreMode.Avg))
+        .filter(nestedQuery("roles", roles, ScoreMode.Avg))
         .filter(annTypeFilter(info.getTypes()));
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
