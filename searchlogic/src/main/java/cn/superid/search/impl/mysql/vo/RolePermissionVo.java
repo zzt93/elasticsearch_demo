@@ -17,7 +17,4 @@ public class RolePermissionVo {
     return affairId == null ? allianceId : affairId;
   }
 
-  public String getContextIdName() {
-    return affairId == null ? "allianceId" : "affairId";
-  }
 }

@@ -45,11 +45,12 @@ public class VisibleFilter {
       throw new IllegalArgumentException("No context affairs & alliances");
     }
 
+    String contextIdName = affairs != null ? "affairId" : "allianceId";
     for (RolePermissionVo vo : rolePermissionVos) {
       if (vo.getPermissionLevel() >= PermissionLevel.MEDIUM_LEVEL) {
-        res.should(boolQuery().filter(termQuery(vo.getContextIdName(), vo.getContextId())));
+        res.should(boolQuery().filter(termQuery(contextIdName, vo.getContextId())));
       } else {
-        res.should(boolQuery().filter(termQuery(vo.getContextIdName(), vo.getContextId())).filter(termsQuery("roles.role_id", roles)));
+        res.should(boolQuery().filter(termQuery(contextIdName, vo.getContextId())).filter(termsQuery("roles.role_id", roles)));
       }
     }
 
