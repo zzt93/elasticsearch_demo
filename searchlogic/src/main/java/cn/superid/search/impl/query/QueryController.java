@@ -65,6 +65,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,11 +85,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/query")
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class QueryController {
 
-  private static final int PAGE_SIZE = 10;
   private static final Logger logger = LoggerFactory.getLogger(QueryController.class);
-  private static final PageRequest TOP20 = PageRequest.of(0, 20);
   private final UserService userService;
   private final MessagesRepo messagesRepo;
   private final FileRepo fileRepo;
@@ -107,40 +107,19 @@ public class QueryController {
   private String mobileRegex;
   private Pattern mobile;
 
-  @Autowired
-  public QueryController(UserService userService, MessagesRepo messagesRepo, FileRepo fileRepo,
-      RoleRepo roleRepo,
-      AnnouncementRepo announcementRepo, ProcessRepo processRepo, TaskRepo taskRepo,
-      AffairRepo affairRepo,
-      TargetRepo targetRepo, MaterialRepo materialRepo,
-      AuditRepo auditRepo,
-      Suffix suffix, ElasticsearchConverter elasticsearchConverter) {
-    this.userService = userService;
-    this.messagesRepo = messagesRepo;
-    this.fileRepo = fileRepo;
-    this.roleRepo = roleRepo;
-    this.announcementRepo = announcementRepo;
-    this.processRepo = processRepo;
-    this.taskRepo = taskRepo;
-    this.affairRepo = affairRepo;
-    this.targetRepo = targetRepo;
-    this.materialRepo = materialRepo;
-    this.auditRepo = auditRepo;
-    this.suffix = suffix;
-    this.elasticsearchConverter = elasticsearchConverter;
-  }
 
   @PostConstruct
   public void initPattern() {
     mobile = Pattern.compile(mobileRegex);
   }
 
-  private static void checkPage(PageRequest pageRequest) {
+  private static PageRequest checkPage(PageRequest pageRequest) {
     int pageNum = pageRequest.getPageNumber();
     int pageSize = pageRequest.getPageSize();
     if ((pageNum + 1) * pageSize > 1000) {
       throw new IllegalArgumentException("Invalid page request");
     }
+    return pageRequest;
   }
 
   private static void checkAllianceId(Long id) {
@@ -164,8 +143,8 @@ public class QueryController {
 
   @PostMapping("/announcement")
   public PageVO<AnnouncementVO> queryAnnouncement(@RequestBody AnnouncementQuery query) {
-    PageRequest pageRequest = query.getPageRequest();
-    checkPage(pageRequest);
+    PageRequest pageRequest = checkPage(query.getPageRequest());
+    
     Page<AnnouncementPO> res = announcementRepo
         .findByTitleOrContentOrTags(query, pageRequest);
     return new PageVO<>(res, VoAndPoConversion::toVO, query.getPageRequest());

@@ -13,7 +13,7 @@ import cn.superid.common.rest.constant.workflow.ApplySource;
 import cn.superid.search.entities.user.process.ProcessCountVO;
 import cn.superid.search.entities.user.process.ProcessQuery;
 import cn.superid.search.entities.user.process.ProcessQuery.QueryType;
-import cn.superid.search.impl.DefaultFetchSource;
+import cn.superid.search.impl.query.DefaultFetchSource;
 import cn.superid.search.impl.save.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.text.SimpleDateFormat;

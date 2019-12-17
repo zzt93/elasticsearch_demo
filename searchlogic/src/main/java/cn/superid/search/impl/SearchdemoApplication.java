@@ -1,11 +1,11 @@
 package cn.superid.search.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.superid.common.rest.client.BusinessClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -17,11 +17,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
     queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 @EnableWebMvc
 @EnableDiscoveryClient
+@EnableFeignClients(
+    clients = {BusinessClient.class}
+)
 public class SearchdemoApplication implements CommandLineRunner {
-
-  @Autowired
-  private ElasticsearchTemplate template;
-
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(SearchdemoApplication.class, args);

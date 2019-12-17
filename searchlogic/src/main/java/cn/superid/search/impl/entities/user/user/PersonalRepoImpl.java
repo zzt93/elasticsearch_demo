@@ -13,7 +13,7 @@ import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.entities.user.user.GuessQuery;
 import cn.superid.search.entities.user.user.InterestQuery;
 import cn.superid.search.entities.user.user.StudentQuery;
-import cn.superid.search.impl.DefaultFetchSource;
+import cn.superid.search.impl.query.DefaultFetchSource;
 import cn.superid.search.impl.query.QueryHelper;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;

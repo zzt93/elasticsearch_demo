@@ -9,10 +9,12 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
+import cn.superid.common.rest.type.auth.PermissionCategory;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery.AnnType;
 import cn.superid.search.entities.time.announcement.MyAnnQuery;
-import cn.superid.search.impl.DefaultFetchSource;
+import cn.superid.search.impl.entities.VisibleFilter;
+import cn.superid.search.impl.query.DefaultFetchSource;
 import cn.superid.search.impl.query.HighlightMapper;
 import cn.superid.search.impl.save.rolling.Suffix;
 import cn.superid.search.impl.util.TimeUtil;
@@ -45,6 +47,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
   private static final int TITLE_BOOST = 10000;
   private final ElasticsearchTemplate template;
   private final ElasticsearchConverter elasticsearchConverter;
+  private final VisibleFilter visibleFilter;
 
   @Override
   public Page<AnnouncementPO> findByTitleOrContentOrTags(AnnouncementQuery info,
@@ -100,6 +103,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     if (info.getTargetId() != null) {
       bool.filter(termQuery("targetId", info.getTargetId()));
     }
+    visibleFilter.get(info.getVisibleContext(), PermissionCategory.ANNOUNCEMENT);
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(indexName)

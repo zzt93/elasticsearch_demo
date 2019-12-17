@@ -1,4 +1,4 @@
-package cn.superid.search.impl;
+package cn.superid.search.impl.query;
 
 import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
 
