@@ -16,6 +16,7 @@ import cn.superid.search.entities.time.announcement.MyAnnQuery;
 import cn.superid.search.impl.entities.VisibleFilter;
 import cn.superid.search.impl.query.esUtil.DefaultFetchSource;
 import cn.superid.search.impl.query.esUtil.HighlightMapper;
+import cn.superid.search.impl.query.esUtil.QueryHelper;
 import cn.superid.search.impl.query.rolling.Suffix;
 import cn.superid.search.impl.util.TimeUtil;
 import com.google.common.base.Preconditions;
@@ -54,19 +55,21 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
       Pageable pageable) {
     Preconditions.checkArgument(pageable != null);
     Preconditions.checkArgument(info.getAllianceId() != null && info.getAllianceId() != 0);
-    String query = info.getQuery();
-    Preconditions.checkArgument(query != null);
     Preconditions.checkArgument(info.getVisibleContext().getAffairs() != null);
 
-    BoolQueryBuilder should = boolQuery()
-        .should(wildcardQuery("title", wildcard(query)).boost(TITLE_BOOST))
-        .should(matchQuery("content", query).boost(1));
+    BoolQueryBuilder should = boolQuery();
 
-    try {
-      int number = Integer.parseInt(query);
-      should.should(termQuery("number", number).boost(100 * TITLE_BOOST));
-    } catch (NumberFormatException ignored) {
+    String query = info.getQuery();
+    if (query != null) {
+      should.should(wildcardQuery("title", wildcard(query)).boost(TITLE_BOOST))
+          .should(matchQuery("content", query).boost(1));
+      try {
+        int number = Integer.parseInt(query);
+        should.should(termQuery("number", number).boost(100 * TITLE_BOOST));
+      } catch (NumberFormatException ignored) {
+      }
     }
+
     BoolQueryBuilder bool = boolQuery().must(should);
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -90,8 +93,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
           .filter(termQuery("allianceId", info.getAllianceId()));
     }
     if (info.getRoleIds() != null) {
-      BoolQueryBuilder roles = boolQuery().filter(termsQuery("roles.role_id", info.getRoleIds()));
-      bool.filter(nestedQuery("roles", roles, ScoreMode.Avg));
+      bool.filter(QueryHelper.nestedRoleFilter(info.getRoleIds()));
     }
     if (info.getTypes() != null && info.getTypes().size() != 0) {
       BoolQueryBuilder types = annTypeFilter(info.getTypes());
@@ -104,7 +106,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
       bool.filter(termQuery("targetId", info.getTargetId()));
     }
     if (!info.isExcludeAffair()) {
-      visibleFilter.get(info.getVisibleContext(), PermissionCategory.ANNOUNCEMENT);
+      bool.filter(visibleFilter.filter(info.getVisibleContext(), PermissionCategory.ANNOUNCEMENT));
     }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()

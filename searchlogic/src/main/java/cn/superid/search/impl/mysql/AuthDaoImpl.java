@@ -26,7 +26,7 @@ public class AuthDaoImpl {
     parameters.addValue("affairs", affairs);
     return jdbcTemplate.query(
         " select affair_id, role_id, "
-            + "IF(json_extract(p.permission_category, '$[" + (permissionCategory-1) + "]') is null, json_extract(r.permission_category, '$[" + (permissionCategory-1) + "]'), json_extract(p.permission_category, '$[" + (permissionCategory-1) + "]')) as permission_level "
+            + "IF(r.use_identity, json_extract(p.permission_category, '$[" + (permissionCategory-1) + "]'), json_extract(r.permission_category, '$[" + (permissionCategory-1) + "]')) mod 10 as permission_level "
             + "from role_permission r join permission_identity p on r.use_identity and r.identity_id = p.id where role_id in (:roles) and affair_id in (:affairs) ",
         parameters,
         rolePermissionMapper);
@@ -39,7 +39,7 @@ public class AuthDaoImpl {
     parameters.addValue("alliances", alliances);
     return jdbcTemplate.query(
         " select alliance_id, role_id, "
-            + "IF(json_extract(p.permission_category, '$[" + (permissionCategory-1) + "]') is null, json_extract(r.permission_category, '$[" + (permissionCategory-1) + "]'), json_extract(p.permission_category, '$[" + (permissionCategory-1) + "]')) as permission_level "
+            + "IF(r.use_identity, json_extract(p.permission_category, '$[" + (permissionCategory-1) + "]'), json_extract(r.permission_category, '$[" + (permissionCategory-1) + "]')) mod 10 as permission_level "
             + "from role_permission r join permission_identity p on r.use_identity and r.identity_id = p.id where role_id in (:roles) and alliance_id in (:alliances) ",
         parameters,
         rolePermissionMapper);

@@ -1,7 +1,15 @@
 package cn.superid.search.impl.query.esUtil;
 
+import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.nestedQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
+
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.lucene.search.join.ScoreMode;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.NestedQueryBuilder;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -30,5 +38,10 @@ public class QueryHelper {
 
   public static String prefix(String input) {
     return input.replaceAll("([*?])", "\\\\$1") + "*";
+  }
+
+  public static NestedQueryBuilder nestedRoleFilter(List<Long> roleIds) {
+    BoolQueryBuilder roles = boolQuery().filter(termsQuery("roles.role_id", roleIds));
+    return nestedQuery("roles", roles, ScoreMode.Avg);
   }
 }

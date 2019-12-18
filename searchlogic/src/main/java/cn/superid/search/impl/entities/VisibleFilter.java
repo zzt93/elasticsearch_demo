@@ -5,15 +5,18 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 
 import cn.superid.common.rest.client.BusinessClient;
+import cn.superid.common.rest.type.PublicType;
 import cn.superid.common.rest.type.auth.PermissionLevel;
 import cn.superid.search.entities.VisibleContext;
 import cn.superid.search.entities.VisibleContext.UserInfo;
 import cn.superid.search.impl.mysql.AuthService;
 import cn.superid.search.impl.mysql.vo.RolePermissionVo;
+import cn.superid.search.impl.query.esUtil.QueryHelper;
 import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,32 +32,30 @@ public class VisibleFilter {
   private final BusinessClient businessClient;
   private final AuthService authService;
 
-  public BoolQueryBuilder get(VisibleContext context, int permissionCategory) {
+  public BoolQueryBuilder filter(VisibleContext context, int permissionCategory) {
     Preconditions.checkArgument(context != null, "No visibleContext");
-    BoolQueryBuilder res = boolQuery();
-
-    List<Long> affairs = context.getAffairs();
-    List<Long> alliances = context.getAlliances();
-    List<Long> roles = roles(context);
+    List<Long> roles = roles(context), affairs = context.getAffairs(), alliances = context.getAlliances(), contextList;
     List<RolePermissionVo> rolePermissionVos;
-    if (affairs != null) {
+    boolean isAffair = affairs != null;
+    if (isAffair) {
+      contextList = affairs;
       rolePermissionVos = authService.roleLevelInAffair(roles, affairs, permissionCategory);
     } else if (alliances != null) {
+      contextList = alliances;
       rolePermissionVos = authService.roleLevelInAlliance(roles, alliances, permissionCategory);
     } else {
       throw new IllegalArgumentException("No context affairs & alliances");
     }
+    List<Long> permissionList = rolePermissionVos.stream()
+        .filter(v -> v.getPermissionLevel() >= PermissionLevel.MEDIUM_LEVEL)
+        .map(v -> isAffair ? v.getAffairId() : v.getAllianceId()).collect(Collectors.toList());
 
-    String contextIdName = affairs != null ? "affairId" : "allianceId";
-    for (RolePermissionVo vo : rolePermissionVos) {
-      if (vo.getPermissionLevel() >= PermissionLevel.MEDIUM_LEVEL) {
-        res.should(boolQuery().filter(termQuery(contextIdName, vo.getContextId())));
-      } else {
-        res.should(boolQuery().filter(termQuery(contextIdName, vo.getContextId())).filter(termsQuery("roles.role_id", roles)));
-      }
-    }
+    String contextIdName = isAffair ? "affairId" : "allianceId";
 
-    return res;
+    return boolQuery()
+        .should(boolQuery().filter(termQuery("publicType", PublicType.ALL)).filter(termsQuery(contextIdName, contextList)))
+        .should(boolQuery().filter(QueryHelper.nestedRoleFilter(roles)).filter(termsQuery(contextIdName, contextList)))
+        .should(termsQuery(contextIdName, permissionList));
   }
 
   private List<Long> roles(VisibleContext context) {
