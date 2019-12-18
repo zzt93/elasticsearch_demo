@@ -16,7 +16,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Data
 @Document(indexName = "announcement_-#{suffix.toString()}", type = "announcement", createIndex = false, shards = 1, replicas = 0)
 public class AnnouncementPO {
-  public static final int CLUSTER_SIZE = 100;
+  public static final int CLUSTER_SIZE = 10000;
   private String thumbContent;
 
   @Id

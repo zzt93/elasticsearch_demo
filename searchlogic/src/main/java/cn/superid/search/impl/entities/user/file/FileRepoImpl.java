@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.user.file;
 
-import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static cn.superid.search.impl.query.esUtil.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
@@ -9,8 +9,8 @@ import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 import cn.superid.search.entities.user.file.FileQuery;
 import cn.superid.search.impl.entities.user.role.RolePO;
 import cn.superid.search.impl.entities.user.role.RoleRepo;
-import cn.superid.search.impl.query.DefaultFetchSource;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.esUtil.DefaultFetchSource;
+import cn.superid.search.impl.query.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.util.List;
 import java.util.stream.Collectors;

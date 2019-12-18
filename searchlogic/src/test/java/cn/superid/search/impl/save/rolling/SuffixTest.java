@@ -1,6 +1,7 @@
 package cn.superid.search.impl.save.rolling;
 
 import cn.superid.search.impl.entities.time.chat.MessagesPO;
+import cn.superid.search.impl.query.rolling.Suffix;
 import org.junit.Assert;
 import org.junit.Test;
 

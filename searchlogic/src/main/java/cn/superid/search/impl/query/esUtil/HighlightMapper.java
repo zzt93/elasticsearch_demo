@@ -1,4 +1,4 @@
-package cn.superid.search.impl.query;
+package cn.superid.search.impl.query.esUtil;
 
 import java.util.List;
 import java.util.Map;

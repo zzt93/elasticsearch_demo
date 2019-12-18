@@ -1,7 +1,7 @@
 package cn.superid.search.impl.entities.user.affair;
 
 import static cn.superid.search.impl.entities.user.affair.AffairPO.MOLD;
-import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static cn.superid.search.impl.query.esUtil.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
@@ -12,8 +12,8 @@ import static org.elasticsearch.search.aggregations.AggregationBuilders.topHits;
 
 import cn.superid.common.rest.type.PublicType;
 import cn.superid.search.entities.user.affair.AffairQuery;
-import cn.superid.search.impl.query.QueryHelper;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.esUtil.QueryHelper;
+import cn.superid.search.impl.query.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;

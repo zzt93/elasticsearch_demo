@@ -1,4 +1,4 @@
-package cn.superid.search.impl.save.rolling;
+package cn.superid.search.impl.query.rolling;
 
 
 import cn.superid.search.impl.entities.time.TimeBasedIndex;

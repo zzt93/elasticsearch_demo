@@ -1,4 +1,4 @@
-package cn.superid.search.impl.query;
+package cn.superid.search.impl.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

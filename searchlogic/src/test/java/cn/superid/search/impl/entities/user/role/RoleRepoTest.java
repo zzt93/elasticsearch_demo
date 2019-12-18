@@ -2,8 +2,8 @@ package cn.superid.search.impl.entities.user.role;
 
 import static org.junit.Assert.assertEquals;
 
+import cn.superid.search.impl.query.rolling.Suffix;
 import cn.superid.search.impl.save.MessageReceiverTest;
-import cn.superid.search.impl.save.rolling.Suffix;
 import java.util.List;
 import org.junit.After;
 import org.junit.Assert;

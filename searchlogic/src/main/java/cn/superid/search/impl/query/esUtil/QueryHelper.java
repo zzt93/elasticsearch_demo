@@ -1,4 +1,4 @@
-package cn.superid.search.impl.query;
+package cn.superid.search.impl.query.esUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

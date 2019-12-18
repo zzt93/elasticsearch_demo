@@ -6,9 +6,9 @@ import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.user.task.TaskQuery;
-import cn.superid.search.impl.query.DefaultFetchSource;
-import cn.superid.search.impl.query.QueryHelper;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.esUtil.DefaultFetchSource;
+import cn.superid.search.impl.query.esUtil.QueryHelper;
+import cn.superid.search.impl.query.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;

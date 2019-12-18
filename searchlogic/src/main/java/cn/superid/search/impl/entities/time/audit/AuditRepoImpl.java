@@ -8,8 +8,8 @@ import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.time.audit.AuditQuery;
 import cn.superid.search.entities.time.audit.AuditUserQuery;
-import cn.superid.search.impl.query.QueryHelper;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.esUtil.QueryHelper;
+import cn.superid.search.impl.query.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

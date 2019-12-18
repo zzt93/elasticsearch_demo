@@ -9,9 +9,9 @@ import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 
 import cn.superid.search.entities.time.chat.ChatIdsQuery;
 import cn.superid.search.entities.time.chat.ChatQuery;
-import cn.superid.search.impl.query.DefaultFetchSource;
-import cn.superid.search.impl.query.QueryHelper;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.esUtil.DefaultFetchSource;
+import cn.superid.search.impl.query.esUtil.QueryHelper;
+import cn.superid.search.impl.query.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;

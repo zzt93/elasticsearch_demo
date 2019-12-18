@@ -20,17 +20,15 @@ public class AuthService {
 
   public List<RolePermissionVo> roleLevelInAffair(List<Long> roles, List<Long> affairs,
       int permissionCategory) {
-    List<RolePermission> rolePermissions = authDao.roleLevelInAffair(roles, affairs);
-    return getRolePermissionVos(rolePermissions, permissionCategory);
+    List<RolePermission> rolePermissions = authDao.roleLevelInAffair(roles, affairs, permissionCategory);
+    return getRolePermissionVos(rolePermissions);
   }
 
-  private List<RolePermissionVo> getRolePermissionVos(List<RolePermission> rolePermissions,
-      int permissionCategory) {
+  private List<RolePermissionVo> getRolePermissionVos(List<RolePermission> rolePermissions) {
     List<RolePermissionVo> res = new ArrayList<>(rolePermissions.size());
     for (RolePermission r : rolePermissions) {
       RolePermissionVo e = new RolePermissionVo();
       BeanUtils.copyProperties(r, e);
-      e.setPermissionLevel(r.getPermissionCategory().get(permissionCategory).intValue());
       res.add(e);
     }
     return res;
@@ -38,8 +36,8 @@ public class AuthService {
 
   public List<RolePermissionVo> roleLevelInAlliance(List<Long> roles, List<Long> alliances,
       int permissionCategory) {
-    List<RolePermission> rolePermissions = authDao.roleLevelInAlliance(roles, alliances);
-    return getRolePermissionVos(rolePermissions, permissionCategory);
+    List<RolePermission> rolePermissions = authDao.roleLevelInAlliance(roles, alliances, permissionCategory);
+    return getRolePermissionVos(rolePermissions);
   }
 
 }

@@ -3,7 +3,7 @@ package cn.superid.search.impl.entities.user.role;
 import static cn.superid.search.impl.entities.user.role.RoleRepoTest.ALLIANCE1;
 import static cn.superid.search.impl.entities.user.role.RoleRepoTest.ALLIANCE2;
 
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.rolling.Suffix;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,6 +1,6 @@
 package cn.superid.search.impl.entities.time.announcement;
 
-import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static cn.superid.search.impl.query.esUtil.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.nestedQuery;
@@ -14,9 +14,9 @@ import cn.superid.search.entities.time.announcement.AnnouncementQuery;
 import cn.superid.search.entities.time.announcement.AnnouncementQuery.AnnType;
 import cn.superid.search.entities.time.announcement.MyAnnQuery;
 import cn.superid.search.impl.entities.VisibleFilter;
-import cn.superid.search.impl.query.DefaultFetchSource;
-import cn.superid.search.impl.query.HighlightMapper;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.esUtil.DefaultFetchSource;
+import cn.superid.search.impl.query.esUtil.HighlightMapper;
+import cn.superid.search.impl.query.rolling.Suffix;
 import cn.superid.search.impl.util.TimeUtil;
 import com.google.common.base.Preconditions;
 import java.text.SimpleDateFormat;
@@ -103,7 +103,9 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     if (info.getTargetId() != null) {
       bool.filter(termQuery("targetId", info.getTargetId()));
     }
-    visibleFilter.get(info.getVisibleContext(), PermissionCategory.ANNOUNCEMENT);
+    if (!info.isExcludeAffair()) {
+      visibleFilter.get(info.getVisibleContext(), PermissionCategory.ANNOUNCEMENT);
+    }
 
     SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withIndices(indexName)
@@ -169,7 +171,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         .withIndices(Suffix.indexNamePattern(AnnouncementPO.class))
         .withQuery(bool)
         .withPageable(pageable)
-        .withSourceFilter(DefaultFetchSource.defaultId())
+        .withSourceFilter(DefaultFetchSource.fields("_id", "roles"))
         .build();
     return template.queryForPage(searchQuery, AnnouncementPO.class);
   }

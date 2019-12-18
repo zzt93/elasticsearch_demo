@@ -1,4 +1,4 @@
-package cn.superid.search.impl.query;
+package cn.superid.search.impl.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

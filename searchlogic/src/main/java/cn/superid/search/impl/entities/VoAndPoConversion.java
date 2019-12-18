@@ -60,7 +60,9 @@ public class VoAndPoConversion {
   }
 
   public static AnnouncementVO toVO(AnnouncementPO po) {
-    return new AnnouncementVO(po.getId(), po.getTitle(), po.getThumbContent());
+    AnnouncementVO res = new AnnouncementVO();
+    BeanUtils.copyProperties(po, res);
+    return res;
   }
 
   public static AuditVO toVO(AuditPO po) {

@@ -1,7 +1,7 @@
 package cn.superid.search.impl.entities.user.affair;
 
+import cn.superid.search.impl.query.rolling.Suffix;
 import cn.superid.search.impl.save.MessageReceiverTest;
-import cn.superid.search.impl.save.rolling.Suffix;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,13 +1,13 @@
 package cn.superid.search.impl.entities.user.warehouse;
 
-import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static cn.superid.search.impl.query.esUtil.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.ScrollQuery;
 import cn.superid.search.entities.user.warehouse.MaterialQuery;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.rolling.Suffix;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

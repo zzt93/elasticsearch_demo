@@ -1,6 +1,6 @@
-package cn.superid.search.impl.save;
+package cn.superid.search.impl.config;
 
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.rolling.Suffix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

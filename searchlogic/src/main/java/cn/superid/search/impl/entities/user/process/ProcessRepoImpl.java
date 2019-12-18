@@ -1,7 +1,7 @@
 package cn.superid.search.impl.entities.user.process;
 
 
-import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static cn.superid.search.impl.query.esUtil.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
@@ -13,8 +13,8 @@ import cn.superid.common.rest.constant.workflow.ApplySource;
 import cn.superid.search.entities.user.process.ProcessCountVO;
 import cn.superid.search.entities.user.process.ProcessQuery;
 import cn.superid.search.entities.user.process.ProcessQuery.QueryType;
-import cn.superid.search.impl.query.DefaultFetchSource;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.esUtil.DefaultFetchSource;
+import cn.superid.search.impl.query.rolling.Suffix;
 import com.google.common.base.Preconditions;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

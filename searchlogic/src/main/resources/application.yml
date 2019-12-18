@@ -1,0 +1,19 @@
+#spring:
+#  data:
+#    elasticsearch:
+#      cluster-name: searcher-dev
+#      cluster-nodes: "192.168.1.204:9300"
+#  datasource:
+#    hikari:
+#      connection-test-query: SELECT 1
+#      minimum-idle: 1
+#      maximum-pool-size: 5
+#      pool-name: dbcp1
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://192.168.1.204:3306/auth?rewriteBatchedStatements=true&autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf-8
+#    username: ${AUTH_DB_PWD:root}
+#    password: ${AUTH_DB_USER:simu123}
+#    type: com.zaxxer.hikari.HikariDataSource
+#
+#
+#mobile: "^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$"

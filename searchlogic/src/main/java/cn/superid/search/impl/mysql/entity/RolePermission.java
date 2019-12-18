@@ -1,6 +1,5 @@
 package cn.superid.search.impl.mysql.entity;
 
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Data;
@@ -13,7 +12,7 @@ public class RolePermission {
     private Long identityId;
     private Long affairId;
 
-    private List<Short> permissionCategory;
+    private Integer permissionLevel;
 
     private Long roleId;
     private Long allianceId;

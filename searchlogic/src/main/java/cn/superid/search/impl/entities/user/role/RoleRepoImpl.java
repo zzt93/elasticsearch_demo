@@ -1,7 +1,7 @@
 package cn.superid.search.impl.entities.user.role;
 
-import static cn.superid.search.impl.query.QueryHelper.prefix;
-import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static cn.superid.search.impl.query.esUtil.QueryHelper.prefix;
+import static cn.superid.search.impl.query.esUtil.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.existsQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
@@ -11,7 +11,7 @@ import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.search.entities.EsField;
 import cn.superid.search.entities.user.role.RoleQuery;
-import cn.superid.search.impl.save.rolling.Suffix;
+import cn.superid.search.impl.query.rolling.Suffix;
 import java.util.List;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

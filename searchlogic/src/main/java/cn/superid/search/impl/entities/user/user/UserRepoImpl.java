@@ -1,14 +1,14 @@
 package cn.superid.search.impl.entities.user.user;
 
-import static cn.superid.search.impl.query.HighlightMapper.setHighlight;
-import static cn.superid.search.impl.query.QueryHelper.wildcard;
+import static cn.superid.search.impl.query.esUtil.HighlightMapper.setHighlight;
+import static cn.superid.search.impl.query.esUtil.QueryHelper.wildcard;
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 import cn.superid.common.rest.type.PublicType;
-import cn.superid.search.impl.query.DefaultFetchSource;
-import cn.superid.search.impl.query.HighlightMapper;
+import cn.superid.search.impl.query.esUtil.DefaultFetchSource;
+import cn.superid.search.impl.query.esUtil.HighlightMapper;
 import com.google.common.base.Preconditions;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
