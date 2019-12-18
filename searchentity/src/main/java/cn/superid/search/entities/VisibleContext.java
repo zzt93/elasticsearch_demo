@@ -1,12 +1,18 @@
 package cn.superid.search.entities;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author zzt
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class VisibleContext {
 
   private List<Long> affairs;
@@ -15,26 +21,13 @@ public class VisibleContext {
   private UserInfo selfInfo;
 
   @Data
+  @Builder
+  @NoArgsConstructor
+  @AllArgsConstructor
   public static class UserInfo {
     private List<Long> roles;
     private Long role;
     private Long userId;
-
-    public UserInfo() {
-    }
-
-    public UserInfo(List<Long> roles) {
-      this.roles = roles;
-    }
-
-    public UserInfo(Long userId) {
-      this.userId = userId;
-    }
-
-    public UserInfo(List<Long> roles, Long userId) {
-      this.roles = roles;
-      this.userId = userId;
-    }
   }
 
 }

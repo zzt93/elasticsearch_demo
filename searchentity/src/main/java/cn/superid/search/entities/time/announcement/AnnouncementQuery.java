@@ -32,6 +32,14 @@ public class AnnouncementQuery extends PagedQuery {
 
   public AnnouncementQuery() {
   }
+
+  public AnnouncementQuery(String query, PageRequest pageRequest, long startTime, long endTime) {
+    setQuery(query);
+    this.startTime = startTime;
+    this.endTime = endTime;
+    setPageRequest(pageRequest);
+  }
+
   public AnnouncementQuery(List<Long> affairIds, String query,
       PageRequest pageRequest, long startTime, long endTime) {
     this.affairIds = affairIds;
