@@ -17,10 +17,13 @@ import org.springframework.data.domain.PageRequest;
 @Data
 public class AnnouncementQuery extends PagedQuery {
 
-  private Long allianceId;
+  @Deprecated
   private List<Long> affairIds;
-  private Long targetId;
+
+  private Long allianceId;
   private boolean excludeAffair = false;
+
+  private Long targetId;
   private List<Long> roleIds;
   private long startTime;
   private long endTime;

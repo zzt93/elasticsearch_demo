@@ -6,11 +6,15 @@ import cn.superid.search.entities.time.announcement.AnnouncementQuery.AnnType;
 import java.util.Collections;
 import java.util.List;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * @author zzt
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
+@ToString(callSuper = true)
 public class MyAnnQuery extends MyQuery {
 
   private TimeRange create;

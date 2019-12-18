@@ -59,8 +59,8 @@ public class VisibleFilter {
 
   private List<Long> roles(VisibleContext context) {
     Preconditions.checkArgument(context != null, "No visibleContext");
-    Preconditions.checkArgument(context.getUserInfo() != null, "No visibleContext.userInfo");
-    UserInfo userInfo = context.getUserInfo();
+    Preconditions.checkArgument(context.getSelfInfo() != null, "No visibleContext.selfInfo");
+    UserInfo userInfo = context.getSelfInfo();
     if (userInfo.getRoles() != null) {
       return userInfo.getRoles();
     }

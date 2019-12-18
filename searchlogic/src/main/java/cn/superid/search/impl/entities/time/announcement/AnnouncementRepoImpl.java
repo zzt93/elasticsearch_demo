@@ -56,7 +56,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
     Preconditions.checkArgument(info.getAllianceId() != null && info.getAllianceId() != 0);
     String query = info.getQuery();
     Preconditions.checkArgument(query != null);
-    Preconditions.checkArgument(info.getAffairIds() != null);
+    Preconditions.checkArgument(info.getVisibleContext().getAffairs() != null);
 
     BoolQueryBuilder should = boolQuery()
         .should(wildcardQuery("title", wildcard(query)).boost(TITLE_BOOST))
@@ -74,7 +74,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
         .gt(dateFormat.format(new Date(info.getStartTime())))
         .lt(dateFormat.format(new Date(info.getEndTime()))));
 
-    TermsQueryBuilder affairId = termsQuery("affairId", info.getAffairIds());
+    TermsQueryBuilder affairId = termsQuery("affairId", info.getVisibleContext().getAffairs());
     String indexName;
     if (info.isExcludeAffair()) {
       indexName = Suffix.indexNamePattern(AnnouncementPO.class);
@@ -157,7 +157,7 @@ public class AnnouncementRepoImpl implements AnnouncementCustom {
       bool.filter(termsQuery("state", info.getStates()));
     }
 
-    BoolQueryBuilder roles = boolQuery().filter(termsQuery("roles.role_id", info.getRoles()));
+    BoolQueryBuilder roles = boolQuery().filter(termsQuery("roles.role_id", info.getSelfRoles()));
     if (info.getRoleTypes() != null) {
       roles.filter(termsQuery("roles.type", info.getRoleTypes()));
     }

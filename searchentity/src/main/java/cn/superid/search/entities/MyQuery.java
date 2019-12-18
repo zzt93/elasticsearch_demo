@@ -11,6 +11,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class MyQuery extends PagedQuery {
 
-  private List<Long> roles;
+  private List<Long> selfRoles;
 
 }

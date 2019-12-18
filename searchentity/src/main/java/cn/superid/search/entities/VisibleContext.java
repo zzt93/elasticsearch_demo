@@ -11,13 +11,17 @@ public class VisibleContext {
 
   private List<Long> affairs;
   private List<Long> alliances;
-  private UserInfo userInfo;
+
+  private UserInfo selfInfo;
 
   @Data
   public static class UserInfo {
     private List<Long> roles;
     private Long role;
     private Long userId;
+
+    public UserInfo() {
+    }
 
     public UserInfo(List<Long> roles) {
       this.roles = roles;

@@ -88,7 +88,7 @@ public class MyQueryController {
   }
 
   private static void checkMy(MyQuery info) {
-    Preconditions.checkArgument(info.getRoles() != null && info.getRoles().size() > 0, "no roles");
+    Preconditions.checkArgument(info.getSelfRoles() != null && info.getSelfRoles().size() > 0, "no roles");
   }
 
   private static void checkAllianceId(Long id) {
